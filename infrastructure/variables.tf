@@ -81,10 +81,6 @@ variable "data_store_max_pool_size" {
 variable "database_sku_name" {
   default = "GP_Gen5_2"
 }
-/*
-variable "database_sku_capacity" {
-  default = "2"
-}*/
 
 variable "database_storage_mb" {
   default = "51200"
