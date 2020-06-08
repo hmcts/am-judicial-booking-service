@@ -1,5 +1,5 @@
 variable "product" {
-  type = "string"
+  type = string
 }
 
 variable "raw_product" {
@@ -7,26 +7,26 @@ variable "raw_product" {
 }
 
 variable "component" {
-  type = "string"
+  type = string
 }
 
 variable "location" {
-  type    = "string"
+  type    = string
   default = "UK South"
 }
 
 variable "env" {
-  type = "string"
+  type = string
 }
 
 variable "subscription" {
-  type = "string"
+  type = string
 }
 
 variable "ilbIp" {}
 
 variable "common_tags" {
-  type = "map"
+  type = map
 }
 
 variable "appinsights_instrumentation_key" {
@@ -54,8 +54,8 @@ variable "enable_ase" {
 }
 
 variable "authorised-services" {
-  type    = "string"
-  default = "ccd_gw"
+  type    = string
+  default = "ccd_gw,am_judicial_booking_service"
 }
 
 

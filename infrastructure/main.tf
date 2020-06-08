@@ -55,16 +55,16 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
 module "judicial-booking-db" {
   source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product = "${local.app_full_name}-postgres-db"
-  location = "${var.location}"
-  env = "${var.env}"
-  subscription = "${var.subscription}"
-  postgresql_user = "${var.postgresql_user}"
-  database_name = "${var.database_name}"
-  sku_name = "${var.database_sku_name}"
+  location = var.location
+  env = var.env
+  subscription = var.subscription
+  postgresql_user = var.postgresql_user
+  database_name = var.database_name
+  sku_name = var.database_sku_name
   sku_tier = "GeneralPurpose"
-  sku_capacity = "${var.database_sku_capacity}"
-  storage_mb = "${var.database_storage_mb}"
-  common_tags  = "${var.common_tags}"
+  sku_capacity = var.database_sku_capacity
+  storage_mb = var.database_storage_mb
+  common_tags  = var.common_tags
 }
 
 ////////////////////////////////
@@ -73,30 +73,30 @@ module "judicial-booking-db" {
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name = "${local.app_full_name}-POSTGRES-USER"
-  value = "${module.judicial-booking-db.user_name}"
-  key_vault_id = "${data.azurerm_key_vault.am_key_vault.id}"
+  value = module.judicial-booking-db.user_name
+  key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name = "${local.app_full_name}-POSTGRES-PASS"
-  value = "${module.judicial-booking-db.postgresql_password}"
-  key_vault_id = "${data.azurerm_key_vault.am_key_vault.id}"
+  value = module.judicial-booking-db.postgresql_password
+  key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
   name = "${local.app_full_name}-POSTGRES-HOST"
-  value = "${module.judicial-booking-db.host_name}"
-  key_vault_id = "${data.azurerm_key_vault.am_key_vault.id}"
+  value = module.judicial-booking-db.host_name
+  key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
   name = "${local.app_full_name}-POSTGRES-PORT"
-  value = "${module.judicial-booking-db.postgresql_listen_port}"
-  key_vault_id = "${data.azurerm_key_vault.am_key_vault.id}"
+  value = module.judicial-booking-db.postgresql_listen_port
+  key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   name = "${local.app_full_name}-POSTGRES-DATABASE"
-  value = "${module.judicial-booking-db.postgresql_database}"
-  key_vault_id = "${data.azurerm_key_vault.am_key_vault.id}"
+  value = module.judicial-booking-db.postgresql_database
+  key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
