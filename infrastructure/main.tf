@@ -52,7 +52,7 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
 }
 
 
-module "judicial-booking-db" {
+/*module "judicial-booking-db" {
   source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product = "${local.app_full_name}-postgres-db"
   location = var.location
@@ -62,10 +62,10 @@ module "judicial-booking-db" {
   database_name = var.database_name
   sku_name = var.database_sku_name
   sku_tier = "GeneralPurpose"
-  /*sku_capacity = var.database_sku_capacity*/
+  *//*sku_capacity = var.database_sku_capacity*//*
   storage_mb = var.database_storage_mb
   common_tags  = var.common_tags
-}
+}*/
 
 ////////////////////////////////
 // Populate Vault with DB info
