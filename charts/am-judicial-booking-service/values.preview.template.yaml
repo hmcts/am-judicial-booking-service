@@ -1,0 +1,21 @@
+java:
+  image: ${IMAGE_NAME}
+  ingressHost: ${SERVICE_FQDN}
+  keyVaults:
+    am:
+      secrets:
+        - AppInsightsInstrumentationKey
+  environment:
+    AM_JUDICIAL_BOOKING_DB_HOST: "{{ .Release.Name }}-postgresql"
+    AM_JUDICIAL_BOOKING_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
+    AM_JUDICIAL_BOOKING_DB_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
+    AM_JUDICIAL_BOOKING_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+    AM_JUDICIAL_BOOKING_DB_PORT: "{{ .Values.postgresql.postgresqlPort}}"
+    AM_JUDICIAL_BOOKING_DB_OPTIONS: "?stringtype=unspecified"
+    AM_JUDICIAL_BOOKING_DB_MAX_POOL_SIZE: 10
+  postgresql:
+    enabled: true
+    postgresqlUsername: judicial_booking
+    postgresqlPassword: judicial_booking
+    postgresqlDatabase: judicial_booking
+    postgresqlPort: 5432

@@ -1,0 +1,28 @@
+#!groovy
+
+properties([
+  // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
+  pipelineTriggers([cron('21 01 * * *')])
+])
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "am"
+def component = "judicial-booking-service"
+
+def vaultOverrides = [
+  'preview' : 'aat',
+  'spreview': 'saat'
+]
+
+withNightlyPipeline(type, product, component) {
+  /*enableSlackNotifications('#am-judicial-booking-service-builds')*/
+
+  env.TEST_URL = "http://am-judicial-booking-service-aat.service.core-compute-aat.internal"
+  env.S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+
+  overrideVaultEnvironments(vaultOverrides)
+
+  enableMutationTest()
+}

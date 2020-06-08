@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  am-judicial-booking-service:
+    build:
+      context: .
+    image: hmcts/am-judicial-booking-service
+    container_name: am-judicial-booking-service
+    environment:
+      - AM_JUDICIAL_BOOKING_DB_HOST=am-judicial-booking-database
+      - AM_JUDICIAL_BOOKING_DB_NAME=judicial_booking
+      - AM_JUDICIAL_BOOKING_DB_PORT=5432
+      - AM_JUDICIAL_BOOKING_DB_USERNAME=am
+      - AM_JUDICIAL_BOOKING_DB_PASSWORD=am
+      - AM_JUDICIAL_BOOKING_DB_OPTIONS
+      - AM_JUDICIAL_BOOKING_SERVICE_SECRET
+      - AM_JUDICIAL_BOOKING_IDAM_KEY
+      - AM_JUDICIAL_BOOKING_TOKEN_SECRET
+      - AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES=ccd_gw,am_judicial_booking_service
+      - IDAM_USER_URL
+      - IDAM_S2S_URL
+      - AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
+      - REFORM_SERVICE_NAME=am-judicial-booking-service
+      - REFORM_TEAM=am
+      - REFORM_ENVIRONMENT=local
+    ports:
+      - ${SERVER_PORT:-5511}:${SERVER_PORT:-5511}
+    depends_on:
+      - am-judicial-booking-database
+    links:
+      - am-judicial-booking-database
+
+  am-judicial-booking-database:
+    build:
+      context: docker/database
+    container_name: am-judicial-booking-database
+    healthcheck:
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    environment:
+      - AM_JUDICIAL_BOOKING_DB_USERNAME=am
+      - AM_JUDICIAL_BOOKING_DB_PASSWORD=am
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5455:5432
+    volumes:
+      - am-judicial-booking-database-data:/var/lib/postgresql/am-judicial-booking/data
+volumes:
+  am-judicial-booking-database-data:
