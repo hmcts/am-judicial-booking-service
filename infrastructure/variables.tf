@@ -3,7 +3,8 @@ variable "product" {
 }
 
 variable "raw_product" {
-  default = "am" // jenkins-library overrides product for PRs and adds e.g. pr-123-ia
+  default = "am"
+  // jenkins-library overrides product for PRs and adds e.g. pr-123-ia
 }
 
 variable "component" {
@@ -11,7 +12,7 @@ variable "component" {
 }
 
 variable "location" {
-  type    = string
+  type = string
   default = "UK South"
 }
 
@@ -42,7 +43,7 @@ variable "log_level_spring_web" {
 }
 
 variable "team_name" {
-  default     = "AM"
+  default = "AM"
 }
 
 variable "managed_identity_object_id" {
@@ -54,7 +55,7 @@ variable "enable_ase" {
 }
 
 variable "authorised-services" {
-  type    = string
+  type = string
   default = "ccd_gw,am_judicial_booking_service"
 }
 
@@ -80,10 +81,10 @@ variable "data_store_max_pool_size" {
 variable "database_sku_name" {
   default = "GP_Gen5_2"
 }
-
+/*
 variable "database_sku_capacity" {
   default = "2"
-}
+}*/
 
 variable "database_storage_mb" {
   default = "51200"
