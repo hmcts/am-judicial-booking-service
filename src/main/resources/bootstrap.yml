@@ -6,4 +6,4 @@ spring:
       aliases:
         s2s-secret: idam.s2s-auth.totp_secret
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
-        am_judicial_booking-service-POSTGRES-PASS: JUDICIAL_BOOKING_DB_PASSWORD
+        judicial_booking-service-POSTGRES-PASS: JUDICIAL_BOOKING_DB_PASSWORD
