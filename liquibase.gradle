@@ -4,7 +4,7 @@ configurations {
 
 //loading properties file.
 Properties liquibaseProps = new Properties()
-liquibaseProps.load(new FileInputStream("$projectDir/src/main/resources/liquibase.properties"))
+//liquibaseProps.load(new FileInputStream("$projectDir/src/main/resources/liquibase.properties"))
 
 task migratePostgresDatabase(type: JavaExec) {
   group = "liquibase"
