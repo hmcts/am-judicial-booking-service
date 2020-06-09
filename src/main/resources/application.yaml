@@ -63,11 +63,9 @@ spring:
     enabled: ${ENABLE_DB_MIGRATE:true}
     change-log: classpath:/db/changelog/db.changelog-master.xml
   datasource:
-    url: jdbc:postgresql://${AM_JUDICIAL_BOOKING_DB_HOST:teststringfordebugging}:${AM_JUDICIAL_BOOKING_DB_PORT:5455}/${AM_JUDICIAL_BOOKING_DB_NAME:judicial_booking}${AM_JUDICIAL_BOOKING_DB_OPTIONS:?stringtype=unspecified}
+    url: jdbc:postgresql://${AM_JUDICIAL_BOOKING_DB_HOST:localhost}:${AM_JUDICIAL_BOOKING_DB_PORT:5455}/${AM_JUDICIAL_BOOKING_DB_NAME:judicial_booking}${AM_JUDICIAL_BOOKING_DB_OPTIONS:?stringtype=unspecified}
     username: ${AM_JUDICIAL_BOOKING_DB_USERNAME:am}
     password: ${AM_JUDICIAL_BOOKING_DB_PASSWORD:am}
-    properties:
-      charSet: UTFh-8
 
 ### dependency configuration
 auth.provider.service.client.baseUrl: ${IDAM_S2S_URL:http://localhost:4502}
@@ -96,5 +94,5 @@ feign:
       datastoreclient:
         url: ${CCD_DATA_STORE_URL:http://localhost:4452}
 
-swaggerUrl: ${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}
+swaggerUrl: "${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}"
 judicialBookingUrl: ${TEST_URL:http://localhost:4097}
