@@ -24,7 +24,7 @@ services:
       - REFORM_TEAM=am
       - REFORM_ENVIRONMENT=local
     ports:
-      - ${SERVER_PORT:-5511}:${SERVER_PORT:-5511}
+      - ${SERVER_PORT:-4097}:${SERVER_PORT:-4097}
     depends_on:
       - am-judicial-booking-database
     links:

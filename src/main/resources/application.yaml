@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:5511}
+  port: ${PORT:4097}
 
 management:
   health:
