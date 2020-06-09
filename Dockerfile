@@ -10,5 +10,5 @@ LABEL maintainer="https://github.com/hmcts/judicial-booking-service"
 COPY lib/AI-Agent.xml /opt/app/
 COPY build/libs/am-judicial-booking-service.jar /opt/app/
 
-EXPOSE 4096
+EXPOSE 4097
 CMD [ "am-judicial-booking-service.jar" ]

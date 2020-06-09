@@ -96,5 +96,5 @@ feign:
       datastoreclient:
         url: ${CCD_DATA_STORE_URL:http://localhost:4452}
 
-swaggerUrl: ${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4096}
-judicialBookingUrl: ${TEST_URL:http://localhost:4096}
+swaggerUrl: ${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}
+judicialBookingUrl: ${TEST_URL:http://localhost:4097}
