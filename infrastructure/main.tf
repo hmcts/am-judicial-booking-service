@@ -23,10 +23,6 @@ locals {
   sharedAppServicePlan = "${var.raw_product}-${var.env}"
   sharedASPResourceGroup = "${var.raw_product}-shared-${var.env}"
 
-  // S2S
-  s2s_url = "http://rpe-service-auth-provider-${local.env_ase_url}"
-  idam_url = "https://idam-api.${local.local_env}.platform.hmcts.net"
-
   definition_store_host = "http://ccd-definition-store-api-${local.env_ase_url}"
   }
 
@@ -60,9 +56,6 @@ module "judicial-booking-db" {
   subscription = var.subscription
   postgresql_user = var.postgresql_user
   database_name = var.database_name
-/*  sku_name = var.database_sku_name
-  sku_tier = "GeneralPurpose"*/
-  /*sku_capacity = var.database_sku_capacity*/
   storage_mb = var.database_storage_mb
   common_tags  = var.common_tags
 }
