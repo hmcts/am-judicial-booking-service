@@ -66,30 +66,30 @@ module "judicial-booking-service-db" {
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name = "${var.component}-POSTGRES-USER"
-  value = module.judicial-booking-db.user_name
+  value = module.judicial-booking-service-db.user_name
   key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name = "${var.component}-POSTGRES-PASS"
-  value = module.judicial-booking-db.postgresql_password
+  value = module.judicial-booking-service-db.postgresql_password
   key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
   name = "${var.component}-POSTGRES-HOST"
-  value = module.judicial-booking-db.host_name
+  value = module.judicial-booking-service-db.host_name
   key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
   name = "${var.component}-POSTGRES-PORT"
-  value = module.judicial-booking-db.postgresql_listen_port
+  value = module.judicial-booking-service-db.postgresql_listen_port
   key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   name = "${var.component}-POSTGRES-DATABASE"
-  value = module.judicial-booking-db.postgresql_database
+  value = module.judicial-booking-service-db.postgresql_database
   key_vault_id = data.azurerm_key_vault.am_key_vault.id
 }
