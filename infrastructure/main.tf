@@ -48,7 +48,7 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
 }
 
 
-module "judicial-booking-db" {
+module "judicial-booking-service-db" {
   source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product = "${local.app_full_name}-postgres-db"
   location = var.location

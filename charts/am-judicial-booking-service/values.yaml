@@ -15,7 +15,7 @@ java:
     AM_JUDICIAL_BOOKING_DB_PORT: 5432
     AM_JUDICIAL_BOOKING_DB_NAME: judicial_booking
     AM_JUDICIAL_BOOKING_DB_HOST: am-judicial-booking-service-postgres-db-{{ .Values.global.environment }}.postgres.database.azure.com
-    AM_JUDICIAL_BOOKING_DB_USERNAME: am@am-judicial-booking-service-postgres-db-{{ .Values.global.environment }}
+    AM_JUDICIAL_BOOKING_DB_USERNAME: judicial_booking@am-judicial-booking-service-postgres-db-{{ .Values.global.environment }}
     CCD_DATA_STORE_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     JUDICIAL_BOOKING_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     DATA_STORE_DB_OPTIONS: "?stringtype=unspecified&sslmode=require"
