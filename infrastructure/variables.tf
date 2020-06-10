@@ -71,7 +71,7 @@ variable "postgresql_user" {
 }
 
 variable "database_name" {
-  default = "judicial_booking_service"
+  default = "judicial_booking"
 }
 
 variable "data_store_max_pool_size" {
@@ -83,6 +83,6 @@ variable "database_sku_name" {
 }
 
 variable "database_storage_mb" {
-  default = "51200"
+  default = "5120"
 }
 
