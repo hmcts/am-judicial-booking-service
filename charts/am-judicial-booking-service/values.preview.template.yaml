@@ -4,6 +4,7 @@ java:
   keyVaults:
     am:
       secrets:
+        - am-judicial-booking-service-s2s-secret
         - AppInsightsInstrumentationKey
   environment:
     AM_JUDICIAL_BOOKING_DB_HOST: "{{ .Release.Name }}-postgresql"

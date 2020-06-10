@@ -6,6 +6,7 @@ java:
   keyVaults:
     am:
       secrets:
+        - am-judicial-booking-service-s2s-secret
         - judicial-booking-service-POSTGRES-PASS
         - AppInsightsInstrumentationKey
   environment:
