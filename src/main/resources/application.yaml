@@ -65,7 +65,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${AM_JUDICIAL_BOOKING_DB_HOST:localhost}:${AM_JUDICIAL_BOOKING_DB_PORT:5455}/${AM_JUDICIAL_BOOKING_DB_NAME:judicial_booking}${AM_JUDICIAL_BOOKING_DB_OPTIONS:?stringtype=unspecified}
     username: ${AM_JUDICIAL_BOOKING_DB_USERNAME:am}
-    password: ${AM_JUDICIAL_BOOKING_DB_PASSWORD:am}
+
 
 ### dependency configuration
 auth.provider.service.client.baseUrl: ${IDAM_S2S_URL:http://localhost:4502}
