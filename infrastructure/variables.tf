@@ -83,6 +83,6 @@ variable "database_sku_name" {
 }
 
 variable "database_storage_mb" {
-  default = "5120"
+  default = "51200"
 }
 
