@@ -61,7 +61,7 @@ module "judicial-booking-service-db" {
 }
 
 ////////////////////////////////
-// Populate Vault with DB info
+// Populate Vault with DB info//
 ////////////////////////////////
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
