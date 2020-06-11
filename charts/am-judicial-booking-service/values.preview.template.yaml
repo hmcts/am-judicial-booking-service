@@ -7,13 +7,12 @@ java:
         - am-judicial-booking-service-s2s-secret
         - AppInsightsInstrumentationKey
   environment:
-    AM_JUDICIAL_BOOKING_DB_HOST: "{{ .Release.Name }}-postgresql"
-    AM_JUDICIAL_BOOKING_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
-    AM_JUDICIAL_BOOKING_DB_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
-    AM_JUDICIAL_BOOKING_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
-    AM_JUDICIAL_BOOKING_DB_PORT: "{{ .Values.postgresql.postgresqlPort}}"
-    AM_JUDICIAL_BOOKING_DB_OPTIONS: "?stringtype=unspecified"
-    AM_JUDICIAL_BOOKING_DB_MAX_POOL_SIZE: 10
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_DATABASE: "{{ .Values.postgresql.postgresqlDatabase}}"
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_USER: "{{ .Values.postgresql.postgresqlUsername}}"
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS: "{{ .Values.postgresql.postgresqlPassword}}"
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT: "{{ .Values.postgresql.postgresqlPort}}"
+    JUDICIAL_BOOKING_SERVICE_DB_OPTIONS: "?stringtype=unspecified"
     IDAM_S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   postgresql:
     enabled: true
