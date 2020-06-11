@@ -3,21 +3,17 @@ java:
   ingressHost: am-judicial-booking-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   applicationPort: 4097
   aadIdentityName: am
-  keyVaults:
-    am:
-      secrets:
-        - judicial-booking-service-POSTGRES-PASS
-        - AppInsightsInstrumentationKey
   environment:
     IDAM_S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     IDAM_USER_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES: ccd_gw,am_judicial_booking_service
-    AM_JUDICIAL_BOOKING_DB_PORT: 5432
-    AM_JUDICIAL_BOOKING_DB_NAME: judicial_booking
-    AM_JUDICIAL_BOOKING_DB_HOST: am-judicial-booking-service-postgres-db-{{ .Values.global.environment }}.postgres.database.azure.com
-    AM_JUDICIAL_BOOKING_DB_USERNAME: am@am-judicial-booking-service-postgres-db-{{ .Values.global.environment }}
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT: 5432
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST: am-judicial-booking-service-postgres-db-{{ .Values.global.environment }}.postgres.database.azure.com
+    JUDICIAL_BOOKING_SERVICE_POSTGRES_USER: am@am-judicial-booking-service-postgres-db-{{ .Values.global.environment }}
     CCD_DATA_STORE_URL: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    JUDICIAL_BOOKING_DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
-    DATA_STORE_DB_OPTIONS: "?stringtype=unspecified&sslmode=require"
-    DATA_STORE_DB_MAX_POOL_SIZE: 48
-
+  keyVaults:
+    am:
+      secrets:
+        - am-judicial-booking-service-s2s-secret
+        - judicial-booking-service-POSTGRES-PASS
+        - AppInsightsInstrumentationKey

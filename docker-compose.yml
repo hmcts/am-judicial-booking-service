@@ -7,11 +7,11 @@ services:
     image: hmcts/am-judicial-booking-service
     container_name: am-judicial-booking-service
     environment:
-      - AM_JUDICIAL_BOOKING_DB_HOST=am-judicial-booking-database
-      - AM_JUDICIAL_BOOKING_DB_NAME=judicial_booking
-      - AM_JUDICIAL_BOOKING_DB_PORT=5432
-      - AM_JUDICIAL_BOOKING_DB_USERNAME=am
-      - AM_JUDICIAL_BOOKING_DB_PASSWORD=am
+      - JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST=am-judicial-booking-database
+      - JUDICIAL_BOOKING_SERVICE_POSTGRES_DATABASE=judicial_booking
+      - JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT=5432
+      - JUDICIAL_BOOKING_SERVICE_POSTGRES_USER=am
+      - JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS=am
       - AM_JUDICIAL_BOOKING_DB_OPTIONS
       - AM_JUDICIAL_BOOKING_SERVICE_SECRET
       - AM_JUDICIAL_BOOKING_IDAM_KEY
@@ -39,8 +39,8 @@ services:
       timeout: 10s
       retries: 10
     environment:
-      - AM_JUDICIAL_BOOKING_DB_USERNAME=am
-      - AM_JUDICIAL_BOOKING_DB_PASSWORD=am
+      - JUDICIAL_BOOKING_SERVICE_POSTGRES_USER=am
+      - JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS=am
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - 5455:5432

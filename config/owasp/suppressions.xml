@@ -65,6 +65,7 @@
     <cpe>cpe:2.3:a:pivotal_software:spring_framework:5.2.2:*:*:*:*:*:*:*</cpe>
     <cve>CVE-2020-5397</cve>
     <cve>CVE-2020-5398</cve>
+    <cve>CVE-2020-13692</cve>
   </suppress>
 
   <suppress>
