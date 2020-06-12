@@ -10,7 +10,6 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
@@ -27,9 +26,9 @@ public class JudicialBookingApplication {
     @Bean
     public ServiceAuthorisationApi generateServiceAuthorisationApi(@Value("${idam.s2s-auth.url}") final String s2sUrl) {
         return Feign.builder()
-            .encoder(new JacksonEncoder())
-            .contract(new SpringMvcContract())
-            .target(ServiceAuthorisationApi.class, s2sUrl);
+                    .encoder(new JacksonEncoder())
+                    .contract(new SpringMvcContract())
+                    .target(ServiceAuthorisationApi.class, s2sUrl);
     }
 
     @Bean
@@ -38,7 +37,7 @@ public class JudicialBookingApplication {
         @Value("${idam.s2s-auth.microservice}") final String microService,
         final ServiceAuthorisationApi serviceAuthorisationApi
 
-    ) {
+                                                       ) {
         return new ServiceAuthTokenGenerator(secret, microService, serviceAuthorisationApi);
     }
 }
