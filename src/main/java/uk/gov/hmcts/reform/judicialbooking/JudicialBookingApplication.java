@@ -31,11 +31,13 @@ public class JudicialBookingApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        logger.info("Start printing env variables");
         logger.info("{}", env);
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+        logger.info("Host is : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
+        logger.info(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
+        logger.info(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
+        logger.info(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+        logger.info("End printing env variables");
     }
 
     public static void main(final String[] args) {
