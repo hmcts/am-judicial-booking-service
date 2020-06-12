@@ -2,7 +2,11 @@ package uk.gov.hmcts.reform.judicialbooking;
 
 import feign.Feign;
 import feign.jackson.JacksonEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,6 +14,7 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
@@ -17,7 +22,21 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @EnableCircuitBreaker
 @EnableFeignClients
 @ConfigurationProperties
-public class JudicialBookingApplication {
+public class JudicialBookingApplication implements CommandLineRunner {
+
+    @Autowired
+    private Environment env;
+
+    private static final Logger logger = LoggerFactory.getLogger(JudicialBookingApplication.class);
+
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("{}", env);
+        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
+        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
+        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
+        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+    }
 
     public static void main(final String[] args) {
         SpringApplication.run(JudicialBookingApplication.class);
