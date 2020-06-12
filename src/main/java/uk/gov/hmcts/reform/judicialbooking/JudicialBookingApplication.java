@@ -5,6 +5,7 @@ import feign.jackson.JacksonEncoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
@@ -14,9 +15,9 @@ import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
 @SpringBootApplication
-@EnableTransactionManagement(proxyTargetClass = true)
 @EnableCircuitBreaker
 @EnableFeignClients
+@ConfigurationProperties
 public class JudicialBookingApplication {
 
     public static void main(final String[] args) {
