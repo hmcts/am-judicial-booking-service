@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,23 +21,12 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @EnableCircuitBreaker
 @EnableFeignClients
 @ConfigurationProperties
-public class JudicialBookingApplication implements CommandLineRunner {
+public class JudicialBookingApplication {
 
     @Autowired
     private Environment env;
 
     private static final Logger logger = LoggerFactory.getLogger(JudicialBookingApplication.class);
-
-    @Override
-    public void run(String... args) throws Exception {
-        logger.error("Start printing env variables");
-        logger.error("{}", env);
-        logger.error("Host is : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
-        logger.error(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
-        logger.error(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
-        logger.error(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
-        logger.error("End printing env variables");
-    }
 
     public static void main(final String[] args) {
         SpringApplication.run(JudicialBookingApplication.class);
