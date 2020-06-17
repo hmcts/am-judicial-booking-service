@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,7 +22,7 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @EnableCircuitBreaker
 @EnableFeignClients
 @ConfigurationProperties
-public class JudicialBookingApplication {
+public class JudicialBookingApplication implements CommandLineRunner {
 
     @Autowired
     private Environment env;
@@ -31,6 +32,7 @@ public class JudicialBookingApplication {
     public static void main(final String[] args) {
         SpringApplication.run(JudicialBookingApplication.class);
     }
+
     @Override
     public void run(String... args) throws Exception {
         logger.info("Start printing env variables");
@@ -48,6 +50,7 @@ public class JudicialBookingApplication {
         logger.error(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
         logger.error("End printing env variables");
     }
+
     @Bean
     public ServiceAuthorisationApi generateServiceAuthorisationApi(@Value("${idam.s2s-auth.url}") final String s2sUrl) {
         return Feign.builder()
