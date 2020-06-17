@@ -31,7 +31,23 @@ public class JudicialBookingApplication {
     public static void main(final String[] args) {
         SpringApplication.run(JudicialBookingApplication.class);
     }
-
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("Start printing env variables");
+        logger.info("{}", env);
+        logger.info("Host is : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
+        logger.info(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
+        logger.info(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
+        logger.info(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+        logger.info("End printing env variables");
+        logger.error("Start printing env variables");
+        logger.error("{}", env);
+        logger.error("Host is : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
+        logger.error(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
+        logger.error(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
+        logger.error(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+        logger.error("End printing env variables");
+    }
     @Bean
     public ServiceAuthorisationApi generateServiceAuthorisationApi(@Value("${idam.s2s-auth.url}") final String s2sUrl) {
         return Feign.builder()
