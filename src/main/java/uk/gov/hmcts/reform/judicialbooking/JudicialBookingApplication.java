@@ -41,7 +41,7 @@ public class JudicialBookingApplication implements CommandLineRunner {
         logger.info(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
         logger.info(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
         logger.info(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
-        logger.info("End printing env variables");
+        logger.info("End printing env variables :");
         logger.error("Start printing env variables");
         logger.error("{}", env);
         logger.error("Host is : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
