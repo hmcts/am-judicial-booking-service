@@ -1,11 +1,9 @@
 spring:
   cloud:
     propertiesvolume:
-      paths: /mnt/secrets/s2s,/mnt/secrets/am
+      paths: /mnt/secrets/am
+      prefixed: false
       aliases:
-        s2s-secret: idam.s2s-auth.totp_secret
+        am-judicial-booking-service-s2s-secret: idam.s2s-auth.totp_secret
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
-        judicial-booking-service-POSTGRES-PASS: spring.datasource.password
-        am-judicial-booking-service-s2s-secret: AM_JUDICIAL_BOOKING_SERVICE_SECRET
-        am.judicial-booking-service-POSTGRES-DATABASE: DUMMY_VARIABLE
-        judicial-booking-service-POSTGRES-DATABASE: DUMMY_VARIABLE_2
+        judicial-booking-service-POSTGRES-PASS: JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS
