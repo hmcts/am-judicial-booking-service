@@ -8,4 +8,4 @@ spring:
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
         judicial-booking-service-POSTGRES-PASS: spring.datasource.password
         am-judicial-booking-service-s2s-secret: AM_JUDICIAL_BOOKING_SERVICE_SECRET
-        judicial-booking-service-POSTGRES-DATABASE: DUMMY_VARIABLE
+        am.judicial-booking-service-POSTGRES-DATABASE: DUMMY_VARIABLE
