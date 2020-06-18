@@ -66,7 +66,7 @@ spring:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://${JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST:localhost}:${JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT:5455}/${JUDICIAL_BOOKING_SERVICE_POSTGRES_DATABASE:judicial_booking}${JUDICIAL_BOOKING_SERVICE_DB_OPTIONS:}
     username: ${JUDICIAL_BOOKING_SERVICE_POSTGRES_USER:am}
-    password: ${POSTGRES_PASSWORD:am}
+    password: ${JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS:am}
     properties:
       charSet: UTF-8
 
