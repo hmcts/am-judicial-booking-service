@@ -2,7 +2,6 @@ spring:
   cloud:
     propertiesvolume:
       paths: /mnt/secrets/s2s,/mnt/secrets/am
-      prefixed: false
       aliases:
         s2s-secret: idam.s2s-auth.totp_secret
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
