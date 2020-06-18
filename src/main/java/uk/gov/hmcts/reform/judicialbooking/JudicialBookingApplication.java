@@ -29,17 +29,35 @@ public class JudicialBookingApplication implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(JudicialBookingApplication.class);
 
-    @Override
-    public void run(String... args) throws Exception {
-        logger.info("{}", env);
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
-        logger.info("{}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
-    }
-
     public static void main(final String[] args) {
         SpringApplication.run(JudicialBookingApplication.class);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("Start printing env variables");
+        logger.info("{}", env);
+        logger.info("Host is : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
+        logger.info(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
+        logger.info(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
+        logger.info(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+        logger.info("End printing env variables");
+        logger.error("Start printing env variables");
+        logger.error("{}", env);
+        logger.error("Host is : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
+        logger.error(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
+        logger.error(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
+        logger.error(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+        logger.error("End printing env variables");
+        System.out.println("Start printing env variables");
+
+        System.out.println("Host is :" + env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST"));
+        System.out.println(" user is:" + env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
+        System.out.println(" passwor :" + env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
+        System.out.println(" port iS :" + env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
+        System.out.println(" S2S iS :" + env.getProperty("AM_JUDICIAL_BOOKING_SERVICE_SECRET"));
+
+        System.out.println("End printing env variables");
     }
 
     @Bean
