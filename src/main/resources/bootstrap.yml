@@ -8,3 +8,4 @@ spring:
         judicial-booking-service-POSTGRES-PASS: spring.datasource.password
         am-judicial-booking-service-s2s-secret: AM_JUDICIAL_BOOKING_SERVICE_SECRET
         am.judicial-booking-service-POSTGRES-DATABASE: DUMMY_VARIABLE
+        judicial-booking-service-POSTGRES-DATABASE: DUMMY_VARIABLE_2
