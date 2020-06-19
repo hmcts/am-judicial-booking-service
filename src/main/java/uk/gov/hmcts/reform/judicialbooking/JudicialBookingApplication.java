@@ -48,8 +48,7 @@ public class JudicialBookingApplication implements CommandLineRunner {
         logger.error(" user is: {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_USER"));
         logger.error(" passwor : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
         logger.error(" port iS : {}", env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
-        logger.error(" Dummy variable  iS :" + env.getProperty("DUMMY_VARIABLE"));
-        logger.error(" Dummy variable  iS :" + env.getProperty("DUMMY_VARIABLE_2"));
+
         logger.error("End printing env variables");
         System.out.println("Start printing env variables");
 
@@ -58,7 +57,6 @@ public class JudicialBookingApplication implements CommandLineRunner {
         System.out.println(" passwor :" + env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS"));
         System.out.println(" port iS :" + env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
         System.out.println(" S2S iS :" + env.getProperty("AM_JUDICIAL_BOOKING_SERVICE_SECRET"));
-        System.out.println(" Dummy variable  iS :" + env.getProperty("DUMMY_VARIABLE"));
 
         System.out.println("End printing env variables");
     }
