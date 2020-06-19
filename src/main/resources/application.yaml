@@ -25,13 +25,12 @@ management:
       exposure:
         include: 'health'
 
-#If you use a database then uncomment below lines and update db properties accordingly
-
 security:
   anonymousPaths:
     - "/"
     - "/health"
     - "/health/liveness"
+    - "/health/readiness"
     - "/actuator/**"
     - "/loggers/**"
     - "/swagger-ui.html"
@@ -43,7 +42,7 @@ security:
     - "/error"
     - "/favicon.ico"
   authorisedRoles:
-  authorisedServices: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:ccd_gw,am_judicial-booking_service}
+  authorisedServices: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:ccd_gw,am_judicial_booking_service}
 
 spring:
   application:
