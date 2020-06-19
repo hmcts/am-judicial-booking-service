@@ -30,6 +30,7 @@ security:
     - "/"
     - "/health"
     - "/health/liveness"
+    - "/health/readiness"
     - "/actuator/**"
     - "/loggers/**"
     - "/swagger-ui.html"
