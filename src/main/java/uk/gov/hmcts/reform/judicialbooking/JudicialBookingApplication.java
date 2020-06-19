@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.judicialbooking;
 
 import feign.Feign;
 import feign.jackson.JacksonEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +10,6 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
@@ -20,9 +18,6 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @EnableFeignClients
 @ConfigurationProperties
 public class JudicialBookingApplication {
-
-    @Autowired
-    private Environment env;
 
     public static void main(final String[] args) {
         SpringApplication.run(JudicialBookingApplication.class);
