@@ -59,7 +59,6 @@ public class JudicialBookingApplication implements CommandLineRunner {
         System.out.println(" port iS :" + env.getProperty("JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT"));
         System.out.println(" S2S iS :" + env.getProperty("AM_JUDICIAL_BOOKING_SERVICE_SECRET"));
         System.out.println(" Dummy variable  iS :" + env.getProperty("DUMMY_VARIABLE"));
-        System.out.println(" Dummy variable  iS :" + env.getProperty("DUMMY_VARIABLE_2"));
 
         System.out.println("End printing env variables");
     }
