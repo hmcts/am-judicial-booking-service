@@ -4,6 +4,6 @@ spring:
       paths: /mnt/secrets/am
       prefixed: false
       aliases:
-        am-judicial-booking-service-s2s-secret: idam.s2s-auth.totp_secret
+        am-judicial-booking-service-s2s-secret: AM_JUDICIAL_BOOKING_SERVICE_SECRET
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
         judicial-booking-service-POSTGRES-PASS: JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS
