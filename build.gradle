@@ -10,7 +10,7 @@ buildscript {
 
 plugins {
     id 'application'
-    id 'checkstyle'
+    id 'uk.gov.hmcts.java' version '0.9.0'
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
@@ -140,16 +140,6 @@ task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verificatio
     testClassesDirs = sourceSets.smokeTest.output.classesDirs
     classpath = sourceSets.smokeTest.runtimeClasspath
     finalizedBy aggregate
-}
-
-checkstyle {
-    maxWarnings = 0
-    toolVersion = '8.18'
-    // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
-    configDir = new File(rootDir, 'config/checkstyle')
-
-    checkstyleMain.shouldRunAfter(compileJava)
-    test.shouldRunAfter(checkstyleTest)
 }
 
 jacocoTestReport {

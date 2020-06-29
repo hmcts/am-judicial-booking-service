@@ -21,11 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 
 class JudicialBookingControllerAdviceTest {
 
-    private transient JudicialBookingControllerAdvice csda = new JudicialBookingControllerAdvice();
-
-    private transient HttpServletRequest servletRequestMock = mock(HttpServletRequest.class);
-
-    private transient WelcomeController welcomeController = new WelcomeController();
+    private final JudicialBookingControllerAdvice csda = new JudicialBookingControllerAdvice();
+    private final HttpServletRequest servletRequestMock = mock(HttpServletRequest.class);
+    private final WelcomeController welcomeController = new WelcomeController();
 
     @Test
     void customValidationError() {
@@ -38,7 +36,8 @@ class JudicialBookingControllerAdviceTest {
     @Test
     void handleMethodArgumentNotValidException() {
         MethodArgumentNotValidException methodArgumentNotValidException = mock(MethodArgumentNotValidException.class);
-        ResponseEntity<Object> responseEntity = csda.handleMethodArgumentNotValidException(servletRequestMock, methodArgumentNotValidException);
+        ResponseEntity<Object> responseEntity = csda.handleMethodArgumentNotValidException(
+            servletRequestMock, methodArgumentNotValidException);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), responseEntity.getStatusCodeValue());
     }
@@ -46,7 +45,8 @@ class JudicialBookingControllerAdviceTest {
     @Test
     void handleResourceNotFoundException() {
         ResourceNotFoundException resourceNotFoundException = mock(ResourceNotFoundException.class);
-        ResponseEntity<Object> responseEntity = csda.handleResourceNotFoundException(servletRequestMock,resourceNotFoundException);
+        ResponseEntity<Object> responseEntity = csda.handleResourceNotFoundException(
+            servletRequestMock,resourceNotFoundException);
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
         assertEquals(HttpStatus.NOT_FOUND.value(), responseEntity.getStatusCodeValue());
     }
@@ -54,7 +54,8 @@ class JudicialBookingControllerAdviceTest {
     @Test
     void handleHttpMessageConversionException() {
         HttpMessageConversionException httpMessageConversionException = mock(HttpMessageConversionException.class);
-        ResponseEntity<Object> responseEntity = csda.handleHttpMessageConversionException(servletRequestMock, httpMessageConversionException);
+        ResponseEntity<Object> responseEntity = csda.handleHttpMessageConversionException(
+            servletRequestMock, httpMessageConversionException);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), responseEntity.getStatusCodeValue());
     }
@@ -101,5 +102,4 @@ class JudicialBookingControllerAdviceTest {
             welcomeController.getException("badRequestException");
         });
     }
-
 }
