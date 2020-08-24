@@ -59,7 +59,8 @@ public class WelcomeControllerIntegrationTest extends BaseTest {
     }
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"classpath:sql/insert_role_assignment_request.sql"})
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
+         scripts = {"classpath:sql/insert_role_assignment_request.sql"})
     public void shoudGetRecordCountFromRequestTable() throws Exception {
         final int count = template.queryForObject(COUNT_RECORDS, Integer.class);
         logger.info(" Total number of records fetched from Judicial Booking request table...{}", count);
@@ -68,7 +69,8 @@ public class WelcomeControllerIntegrationTest extends BaseTest {
     }
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"classpath:sql/insert_role_assignment_request.sql"})
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
+         scripts = {"classpath:sql/insert_role_assignment_request.sql"})
     public void shoudGetRequestStatusFromRequestTable() throws Exception {
         final Object[] parameters = new Object[]{
             REQUEST_ID

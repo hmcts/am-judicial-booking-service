@@ -17,6 +17,7 @@ public class SmokeTest {
     @Value("${judicialBookingUrl}")
     private String baseUrl;
 
+
     @Test
     public void shouldGetHealthStatus() {
         RestAssured.baseURI = baseUrl;
