@@ -48,10 +48,6 @@ variable "enable_ase" {
   default = false
 }
 
-variable "authorised-services" {
-  default = "ccd_gw,am_judicial_booking_service"
-}
-
 
 variable "deployment_namespace" {}
 
