@@ -1,3 +1,4 @@
+/*
 package uk.gov.hmcts.reform.judicialbooking.util;
 
 import java.util.Base64;
@@ -43,3 +44,4 @@ public class IdamUtils {
         return tokenExchangeResponse.getAccessToken();
     }
 }
+*/
