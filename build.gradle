@@ -203,41 +203,23 @@ dependencyUpdates.resolutionStrategy {
 }
 
 
-// https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
+//https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
 dependencyCheck {
-    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
-    // range of 0-10 fails the build, anything greater and it doesn't fail the build
-    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
     suppressionFile = 'config/owasp/suppressions.xml'
-
-    analyzers {
-        // Disable scanning of .NET related binaries
-        assemblyEnabled = false
-    }
 }
 
-// before committing a change, make sure task still works
-dependencyUpdates {
-    def isNonStable = { String version ->
-        def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { qualifier -> version.toUpperCase().contains(qualifier) }
-        def regex = /^[0-9,.v-]+$/
-        return !stableKeyword && !(version ==~ regex)
-    }
-    rejectVersionIf { selection -> // <---- notice how the closure argument is named
-        return isNonStable(selection.candidate.version) && !isNonStable(selection.currentVersion)
-    }
-}
-
-dependencyManagement {
-    dependencies {
-        dependency group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.65'
-        // CVE-2018-10237 - Unbounded memory allocation
-        dependencySet(group: 'com.google.guava', version: '29.0-jre') {
-            entry 'guava'
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
         }
     }
 }
-
 
 repositories {
     mavenLocal()
@@ -312,6 +294,7 @@ dependencies {
     implementation 'uk.gov.hmcts.reform:idam-client:v1.5.4'
     implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.19'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation 'commons-io:commons-io:2.8.0'
 
     testCompile('com.opentable.components:otj-pg-embedded:0.13.3')
     testCompile('com.github.tomakehurst:wiremock-jre8:2.25.1')
@@ -391,6 +374,10 @@ bootJar {
     manifest {
         attributes('Implementation-Version': project.version.toString())
     }
+}
+
+configurations {
+    runtime.exclude group: "com.thoughtworks.xstream", module: "xstream"
 }
 
 cucumberReports {
