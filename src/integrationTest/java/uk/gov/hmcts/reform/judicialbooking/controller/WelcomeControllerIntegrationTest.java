@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -57,28 +56,4 @@ public class WelcomeControllerIntegrationTest extends BaseTest {
         assertEquals(
             "Welcome service status", 200, 200);
     }
-
-    @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-         scripts = {"classpath:sql/insert_role_assignment_request.sql"})
-    public void shoudGetRecordCountFromRequestTable() throws Exception {
-        final int count = template.queryForObject(COUNT_RECORDS, Integer.class);
-        logger.info(" Total number of records fetched from Judicial Booking request table...{}", count);
-        assertEquals(
-            "role_assignment_request record count ", 5, count);
-    }
-
-    @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-         scripts = {"classpath:sql/insert_role_assignment_request.sql"})
-    public void shoudGetRequestStatusFromRequestTable() throws Exception {
-        final Object[] parameters = new Object[]{
-            REQUEST_ID
-        };
-        String status = template.queryForObject(GET_STATUS, parameters, String.class);
-        logger.info(" Judicial Booking request status is...{}", status);
-        assertEquals(
-            "Judicial Booking request status", "APPROVED", status);
-    }
-
 }
