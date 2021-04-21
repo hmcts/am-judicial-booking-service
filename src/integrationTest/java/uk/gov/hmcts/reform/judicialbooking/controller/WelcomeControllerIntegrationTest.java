@@ -5,9 +5,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -15,22 +13,15 @@ import java.nio.charset.Charset;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 
 public class WelcomeControllerIntegrationTest extends BaseTest {
 
     private static final Logger logger = LoggerFactory.getLogger(WelcomeControllerIntegrationTest.class);
-    private static final String COUNT_RECORDS = "SELECT count(1) as n FROM role_assignment_request";
-    private static final String GET_STATUS = "SELECT status FROM role_assignment_request where id = ?";
-    private static final String REQUEST_ID = "21334a2b-79ce-44eb-9168-2d49a744be9c";
 
     private transient MockMvc mockMvc;
-
-    private JdbcTemplate template;
-
-    @Value("${integrationTest.api.url}")
-    private transient String url;
 
     private static final MediaType JSON_CONTENT_TYPE = new MediaType(
         MediaType.APPLICATION_JSON.getType(),
@@ -44,16 +35,19 @@ public class WelcomeControllerIntegrationTest extends BaseTest {
     @Before
     public void setUp() {
         this.mockMvc = standaloneSetup(this.welcomeController).build();
-        template = new JdbcTemplate(db);
     }
 
     @Test
-    public void welComeAPITest() throws Exception {
+    public void welcomeApiTest() throws Exception {
+        final String url = "/welcome";
         logger.info(" WelcomeControllerIntegrationTest : Inside  Welcome API Test method...{}", url);
         final MvcResult result = mockMvc.perform(get(url).contentType(JSON_CONTENT_TYPE))
-                                        //.andExpect(status().is(200))
-                                        .andReturn();
+                .andExpect(status().is(200))
+                .andReturn();
         assertEquals(
-            "Welcome service status", 200, 200);
+                "Welcome service status", 200, result.getResponse().getStatus());
+        assertEquals(
+                "Welcome service message", "Welcome to Judicial Booking service",
+                result.getResponse().getContentAsString());
     }
 }
