@@ -1,13 +1,11 @@
 package uk.gov.hmcts.reform.judicialbooking.controller.advice;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import uk.gov.hmcts.reform.judicialbooking.controller.WelcomeController;
-import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 
@@ -73,33 +71,5 @@ class JudicialBookingControllerAdviceTest {
     void getTimeStamp() {
         String time = csda.getTimeStamp();
         assertEquals(time.substring(0,16), new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH).format(new Date()));
-    }
-
-    @Test
-    void testInvalidRequest() {
-        Assertions.assertThrows(InvalidRequest.class, () -> {
-            welcomeController.getException("invalidRequest");
-        });
-    }
-
-    @Test
-    void testResourceNotFoundException() {
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            welcomeController.getException("resourceNotFoundException");
-        });
-    }
-
-    @Test
-    void testHttpMessageConversionException() {
-        Assertions.assertThrows(HttpMessageConversionException.class, () -> {
-            welcomeController.getException("httpMessageConversionException");
-        });
-    }
-
-    @Test
-    void testBadRequestException() {
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            welcomeController.getException("badRequestException");
-        });
     }
 }
