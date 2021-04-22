@@ -35,7 +35,7 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
   key_vault_id  = data.azurerm_key_vault.am_key_vault.id
 }
 
-module "am-judicial-booking-service-database" {
+module "judicial-booking-database" {
   source          = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product         = join("-", [local.app_full_name, "postgres-db"])
   location        = var.location
@@ -55,6 +55,6 @@ module "am-judicial-booking-service-database" {
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name          = join("-", [var.component, "POSTGRES-PASS"])
-  value         = module.am-judicial-booking-service-database.postgresql_password
+  value         = module.judicial-booking-database.postgresql_password
   key_vault_id  = data.azurerm_key_vault.am_key_vault.id
 }
