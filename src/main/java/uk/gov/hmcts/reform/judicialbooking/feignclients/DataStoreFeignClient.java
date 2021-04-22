@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import uk.gov.hmcts.reform.judicialbooking.feignclients.configuration.DatastoreFeignClientConfiguration;
 import uk.gov.hmcts.reform.judicialbooking.feignclients.configuration.DatastoreFeignClientFallback;
 
-@FeignClient(value = "datastoreclient", url = "${feign.client.config.datastoreclient.url}",
+@FeignClient(value = "datastoreclient", url = "${feign.client.config.ormClient.url}",
              configuration = DatastoreFeignClientConfiguration.class,
              fallback = DatastoreFeignClientFallback.class)
 
