@@ -38,6 +38,7 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
 module "judicial-booking-database" {
   source          = "git@github.com:hmcts/cnp-module-postgres?ref=postgresql_tf"
   product         = join("-", [local.app_full_name, "postgres-db"])
+  component       = var.component
   location        = var.location
   env             = var.env
   subscription    = var.subscription
