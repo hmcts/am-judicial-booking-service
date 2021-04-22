@@ -35,6 +35,24 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
   key_vault_id  = data.azurerm_key_vault.am_key_vault.id
 }
 
+module "judicial-booking-database" {
+  source          = "git@github.com:hmcts/cnp-module-postgres?ref=postgresql_tf"
+  product         = join("-", [local.app_full_name, "postgres-db"])
+  location        = var.location
+  env             = var.env
+  subscription    = var.subscription
+  postgresql_user = var.postgresql_user
+  database_name   = var.database_name
+  common_tags     = var.common_tags
+  postgresql_version = 11
+}
+
 ////////////////////////////////
 // Populate Vault with DB info//
 ////////////////////////////////
+
+resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
+  name          = join("-", [var.component, "POSTGRES-PASS"])
+  value         = module.judicial-booking-database.postgresql_password
+  key_vault_id  = data.azurerm_key_vault.am_key_vault.id
+}
