@@ -265,7 +265,7 @@ dependencies {
     implementation "org.springframework.security:spring-security-web"
     implementation "org.springframework.security:spring-security-config"
     implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
-    implementation 'uk.gov.hmcts.reform:idam-client:v1.5.4'
+    implementation 'uk.gov.hmcts.reform:idam-client:2.0.0'
     implementation 'commons-io:commons-io:2.8.0'
 
     testCompile('com.opentable.components:otj-pg-embedded:0.13.3')
