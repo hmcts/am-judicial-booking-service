@@ -10,13 +10,13 @@ buildscript {
 
 plugins {
     id 'application'
-    id 'uk.gov.hmcts.java' version '0.12.6'
+    id 'uk.gov.hmcts.java' version '0.12.8'
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.springframework.boot' version '2.3.9.RELEASE'
     id 'info.solidsoft.pitest' version '1.6.0'
-    id 'com.github.ben-manes.versions' version '0.31.0'
+    id 'com.github.ben-manes.versions' version '0.38.0'
     id 'org.sonarqube' version '2.8'
     id 'com.github.spacialcircumstances.gradle-cucumber-reporting' version '0.1.23'
     id 'au.com.dius.pact' version '4.1.14'
@@ -244,7 +244,7 @@ dependencies {
 
     //Added for S2S and User Authentication
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.reformS2sClient
-    compile group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+    compile group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
     compile group: 'javax.inject', name: 'javax.inject', version: '1'
     compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.swagger2Version
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
@@ -287,7 +287,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot)
-    testCompile group: 'uk.gov.hmcts', name: 'befta-fw', version: '5.19.0-RDM-9893-3'
+    testCompile group: 'uk.gov.hmcts', name: 'befta-fw', version: '20.2.0.rdm.8934.1'
     //compile fileTree(dir: 'lib', include: 'befta-fw-5.11.0.jar')
 
     testCompile(group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber)
