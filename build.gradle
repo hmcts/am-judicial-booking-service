@@ -287,7 +287,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot)
-    testCompile group: 'uk.gov.hmcts', name: 'befta-fw', version: '5.19.0-RDM-9893-3'
+    testCompile group: 'uk.gov.hmcts', name: 'befta-fw', version: '20.2.0.rdm.8934.1'
     //compile fileTree(dir: 'lib', include: 'befta-fw-5.11.0.jar')
 
     testCompile(group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber)
