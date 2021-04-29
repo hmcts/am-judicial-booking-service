@@ -155,5 +155,46 @@
     </createTable>
   </changeSet>
 
+  <changeSet id="4" author="conor.halpin@hmcts.net">
+    <createTable tableName="booking">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="user_id" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="appointment_Id" type="uuid">
+        <constraints nullable="false"/>
+      </column>
+      <column name="role_id" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="contract_type_id" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="base_location_id" type="text">
+        <constraints nullable="true"/>
+      </column>
+      <column name="region_id" type="text">
+        <constraints nullable="true"/>
+      </column>
+      <column name="begin_type" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+        <constraints nullable="false"/>
+      </column>
+      <column name="end_time" type="timestamp">
+        <constraints nullable="true"/>
+      </column>
+      <column name="created" type="timestamp">
+        <constraints nullable="true"/>
+      </column>
+      <column name="status" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="log" type="text">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+
 
 </databaseChangeLog>
