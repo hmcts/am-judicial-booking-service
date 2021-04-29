@@ -5,12 +5,16 @@ import org.apache.bcel.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.Authorisation;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 
 @Setter
 public class TestDataBuilder {
@@ -64,6 +68,25 @@ public class TestDataBuilder {
                 .log(preparedBooking.getLog())
                 .build();
     }
+
+    public static JudicialUserProfile buildJudicialProfile() {
+        return JudicialUserProfile.builder()
+                .fullName("Jiminy Cricket")
+                .contractTypeId("fallback contractTypeId")
+                .authorisations(Collections.singletonList(
+                        Authorisation.builder()
+                                .authorisationId("fallback authId")
+                                .build()))
+                .appointments(Collections.singletonList(
+                        Appointment.builder()
+                                .appointmentId("fallback appointmentId")
+                                .baseLocationId("baseLocationId")
+                                .roleId("roleId")
+                                .contractTypeId("contractTypeId")
+                                .build()))
+                .build();
+    }
+
 
 
 
