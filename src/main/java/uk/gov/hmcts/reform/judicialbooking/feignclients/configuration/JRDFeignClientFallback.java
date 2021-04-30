@@ -15,12 +15,19 @@ public class JRDFeignClientFallback implements JRDFeignClient {
     @Override
     public List<JudicialUserProfile> getJudicialUserProfiles(List<String> userIds) {
         return Collections.singletonList(JudicialUserProfile.builder()
-                .fullName("Jiminy Cricket")
-                .contractTypeId("fallback contractTypeId")
+                .fullName("Keith Gill")
+                .contractTypeId("contractTypeId")
                 .authorisations(Collections.singletonList(
-                        Authorisation.builder().authorisationId("fallback authId").build()))
+                        Authorisation.builder()
+                                .authorisationId("authId")
+                                .build()))
                 .appointments(Collections.singletonList(
-                        Appointment.builder().appointmentId("fallback appointmentId").build()))
+                        Appointment.builder()
+                                .appointmentId("appointmentId")
+                                .baseLocationId("baseLocationId")
+                                .roleId("roleId")
+                                .contractTypeId("contractTypeId")
+                                .build()))
                 .build());
     }
 }

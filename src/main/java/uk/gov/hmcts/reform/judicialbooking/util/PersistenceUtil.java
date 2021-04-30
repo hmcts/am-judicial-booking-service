@@ -22,20 +22,4 @@ public class PersistenceUtil {
                 .log(booking.getLog())
                 .build();
     }
-
-    public Booking convertBookingEntityToBooking(BookingEntity bookingEntity) {
-        return Booking.builder()
-                .userId(bookingEntity.getUserId())
-                .appointmentId(bookingEntity.getAppointmentId())
-                .baseLocationId(bookingEntity.getBaseLocationId())
-                .roleId(bookingEntity.getRoleId())
-                .regionId(bookingEntity.getRegionId())
-                .contractTypeId(bookingEntity.getContractTypeId())
-                .beginTime(bookingEntity.getBeginTime())
-                .endTime(bookingEntity.getEndTime())
-                .created(bookingEntity.getCreated())
-                .status(bookingEntity.getStatus())
-                .log(bookingEntity.getLog())
-                .build();
-    }
 }

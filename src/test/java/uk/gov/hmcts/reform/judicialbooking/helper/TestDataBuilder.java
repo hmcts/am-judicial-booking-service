@@ -71,15 +71,15 @@ public class TestDataBuilder {
 
     public static JudicialUserProfile buildJudicialProfile() {
         return JudicialUserProfile.builder()
-                .fullName("Jiminy Cricket")
-                .contractTypeId("fallback contractTypeId")
+                .fullName("Keith Gill")
+                .contractTypeId("contractTypeId")
                 .authorisations(Collections.singletonList(
                         Authorisation.builder()
-                                .authorisationId("fallback authId")
+                                .authorisationId("authId")
                                 .build()))
                 .appointments(Collections.singletonList(
                         Appointment.builder()
-                                .appointmentId("fallback appointmentId")
+                                .appointmentId("appointmentId")
                                 .baseLocationId("baseLocationId")
                                 .roleId("roleId")
                                 .contractTypeId("contractTypeId")
