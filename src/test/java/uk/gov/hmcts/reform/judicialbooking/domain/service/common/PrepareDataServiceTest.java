@@ -22,10 +22,8 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
 
-@RunWith(MockitoJUnitRunner.class)
 class PrepareDataServiceTest {
 
-    @InjectMocks
     private final PrepareDataService sut = new PrepareDataService();
 
     @Test

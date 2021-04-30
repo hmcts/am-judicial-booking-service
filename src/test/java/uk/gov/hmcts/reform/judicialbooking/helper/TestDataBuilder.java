@@ -11,13 +11,20 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBooking;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingAssignmentsRequest;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.UUID;
 
 @Setter
 public class TestDataBuilder {
+
+    static String uuidString = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
+
     private TestDataBuilder() {
         //not meant to be instantiated.
     }
@@ -87,7 +94,36 @@ public class TestDataBuilder {
                 .build();
     }
 
+    public static OrmBooking buildOrmBooking(Booking booking) {
+        booking.setId(UUID.fromString(uuidString));
+        return OrmBooking.builder()
+                .bookingId(booking.getId().toString())
+                .appointmentId(booking.getAppointmentId())
+                .baseLocationId(booking.getBaseLocationId())
+                .contractTypeId(booking.getContractTypeId())
+                .regionId(booking.getRegionId())
+                .roleId(booking.getRoleId())
+                .beginTime(booking.getBeginTime())
+                .endTime(booking.getEndTime())
+                .created(booking.getCreated())
+                .build();
+    }
 
+    public static OrmBookingRequest buildOrmBookingRequest() {
+        return OrmBookingRequest.builder()
+                .actorId(uuidString)
+                .authorisations(
+                        Collections.singletonList(Authorisation.builder().authorisationId("authId").build())
+                )
+                .build();
 
+    }
+
+    public static OrmBookingAssignmentsRequest buildOrmBookingAssignmentsRequest() {
+        return OrmBookingAssignmentsRequest.builder()
+                .bookings(Collections.singletonList(buildOrmBooking(buildPreparedBooking())))
+                .bookingRequest(buildOrmBookingRequest())
+                .build();
+    }
 
 }
