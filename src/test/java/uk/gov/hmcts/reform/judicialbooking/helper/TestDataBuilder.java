@@ -37,9 +37,23 @@ public class TestDataBuilder {
         return new BookingRequest(buildBooking());
     }
 
+    public static BookingResponse buildBookingResponse(Booking booking) {
+        return new BookingResponse(booking);
+    }
+
     public static Booking buildBooking() {
         return Booking.builder()
                 .appointmentId("appointmentId")
+                .beginTime(ZonedDateTime.now().plusDays(1))
+                .endTime(ZonedDateTime.now().plusMonths(1))
+                .build();
+    }
+
+    public static Booking buildParsedBooking() {
+        return Booking.builder()
+                .appointmentId("appointmentId")
+                .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
+                .created(ZonedDateTime.now())
                 .beginTime(ZonedDateTime.now().plusDays(1))
                 .endTime(ZonedDateTime.now().plusMonths(1))
                 .build();
