@@ -21,7 +21,6 @@ class JRDFeignClientFallbackTest {
         List<JudicialUserProfile> response = jrdFeignClientFallback.getJudicialUserProfiles(Collections.singletonList(
                 "5629957f-4dcd-40b8-a0b2-e64ff5898b28"));
         assertNotNull(response);
-        assertEquals("Jiminy Cricket", response.get(0).getFullName());
         assertNotNull(response.get(0).getAppointments());
         assertNotNull(response.get(0).getAuthorisations());
 
