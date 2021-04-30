@@ -42,11 +42,13 @@ security:
     - "/error"
     - "/favicon.ico"
   authorisedRoles:
-  authorisedServices: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:ccd_gw,am_judicial_booking_service}
+  authorisedServices: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:am_judicial_booking_service}
 
 spring:
   application:
     name: Judicial Booking Service
+  main:
+    allow-bean-definition-overriding: true
   jackson:
     default-property-inclusion: NON_NULL
   jpa:
@@ -58,17 +60,28 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-  liquibase:
-    enabled: ${ENABLE_DB_MIGRATE:false}
-    change-log: classpath:/db/changelog/db.changelog-master.xml
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://${JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST:localhost}:${JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT:5455}/${JUDICIAL_BOOKING_SERVICE_POSTGRES_DATABASE:judicial_booking}${JUDICIAL_BOOKING_SERVICE_DB_OPTIONS:}
+    url: jdbc:postgresql://${JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST:localhost}:${JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT:5451}/${JUDICIAL_BOOKING_SERVICE_POSTGRES_DATABASE:judicial_booking}${JUDICIAL_BOOKING_SERVICE_DB_OPTIONS:}
     username: ${JUDICIAL_BOOKING_SERVICE_POSTGRES_USER:am}
     password: ${JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS:am}
     properties:
       charSet: UTF-8
-
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: ${OPEN_ID_API_BASE_URI:https://idam-web-public.aat.platform.hmcts.net/o}
+        registration:
+          oidc:
+            client-id: microservicekey-am-judicial-booking-service
+            client-secret: ${AM_JUDICIAL_BOOKING_SERVICE_SECRET:AAAAAAAAAAAAAAAA}
+  cache:
+    type: ${ENABLE_CACHE:}
+    cache-names: token
+    caffeine:
+      spec: maximumSize=50,expireAfterWrite=120s
 ### dependency configuration
 auth.provider.service.client.baseUrl: ${IDAM_S2S_URL:http://localhost:4502}
 idam:
@@ -77,6 +90,17 @@ idam:
     totp_secret: ${AM_JUDICIAL_BOOKING_SERVICE_SECRET:AAAAAAAAAAAAAAAA}
     microservice: am_judicial_booking_service
     url: ${IDAM_S2S_URL:http://localhost:4502}
+  s2s-authorised:
+    services: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:am_judicial_booking_service}
+  api.url: ${IDAM_USER_URL:http://localhost:5000}
+  client:
+    id: ${JUDICIAL_BOOKING_IDAM_CLIENT_ID:am_docker}
+    secret: ${JUDICIAL_BOOKING_IDAM_CLIENT_SECRET:am_docker_secret}
+    redirect_uri: ${JUDICIAL_BOOKING_IDAM_REDIRECT_URI:http://localhost:4096/oauth2redirect}
+    admin:
+      userId: ${JUDICIAL_BOOKING_IDAM_ADMIN_USERID:}
+      secret: ${JUDICIAL_BOOKING_IDAM_ADMIN_PASSWORD:}
+      scope: ${JUDICIAL_BOOKING_IDAM_ADMIN_SCOPE:openid profile roles authorities}
 
 auth.idam.client.baseUrl: ${IDAM_USER_URL:http://localhost:5000}
 testS2S:
@@ -93,8 +117,10 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
-      datastoreclient:
-        url: ${CCD_DATA_STORE_URL:http://localhost:4452}
+      ormClient:
+        url: ${AM_ORM_URL:http://localhost:4098}
+      jrdClient:
+        url: ${RD_JRD_URL:http://localhost:4091}
 
 swaggerUrl: "${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}"
 judicialBookingUrl: ${TEST_URL:http://localhost:4097}
