@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.helper;
 
 import lombok.Setter;
-import org.apache.bcel.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;

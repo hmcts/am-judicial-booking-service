@@ -3,7 +3,9 @@ package uk.gov.hmcts.reform.judicialbooking.feignclients.configuration;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
 import java.util.List;

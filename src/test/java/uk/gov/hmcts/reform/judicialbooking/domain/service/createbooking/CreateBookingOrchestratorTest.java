@@ -2,18 +2,12 @@ package uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingAssignmentsRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.OrgRoleMappingService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
@@ -22,14 +16,13 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataServ
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.RetrieveDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.util.Collections;
-import java.util.List;
 
 class CreateBookingOrchestratorTest {
 
@@ -39,8 +32,6 @@ class CreateBookingOrchestratorTest {
     private final RetrieveDataService retrieveDataService = mock(RetrieveDataService.class);
     private final OrgRoleMappingService orgRoleMappingService = mock(OrgRoleMappingService.class);
     private final PrepareDataService prepareDataService = mock(PrepareDataService.class);
-
-    BookingEntity bookingEntity;
 
     @InjectMocks
     private CreateBookingOrchestrator sut = new CreateBookingOrchestrator(
@@ -79,7 +70,8 @@ class CreateBookingOrchestratorTest {
 
         when(prepareDataService.prepareBookingResponse(any())).thenReturn(bookingResponseEntity);
 
-        when(orgRoleMappingService.createBookingAssignments(any())).thenReturn(ResponseEntity.status(HttpStatus.CREATED).build());
+        when(orgRoleMappingService.createBookingAssignments(any()))
+                .thenReturn(ResponseEntity.status(HttpStatus.CREATED).build());
 
         ResponseEntity<BookingResponse> createBookingResponse =
                 sut.createBooking(TestDataBuilder.buildBookingRequest());

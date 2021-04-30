@@ -7,7 +7,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
 import uk.gov.hmcts.reform.judicialbooking.feignclients.JRDFeignClient;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
