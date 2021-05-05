@@ -1,0 +1,56 @@
+package uk.gov.hmcts.reform.judicialbooking.controller.endpoints;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingsResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking.CreateBookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.v1.V1;
+
+import java.text.ParseException;
+
+
+@Api(value = "booking")
+@RestController
+public class GetBookingController {
+    private static final Logger logger = LoggerFactory.getLogger(GetBookingController.class);
+
+    @PostMapping(path = "/am/bookings", produces = V1.MediaType.GET_BOOKINGS)
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation("Retrieve JSON representation of bookings got the current actor.")
+    @ApiResponses({
+            @ApiResponse(
+                    code = 200,
+                    message = "Success",
+                    response = BookingsResponse.class
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = V1.Error.INVALID_REQUEST
+            ),
+            @ApiResponse(
+                    code = 404,
+                    message = V1.Error.NO_RECORDS_FOUND_BY_ACTOR
+            )
+    })
+    public ResponseEntity<BookingsResponse> retrieveBookings(
+            @RequestHeader(value = "x-correlation-id", required = false)
+                    String correlationId) throws ParseException {
+        long startTime = System.currentTimeMillis();
+        ResponseEntity<BookingsResponse> response = ResponseEntity.status(HttpStatus.OK).body(new BookingsResponse());
+        logger.info(" >> retrieveBookings execution finished at {} . Time taken = {} milliseconds",
+                System.currentTimeMillis(),
+                Math.subtractExact(System.currentTimeMillis(), startTime)
+        );
+        return response;
+    }
+}
