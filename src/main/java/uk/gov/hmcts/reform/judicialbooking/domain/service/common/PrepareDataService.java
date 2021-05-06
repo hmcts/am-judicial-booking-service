@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBooking;
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 public class PrepareDataService {
 
-    public Booking prepareBooking(Booking booking, List<JudicialUserProfile> judicialUserProfiles) {
+    public BookingEntity prepareBooking(BookingEntity booking, List<JudicialUserProfile> judicialUserProfiles) {
 
         booking.setRoleId(judicialUserProfiles.get(0).getAppointments().get(0).getRoleId());
         booking.setContractTypeId(judicialUserProfiles.get(0).getContractTypeId());
@@ -29,7 +28,7 @@ public class PrepareDataService {
         return booking;
     }
 
-    public OrmBookingAssignmentsRequest prepareOrmBookingRequest(Booking booking,
+    public OrmBookingAssignmentsRequest prepareOrmBookingRequest(BookingEntity booking,
                                                                  List<JudicialUserProfile> judicialUserProfiles) {
         OrmBooking ormBooking = convertBookingToOrmBooking(booking);
         OrmBookingRequest ormBookingRequest = OrmBookingRequest.builder()
@@ -41,13 +40,11 @@ public class PrepareDataService {
     }
 
     public ResponseEntity<BookingResponse> prepareBookingResponse(BookingEntity bookingEntity) {
-        Booking booking = convertBookingEntityToBooking(bookingEntity);
         //TODO do we need to return different http code or just let the status in body show status of request?
-        return ResponseEntity.status(HttpStatus.OK).body(new BookingResponse(
-                booking));
+        return ResponseEntity.status(HttpStatus.OK).body(new BookingResponse(bookingEntity));
     }
 
-    public OrmBooking convertBookingToOrmBooking(Booking booking) {
+    public OrmBooking convertBookingToOrmBooking(BookingEntity booking) {
         return OrmBooking.builder()
                 .bookingId(booking.getId().toString())
                 .appointmentId(booking.getAppointmentId())
@@ -61,19 +58,4 @@ public class PrepareDataService {
                 .build();
     }
 
-    public Booking convertBookingEntityToBooking(BookingEntity bookingEntity) {
-        return Booking.builder()
-                .userId(bookingEntity.getUserId())
-                .appointmentId(bookingEntity.getAppointmentId())
-                .baseLocationId(bookingEntity.getBaseLocationId())
-                .roleId(bookingEntity.getRoleId())
-                .regionId(bookingEntity.getRegionId())
-                .contractTypeId(bookingEntity.getContractTypeId())
-                .beginTime(bookingEntity.getBeginTime())
-                .endTime(bookingEntity.getEndTime())
-                .created(bookingEntity.getCreated())
-                .status(bookingEntity.getStatus())
-                .log(bookingEntity.getLog())
-                .build();
-    }
 }

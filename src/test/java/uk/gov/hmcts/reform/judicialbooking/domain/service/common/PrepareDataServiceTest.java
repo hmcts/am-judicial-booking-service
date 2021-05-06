@@ -1,9 +1,8 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
+import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBooking;
@@ -16,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
-import java.util.Objects;
 import java.util.UUID;
 
 class PrepareDataServiceTest {
@@ -26,7 +24,7 @@ class PrepareDataServiceTest {
     @Test
     void prepareBooking() {
 
-        Booking booking = sut.prepareBooking(TestDataBuilder.buildBooking(),
+        BookingEntity booking = sut.prepareBooking(TestDataBuilder.buildBooking(),
                 Collections.singletonList(TestDataBuilder.buildJudicialProfile()));
 
         assertNotNull(booking);
@@ -37,7 +35,7 @@ class PrepareDataServiceTest {
     @Test
     void prepareOrmBookingRequest() {
         JudicialUserProfile judicialUserProfile = TestDataBuilder.buildJudicialProfile();
-        Booking booking = TestDataBuilder.buildPreparedBooking();
+        BookingEntity booking = TestDataBuilder.buildPreparedBooking();
         String uuid = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
         booking.setId(UUID.fromString(uuid));
         OrmBookingAssignmentsRequest ormBookingRequest
@@ -55,17 +53,15 @@ class PrepareDataServiceTest {
     @Test
     void prepareBookingResponse() {
         ResponseEntity<BookingResponse> bookingResponseEntity =
-                sut.prepareBookingResponse(TestDataBuilder.buildBookingEntity(TestDataBuilder.buildPreparedBooking()));
+                sut.prepareBookingResponse(TestDataBuilder.buildPreparedBooking());
 
         assertNotNull(bookingResponseEntity);
-        Assertions.assertSame(TestDataBuilder.buildPreparedBooking().getClass(),
-                Objects.requireNonNull(bookingResponseEntity.getBody()).getBookingResponseObject().getClass());
     }
 
     @Test
     void convertBookingToOrmBooking() {
         String bookingId = "5629957f-4dcd-40b8-a0b2-e64ff5898b30";
-        Booking preparedBooking = TestDataBuilder.buildPreparedBooking();
+        BookingEntity preparedBooking = TestDataBuilder.buildPreparedBooking();
         preparedBooking.setId(UUID.fromString(bookingId));
 
         OrmBooking ormBooking = sut.convertBookingToOrmBooking(preparedBooking);
@@ -76,10 +72,4 @@ class PrepareDataServiceTest {
 
     }
 
-    @Test
-    void convertBookingEntityToBooking() {
-        assertNotNull(sut.convertBookingEntityToBooking(
-                TestDataBuilder.buildBookingEntity(TestDataBuilder.buildPreparedBooking()))
-        );
-    }
 }

@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
+import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 @Named
@@ -91,7 +91,7 @@ public class ValidationUtil {
         return true;
     }
 
-    public static Booking validateBookingRequest(Booking booking) throws ParseException {
+    public static BookingEntity validateBookingRequest(BookingEntity booking) throws ParseException {
         validateAppointmentId(booking.getAppointmentId());
         validateBeginAndEndDates(booking);
         return booking;
@@ -105,7 +105,7 @@ public class ValidationUtil {
         }
     }
 
-    public static void validateBeginAndEndDates(Booking booking) throws ParseException {
+    public static void validateBeginAndEndDates(BookingEntity booking) throws ParseException {
         if (booking.getBeginTime() != null) {
             if (booking.getBeginTime().getYear() == 1970) {
                 throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for beginTime");

@@ -2,7 +2,7 @@ package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
+import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 import uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil;
@@ -16,8 +16,8 @@ public class ParseRequestService {
     @Autowired
     private SecurityUtils securityUtils;
 
-    public Booking parseBookingRequest(BookingRequest bookingRequest) throws ParseException {
-        Booking booking = bookingRequest.getBookingRequestObject();
+    public BookingEntity parseBookingRequest(BookingRequest bookingRequest) throws ParseException {
+        BookingEntity booking = bookingRequest.getBookingRequestObject();
         booking.setCreated(ZonedDateTime.now());
         booking.setUserId(securityUtils.getUserId());
 

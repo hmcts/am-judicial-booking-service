@@ -20,6 +20,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking.CreateBo
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 import java.text.ParseException;
+import javax.transaction.Transactional;
 
 
 @Api(value = "booking")
@@ -39,7 +40,7 @@ public class CreateBookingController {
             consumes = {"application/json"}
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    @ApiOperation("creates multiple role assignments")
+    @ApiOperation("creates bookings and associated assignments")
     @ApiResponses({
             @ApiResponse(
                     code = 201,
@@ -49,14 +50,9 @@ public class CreateBookingController {
             @ApiResponse(
                     code = 400,
                     message = V1.Error.INVALID_REQUEST
-            ),
-            @ApiResponse(
-                    code = 422,
-                    message = V1.Error.UNPROCESSABLE_ENTITY_REQUEST_REJECTED
             )
-
     })
-
+    @Transactional
     public ResponseEntity<BookingResponse> createBooking(
             @RequestHeader(value = "x-correlation-id", required = false)
                     String correlationId,

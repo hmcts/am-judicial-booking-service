@@ -5,32 +5,36 @@ import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Collections;
+import java.util.List;
 
-public class ValidationUtilTest {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    private final String beginTime = "BeginTime";
+class ValidationUtilTest {
+
+    private final String beginTimeString = "BeginTime";
 
     @Test
     void shouldValidate() {
-        assertEquals(true, ValidationUtil.validate("1212121212121212"));
-        assertEquals(false, ValidationUtil.validate("2323232323232"));
+        assertTrue(ValidationUtil.validate("1212121212121212"));
+        assertFalse(ValidationUtil.validate("2323232323232"));
     }
 
     @Test
     void shouldThrowBadRequestException_ValidateLists() {
+        List<Object> list = Collections.emptyList();
         Assertions.assertThrows(BadRequestException.class, () -> {
-            ValidationUtil.validateLists(new ArrayList());
+            ValidationUtil.validateLists(list);
         });
     }
 
     @Test
     void shouldValidateTTL() {
-        assertEquals(false, ValidationUtil.validateTTL("2021-12-31T10:10:10+"));
-        assertEquals(false, ValidationUtil.validateTTL("2021-12-31T10:10:10+9999"));
-        assertEquals(false, ValidationUtil.validateTTL("2021-12-31T10:10:10+999Z"));
+        assertFalse(ValidationUtil.validateTTL("2021-12-31T10:10:10+"));
+        assertFalse(ValidationUtil.validateTTL("2021-12-31T10:10:10+9999"));
+        assertFalse(ValidationUtil.validateTTL("2021-12-31T10:10:10+999Z"));
     }
 
     @Test
@@ -72,21 +76,21 @@ public class ValidationUtilTest {
     @Test
     void should_validateDateTime() {
         Assertions.assertDoesNotThrow(() ->
-                ValidationUtil.validateDateTime(LocalDateTime.now().plusMinutes(1).toString(), beginTime)
+                ValidationUtil.validateDateTime(LocalDateTime.now().plusMinutes(1).toString(), beginTimeString)
         );
     }
 
     @Test
     void validateDateTime_ThrowLessThanLimit() {
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.validateDateTime("2050-09-01T00:", beginTime)
+                ValidationUtil.validateDateTime("2050-09-01T00:", beginTimeString)
         );
     }
 
     @Test
     void validateDateTime_ThrowParseException() {
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.validateDateTime("2050-090000000000000", beginTime)
+                ValidationUtil.validateDateTime("2050-090000000000000", beginTimeString)
         );
     }
 }

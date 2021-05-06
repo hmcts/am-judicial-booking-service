@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
+import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.OrgRoleMappingService;
@@ -34,7 +34,7 @@ class CreateBookingOrchestratorTest {
     private final PrepareDataService prepareDataService = mock(PrepareDataService.class);
 
     @InjectMocks
-    private CreateBookingOrchestrator sut = new CreateBookingOrchestrator(
+    private final CreateBookingOrchestrator sut = new CreateBookingOrchestrator(
             parseRequestService,
             persistenceService,
             prepareDataService,
@@ -58,12 +58,12 @@ class CreateBookingOrchestratorTest {
         when(prepareDataService.prepareBooking(any(),any())).thenReturn(TestDataBuilder.buildPreparedBooking());
 
         when(persistenceService.persistBooking(any()))
-                .thenReturn(TestDataBuilder.buildBookingEntity(TestDataBuilder.buildPreparedBooking()));
+                .thenReturn(TestDataBuilder.buildPreparedBooking());
 
         when(prepareDataService.prepareOrmBookingRequest(any(), any()))
                 .thenReturn(TestDataBuilder.buildOrmBookingAssignmentsRequest());
 
-        Booking bookingResponseObject = TestDataBuilder.buildPreparedBooking();
+        BookingEntity bookingResponseObject = TestDataBuilder.buildPreparedBooking();
         bookingResponseObject.setStatus(Status.LIVE.toString());
         ResponseEntity<BookingResponse> bookingResponseEntity =
                 ResponseEntity.status(HttpStatus.OK).body(TestDataBuilder.buildBookingResponse(bookingResponseObject));

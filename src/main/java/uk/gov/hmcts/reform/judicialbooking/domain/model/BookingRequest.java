@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.springframework.validation.annotation.Validated;
+import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +13,9 @@ import org.springframework.validation.annotation.Validated;
 public class BookingRequest {
 
     @JsonProperty("bookingRequest")
-    private Booking bookingRequestObject;
+    private BookingEntity bookingRequestObject;
 
-    public BookingRequest(@NonNull Booking bookingRequestObject) {
+    public BookingRequest(@NonNull BookingEntity bookingRequestObject) {
         this.bookingRequestObject = bookingRequestObject;
     }
 }

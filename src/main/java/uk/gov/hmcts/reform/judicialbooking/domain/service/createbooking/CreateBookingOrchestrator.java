@@ -1,10 +1,9 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
@@ -20,7 +19,7 @@ import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
 
-@Slf4j
+@RequestScope
 @Service
 public class CreateBookingOrchestrator {
 
@@ -29,8 +28,6 @@ public class CreateBookingOrchestrator {
     private final PrepareDataService prepareDataService;
     private final RetrieveDataService retrieveDataService;
     private final OrgRoleMappingService orgRoleMappingService;
-
-    BookingEntity bookingEntity;
 
     public CreateBookingOrchestrator(ParseRequestService parseRequestService,
                                      PersistenceService persistenceService,
@@ -47,14 +44,14 @@ public class CreateBookingOrchestrator {
     public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest) throws ParseException {
 
 
-        Booking parsedBookingRequest = parseRequestService.parseBookingRequest(bookingRequest);
+        BookingEntity parsedBookingRequest = parseRequestService.parseBookingRequest(bookingRequest);
 
         List<JudicialUserProfile> judicialUserProfiles = retrieveDataService.getJudicialUserProfile(
                 Collections.singletonList(parsedBookingRequest.getUserId()));
 
-        Booking preparedBooking = prepareDataService.prepareBooking(parsedBookingRequest, judicialUserProfiles);
+        BookingEntity preparedBooking = prepareDataService.prepareBooking(parsedBookingRequest, judicialUserProfiles);
 
-        bookingEntity = persistenceService.persistBooking(preparedBooking);
+        BookingEntity bookingEntity = persistenceService.persistBooking(preparedBooking);
 
         OrmBookingAssignmentsRequest ormBookingRequest
                 = prepareDataService.prepareOrmBookingRequest(preparedBooking, judicialUserProfiles);
@@ -62,10 +59,10 @@ public class CreateBookingOrchestrator {
 
         if (ormResponse.getStatusCode().is2xxSuccessful()) {
             bookingEntity.setStatus(Status.LIVE.toString());
-            persistenceService.updateBooking(bookingEntity);
+            persistenceService.persistBooking(bookingEntity);
         } else {
             bookingEntity.setStatus(Status.FAILED.toString());
-            persistenceService.updateBooking(bookingEntity);
+            persistenceService.persistBooking(bookingEntity);
         }
 
         return prepareDataService.prepareBookingResponse(bookingEntity);

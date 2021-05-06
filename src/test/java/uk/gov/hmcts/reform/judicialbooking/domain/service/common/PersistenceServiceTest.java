@@ -7,16 +7,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingRepository;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
-import uk.gov.hmcts.reform.judicialbooking.util.PersistenceUtil;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 class PersistenceServiceTest {
 
-    private final PersistenceUtil persistenceUtil = mock(PersistenceUtil.class);
     private final BookingRepository bookingRepository = mock(BookingRepository.class);
 
     @InjectMocks
@@ -29,11 +26,9 @@ class PersistenceServiceTest {
 
     @Test
     void persistBooking() {
-        Booking preparedBooking = TestDataBuilder.buildPreparedBooking();
-        BookingEntity bookingEntity = TestDataBuilder.buildBookingEntity(preparedBooking);
+        BookingEntity preparedBooking = TestDataBuilder.buildPreparedBooking();
 
-        Mockito.when(persistenceUtil.convertBookingToEntity(preparedBooking)).thenReturn(bookingEntity);
-        Mockito.when(bookingRepository.save(bookingEntity)).thenReturn(bookingEntity);
+        Mockito.when(bookingRepository.save(preparedBooking)).thenReturn(preparedBooking);
 
         BookingEntity bookingEntityResponse = persistenceService.persistBooking(preparedBooking);
 
@@ -42,12 +37,11 @@ class PersistenceServiceTest {
 
     @Test
     void updateBooking() {
-        Booking preparedBooking = TestDataBuilder.buildPreparedBooking();
-        BookingEntity bookingEntity = TestDataBuilder.buildBookingEntity(preparedBooking);
+        BookingEntity preparedBooking = TestDataBuilder.buildPreparedBooking();
 
-        Mockito.when(bookingRepository.save(bookingEntity)).thenReturn(bookingEntity);
+        Mockito.when(bookingRepository.save(preparedBooking)).thenReturn(preparedBooking);
 
-        BookingEntity bookingEntityResponse = persistenceService.updateBooking(bookingEntity);
+        BookingEntity bookingEntityResponse = persistenceService.persistBooking(preparedBooking);
 
         assertNotNull(bookingEntityResponse);
     }

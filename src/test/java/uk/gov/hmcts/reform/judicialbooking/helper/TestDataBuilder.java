@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Authorisation;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.Booking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
@@ -36,20 +35,20 @@ public class TestDataBuilder {
         return new BookingRequest(buildBooking());
     }
 
-    public static BookingResponse buildBookingResponse(Booking booking) {
+    public static BookingResponse buildBookingResponse(BookingEntity booking) {
         return new BookingResponse(booking);
     }
 
-    public static Booking buildBooking() {
-        return Booking.builder()
+    public static BookingEntity buildBooking() {
+        return BookingEntity.builder()
                 .appointmentId("appointmentId")
                 .beginTime(ZonedDateTime.now().plusDays(1))
                 .endTime(ZonedDateTime.now().plusMonths(1))
                 .build();
     }
 
-    public static Booking buildParsedBooking() {
-        return Booking.builder()
+    public static BookingEntity buildParsedBooking() {
+        return BookingEntity.builder()
                 .appointmentId("appointmentId")
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
                 .created(ZonedDateTime.now())
@@ -58,8 +57,8 @@ public class TestDataBuilder {
                 .build();
     }
 
-    public static Booking buildPreparedBooking() {
-        return Booking.builder()
+    public static BookingEntity buildPreparedBooking() {
+        return BookingEntity.builder()
                 .appointmentId("appointmentId")
                 .baseLocationId("baseLocationId")
                 .contractTypeId("contractTypeId")
@@ -70,22 +69,6 @@ public class TestDataBuilder {
                 .beginTime(ZonedDateTime.now().plusDays(1))
                 .endTime(ZonedDateTime.now().plusMonths(1))
                 .status(Status.NEW.toString())
-                .build();
-    }
-
-    public static BookingEntity buildBookingEntity(Booking preparedBooking) {
-        return BookingEntity.builder()
-                .userId(preparedBooking.getUserId())
-                .appointmentId(preparedBooking.getAppointmentId())
-                .baseLocationId(preparedBooking.getBaseLocationId())
-                .roleId(preparedBooking.getRoleId())
-                .regionId(preparedBooking.getRegionId())
-                .contractTypeId(preparedBooking.getContractTypeId())
-                .beginTime(preparedBooking.getBeginTime())
-                .endTime(preparedBooking.getEndTime())
-                .created(preparedBooking.getCreated())
-                .status(preparedBooking.getStatus())
-                .log(preparedBooking.getLog())
                 .build();
     }
 
@@ -107,7 +90,7 @@ public class TestDataBuilder {
                 .build();
     }
 
-    public static OrmBooking buildOrmBooking(Booking booking) {
+    public static OrmBooking buildOrmBooking(BookingEntity booking) {
         booking.setId(UUID.fromString(uuidString));
         return OrmBooking.builder()
                 .bookingId(booking.getId().toString())
