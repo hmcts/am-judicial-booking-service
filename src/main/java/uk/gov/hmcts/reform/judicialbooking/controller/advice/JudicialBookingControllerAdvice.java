@@ -107,8 +107,8 @@ public class JudicialBookingControllerAdvice {
         logger.error(LOG_STRING, ex);
         ErrorResponse errorDetails = ErrorResponse.builder()
                                                   .errorCode(errorCode)
+                                                  .status(httpStatus.name())
                                                   .errorMessage(errorMsg)
-                                                  .errorDescription(getRootException(ex).getLocalizedMessage())
                                                   .timeStamp(getTimeStamp())
                                                   .build();
         return new ResponseEntity<>(
