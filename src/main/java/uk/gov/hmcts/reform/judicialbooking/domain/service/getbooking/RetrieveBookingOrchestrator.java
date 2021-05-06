@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.getbooking;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
@@ -15,10 +16,11 @@ import java.util.List;
 @Service
 public class RetrieveBookingOrchestrator {
 
-    private final PersistenceService persistenceService;
+    private PersistenceService persistenceService;
     private final SecurityUtils securityUtils;
     private final PrepareDataService prepareDataService;
 
+    @Autowired
     public RetrieveBookingOrchestrator(PersistenceService persistenceService,
                                        PrepareDataService prepareDataService,
                                        SecurityUtils securityUtils) {
@@ -27,7 +29,7 @@ public class RetrieveBookingOrchestrator {
         this.securityUtils = securityUtils;
     }
 
-    public ResponseEntity<BookingsResponse> getBookings() throws ParseException {
+    public ResponseEntity<BookingsResponse> getBookings() {
         List<BookingEntity> bookingList = persistenceService.getValidBookings(securityUtils.getUserId());
         return prepareDataService.prepareBookingResponse(bookingList);
     }

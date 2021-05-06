@@ -46,7 +46,7 @@ public class GetBookingController {
             )
     })
     public ResponseEntity<BookingsResponse> retrieveBookings(
-            @RequestHeader(value = "x-correlation-id", required = false) String correlationId) throws ParseException {
+            @RequestHeader(value = "x-correlation-id", required = false) String correlationId) {
         long startTime = System.currentTimeMillis();
         ResponseEntity<BookingsResponse> response = retrieveBookingOrchestrator.getBookings();
 
