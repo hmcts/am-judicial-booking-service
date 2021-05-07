@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -41,7 +42,7 @@ public class TestDataBuilder {
 
     public static BookingEntity buildBooking() {
         return BookingEntity.builder()
-                .appointmentId("appointmentId")
+                .appointmentId("appointmentId_1")
                 .beginTime(ZonedDateTime.now().plusDays(1))
                 .endTime(ZonedDateTime.now().plusMonths(1))
                 .build();
@@ -49,7 +50,7 @@ public class TestDataBuilder {
 
     public static BookingEntity buildParsedBooking() {
         return BookingEntity.builder()
-                .appointmentId("appointmentId")
+                .appointmentId("appointmentId_1")
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
                 .created(ZonedDateTime.now())
                 .beginTime(ZonedDateTime.now().plusDays(1))
@@ -59,7 +60,7 @@ public class TestDataBuilder {
 
     public static BookingEntity buildPreparedBooking() {
         return BookingEntity.builder()
-                .appointmentId("appointmentId")
+                .appointmentId("appointmentId_1")
                 .baseLocationId("baseLocationId")
                 .contractTypeId("contractTypeId")
                 .regionId("regionId")
@@ -75,18 +76,29 @@ public class TestDataBuilder {
     public static JudicialUserProfile buildJudicialProfile() {
         return JudicialUserProfile.builder()
                 .fullName("Keith Gill")
+                .emailId("Keith.Gill@robinhood.com")
                 .contractTypeId("contractTypeId")
-                .authorisations(Collections.singletonList(
-                        Authorisation.builder()
-                                .authorisationId("authId")
-                                .build()))
-                .appointments(Collections.singletonList(
+                .idamId("idamId")
+                .knowAs("Geohot")
+                .personalCode("PS32010")
+                .authorisations(List.of(
+                        Authorisation.builder().authorisationId("authId_1").build(),
+                        Authorisation.builder().authorisationId("authId_2").build(),
+                        Authorisation.builder().authorisationId("authId_3").build()
+                )).appointments(List.of(
                         Appointment.builder()
-                                .appointmentId("appointmentId")
-                                .baseLocationId("baseLocationId")
-                                .roleId("roleId")
-                                .contractTypeId("contractTypeId")
-                                .build()))
+                                .appointmentId("appointmentId_1")
+                                .baseLocationId("baseLocationId_1")
+                                .roleId("roleId_1")
+                                .contractTypeId("contractTypeId_1")
+                                .build(),
+                        Appointment.builder()
+                                .appointmentId("appointmentId_2")
+                                .baseLocationId("baseLocationId_2")
+                                .roleId("roleId_2")
+                                .contractTypeId("contractTypeId_2")
+                                .build()
+                ))
                 .build();
     }
 
@@ -108,8 +120,8 @@ public class TestDataBuilder {
     public static OrmBookingRequest buildOrmBookingRequest() {
         return OrmBookingRequest.builder()
                 .actorId(uuidString)
-                .authorisations(
-                        Collections.singletonList(Authorisation.builder().authorisationId("authId").build())
+                .authorisationIds(
+                        List.of("authId")
                 )
                 .build();
 

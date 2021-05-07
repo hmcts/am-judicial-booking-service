@@ -45,7 +45,7 @@ class PrepareDataServiceTest {
         assertNotNull(ormBookingRequest);
         assertNotNull(ormBookingRequest.getBookings());
         assertNotNull(ormBookingRequest.getBookingRequest());
-        assertNotNull(ormBookingRequest.getBookingRequest().getAuthorisations());
+        assertNotNull(ormBookingRequest.getBookingRequest().getAuthorisationIds());
         assertEquals(booking.getUserId(), ormBookingRequest.getBookingRequest().getActorId());
         assertEquals(uuid, ormBookingRequest.getBookings().get(0).getBookingId());
     }

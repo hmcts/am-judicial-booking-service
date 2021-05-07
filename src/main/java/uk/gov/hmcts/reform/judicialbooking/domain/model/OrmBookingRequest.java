@@ -14,6 +14,6 @@ import java.util.List;
 public class OrmBookingRequest {
 
     String actorId;
-    List<Authorisation> authorisations;
+    List<String> authorisationIds;
 
 }

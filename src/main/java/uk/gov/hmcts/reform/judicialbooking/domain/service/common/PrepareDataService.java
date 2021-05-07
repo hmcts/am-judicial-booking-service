@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.Authorisation;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBooking;
@@ -13,16 +15,24 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PrepareDataService {
 
     public BookingEntity prepareBooking(BookingEntity booking, List<JudicialUserProfile> judicialUserProfiles) {
 
-        booking.setRoleId(judicialUserProfiles.get(0).getAppointments().get(0).getRoleId());
-        booking.setContractTypeId(judicialUserProfiles.get(0).getContractTypeId());
-        //TODO what to do when it is provided in initial request replace or compare?
-        booking.setBaseLocationId(judicialUserProfiles.get(0).getAppointments().get(0).getBaseLocationId());
+        List<Appointment> appointment = judicialUserProfiles.get(0).getAppointments().stream()
+                .filter(appointment1 -> appointment1.getAppointmentId().equals(booking.getAppointmentId()))
+                .collect(Collectors.toList());
+        if (Optional.ofNullable(booking.getRoleId()).isEmpty()) {
+            booking.setRoleId(appointment.get(0).getRoleId());
+        }
+        if (Optional.ofNullable(booking.getBaseLocationId()).isEmpty()) {
+            booking.setBaseLocationId(appointment.get(0).getBaseLocationId());
+        }
+        booking.setContractTypeId(appointment.get(0).getContractTypeId());
         //TODO booking.setRegionId(); this one requires another endpoint call I think
         booking.setStatus(Status.NEW.toString());
         return booking;
@@ -33,7 +43,10 @@ public class PrepareDataService {
         OrmBooking ormBooking = convertBookingToOrmBooking(booking);
         OrmBookingRequest ormBookingRequest = OrmBookingRequest.builder()
                 .actorId(booking.getUserId())
-                .authorisations(judicialUserProfiles.get(0).getAuthorisations())
+                .authorisationIds(
+                        judicialUserProfiles.get(0).getAuthorisations().stream()
+                                .map(Authorisation::getAuthorisationId).collect(Collectors.toList())
+                )
                 .build();
         return OrmBookingAssignmentsRequest.builder()
                 .bookings(Collections.singletonList(ormBooking)).bookingRequest(ormBookingRequest).build();
