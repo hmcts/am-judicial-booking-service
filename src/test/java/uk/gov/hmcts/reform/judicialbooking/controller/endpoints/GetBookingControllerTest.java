@@ -23,7 +23,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
@@ -51,8 +52,8 @@ public class GetBookingControllerTest {
         List<BookingEntity> expectedBookings = List.of(TestDataBuilder.buildBooking());
         doReturn(actorId).when(securityUtilsMock).getUserId();
         doReturn(expectedBookings).when(bookingRepositoryMock)
-                .findByUserIdAndStatusAndBeginTimeLessThanEqualAndEndTimeGreaterThan(any(String.class), any(String.class),
-                        any(ZonedDateTime.class), any(ZonedDateTime.class));
+                .findByUserIdAndStatusAndBeginTimeLessThanEqualAndEndTimeGreaterThan(any(String.class),
+                        any(String.class), any(ZonedDateTime.class), any(ZonedDateTime.class));
 
         ResponseEntity<BookingsResponse> response = mockController.retrieveBookings("");
         assertNotNull(response);
@@ -70,8 +71,8 @@ public class GetBookingControllerTest {
                 TestDataBuilder.buildBooking());
         doReturn(actorId).when(securityUtilsMock).getUserId();
         doReturn(expectedBookings).when(bookingRepositoryMock)
-                .findByUserIdAndStatusAndBeginTimeLessThanEqualAndEndTimeGreaterThan(any(String.class), any(String.class),
-                        any(ZonedDateTime.class), any(ZonedDateTime.class));
+                .findByUserIdAndStatusAndBeginTimeLessThanEqualAndEndTimeGreaterThan(any(String.class),
+                        any(String.class), any(ZonedDateTime.class), any(ZonedDateTime.class));
 
         ResponseEntity<BookingsResponse> response = mockController.retrieveBookings("");
         assertNotNull(response);
@@ -88,8 +89,8 @@ public class GetBookingControllerTest {
         List<BookingEntity> bookings = List.of(TestDataBuilder.buildBooking());
         doReturn(actorId).when(securityUtilsMock).getUserId();
         doReturn(Collections.emptyList()).when(bookingRepositoryMock)
-                .findByUserIdAndStatusAndBeginTimeLessThanEqualAndEndTimeGreaterThan(any(String.class), any(String.class),
-                        any(ZonedDateTime.class), any(ZonedDateTime.class));
+                .findByUserIdAndStatusAndBeginTimeLessThanEqualAndEndTimeGreaterThan(any(String.class),
+                        any(String.class), any(ZonedDateTime.class), any(ZonedDateTime.class));
 
         ResponseEntity<BookingsResponse> response = mockController.retrieveBookings("");
         assertNotNull(response);

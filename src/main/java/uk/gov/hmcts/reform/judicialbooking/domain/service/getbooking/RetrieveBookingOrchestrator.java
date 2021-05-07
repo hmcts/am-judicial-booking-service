@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.*;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.common.*;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingsResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
-import java.text.ParseException;
 import java.util.List;
 
 @Slf4j
