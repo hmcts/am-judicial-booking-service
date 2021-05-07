@@ -17,7 +17,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Setter
 public class TestDataBuilder {
@@ -103,7 +102,7 @@ public class TestDataBuilder {
     }
 
     public static OrmBooking buildOrmBooking(BookingEntity booking) {
-        booking.setId(UUID.fromString(uuidString));
+        booking.setId(uuidString);
         return OrmBooking.builder()
                 .bookingId(booking.getId().toString())
                 .appointmentId(booking.getAppointmentId())
