@@ -26,7 +26,7 @@ public class BookingEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID id;
+    private String id;
 
     @Column(name = "user_Id", nullable = false)
     private String userId;

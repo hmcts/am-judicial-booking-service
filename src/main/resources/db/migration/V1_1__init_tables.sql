@@ -1,5 +1,5 @@
 CREATE TABLE booking(
-	id bigint NOT NULL,
+	id text NOT NULL,
 	user_id text NOT NULL,
 	appointment_id text NOT NULL,
 	role_id text NOT NULL,
