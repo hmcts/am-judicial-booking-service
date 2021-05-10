@@ -1,7 +1,9 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.annotation.RequestScope;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
@@ -15,7 +17,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceServ
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.RetrieveDataService;
 
-import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,10 +42,16 @@ public class CreateBookingOrchestrator {
         this.orgRoleMappingService = orgRoleMappingService;
     }
 
-    public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest) throws ParseException {
+    public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest) throws Exception {
 
 
         BookingEntity parsedBookingRequest = parseRequestService.parseBookingRequest(bookingRequest);
+
+        if (!CollectionUtils.isEmpty(persistenceService.checkExists(parsedBookingRequest.getUserId(),
+                parsedBookingRequest.getAppointmentId()))) {
+            throw new DuplicateRequestException(String.format("Entry already exists for appointmentId: %s",
+                    parsedBookingRequest.getAppointmentId()));
+        }
 
         List<JudicialUserProfile> judicialUserProfiles = retrieveDataService.getJudicialUserProfile(
                 Collections.singletonList(parsedBookingRequest.getUserId()));

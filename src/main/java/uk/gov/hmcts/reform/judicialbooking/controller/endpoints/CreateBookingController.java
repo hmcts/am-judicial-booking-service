@@ -19,7 +19,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking.CreateBookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
-import java.text.ParseException;
 import javax.transaction.Transactional;
 
 
@@ -57,7 +56,7 @@ public class CreateBookingController {
             @RequestHeader(value = "x-correlation-id", required = false)
                     String correlationId,
             @Validated
-            @RequestBody BookingRequest bookingRequest) throws ParseException {
+            @RequestBody BookingRequest bookingRequest) throws Exception {
         long startTime = System.currentTimeMillis();
         ResponseEntity<BookingResponse> response = createBookingOrchestrator
                 .createBooking(bookingRequest);

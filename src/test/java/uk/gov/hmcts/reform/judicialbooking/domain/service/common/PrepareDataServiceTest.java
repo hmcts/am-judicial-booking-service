@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
+import java.util.UUID;
 
 class PrepareDataServiceTest {
 
@@ -36,7 +37,7 @@ class PrepareDataServiceTest {
         JudicialUserProfile judicialUserProfile = TestDataBuilder.buildJudicialProfile();
         BookingEntity booking = TestDataBuilder.buildPreparedBooking();
         String uuid = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
-        booking.setId(uuid);
+        booking.setId(UUID.fromString(uuid));
         OrmBookingAssignmentsRequest ormBookingRequest
                 = sut.prepareOrmBookingRequest(booking,
                 Collections.singletonList(judicialUserProfile));
@@ -61,7 +62,7 @@ class PrepareDataServiceTest {
     void convertBookingToOrmBooking() {
         String bookingId = "5629957f-4dcd-40b8-a0b2-e64ff5898b30";
         BookingEntity preparedBooking = TestDataBuilder.buildPreparedBooking();
-        preparedBooking.setId(bookingId);
+        preparedBooking.setId(UUID.fromString(bookingId));
 
         OrmBooking ormBooking = sut.convertBookingToOrmBooking(preparedBooking);
 

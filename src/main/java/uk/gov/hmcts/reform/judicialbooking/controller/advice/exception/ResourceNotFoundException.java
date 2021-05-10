@@ -10,6 +10,6 @@ public class ResourceNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 4L;
 
     public ResourceNotFoundException(String message) {
-        super(String.format(Constants.RESOURCE_NOT_FOUND + " %s", message));
+        super(String.format(Constants.RESOURCE_NOT_FOUND + ": %s", message));
     }
 }

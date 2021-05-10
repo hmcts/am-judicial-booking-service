@@ -16,8 +16,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.text.ParseException;
-
 class CreateBookingControllerTest {
 
     private final CreateBookingOrchestrator createBookingOrchestrator =
@@ -32,7 +30,7 @@ class CreateBookingControllerTest {
     }
 
     @Test
-    void createBooking() throws ParseException {
+    void createBooking() throws Exception {
         BookingRequest bookingRequest = new BookingRequest();
         ResponseEntity<BookingResponse> expectedResponse = TestDataBuilder.buildCreateBookingResponse();
         when(createBookingOrchestrator.createBooking(any())).thenReturn(expectedResponse);

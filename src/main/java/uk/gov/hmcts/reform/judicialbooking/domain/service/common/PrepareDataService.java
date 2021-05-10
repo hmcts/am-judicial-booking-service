@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Authorisation;
@@ -26,6 +27,12 @@ public class PrepareDataService {
         List<Appointment> appointment = judicialUserProfiles.get(0).getAppointments().stream()
                 .filter(appointment1 -> appointment1.getAppointmentId().equals(booking.getAppointmentId()))
                 .collect(Collectors.toList());
+
+        if (appointment.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    "The list of appointments retrieved from JRD is empty, your appointmentId may be invalid");
+        }
+
         if (Optional.ofNullable(booking.getRoleId()).isEmpty()) {
             booking.setRoleId(appointment.get(0).getRoleId());
         }
@@ -70,5 +77,7 @@ public class PrepareDataService {
                 .created(booking.getCreated())
                 .build();
     }
+
+
 
 }

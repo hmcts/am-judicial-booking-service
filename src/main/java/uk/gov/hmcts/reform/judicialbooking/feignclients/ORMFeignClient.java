@@ -4,11 +4,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingAssignmentsRequest;
-import uk.gov.hmcts.reform.judicialbooking.feignclients.configuration.DatastoreFeignClientConfiguration;
+import uk.gov.hmcts.reform.judicialbooking.feignclients.configuration.FeignClientConfiguration;
 import uk.gov.hmcts.reform.judicialbooking.feignclients.configuration.ORMFeignClientFallback;
 
 @FeignClient(value = "orgrolemappingclient", url = "${feign.client.config.ormclient.url}",
-        configuration = DatastoreFeignClientConfiguration.class,
+        configuration = FeignClientConfiguration.class,
         fallback = ORMFeignClientFallback.class)
 public interface ORMFeignClient {
 

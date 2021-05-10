@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class DatastoreFeignClientConfigurationTest {
 
     @InjectMocks
-    DatastoreFeignClientConfiguration datastoreFeignClientConfiguration = new DatastoreFeignClientConfiguration();
+    FeignClientConfiguration feignClientConfiguration = new FeignClientConfiguration();
 
     @BeforeEach
     public void setUp() {
@@ -20,12 +20,7 @@ class DatastoreFeignClientConfigurationTest {
 
     @Test
     void client() {
-        assertNotNull(datastoreFeignClientConfiguration.client());
-    }
-
-    @Test
-    void errorDecoder() {
-        assertNotNull(datastoreFeignClientConfiguration.errorDecoder());
+        assertNotNull(feignClientConfiguration.client());
     }
 
 }

@@ -124,5 +124,6 @@ feign:
       jrdClient:
         url: ${RD_JRD_URL:http://localhost:4091}
 
+
 swaggerUrl: "${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}"
 judicialBookingUrl: ${TEST_URL:http://localhost:4097}

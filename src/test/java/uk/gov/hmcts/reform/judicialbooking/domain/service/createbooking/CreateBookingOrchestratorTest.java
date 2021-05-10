@@ -21,7 +21,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.text.ParseException;
 import java.util.Collections;
 
 class CreateBookingOrchestratorTest {
@@ -48,7 +47,7 @@ class CreateBookingOrchestratorTest {
     }
 
     @Test
-    void createBooking() throws ParseException {
+    void createBooking() throws Exception {
 
         when(parseRequestService.parseBookingRequest(any())).thenReturn(TestDataBuilder.buildParsedBooking());
 

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,17 @@ public class JudicialBookingControllerAdvice {
                                          );
     }
 
+    @ExceptionHandler(DuplicateRequestException.class)
+    public ResponseEntity<Object> handleDuplicateRequestException(
+            DuplicateRequestException ex) {
+        return errorDetailsResponseEntity(
+                ex,
+                BAD_REQUEST,
+                ErrorConstants.INVALID_REQUEST.getErrorCode(),
+                ErrorConstants.INVALID_REQUEST.getErrorMessage()
+        );
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValidException(
         HttpServletRequest request,
@@ -57,9 +69,9 @@ public class JudicialBookingControllerAdvice {
     @ExceptionHandler(ResourceNotFoundException.class)
     protected ResponseEntity<Object> handleResourceNotFoundException(
         HttpServletRequest request,
-        ResourceNotFoundException exeception) {
+        ResourceNotFoundException exception) {
         return errorDetailsResponseEntity(
-            exeception,
+            exception,
             HttpStatus.NOT_FOUND,
             ErrorConstants.RESOURCE_NOT_FOUND.getErrorCode(),
             ErrorConstants.RESOURCE_NOT_FOUND.getErrorMessage()
