@@ -36,7 +36,7 @@ public class PrepareDataService {
         return prepareBookingVars(appointment, booking);
     }
 
-    public BookingEntity prepareBookingVars(List<Appointment> appointment, BookingEntity booking){
+    public BookingEntity prepareBookingVars(List<Appointment> appointment, BookingEntity booking) {
         if (StringUtils.isBlank(booking.getRoleId())) {
             booking.setRoleId(appointment.get(0).getRoleId());
         }
