@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,18 +30,23 @@ public class PrepareDataService {
 
         if (appointment.isEmpty()) {
             throw new ResourceNotFoundException(
-                    "The list of appointments retrieved from JRD is empty, your appointmentId may be invalid");
+                    "Appointment retrieved from JRD is empty, your appointmentId may be invalid");
         }
 
-        if (Optional.ofNullable(booking.getRoleId()).isEmpty()) {
+        return prepareBookingVars(appointment, booking);
+    }
+
+    public BookingEntity prepareBookingVars(List<Appointment> appointment, BookingEntity booking){
+        if (StringUtils.isBlank(booking.getRoleId())) {
             booking.setRoleId(appointment.get(0).getRoleId());
         }
-        if (Optional.ofNullable(booking.getBaseLocationId()).isEmpty()) {
+        if (StringUtils.isBlank(booking.getBaseLocationId())) {
             booking.setBaseLocationId(appointment.get(0).getBaseLocationId());
         }
         booking.setContractTypeId(appointment.get(0).getContractTypeId());
         //TODO booking.setRegionId(); this one requires another endpoint call I think
         booking.setStatus(Status.NEW.toString());
+
         return booking;
     }
 

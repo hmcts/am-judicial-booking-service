@@ -17,6 +17,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceServ
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.RetrieveDataService;
 
+import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class CreateBookingOrchestrator {
         this.orgRoleMappingService = orgRoleMappingService;
     }
 
-    public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest) throws Exception {
+    public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest) throws ParseException {
 
 
         BookingEntity parsedBookingRequest = parseRequestService.parseBookingRequest(bookingRequest);
