@@ -13,9 +13,9 @@ import javax.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ObjectUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
@@ -43,7 +43,7 @@ public class ValidationUtil {
 
     public static void validateInputParams(String pattern, String... inputString) {
         for (String input : inputString) {
-            if (ObjectUtils.isEmpty(input)) {
+            if (StringUtils.isEmpty(input)) {
                 throw new BadRequestException("The input parameter is Null/Empty");
             } else if (!Pattern.matches(pattern, input)) {
                 throw new BadRequestException("The input parameter: \"" + input + "\", does not comply with the "

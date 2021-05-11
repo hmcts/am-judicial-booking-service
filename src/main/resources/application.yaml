@@ -82,8 +82,6 @@ spring:
     cache-names: token
     caffeine:
       spec: maximumSize=50,expireAfterWrite=120s
-  config:
-    import: "optional:configtree:/mnt/secrets/am/"
 ### dependency configuration
 auth.provider.service.client.baseUrl: ${IDAM_S2S_URL:http://localhost:4502}
 idam:

@@ -1,9 +1,9 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
@@ -37,10 +37,10 @@ public class PrepareDataService {
     }
 
     public BookingEntity prepareBookingVars(List<Appointment> appointment, BookingEntity booking) {
-        if (ObjectUtils.isEmpty(booking.getRoleId())) {
+        if (StringUtils.isBlank(booking.getRoleId())) {
             booking.setRoleId(appointment.get(0).getRoleId());
         }
-        if (ObjectUtils.isEmpty(booking.getBaseLocationId())) {
+        if (StringUtils.isBlank(booking.getBaseLocationId())) {
             booking.setBaseLocationId(appointment.get(0).getBaseLocationId());
         }
         booking.setContractTypeId(appointment.get(0).getContractTypeId());

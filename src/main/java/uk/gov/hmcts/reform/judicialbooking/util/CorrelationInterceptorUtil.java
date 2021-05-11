@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.judicialbooking.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class CorrelationInterceptorUtil  {
 
     private String getCorrelationIdFromHeader(final HttpServletRequest request) {
         String correlationId = "";
-        if (ObjectUtils.isEmpty(request.getHeader(Constants.CORRELATION_ID_HEADER_NAME))) {
+        if (StringUtils.isBlank(request.getHeader(Constants.CORRELATION_ID_HEADER_NAME))) {
             correlationId = generateUniqueCorrelationId();
         } else {
             correlationId = request.getHeader(Constants.CORRELATION_ID_HEADER_NAME);
