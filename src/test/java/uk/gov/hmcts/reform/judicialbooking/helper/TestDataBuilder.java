@@ -14,6 +14,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingAssignmentsReq
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -43,8 +44,8 @@ public class TestDataBuilder {
     public static BookingEntity buildBooking() {
         return BookingEntity.builder()
                 .appointmentId("appointmentId_1")
-                .beginTime(ZonedDateTime.now().plusDays(1))
-                .endTime(ZonedDateTime.now().plusMonths(1))
+                .beginTime(ZonedDateTime.now(ZoneId.of("UTC")).plusDays(1))
+                .endTime(ZonedDateTime.now(ZoneId.of("UTC")).plusMonths(1))
                 .build();
     }
 
@@ -52,9 +53,9 @@ public class TestDataBuilder {
         return BookingEntity.builder()
                 .appointmentId("appointmentId_1")
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
-                .created(ZonedDateTime.now())
-                .beginTime(ZonedDateTime.now().plusDays(1))
-                .endTime(ZonedDateTime.now().plusMonths(1))
+                .created(ZonedDateTime.now(ZoneId.of("UTC")))
+                .beginTime(ZonedDateTime.now(ZoneId.of("UTC")).plusDays(1))
+                .endTime(ZonedDateTime.now(ZoneId.of("UTC")).plusMonths(1))
                 .build();
     }
 
@@ -66,9 +67,9 @@ public class TestDataBuilder {
                 .regionId("regionId")
                 .roleId("roleId")
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
-                .created(ZonedDateTime.now())
-                .beginTime(ZonedDateTime.now().plusDays(1))
-                .endTime(ZonedDateTime.now().plusMonths(1))
+                .created(ZonedDateTime.now(ZoneId.of("UTC")))
+                .beginTime(ZonedDateTime.now(ZoneId.of("UTC")).plusDays(1))
+                .endTime(ZonedDateTime.now(ZoneId.of("UTC")).plusMonths(1))
                 .status(Status.NEW.toString())
                 .build();
     }

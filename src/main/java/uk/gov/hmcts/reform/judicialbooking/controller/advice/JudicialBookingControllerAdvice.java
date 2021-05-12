@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.controller.advice;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.text.SimpleDateFormat;
@@ -48,9 +49,9 @@ public class JudicialBookingControllerAdvice {
             DuplicateRequestException ex) {
         return errorDetailsResponseEntity(
                 ex,
-                BAD_REQUEST,
-                ErrorConstants.INVALID_REQUEST.getErrorCode(),
-                ErrorConstants.INVALID_REQUEST.getErrorMessage()
+                FORBIDDEN,
+                HttpStatus.FORBIDDEN.value(),
+                "Creation of duplicate records is not allowed"
         );
     }
 

@@ -50,8 +50,7 @@ public class CreateBookingOrchestrator {
 
         if (!CollectionUtils.isEmpty(persistenceService.checkExists(parsedBookingRequest.getUserId(),
                 parsedBookingRequest.getAppointmentId()))) {
-            throw new DuplicateRequestException(String.format("Entry already exists for appointmentId: %s",
-                    parsedBookingRequest.getAppointmentId()));
+            throw new DuplicateRequestException("Booking already exists for the provided appointmentId");
         }
 
         List<JudicialUserProfile> judicialUserProfiles = retrieveDataService.getJudicialUserProfile(

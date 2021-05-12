@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller.advice;
 
+import com.sun.jdi.request.DuplicateRequestException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,5 +72,14 @@ class JudicialBookingControllerAdviceTest {
     void getTimeStamp() {
         String time = csda.getTimeStamp();
         assertEquals(time.substring(0,16), new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH).format(new Date()));
+    }
+
+    @Test
+    void handleDuplicateRequestException() {
+
+        DuplicateRequestException duplicateRequestException = mock(DuplicateRequestException.class);
+        ResponseEntity<Object> responseEntity = csda.handleDuplicateRequestException(duplicateRequestException);
+        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCodeValue());
     }
 }
