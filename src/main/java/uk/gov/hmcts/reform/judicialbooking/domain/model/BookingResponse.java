@@ -13,9 +13,9 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 public class BookingResponse {
 
     @JsonProperty("bookingResponse")
-    private BookingEntity bookingResponseObject;
+    private BookingEntity bookingResponse;
 
-    public BookingResponse(@NonNull BookingEntity bookingResponseObject) {
-        this.bookingResponseObject = bookingResponseObject;
+    public BookingResponse(@NonNull BookingEntity bookingResponse) {
+        this.bookingResponse = bookingResponse;
     }
 }

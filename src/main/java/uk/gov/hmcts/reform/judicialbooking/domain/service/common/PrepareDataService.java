@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequestScope
 public class PrepareDataService {
 
     public BookingEntity prepareBooking(BookingEntity booking, List<JudicialUserProfile> judicialUserProfiles) {
@@ -30,7 +32,7 @@ public class PrepareDataService {
 
         if (appointment.isEmpty()) {
             throw new ResourceNotFoundException(
-                    "Appointment retrieved from JRD is empty, your appointmentId may be invalid");
+                    "Given appointment couldn't be found for this user");
         }
 
         return prepareBookingVars(appointment, booking);
@@ -61,7 +63,8 @@ public class PrepareDataService {
                 )
                 .build();
         return OrmBookingAssignmentsRequest.builder()
-                .bookings(Collections.singletonList(ormBooking)).bookingRequest(ormBookingRequest).build();
+                .bookings(Collections.singletonList(ormBooking))
+                .bookingRequest(ormBookingRequest).build();
     }
 
     public ResponseEntity<BookingResponse> prepareBookingResponse(BookingEntity bookingEntity) {

@@ -18,7 +18,7 @@ public class ParseRequestService {
     private SecurityUtils securityUtils;
 
     public BookingEntity parseBookingRequest(BookingRequest bookingRequest) throws ParseException {
-        BookingEntity booking = bookingRequest.getBookingRequestObject();
+        BookingEntity booking = bookingRequest.getBookingRequest();
         booking.setCreated(ZonedDateTime.now(ZoneId.of("UTC")));
         booking.setUserId(securityUtils.getUserId());
 

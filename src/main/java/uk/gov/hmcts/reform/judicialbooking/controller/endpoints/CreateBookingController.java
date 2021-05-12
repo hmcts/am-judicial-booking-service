@@ -4,8 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +23,10 @@ import javax.transaction.Transactional;
 
 @Api(value = "booking")
 @RestController
+@Slf4j
 public class CreateBookingController {
 
     private final CreateBookingOrchestrator createBookingOrchestrator;
-    private static final Logger logger = LoggerFactory.getLogger(CreateBookingController.class);
 
     public CreateBookingController(CreateBookingOrchestrator createBookingOrchestrator) {
         this.createBookingOrchestrator = createBookingOrchestrator;
@@ -60,7 +59,7 @@ public class CreateBookingController {
         long startTime = System.currentTimeMillis();
         ResponseEntity<BookingResponse> response = createBookingOrchestrator
                 .createBooking(bookingRequest);
-        logger.info(
+        log.info(
                 " >> createBooking execution finished at {} . Time taken = {} milliseconds",
                 System.currentTimeMillis(),
                 Math.subtractExact(System.currentTimeMillis(), startTime)
