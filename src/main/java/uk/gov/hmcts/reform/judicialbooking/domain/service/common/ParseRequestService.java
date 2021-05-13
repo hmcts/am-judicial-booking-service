@@ -10,7 +10,6 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 import uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil;
 
 import java.text.ParseException;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Service
@@ -21,7 +20,7 @@ public class ParseRequestService {
 
     public BookingEntity parseBookingRequest(BookingRequest bookingRequest) throws ParseException {
         BookingEntity booking = bookingRequest.getBookingRequest();
-        booking.setCreated(ZonedDateTime.now(ZoneId.of("UTC")));
+        booking.setCreated(ZonedDateTime.now());
         booking.setUserId(securityUtils.getUserId());
 
         if (ObjectUtils.isEmpty(booking.getBeginTime())) {
