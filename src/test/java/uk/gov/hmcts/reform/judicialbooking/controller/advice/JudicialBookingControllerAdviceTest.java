@@ -1,14 +1,12 @@
 package uk.gov.hmcts.reform.judicialbooking.controller.advice;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import uk.gov.hmcts.reform.judicialbooking.controller.WelcomeController;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
-import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -22,7 +20,6 @@ class JudicialBookingControllerAdviceTest {
 
     private final JudicialBookingControllerAdvice csda = new JudicialBookingControllerAdvice();
     private final HttpServletRequest servletRequestMock = mock(HttpServletRequest.class);
-    private final WelcomeController welcomeController = new WelcomeController();
 
     @Test
     void customValidationError() {
@@ -30,24 +27,6 @@ class JudicialBookingControllerAdviceTest {
         ResponseEntity<Object> responseEntity = csda.customValidationError(invalidRequestException);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(HttpStatus.BAD_REQUEST.value(), responseEntity.getStatusCodeValue());
-    }
-
-    @Test
-    void handleMethodArgumentNotValidException() {
-        MethodArgumentNotValidException methodArgumentNotValidException = mock(MethodArgumentNotValidException.class);
-        ResponseEntity<Object> responseEntity = csda.handleMethodArgumentNotValidException(
-            servletRequestMock, methodArgumentNotValidException);
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.BAD_REQUEST.value(), responseEntity.getStatusCodeValue());
-    }
-
-    @Test
-    void handleResourceNotFoundException() {
-        ResourceNotFoundException resourceNotFoundException = mock(ResourceNotFoundException.class);
-        ResponseEntity<Object> responseEntity = csda.handleResourceNotFoundException(
-            servletRequestMock,resourceNotFoundException);
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.NOT_FOUND.value(), responseEntity.getStatusCodeValue());
     }
 
     @Test
@@ -75,11 +54,19 @@ class JudicialBookingControllerAdviceTest {
     }
 
     @Test
-    void handleDuplicateRequestException() {
+    void handleBadRequestException() {
+        BadRequestException exception = mock(BadRequestException.class);
+        ResponseEntity<Object> responseEntity = csda.handleBadRequestException(servletRequestMock, exception);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), responseEntity.getStatusCodeValue());
 
-        DuplicateRequestException duplicateRequestException = mock(DuplicateRequestException.class);
-        ResponseEntity<Object> responseEntity = csda.handleDuplicateRequestException(duplicateRequestException);
-        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void handleUnprocessableEntityException() {
+        UnprocessableEntityException exception = mock(UnprocessableEntityException.class);
+        ResponseEntity<Object> responseEntity = csda.handleUnprocessableEntityException(servletRequestMock, exception);
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseEntity.getStatusCodeValue());
     }
 }

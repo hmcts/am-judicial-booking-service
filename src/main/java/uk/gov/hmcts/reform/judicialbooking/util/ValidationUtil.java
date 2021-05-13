@@ -3,10 +3,9 @@ package uk.gov.hmcts.reform.judicialbooking.util;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Pattern;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -60,26 +59,6 @@ public class ValidationUtil {
         }
     }
 
-    public static boolean validateTTL(String strDate) {
-        if (strDate.length() < 24) {
-            return false;
-        }
-        String timeZone = strDate.substring(20);
-
-        if (timeZone.chars().allMatch(Character::isDigit)) {
-            SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
-            sdfrmt.setLenient(false);
-            try {
-                Date javaDate = sdfrmt.parse(strDate);
-                LOG.info("TTL {}", javaDate);
-            } catch (ParseException e) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
     public static boolean sanitiseCorrelationId(String inputString) {
         if (inputString != null && !inputString.isEmpty() && !Pattern.matches(Constants.UUID_PATTERN, inputString)) {
             throw new BadRequestException(
@@ -97,80 +76,38 @@ public class ValidationUtil {
         return booking;
     }
 
-    public static boolean validateAppointmentId(String appointmentId) {
+    public static void validateAppointmentId(String appointmentId) {
         if (appointmentId.isBlank()) {
             throw new BadRequestException("The Booking appointmentId is invalid or missing.");
-        } else {
-            return true;
         }
     }
 
-    public static void validateBeginAndEndDates(BookingEntity booking) throws ParseException {
-        if (booking.getBeginTime() != null) {
-            if (booking.getBeginTime().getYear() == 1970) {
-                throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for beginTime");
-            }
-            validateDateTime(booking.getBeginTime().toString(), "BeginTime");
+    public static void validateBeginAndEndDates(BookingEntity booking) {
+        if (booking.getBeginTime() != null && booking.getBeginTime().getYear() == 1970) {
+            throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for beginTime");
         }
-        if (booking.getEndTime() != null) {
-            if (booking.getEndTime().getYear() == 1970) {
-                throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for endTime");
-            }
-            validateDateTime(booking.getEndTime().toString(), "EndTime");
+        if (booking.getEndTime() != null && booking.getEndTime().getYear() == 1970) {
+            throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for endTime");
         }
         if (booking.getBeginTime() != null && booking.getEndTime() != null) {
             compareDateOrder(
-                    booking.getBeginTime().toString(),
-                    booking.getEndTime().toString()
+                    booking.getBeginTime(),
+                    booking.getEndTime()
             );
         }
     }
 
-    public static void validateDateTime(String strDate, String timeParam) {
-        LOG.info("validateDateTime");
-        if (strDate.length() < 16) {
-            throw new BadRequestException(String.format(
-                    "Incorrect date format %s",
-                    strDate
-            ));
-        }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DATE_PATTERN);
-        simpleDateFormat.setLenient(false);
-        Date javaDate;
-        try {
-            javaDate = simpleDateFormat.parse(strDate);
-            if (LOG.isInfoEnabled() && javaDate != null) {
-                LOG.info(javaDate.toString());
-            }
-        } catch (ParseException e) {
-            throw new BadRequestException(String.format(
-                    "Incorrect date format %s",
-                    strDate
-            ));
-        }
-        assert javaDate != null;
-        if (javaDate.before(new Date())) {
-            throw new BadRequestException(String.format(
-                    "The parameter '%s' cannot be prior to current date", timeParam
-            ));
-        }
-    }
-
-    public static void compareDateOrder(String beginTime, String endTime) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_PATTERN);
-        Date beginTimeP = sdf.parse(beginTime);
-        Date endTimeP = sdf.parse(endTime);
-        Date createTimeP = new Date();
-
-        if (beginTimeP.before(createTimeP)) {
+    public static void compareDateOrder(ZonedDateTime beginTime, ZonedDateTime endTime) {
+        ZonedDateTime createTime = ZonedDateTime.now(ZoneId.of("UTC"));
+        if (beginTime.isBefore(createTime)) {
             throw new BadRequestException(
                     String.format("The begin time: %s takes place before the current time: %s",
-                            beginTime, createTimeP
+                            beginTime, createTime
                     ));
-        } else if (endTimeP.before(createTimeP)) {
+        } else if (endTime.isBefore(createTime)) {
             throw new BadRequestException(
-                    String.format("The end time: %s takes place before the current time: %s", endTime, createTimeP));
-        } else if (endTimeP.before(beginTimeP)) {
+                    String.format("The end time: %s takes place before the current time: %s", endTime, createTime));
+        } else if (endTime.isBefore(beginTime)) {
             throw new BadRequestException(
                     String.format("The end time: %s takes place before the begin time: %s", endTime, beginTime));
         }

@@ -61,7 +61,7 @@ public class CreateBookingOrchestrator {
         BookingEntity bookingEntity = persistenceService.persistBooking(preparedBooking);
 
         OrmBookingAssignmentsRequest ormBookingRequest
-                = prepareDataService.prepareOrmBookingRequest(preparedBooking, judicialUserProfiles);
+                = prepareDataService.prepareOrmBookingRequest(preparedBooking, judicialUserProfiles.get(0));
         ResponseEntity<Object> ormResponse = orgRoleMappingService.createBookingAssignments(ormBookingRequest);
 
         if (ormResponse.getStatusCode().is2xxSuccessful()) {

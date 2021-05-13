@@ -16,16 +16,9 @@ public class Appointment {
     private String contractTypeId;
     private String contractTypeDescEn;
     private String baseLocationId;
-    private String courtName;
-    private String bench;
-    private String courtType;
-    private String circuit;
-    private String areaOfExpertise;
-    private String locationId;
-    private String locationDescEn;
+    private String regionId;
+    private String regionDescEn;
     private String isPrincipalAppointment;
     private String startDate;
     private String endDate;
-    private String activeFlag;
-    private String extractedDate;
 }

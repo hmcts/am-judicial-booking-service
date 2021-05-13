@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
-import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Authorisation;
@@ -31,34 +31,33 @@ public class PrepareDataService {
                 .collect(Collectors.toList());
 
         if (appointment.isEmpty()) {
-            throw new ResourceNotFoundException(
-                    "Given appointment couldn't be found for this user");
+            throw new UnprocessableEntityException("Given appointment couldn't be found for this user");
         }
 
-        return prepareBookingVars(appointment, booking);
+        return prepareBookingVars(appointment.get(0), booking);
     }
 
-    public BookingEntity prepareBookingVars(List<Appointment> appointment, BookingEntity booking) {
+    public BookingEntity prepareBookingVars(Appointment appointment, BookingEntity booking) {
         if (StringUtils.isBlank(booking.getRoleId())) {
-            booking.setRoleId(appointment.get(0).getRoleId());
+            booking.setRoleId(appointment.getRoleId());
         }
         if (StringUtils.isBlank(booking.getBaseLocationId())) {
-            booking.setBaseLocationId(appointment.get(0).getBaseLocationId());
+            booking.setBaseLocationId(appointment.getBaseLocationId());
         }
-        booking.setContractTypeId(appointment.get(0).getContractTypeId());
-        //TODO booking.setRegionId(); this one requires another endpoint call I think
+        booking.setContractTypeId(appointment.getContractTypeId());
+        booking.setRegionId(appointment.getRegionId());
         booking.setStatus(Status.NEW.toString());
 
         return booking;
     }
 
     public OrmBookingAssignmentsRequest prepareOrmBookingRequest(BookingEntity booking,
-                                                                 List<JudicialUserProfile> judicialUserProfiles) {
+                                                                 JudicialUserProfile judicialUserProfiles) {
         OrmBooking ormBooking = convertBookingToOrmBooking(booking);
         OrmBookingRequest ormBookingRequest = OrmBookingRequest.builder()
                 .actorId(booking.getUserId())
                 .authorisationIds(
-                        judicialUserProfiles.get(0).getAuthorisations().stream()
+                        judicialUserProfiles.getAuthorisations().stream()
                                 .map(Authorisation::getAuthorisationId).collect(Collectors.toList())
                 )
                 .build();
@@ -68,8 +67,7 @@ public class PrepareDataService {
     }
 
     public ResponseEntity<BookingResponse> prepareBookingResponse(BookingEntity bookingEntity) {
-        //TODO do we need to return different http code or just let the status in body show status of request?
-        return ResponseEntity.status(HttpStatus.OK).body(new BookingResponse(bookingEntity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new BookingResponse(bookingEntity));
     }
 
     public OrmBooking convertBookingToOrmBooking(BookingEntity booking) {
@@ -85,7 +83,5 @@ public class PrepareDataService {
                 .created(booking.getCreated())
                 .build();
     }
-
-
 
 }

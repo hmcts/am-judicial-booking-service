@@ -39,8 +39,7 @@ class PrepareDataServiceTest {
         String uuid = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
         booking.setId(UUID.fromString(uuid));
         OrmBookingAssignmentsRequest ormBookingRequest
-                = sut.prepareOrmBookingRequest(booking,
-                Collections.singletonList(judicialUserProfile));
+                = sut.prepareOrmBookingRequest(booking, judicialUserProfile);
 
         assertNotNull(ormBookingRequest);
         assertNotNull(ormBookingRequest.getBookings());
