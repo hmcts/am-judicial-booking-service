@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,18 +29,22 @@ public class BookingEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @ApiModelProperty(required = false, hidden = true)
     private UUID id;
 
     @Column(name = "user_Id", nullable = false)
+    @ApiModelProperty(required = false, hidden = true)
     private String userId;
 
     @Column(name = "appointment_id", nullable = false)
     private String appointmentId;
 
     @Column(name = "role_id", nullable = false)
+    @ApiModelProperty(required = false, hidden = true)
     private String roleId;
 
     @Column(name = "contract_type_id", nullable = false)
+    @ApiModelProperty(required = false, hidden = true)
     private String contractTypeId;
 
     @Column(name = "base_location_id")
@@ -50,6 +55,7 @@ public class BookingEntity {
 
     @CreationTimestamp
     @Column(name = "created", nullable = false)
+    @ApiModelProperty(required = false, hidden = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_PATTERN, timezone = Constants.TIMEZONE)
     private ZonedDateTime created;
 
@@ -62,9 +68,11 @@ public class BookingEntity {
     private ZonedDateTime endTime;
 
     @Column(name = "status", nullable = false)
+    @ApiModelProperty(required = false, hidden = true)
     private String status;
 
     @Column(name = "log")
+    @ApiModelProperty(required = false, hidden = true)
     private String log;
 
 
