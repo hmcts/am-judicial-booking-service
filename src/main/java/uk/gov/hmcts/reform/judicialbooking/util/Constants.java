@@ -21,5 +21,6 @@ public final class Constants {
     public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ssX";
     public static final String TIMEZONE = "UTC";
     public static final String CORRELATION_ID_HEADER_NAME = "X-Correlation-Id";
+    public static final String SERVICE_AUTHORIZATION2 = "ServiceAuthorization";
 
 }
