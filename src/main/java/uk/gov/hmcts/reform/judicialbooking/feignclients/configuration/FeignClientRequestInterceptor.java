@@ -11,7 +11,7 @@ import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 @Service
-public class OrmApiRequestInterceptor {
+public class FeignClientRequestInterceptor {
 
     @Autowired
     SecurityUtils securityUtils;

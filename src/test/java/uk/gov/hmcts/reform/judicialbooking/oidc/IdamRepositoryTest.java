@@ -165,14 +165,8 @@ class IdamRepositoryTest {
         list.add(mapRoles);
 
         ResponseEntity<List<Object>> responseEntity = new ResponseEntity<List<Object>>(HttpStatus.OK);
-        doReturn(responseEntity)
-                .when(restTemplate)
-                .exchange(
-                        isA(String.class),
-                        eq(HttpMethod.GET),
-                        isA(HttpEntity.class),
-                        (ParameterizedTypeReference<?>) any(ParameterizedTypeReference.class)
-                );
+        doReturn(responseEntity).when(restTemplate).exchange(isA(String.class), eq(HttpMethod.GET),
+                isA(HttpEntity.class), (ParameterizedTypeReference<?>) any(ParameterizedTypeReference.class));
 
         String token = "eyJhbGciOiJIUzUxMiJ9.Eim7hdYejtBbWXnqCf1gntbYpWHRX8BRzm4zIC_oszmC3D5QlNmkIetVPcMINg";
         String userId = "4dc7dd3c-3fb5-4611-bbde-5101a97681e0";
