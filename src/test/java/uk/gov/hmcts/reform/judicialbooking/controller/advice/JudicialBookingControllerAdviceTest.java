@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.DuplicateRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
@@ -68,5 +69,14 @@ class JudicialBookingControllerAdviceTest {
         ResponseEntity<Object> responseEntity = csda.handleUnprocessableEntityException(servletRequestMock, exception);
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void handleDduplicateRequestException() {
+        DuplicateRequestException exception = mock(DuplicateRequestException.class);
+        ResponseEntity<Object> responseEntity = csda.handleDuplicateRequestException(servletRequestMock, exception);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), responseEntity.getStatusCodeValue());
+
     }
 }

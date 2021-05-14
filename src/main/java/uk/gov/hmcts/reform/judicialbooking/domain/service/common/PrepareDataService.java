@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @RequestScope
 public class PrepareDataService {
 
-    public BookingEntity prepareBooking(BookingEntity booking, List<JudicialUserProfile> judicialUserProfiles) {
-
-        List<Appointment> appointment = judicialUserProfiles.get(0).getAppointments().stream()
+    public BookingEntity prepareBooking(BookingEntity booking, JudicialUserProfile judicialUserProfile) {
+        //TODO test this by manipulating the data coming in
+        List<Appointment> appointment = judicialUserProfile.getAppointments().stream()
                 .filter(appointment1 -> appointment1.getAppointmentId().equals(booking.getAppointmentId()))
                 .collect(Collectors.toList());
 

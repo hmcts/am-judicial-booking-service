@@ -14,7 +14,6 @@ import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.Collections;
 import java.util.UUID;
 
 class PrepareDataServiceTest {
@@ -25,9 +24,25 @@ class PrepareDataServiceTest {
     void prepareBooking() {
 
         BookingEntity booking = sut.prepareBooking(TestDataBuilder.buildBooking(),
-                Collections.singletonList(TestDataBuilder.buildJudicialProfile()));
+                TestDataBuilder.buildJudicialProfile());
 
         assertNotNull(booking);
+        assertEquals(Status.NEW.toString(), booking.getStatus());
+
+    }
+
+    @Test
+    void prepareBookingVars() {
+
+        BookingEntity booking = sut.prepareBookingVars(
+                TestDataBuilder.buildJudicialProfile().getAppointments().get(0),
+                TestDataBuilder.buildBooking());
+
+        assertNotNull(booking);
+        assertNotNull(booking.getRoleId());
+        assertNotNull(booking.getBaseLocationId());
+        assertNotNull(booking.getContractTypeId());
+        assertNotNull(booking.getRegionId());
         assertEquals(Status.NEW.toString(), booking.getStatus());
 
     }

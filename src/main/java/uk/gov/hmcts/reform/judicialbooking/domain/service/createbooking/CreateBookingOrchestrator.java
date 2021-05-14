@@ -1,10 +1,11 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.annotation.RequestScope;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.DuplicateRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
@@ -53,15 +54,20 @@ public class CreateBookingOrchestrator {
             throw new DuplicateRequestException("Booking already exists for the provided appointmentId");
         }
 
-        List<JudicialUserProfile> judicialUserProfiles = retrieveDataService.getJudicialUserProfile(
+        List<JudicialUserProfile> judicialUserProfile = retrieveDataService.getJudicialUserProfile(
                 Collections.singletonList(parsedBookingRequest.getUserId()));
 
-        BookingEntity preparedBooking = prepareDataService.prepareBooking(parsedBookingRequest, judicialUserProfiles);
+        if (CollectionUtils.isEmpty(judicialUserProfile)) {
+            throw new UnprocessableEntityException("Judicial user profile couldn't be found for the logged in user");
+        }
+
+        BookingEntity preparedBooking = prepareDataService.prepareBooking(parsedBookingRequest,
+                judicialUserProfile.get(0));
 
         BookingEntity bookingEntity = persistenceService.persistBooking(preparedBooking);
 
         OrmBookingAssignmentsRequest ormBookingRequest
-                = prepareDataService.prepareOrmBookingRequest(preparedBooking, judicialUserProfiles.get(0));
+                = prepareDataService.prepareOrmBookingRequest(preparedBooking, judicialUserProfile.get(0));
         ResponseEntity<Object> ormResponse = orgRoleMappingService.createBookingAssignments(ormBookingRequest);
 
         if (ormResponse.getStatusCode().is2xxSuccessful()) {

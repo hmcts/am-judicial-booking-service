@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.DuplicateRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
@@ -58,6 +59,17 @@ public class JudicialBookingControllerAdvice {
     protected ResponseEntity<Object> handleBadRequestException(
             HttpServletRequest request,
             BadRequestException exception) {
+        return errorDetailsResponseEntity(
+                exception,
+                BAD_REQUEST,
+                ErrorConstants.BAD_REQUEST.getErrorCode(),
+                ErrorConstants.BAD_REQUEST.getErrorMessage());
+    }
+
+    @ExceptionHandler(DuplicateRequestException.class)
+    protected ResponseEntity<Object> handleDuplicateRequestException(
+            HttpServletRequest request,
+            DuplicateRequestException exception) {
         return errorDetailsResponseEntity(
                 exception,
                 BAD_REQUEST,
