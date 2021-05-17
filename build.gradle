@@ -237,7 +237,7 @@ dependencies {
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot)
 
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '7.9.0'
 
     //Added for Spring Security Implementation
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: versions.springBoot)
