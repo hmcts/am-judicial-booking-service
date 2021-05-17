@@ -14,12 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.DuplicateRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
-import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
 @Slf4j
 @ControllerAdvice(basePackages = "uk.gov.hmcts.reform.judicialbooking")
@@ -42,48 +43,58 @@ public class JudicialBookingControllerAdvice {
                                          );
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<Object> handleMethodArgumentNotValidException(
-        HttpServletRequest request,
-        MethodArgumentNotValidException exeception) {
-        return errorDetailsResponseEntity(
-            exeception,
-            BAD_REQUEST,
-            ErrorConstants.INVALID_REQUEST.getErrorCode(),
-            ErrorConstants.INVALID_REQUEST.getErrorMessage()
-                                         );
-    }
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    protected ResponseEntity<Object> handleResourceNotFoundException(
-        HttpServletRequest request,
-        ResourceNotFoundException exeception) {
-        return errorDetailsResponseEntity(
-            exeception,
-            HttpStatus.NOT_FOUND,
-            ErrorConstants.RESOURCE_NOT_FOUND.getErrorCode(),
-            ErrorConstants.RESOURCE_NOT_FOUND.getErrorMessage()
-                                         );
-    }
-
     @ExceptionHandler(HttpMessageConversionException.class)
     protected ResponseEntity<Object> handleHttpMessageConversionException(
-        HttpServletRequest request,
-        HttpMessageConversionException exeception) {
+            HttpServletRequest request,
+            HttpMessageConversionException exception) {
         return errorDetailsResponseEntity(
-            exeception,
-            BAD_REQUEST,
-            ErrorConstants.INVALID_REQUEST.getErrorCode(),
-            ErrorConstants.INVALID_REQUEST.getErrorMessage()
-                                         );
+                exception,
+                BAD_REQUEST,
+                ErrorConstants.BAD_REQUEST.getErrorCode(),
+                ErrorConstants.INVALID_REQUEST.getErrorMessage()
+        );
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    protected ResponseEntity<Object> handleBadRequestException(
+            HttpServletRequest request,
+            BadRequestException exception) {
+        return errorDetailsResponseEntity(
+                exception,
+                BAD_REQUEST,
+                ErrorConstants.BAD_REQUEST.getErrorCode(),
+                ErrorConstants.BAD_REQUEST.getErrorMessage());
+    }
+
+    @ExceptionHandler(DuplicateRequestException.class)
+    protected ResponseEntity<Object> handleDuplicateRequestException(
+            HttpServletRequest request,
+            DuplicateRequestException exception) {
+        return errorDetailsResponseEntity(
+                exception,
+                BAD_REQUEST,
+                ErrorConstants.BAD_REQUEST.getErrorCode(),
+                ErrorConstants.BAD_REQUEST.getErrorMessage());
+    }
+
+    @ExceptionHandler(UnprocessableEntityException.class)
+    protected ResponseEntity<Object> handleUnprocessableEntityException(
+            HttpServletRequest request,
+            UnprocessableEntityException exception) {
+        return errorDetailsResponseEntity(
+                exception,
+                HttpStatus.UNPROCESSABLE_ENTITY,
+                ErrorConstants.UNPROCESSABLE_ENTITY.getErrorCode(),
+                ErrorConstants.UNPROCESSABLE_ENTITY.getErrorMessage()
+        );
     }
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleUnknownException(
         HttpServletRequest request,
-        Exception exeception) {
+        Exception exception) {
         return errorDetailsResponseEntity(
-            exeception,
+            exception,
             HttpStatus.INTERNAL_SERVER_ERROR,
             ErrorConstants.UNKNOWN_EXCEPTION.getErrorCode(),
             ErrorConstants.UNKNOWN_EXCEPTION.getErrorMessage());

@@ -58,6 +58,7 @@ spring:
     properties:
       hibernate:
         jdbc:
+          time_zone: UTC
           lob:
             non_contextual_creation: true
   datasource:
@@ -111,6 +112,8 @@ integrationTest:
     url: "/"
 
 feign:
+  hystrix:
+    enabled: true
   client:
     config:
       default:
