@@ -259,7 +259,8 @@ dependencies {
     compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.8.5'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.4.5'
     compile(group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0')
-
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '10.0.8'
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.50'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.20'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation "org.springframework.security:spring-security-web"
