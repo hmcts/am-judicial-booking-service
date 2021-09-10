@@ -238,7 +238,9 @@ repositories {
 
 
 dependencies {
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot)
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot) {
+        exclude group: 'org.glassfish', module: 'jakarta.el'
+    }
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: versions.springBoot)
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot)
 
@@ -264,7 +266,10 @@ dependencies {
     compile group: 'org.springframework.retry', name: 'spring-retry', version: '1.3.1'
     compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.8.5'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.4.5'
-    compile(group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0')
+    implementation (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0') {
+        exclude group: 'org.glassfish', module: 'jakarta.el'
+    }
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.5.1'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '10.0.8'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.50'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.20'
@@ -290,15 +295,10 @@ dependencies {
     testCompile group: 'org.pitest', name: 'pitest', version: versions.pitest
     testCompile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
     testCompile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation 'com.github.hmcts:befta-fw:fix-env-extend-befta-fw-SNAPSHOT'
 
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot)
-//    testCompile group: 'uk.gov.hmcts', name: 'befta-fw', version: '20.2.0.rdm.8934.1'
-    //compile fileTree(dir: 'lib', include: 'befta-fw-5.11.0.jar')
-
     testCompile(group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber)
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
     testCompile group: 'io.cucumber', name: 'cucumber-junit', version: versions.cucumber
