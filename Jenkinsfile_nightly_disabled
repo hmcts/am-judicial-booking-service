@@ -42,5 +42,11 @@ withNightlyPipeline(type, product, component) {
   env.PACT_BROKER_SCHEME = "https"
   overrideVaultEnvironments(vaultOverrides)
 
+  enableFortifyScan()
+
+  after('fortify-scan') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+  }
+
   //enableMutationTest()
 }
