@@ -32,38 +32,10 @@ variable "common_tags" {
   type = map(string)
 }
 
-variable "appinsights_instrumentation_key" {
-  type    = string
-  default = ""
-}
-
-variable "root_logging_level" {
-  type    = string
-  default = "INFO"
-}
-
-variable "log_level_spring_web" {
-  type    = string
-  default = "INFO"
-}
-
 variable "team_name" {
   type    = string
   default = "AM"
 }
-
-variable "managed_identity_object_id" {
-  type    = string
-  default = ""
-}
-
-variable "enable_ase" {
-  type    = bool
-  default = false
-}
-
-
-variable "deployment_namespace" {}
 
 ////////////////////////////////
 // Database
@@ -77,11 +49,6 @@ variable "postgresql_user" {
 variable "database_name" {
   type    = string
   default = "judicial_booking"
-}
-
-variable "data_store_max_pool_size" {
-  type    = string
-  default = "16"
 }
 
 variable "database_sku_name" {
