@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
 @Slf4j
@@ -51,6 +52,18 @@ public class JudicialBookingControllerAdvice {
                 BAD_REQUEST,
                 ErrorConstants.BAD_REQUEST.getErrorCode(),
                 ErrorConstants.INVALID_REQUEST.getErrorMessage()
+        );
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    protected ResponseEntity<Object> handleResourceNotFoundException(
+            HttpServletRequest request,
+            ResourceNotFoundException exeception) {
+        return errorDetailsResponseEntity(
+                exeception,
+                HttpStatus.NOT_FOUND,
+                ErrorConstants.RESOURCE_NOT_FOUND.getErrorCode(),
+                ErrorConstants.RESOURCE_NOT_FOUND.getErrorMessage()
         );
     }
 
@@ -106,8 +119,8 @@ public class JudicialBookingControllerAdvice {
         logger.error(LOG_STRING, ex);
         ErrorResponse errorDetails = ErrorResponse.builder()
                                                   .errorCode(errorCode)
+                                                  .status(httpStatus.name())
                                                   .errorMessage(errorMsg)
-                                                  .errorDescription(getRootException(ex).getLocalizedMessage())
                                                   .timeStamp(getTimeStamp())
                                                   .build();
         return new ResponseEntity<>(

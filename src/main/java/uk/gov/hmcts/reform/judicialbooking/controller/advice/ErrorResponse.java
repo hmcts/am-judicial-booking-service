@@ -9,9 +9,9 @@ public class ErrorResponse {
 
     private final int errorCode;
 
-    private final String errorMessage;
+    private final String status;
 
-    private final String errorDescription;
+    private final String errorMessage;
 
     private final String timeStamp;
 

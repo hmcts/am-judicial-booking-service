@@ -67,7 +67,7 @@ class CreateBookingOrchestratorTest {
         ResponseEntity<BookingResponse> bookingResponseEntity =
                 ResponseEntity.status(HttpStatus.OK).body(TestDataBuilder.buildBookingResponse(bookingResponseObject));
 
-        when(prepareDataService.prepareBookingResponse(any())).thenReturn(bookingResponseEntity);
+        when(prepareDataService.prepareBookingResponse(any(BookingEntity.class))).thenReturn(bookingResponseEntity);
 
         when(orgRoleMappingService.createBookingAssignments(any()))
                 .thenReturn(ResponseEntity.status(HttpStatus.CREATED).build());

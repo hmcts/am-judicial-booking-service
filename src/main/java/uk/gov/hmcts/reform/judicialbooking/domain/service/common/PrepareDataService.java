@@ -4,15 +4,18 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.annotation.RequestScope;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Authorisation;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingsResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBooking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingAssignmentsRequest;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBooking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
@@ -82,6 +85,13 @@ public class PrepareDataService {
                 .endTime(booking.getEndTime())
                 .created(booking.getCreated())
                 .build();
+    }
+
+    public ResponseEntity<BookingsResponse> prepareResponse(List<BookingEntity> bookingList) {
+        if (CollectionUtils.isEmpty(bookingList)) {
+            throw new ResourceNotFoundException("");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new BookingsResponse(bookingList));
     }
 
 }

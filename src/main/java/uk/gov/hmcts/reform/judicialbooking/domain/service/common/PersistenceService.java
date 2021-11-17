@@ -30,6 +30,12 @@ public class PersistenceService {
     }
 
     @Transactional
+    public BookingEntity updateBooking(BookingEntity bookingEntity) {
+        return bookingRepository.save(bookingEntity);
+
+    }
+
+    @Transactional
     public List<BookingEntity> getValidBookings(String userId) {
         return bookingRepository.findByUserIdAndStatusAndBeginTimeLessThanEqualAndEndTimeGreaterThan(userId,
                 Status.LIVE.toString(), ZonedDateTime.now(), ZonedDateTime.now());
