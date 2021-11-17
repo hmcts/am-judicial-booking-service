@@ -4,12 +4,15 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.annotation.RequestScope;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Appointment;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.Authorisation;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingsResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialUserProfile;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBooking;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingAssignmentsRequest;
@@ -26,15 +29,15 @@ public class PrepareDataService {
 
     public BookingEntity prepareBooking(BookingEntity booking, JudicialUserProfile judicialUserProfile) {
         //TODO test this by manipulating the data coming in
-        List<Appointment> appointment = judicialUserProfile.getAppointments().stream()
-                .filter(appointment1 -> appointment1.getAppointmentId().equals(booking.getAppointmentId()))
+        List<Appointment> appointments = judicialUserProfile.getAppointments().stream()
+                .filter(appointment -> appointment.getAppointmentId().equals(booking.getAppointmentId()))
                 .collect(Collectors.toList());
 
-        if (appointment.isEmpty()) {
+        if (appointments.isEmpty()) {
             throw new UnprocessableEntityException("Given appointment couldn't be found for this user");
         }
 
-        return prepareBookingVars(appointment.get(0), booking);
+        return prepareBookingVars(appointments.get(0), booking);
     }
 
     public BookingEntity prepareBookingVars(Appointment appointment, BookingEntity booking) {
@@ -84,4 +87,10 @@ public class PrepareDataService {
                 .build();
     }
 
+    public ResponseEntity<BookingsResponse> prepareBookingResponse(List<BookingEntity> bookingList) {
+        if (CollectionUtils.isEmpty(bookingList)) {
+            throw new ResourceNotFoundException("");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(new BookingsResponse(bookingList));
+    }
 }

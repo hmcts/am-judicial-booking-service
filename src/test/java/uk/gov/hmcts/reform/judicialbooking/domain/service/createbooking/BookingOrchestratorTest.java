@@ -9,12 +9,14 @@ import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.OrgRoleMappingService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.RetrieveDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
+import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,8 +24,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
+import java.util.List;
 
-class CreateBookingOrchestratorTest {
+class BookingOrchestratorTest {
 
 
     private final ParseRequestService parseRequestService = mock(ParseRequestService.class);
@@ -31,14 +34,16 @@ class CreateBookingOrchestratorTest {
     private final RetrieveDataService retrieveDataService = mock(RetrieveDataService.class);
     private final OrgRoleMappingService orgRoleMappingService = mock(OrgRoleMappingService.class);
     private final PrepareDataService prepareDataService = mock(PrepareDataService.class);
+    private final SecurityUtils securityUtils = mock(SecurityUtils.class);
 
     @InjectMocks
-    private final CreateBookingOrchestrator sut = new CreateBookingOrchestrator(
+    private final BookingOrchestrator sut = new BookingOrchestrator(
             parseRequestService,
             persistenceService,
             prepareDataService,
             retrieveDataService,
-            orgRoleMappingService
+            orgRoleMappingService,
+            securityUtils
     );
 
     @BeforeEach
@@ -67,7 +72,7 @@ class CreateBookingOrchestratorTest {
         ResponseEntity<BookingResponse> bookingResponseEntity =
                 ResponseEntity.status(HttpStatus.OK).body(TestDataBuilder.buildBookingResponse(bookingResponseObject));
 
-        when(prepareDataService.prepareBookingResponse(any())).thenReturn(bookingResponseEntity);
+        when(prepareDataService.prepareBookingResponse(any(BookingEntity.class))).thenReturn(bookingResponseEntity);
 
         when(orgRoleMappingService.createBookingAssignments(any()))
                 .thenReturn(ResponseEntity.status(HttpStatus.CREATED).build());

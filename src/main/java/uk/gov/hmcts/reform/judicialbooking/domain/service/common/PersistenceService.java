@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @RequestScope
 public class PersistenceService {
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
 
     public PersistenceService(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
