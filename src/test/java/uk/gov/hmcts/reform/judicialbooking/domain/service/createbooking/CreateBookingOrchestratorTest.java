@@ -13,7 +13,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.common.OrgRoleMappingS
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.common.RetrieveDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,14 +20,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
-
 class CreateBookingOrchestratorTest {
 
 
     private final ParseRequestService parseRequestService = mock(ParseRequestService.class);
     private final PersistenceService persistenceService = mock(PersistenceService.class);
-    private final RetrieveDataService retrieveDataService = mock(RetrieveDataService.class);
     private final OrgRoleMappingService orgRoleMappingService = mock(OrgRoleMappingService.class);
     private final PrepareDataService prepareDataService = mock(PrepareDataService.class);
 
@@ -37,7 +33,6 @@ class CreateBookingOrchestratorTest {
             parseRequestService,
             persistenceService,
             prepareDataService,
-            retrieveDataService,
             orgRoleMappingService
     );
 
@@ -51,15 +46,12 @@ class CreateBookingOrchestratorTest {
 
         when(parseRequestService.parseBookingRequest(any())).thenReturn(TestDataBuilder.buildParsedBooking());
 
-        when(retrieveDataService.getJudicialUserProfile(any()))
-                .thenReturn(Collections.singletonList(TestDataBuilder.buildJudicialProfile()));
-
-        when(prepareDataService.prepareBooking(any(),any())).thenReturn(TestDataBuilder.buildPreparedBooking());
+        when(prepareDataService.prepareBooking(any())).thenReturn(TestDataBuilder.buildPreparedBooking());
 
         when(persistenceService.persistBooking(any()))
                 .thenReturn(TestDataBuilder.buildPreparedBooking());
 
-        when(prepareDataService.prepareOrmBookingRequest(any(), any()))
+        when(prepareDataService.prepareOrmBookingRequest(any()))
                 .thenReturn(TestDataBuilder.buildOrmBookingAssignmentsRequest());
 
         BookingEntity bookingResponseObject = TestDataBuilder.buildPreparedBooking();

@@ -11,12 +11,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 
-import java.time.ZonedDateTime;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Builder(toBuilder = true)
 @Getter
@@ -36,22 +36,11 @@ public class BookingEntity {
     @ApiModelProperty(required = false, hidden = true)
     private String userId;
 
-    @Column(name = "appointment_id", nullable = false)
-    private String appointmentId;
-
-    @Column(name = "role_id", nullable = false)
-    @ApiModelProperty(required = false, hidden = true)
-    private String roleId;
-
-    @Column(name = "contract_type_id", nullable = false)
-    @ApiModelProperty(required = false, hidden = true)
-    private String contractTypeId;
-
-    @Column(name = "base_location_id")
-    private String baseLocationId;
-
     @Column(name = "region_id")
     private String regionId;
+
+    @Column(name = "location_id")
+    private String locationId;
 
     @CreationTimestamp
     @Column(name = "created", nullable = false)

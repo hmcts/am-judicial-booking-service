@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 
 import java.util.List;
 
@@ -14,10 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 public class OrmBookingAssignmentsRequest {
 
-    @JsonProperty(value = "bookingRequest")
-    OrmBookingRequest bookingRequest;
+    @JsonProperty(value = "userRequest")
+    OrmUserRequest userRequest;
     @JsonProperty(value = "bookings")
-    List<OrmBooking> bookings;
+    List<BookingEntity> bookings;
 
 }
 

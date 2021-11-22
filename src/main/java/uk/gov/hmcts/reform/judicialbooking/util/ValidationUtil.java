@@ -1,15 +1,5 @@
 package uk.gov.hmcts.reform.judicialbooking.util;
 
-import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
-
-import java.text.ParseException;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.regex.Pattern;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +8,16 @@ import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+import java.text.ParseException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
 
 @Named
 @Singleton
@@ -71,7 +71,6 @@ public class ValidationUtil {
     }
 
     public static BookingEntity validateBookingRequest(BookingEntity booking) throws ParseException {
-        validateAppointmentId(booking.getAppointmentId());
         validateBeginAndEndDates(booking);
         return booking;
     }

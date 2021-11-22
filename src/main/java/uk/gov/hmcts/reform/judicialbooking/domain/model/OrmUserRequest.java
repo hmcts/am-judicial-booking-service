@@ -11,9 +11,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrmBookingRequest {
-
-    String actorId;
-    List<String> authorisationIds;
-
+public class OrmUserRequest {
+    List<String> actorIds;
 }
