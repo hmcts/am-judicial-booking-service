@@ -297,7 +297,7 @@ dependencies {
     testCompile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
     testCompile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
 
-    testImplementation 'com.github.hmcts:befta-fw:fix-env-extend-befta-fw-SNAPSHOT'
+    testImplementation 'com.github.hmcts:befta-fw:8.5.1-pre-release'
 
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot)
     testCompile(group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber)
