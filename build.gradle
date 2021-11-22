@@ -257,7 +257,7 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.swagger2Version
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
     compile group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
-    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.12'
+    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.13'
 
     compile group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
     compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
