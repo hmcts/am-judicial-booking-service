@@ -56,10 +56,6 @@ public class BookingEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_PATTERN, timezone = Constants.TIMEZONE)
     private ZonedDateTime endTime;
 
-    @Column(name = "status", nullable = false)
-    @ApiModelProperty(required = false, hidden = true)
-    private String status;
-
     @Column(name = "log")
     @ApiModelProperty(required = false, hidden = true)
     private String log;

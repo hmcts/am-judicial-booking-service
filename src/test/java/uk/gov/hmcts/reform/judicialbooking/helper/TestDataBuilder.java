@@ -6,13 +6,8 @@ import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmBookingAssignmentsRequest;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.OrmUserRequest;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.enums.Status;
 
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 
 @Setter
 public class TestDataBuilder {
@@ -59,22 +54,6 @@ public class TestDataBuilder {
                 .created(ZonedDateTime.now())
                 .beginTime(ZonedDateTime.now().plusDays(1))
                 .endTime(ZonedDateTime.now().plusMonths(1))
-                .status(Status.NEW.toString())
-                .build();
-    }
-
-
-    public static OrmUserRequest buildOrmBookingRequest() {
-        return OrmUserRequest.builder()
-                .actorIds(Arrays.asList(uuidString))
-                .build();
-
-    }
-
-    public static OrmBookingAssignmentsRequest buildOrmBookingAssignmentsRequest() {
-        return OrmBookingAssignmentsRequest.builder()
-                .bookings(Collections.singletonList(buildPreparedBooking()))
-                .userRequest(buildOrmBookingRequest())
                 .build();
     }
 

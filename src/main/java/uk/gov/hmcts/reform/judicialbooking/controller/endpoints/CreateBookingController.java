@@ -38,7 +38,7 @@ public class CreateBookingController {
             consumes = {"application/json"}
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    @ApiOperation("creates bookings and associated assignments")
+    @ApiOperation("Creates booking for a fee-pay judge ")
     @ApiResponses({
             @ApiResponse(
                     code = 201,
