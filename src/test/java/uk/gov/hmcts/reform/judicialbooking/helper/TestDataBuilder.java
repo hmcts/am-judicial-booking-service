@@ -7,7 +7,7 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.RequestIds;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -76,8 +76,8 @@ public class TestDataBuilder {
                 .build();
     }
 
-    public static RequestIds buildRequestIds() {
-        return RequestIds.builder().userIds(List.of(uuidString, uuidString2)).build();
+    public static UserRequest buildRequestIds() {
+        return UserRequest.builder().userIds(List.of(uuidString, uuidString2)).build();
     }
 
     public static List<BookingEntity> buildListOfBookings() {

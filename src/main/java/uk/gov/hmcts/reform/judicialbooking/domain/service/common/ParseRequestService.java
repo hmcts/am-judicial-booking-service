@@ -47,13 +47,13 @@ public class ParseRequestService {
     }
 
     public List<String> parseQueryRequest(BookingQueryRequest queryRequest) {
-        if (queryRequest.getQueryRequest() == null ||
-                CollectionUtils.isEmpty(queryRequest.getQueryRequest().getUserIds())) {
+        if (queryRequest.getQueryRequest() == null
+                || CollectionUtils.isEmpty(queryRequest.getQueryRequest().getUserIds())) {
             throw new BadRequestException("Provided list of userIds is empty");
         }
 
         ValidationUtil.validateInputParams(Constants.UUID_PATTERN,
-                queryRequest.getQueryRequest().getUserIds().toString());
+                queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
 
         return queryRequest.getQueryRequest().getUserIds();
     }
