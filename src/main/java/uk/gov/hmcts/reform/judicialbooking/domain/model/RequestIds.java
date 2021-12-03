@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestIds implements Serializable {
-    @JsonProperty("userIds")
     private List<String> userIds;
 }

@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
@@ -45,13 +46,14 @@ public class ParseRequestService {
         return ValidationUtil.validateBookingRequest(booking);
     }
 
-    public List<String> parseQueryRequest(BookingQueryRequest queryRequest) throws ParseException {
-        if (ObjectUtils.isEmpty(queryRequest.getQueryRequest().getUserIds())) {
+    public List<String> parseQueryRequest(BookingQueryRequest queryRequest) {
+        if (queryRequest.getQueryRequest() == null ||
+                CollectionUtils.isEmpty(queryRequest.getQueryRequest().getUserIds())) {
             throw new BadRequestException("Provided list of userIds is empty");
         }
 
-        queryRequest.getQueryRequest().getUserIds().forEach(
-            userId -> ValidationUtil.validateInputParams(Constants.UUID_PATTERN, userId));
+        ValidationUtil.validateInputParams(Constants.UUID_PATTERN,
+                queryRequest.getQueryRequest().getUserIds().toString());
 
         return queryRequest.getQueryRequest().getUserIds();
     }
