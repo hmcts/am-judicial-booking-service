@@ -5,12 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
+import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 import uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil;
 
 import java.text.ParseException;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Service
 public class ParseRequestService {
@@ -40,6 +43,17 @@ public class ParseRequestService {
         }
 
         return ValidationUtil.validateBookingRequest(booking);
+    }
+
+    public List<String> parseQueryRequest(BookingQueryRequest queryRequest) throws ParseException {
+        if (ObjectUtils.isEmpty(queryRequest.getQueryRequest().getUserIds())) {
+            throw new BadRequestException("Provided list of userIds is empty");
+        }
+
+        queryRequest.getQueryRequest().getUserIds().forEach(
+            userId -> ValidationUtil.validateInputParams(Constants.UUID_PATTERN, userId));
+
+        return queryRequest.getQueryRequest().getUserIds();
     }
 
 }

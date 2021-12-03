@@ -12,5 +12,7 @@ public interface BookingRepository extends CrudRepository<BookingEntity, UUID> {
 
     List<BookingEntity> findByUserIdAndEndTimeGreaterThan(String userId, ZonedDateTime endTime);
 
+    List<BookingEntity> findByUserIdInAndEndTimeGreaterThan(List<String> userIds, ZonedDateTime endTime);
+
     List<BookingEntity> findByUserIdAndStatusAndAppointmentId(String userId, String status, String appointmentId);
 }
