@@ -127,3 +127,9 @@ feign:
 
 swaggerUrl: "${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}"
 judicialBookingUrl: ${TEST_URL:http://localhost:4097}
+
+launchdarkly:
+  sdk:
+    key: ${LD_SDK_KEY:}
+    environment: ${LAUNCH_DARKLY_ENV:pr}
+    user: am-${LAUNCH_DARKLY_ENV:local}
