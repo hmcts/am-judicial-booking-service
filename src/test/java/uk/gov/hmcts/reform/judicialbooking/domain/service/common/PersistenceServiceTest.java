@@ -56,7 +56,7 @@ class PersistenceServiceTest {
 
         List<BookingEntity> retrievedBookings = TestDataBuilder.buildListOfBookings();
 
-        Mockito.when(bookingRepository.findByUserIdInAndEndTimeGreaterThan(any(), any())).thenReturn(retrievedBookings);
+        Mockito.when(bookingRepository.findByUserIdInAndEndDateGreaterThan(any(), any())).thenReturn(retrievedBookings);
 
         List<BookingEntity> dbResponse = persistenceService.getValidBookings(userIds);
 

@@ -9,6 +9,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -40,8 +41,8 @@ public class TestDataBuilder {
 
     public static BookingEntity buildBooking() {
         return BookingEntity.builder()
-                .beginTime(ZonedDateTime.now().plusDays(1))
-                .endTime(ZonedDateTime.now().plusMonths(1))
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusMonths(1))
                 .build();
     }
 
@@ -49,8 +50,8 @@ public class TestDataBuilder {
         return BookingEntity.builder()
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
                 .created(ZonedDateTime.now())
-                .beginTime(ZonedDateTime.now().plusDays(1))
-                .endTime(ZonedDateTime.now().plusMonths(1))
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusMonths(1))
                 .build();
     }
 
@@ -60,8 +61,8 @@ public class TestDataBuilder {
                 .regionId("regionId")
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
                 .created(ZonedDateTime.now())
-                .beginTime(ZonedDateTime.now().plusDays(1))
-                .endTime(ZonedDateTime.now().plusMonths(1))
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusMonths(1))
                 .build();
     }
 
@@ -71,8 +72,8 @@ public class TestDataBuilder {
                 .regionId("South-East")
                 .userId(userId)
                 .created(ZonedDateTime.now())
-                .beginTime(ZonedDateTime.now().plusDays(1))
-                .endTime(ZonedDateTime.now().plusMonths(1))
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusMonths(1))
                 .build();
     }
 

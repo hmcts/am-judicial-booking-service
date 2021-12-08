@@ -30,8 +30,8 @@ public class FeatureToggleService {
 
     static {
         //Any new end point need to be placed in respective map.
-        postRequestMap.put("/am/bookings","create-bookings-api-flag");
-        postRequestMap.put("/am/bookings/query","query-bookings-api-flag");
+        postRequestMap.put("/am/bookings","get-db-drools-flag"); //
+        postRequestMap.put("/am/bookings/query","get-db-drools-flag");
     }
 
     @Autowired

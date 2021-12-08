@@ -6,7 +6,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingRepository;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,8 +25,6 @@ public class PersistenceService {
 
     @Transactional
     public List<BookingEntity> getValidBookings(List<String> userIds) {
-        return bookingRepository.findByUserIdInAndEndTimeGreaterThan(userIds, ZonedDateTime.now());
+        return bookingRepository.findByUserIdInAndEndDateGreaterThan(userIds, LocalDate.now());
     }
-
-
 }

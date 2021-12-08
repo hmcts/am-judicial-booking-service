@@ -15,6 +15,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -45,16 +47,24 @@ public class BookingEntity {
     @CreationTimestamp
     @Column(name = "created", nullable = false)
     @ApiModelProperty(required = false, hidden = true)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_PATTERN, timezone = Constants.TIMEZONE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATETIME_PATTERN, timezone = Constants.TIMEZONE)
     private ZonedDateTime created;
 
     @Column(name = "begin_time", nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_PATTERN, timezone = Constants.TIMEZONE)
-    private ZonedDateTime beginTime;
+    private LocalDate beginDate;
+
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATETIME_PATTERN, timezone = Constants.TIMEZONE)
+    public ZonedDateTime getBeginDate() {
+        return this.beginDate.atStartOfDay(ZoneId.of("UTC"));
+    }
 
     @Column(name = "end_time", nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_PATTERN, timezone = Constants.TIMEZONE)
-    private ZonedDateTime endTime;
+    private LocalDate endDate;
+
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATETIME_PATTERN, timezone = Constants.TIMEZONE)
+    public ZonedDateTime getEndDate() {
+        return this.endDate.atStartOfDay(ZoneId.of("UTC"));
+    }
 
     @Column(name = "log")
     @ApiModelProperty(required = false, hidden = true)

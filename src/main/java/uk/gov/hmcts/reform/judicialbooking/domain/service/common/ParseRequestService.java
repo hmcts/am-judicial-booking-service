@@ -27,15 +27,13 @@ public class ParseRequestService {
         booking.setCreated(ZonedDateTime.now());
         booking.setUserId(securityUtils.getUserId());
 
-        //todo : The formats are now only date but we can keep them as timestamp.
-        // This means that the end date/time of any role assignments created from the booking must be last_day + 1.
-        if (ObjectUtils.isEmpty(booking.getBeginTime())) {
-            throw new BadRequestException("Begin time cannot be Null or Empty");
+        if (ObjectUtils.isEmpty(booking.getBeginDate())) {
+            throw new BadRequestException("Begin date cannot be Null or Empty");
         }
-        if (ObjectUtils.isEmpty(booking.getEndTime())) {
-            throw new BadRequestException("End time cannot be Null or Empty");
+        if (ObjectUtils.isEmpty(booking.getEndDate())) {
+            throw new BadRequestException("End date cannot be Null or Empty");
         } else {
-            //Add 1 day to the end date
+            booking.setEndDate(booking.getEndDate().plusDays(1L).toLocalDate());
         }
 
         if ((!ObjectUtils.isEmpty(booking.getLocationId()))
