@@ -6,6 +6,5 @@ CREATE TABLE booking(
 	begin_time timestamp NOT NULL,
 	end_time timestamp NOT NULL,
 	created timestamp NOT NULL,
-	log text,
 	CONSTRAINT booking_pkey PRIMARY KEY (id)
 );
