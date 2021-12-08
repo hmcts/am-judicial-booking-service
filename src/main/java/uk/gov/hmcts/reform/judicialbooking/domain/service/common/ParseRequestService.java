@@ -28,9 +28,10 @@ public class ParseRequestService {
                 .created(ZonedDateTime.now())
                 .userId(securityUtils.getUserId())
                 .beginTime(bookingRequest.getBeginDate().atStartOfDay(ZoneId.of("UTC")))
-                .endTime(bookingRequest.getEndDate().atStartOfDay(ZoneId.of("UTC")))
+                .endTime(bookingRequest.getEndDate().plusDays(1).atStartOfDay(ZoneId.of("UTC")))
                 .locationId(bookingRequest.getLocationId())
                 .regionId(bookingRequest.getRegionId())
+                .log("Booking record is successfully created")
                 .build();
         return booking;
     }
