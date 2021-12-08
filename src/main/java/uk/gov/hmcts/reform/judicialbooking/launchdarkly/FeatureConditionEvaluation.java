@@ -43,8 +43,8 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
 
     static {
         //Any new end point need to be placed in respective map.
-        postRequestMap.put("/am/bookings","create-bookings-api-flag");
-        postRequestMap.put("/am/bookings/query","query-bookings-api-flag");
+        postRequestMap.put("/am/bookings","jbs-create-bookings-api-flag");
+        postRequestMap.put("/am/bookings/query","jbs-query-bookings-api-flag");
     }
 
     @Override

@@ -4,9 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 
-import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,17 +20,9 @@ class ValidationUtilTest {
     }
 
     @Test
-    void shouldThrowBadRequestException_ValidateLists() {
-        List<Object> list = Collections.emptyList();
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            ValidationUtil.validateLists(list);
-        });
-    }
-
-    @Test
     void shouldValidateDateOrder() {
-        ZonedDateTime beginTime = ZonedDateTime.now().plusDays(1);
-        ZonedDateTime endTime = ZonedDateTime.now().plusDays(14);
+        LocalDate beginTime = LocalDate.now().plusDays(1);
+        LocalDate endTime = LocalDate.now().plusDays(14);
         Assertions.assertDoesNotThrow(() ->
                 ValidationUtil.compareDateOrder(beginTime, endTime)
         );
@@ -40,8 +30,8 @@ class ValidationUtilTest {
 
     @Test
     void shouldThrow_ValidateDateOrder_BeginTimeBeforeCurrent() {
-        ZonedDateTime beginTime = ZonedDateTime.now().minusDays(1);
-        ZonedDateTime endTime = ZonedDateTime.now().minusDays(2);
+        LocalDate beginTime = LocalDate.now().minusDays(1);
+        LocalDate endTime = LocalDate.now().minusDays(2);
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.compareDateOrder(beginTime,endTime)
         );
@@ -49,8 +39,8 @@ class ValidationUtilTest {
 
     @Test
     void shouldThrow_ValidateDateOrder_EndTimeBeforeCurrent() {
-        ZonedDateTime beginTime = ZonedDateTime.now().plusDays(14);
-        ZonedDateTime endTime = ZonedDateTime.now().minusDays(1);
+        LocalDate beginTime = LocalDate.now().plusDays(14);
+        LocalDate endTime = LocalDate.now().minusDays(1);
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.compareDateOrder(beginTime,endTime)
         );
@@ -58,8 +48,8 @@ class ValidationUtilTest {
 
     @Test
     void shouldThrow_ValidateDateOrder_EndTimeBeforeBegin() {
-        ZonedDateTime beginTime = ZonedDateTime.now().plusDays(14);
-        ZonedDateTime endTime = ZonedDateTime.now().plusDays(10);
+        LocalDate beginTime = LocalDate.now().plusDays(14);
+        LocalDate endTime = LocalDate.now().plusDays(10);
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.compareDateOrder(beginTime,endTime)
         );

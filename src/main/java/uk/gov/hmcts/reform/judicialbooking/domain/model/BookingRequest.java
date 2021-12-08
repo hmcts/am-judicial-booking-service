@@ -1,17 +1,24 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
-import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 
+import java.time.LocalDate;
+
+@Builder(toBuilder = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
+@JsonTypeName("bookingRequest")
+@JsonTypeInfo(include= JsonTypeInfo.As.WRAPPER_OBJECT,use= JsonTypeInfo.Id.NAME)
 public class BookingRequest {
 
-    private BookingEntity bookingRequest;
-
+    private String regionId;
+    private String locationId;
+    private LocalDate beginDate;
+    private LocalDate endDate;
 }

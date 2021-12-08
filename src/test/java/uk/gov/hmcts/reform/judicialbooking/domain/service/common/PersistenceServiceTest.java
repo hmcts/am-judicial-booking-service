@@ -9,12 +9,12 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingRepository;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-
-import java.util.List;
 
 class PersistenceServiceTest {
 
@@ -56,7 +56,7 @@ class PersistenceServiceTest {
 
         List<BookingEntity> retrievedBookings = TestDataBuilder.buildListOfBookings();
 
-        Mockito.when(bookingRepository.findByUserIdInAndEndDateGreaterThan(any(), any())).thenReturn(retrievedBookings);
+        Mockito.when(bookingRepository.findByUserIdInAndEndTimeGreaterThan(any(), any())).thenReturn(retrievedBookings);
 
         List<BookingEntity> dbResponse = persistenceService.getValidBookings(userIds);
 

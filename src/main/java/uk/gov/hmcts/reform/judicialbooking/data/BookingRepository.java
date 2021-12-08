@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface BookingRepository extends CrudRepository<BookingEntity, UUID> {
 
-    List<BookingEntity> findByUserIdInAndEndDateGreaterThan(List<String> userId, LocalDate endTime);
+    List<BookingEntity> findByUserIdInAndEndTimeGreaterThan(List<String> userId, LocalDate endTime);
 }

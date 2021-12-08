@@ -25,6 +25,6 @@ public class PersistenceService {
 
     @Transactional
     public List<BookingEntity> getValidBookings(List<String> userIds) {
-        return bookingRepository.findByUserIdInAndEndDateGreaterThan(userIds, LocalDate.now());
+        return bookingRepository.findByUserIdInAndEndTimeGreaterThan(userIds, LocalDate.now());
     }
 }
