@@ -17,5 +17,4 @@ public class BookingQueryResponse {
 
     @JsonProperty("bookingQueryResponse")
     private List<BookingEntity> bookingEntities;
-
 }
