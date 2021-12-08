@@ -82,8 +82,7 @@ public class ValidationUtil {
             throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for endDate");
         }
         if (beginDate != null && endDate != null) {
-            compareDateOrder(beginDate, endDate
-            );
+            compareDateOrder(beginDate, endDate);
         }
     }
 

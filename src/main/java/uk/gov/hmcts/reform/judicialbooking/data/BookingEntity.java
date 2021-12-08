@@ -12,6 +12,7 @@ import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -43,6 +44,7 @@ public class BookingEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATETIME_PATTERN, timezone = Constants.TIMEZONE)
     private ZonedDateTime endTime;
 
+    @Transient
     private String log;
 
 }
