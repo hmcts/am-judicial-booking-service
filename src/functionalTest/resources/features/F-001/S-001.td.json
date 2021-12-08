@@ -1,0 +1,29 @@
+{
+  "title": "must successfully create single booking for fee pay judge with only mandatory fields",
+  "_guid_": "S-001",
+  "_extends_": "F-001_Test_Data_Base",
+  "specs": [
+    "contains a single booking with only mandatory fields"
+  ],
+  "request": {
+    "body": {
+      "bookingRequest": {
+        "beginDate": "${[scenarioContext][customValues][today]}",
+        "endDate": "${[scenarioContext][customValues][today]}"
+      }
+    }
+  },
+  "expectedResponse": {
+    "_extends_": "Common_201_Response",
+    "body": {
+      "bookingResponse":{
+        "id": "[[ANYTHING_PRESENT]]",
+        "userId": "[[ANYTHING_PRESENT]]",
+        "beginTime": "${[scenarioContext][testData][request][body][bookingRequest][beginDate]}T00:00:00Z",
+        "endTime": "${[scenarioContext][customValues][tomorrow]}T00:00:00Z",
+        "created":"[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+        "log":"Booking record is successfully created"
+      }
+    }
+  }
+}

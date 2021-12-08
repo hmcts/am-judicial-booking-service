@@ -1,0 +1,10 @@
+{
+  "_guid_": "CreationDataForBooking2",
+  "_extends_": "CreationBaseDataForBooking",
+  "users": {
+    "invokingUser": {
+      "username": "TEST_AM_USER6_BEFTA@test.local",
+      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
+    }
+  }
+}

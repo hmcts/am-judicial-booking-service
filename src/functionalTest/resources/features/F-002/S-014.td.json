@@ -1,0 +1,42 @@
+{
+  "title": "must successfully receive bookings without X-Correlation-ID Header",
+  "_guid_": "S-014",
+  "_extends_": "F-002_Test_Data_Base",
+  "specs": [
+    "Get Bookings by Authenticated User Id",
+    "does not have X-Correlation-ID header",
+    "contains an user id having booking"
+  ],
+  "users": {
+    "invokingUser": {
+      "username": "TEST_AM_USER6_BEFTA@test.local",
+      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
+    }
+  },
+  "request": {
+    "headers": {
+      "X-Correlation-ID": ""
+    },
+    "body": {
+      "queryRequest" : {
+        "userIds" : ["a92dcf18-0f37-4f46-89e0-2392d38fec75"]
+      }
+    }
+  },
+  "expectedResponse": {
+    "_extends_": "Common_200_Response",
+    "body": {
+      "bookings":[
+        {
+          "id": "[[ANYTHING_PRESENT]]",
+          "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][0]}",
+          "locationId": "[[ANYTHING_PRESENT]]",
+          "regionId": "[[ANYTHING_PRESENT]]",
+          "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "title": "must successfully create single booking for fee pay judge with all fields",
+  "_guid_": "S-002",
+  "_extends_": "F-001_Test_Data_Base",
+  "specs": [
+    "contains a single booking with all fields"
+  ],
+  "users": {
+    "invokingUser": {
+      "username": "TEST_AM_USER2_BEFTA@test.local",
+      "password": "[[$TEST_AM_USER2_BEFTA_PWD]]"
+    }
+  },
+  "request": {
+    "body": {
+      "bookingRequest": {
+        "locationId": "location1",
+        "regionId": "region1",
+        "beginDate": "${[scenarioContext][customValues][today]}",
+        "endDate": "${[scenarioContext][customValues][today]}"
+      }
+    }
+  },
+  "expectedResponse": {
+    "_extends_": "Common_201_Response",
+    "body": {
+      "bookingResponse":{
+        "id": "[[ANYTHING_PRESENT]]",
+        "userId": "[[ANYTHING_PRESENT]]",
+        "locationId": "${[scenarioContext][testData][request][body][bookingRequest][locationId]}",
+        "regionId": "${[scenarioContext][testData][request][body][bookingRequest][regionId]}",
+        "beginTime": "${[scenarioContext][testData][request][body][bookingRequest][beginDate]}T00:00:00Z",
+        "endTime": "${[scenarioContext][customValues][tomorrow]}T00:00:00Z",
+        "created":"[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+        "log":"Booking record is successfully created"
+      }
+    }
+  }
+}

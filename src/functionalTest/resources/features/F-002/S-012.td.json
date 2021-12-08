@@ -1,0 +1,46 @@
+{
+  "title": "must successfully receive multiple bookings",
+  "_guid_": "S-012",
+  "_extends_": "F-002_Test_Data_Base",
+  "specs": [
+    "contains an authenticated user id having multiple bookings"
+  ],
+  "users": {
+    "invokingUser": {
+      "username": "TEST_AM_USER4_BEFTA@test.local",
+      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
+    }
+  },
+  "request": {
+    "body": {
+      "queryRequest" : {
+        "userIds" : ["08d3332a-9ab2-44dd-bc33-0c700b78480f"]
+      }
+    }
+  },
+  "expectedResponse": {
+    "_extends_": "Common_200_Response",
+    "body": {
+      "bookings":[
+        {
+          "id": "[[ANYTHING_PRESENT]]",
+          "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][0]}",
+          "locationId": "[[ANYTHING_PRESENT]]",
+          "regionId": "[[ANYTHING_PRESENT]]",
+          "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"
+        },
+        {
+          "id": "[[ANYTHING_PRESENT]]",
+          "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][0]}",
+          "locationId": "[[ANYTHING_PRESENT]]",
+          "regionId": "[[ANYTHING_PRESENT]]",
+          "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"
+        }
+      ]
+    }
+  }
+}
