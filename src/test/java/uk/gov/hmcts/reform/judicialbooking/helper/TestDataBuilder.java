@@ -27,10 +27,6 @@ public class TestDataBuilder {
         return ResponseEntity.status(HttpStatus.OK).body(new BookingResponse());
     }
 
-    public static BookingRequest buildBookingRequest() {
-        return new BookingRequest(buildBooking());
-    }
-
     public static BookingResponse buildBookingResponse(BookingEntity booking) {
         return new BookingResponse(booking);
     }
@@ -39,8 +35,8 @@ public class TestDataBuilder {
         return new BookingQueryResponse(bookingEntities);
     }
 
-    public static BookingEntity buildBooking() {
-        return BookingEntity.builder()
+    public static BookingRequest buildBookingRequest() {
+        return BookingRequest.builder()
                 .beginDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusMonths(1))
                 .build();
@@ -50,8 +46,8 @@ public class TestDataBuilder {
         return BookingEntity.builder()
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
                 .created(ZonedDateTime.now())
-                .beginDate(LocalDate.now().plusDays(1))
-                .endDate(LocalDate.now().plusMonths(1))
+                .beginTime(ZonedDateTime.now().plusDays(1))
+                .endTime(ZonedDateTime.now().plusMonths(1))
                 .build();
     }
 
@@ -61,8 +57,8 @@ public class TestDataBuilder {
                 .regionId("regionId")
                 .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
                 .created(ZonedDateTime.now())
-                .beginDate(LocalDate.now().plusDays(1))
-                .endDate(LocalDate.now().plusMonths(1))
+                .beginTime(ZonedDateTime.now().plusDays(1))
+                .endTime(ZonedDateTime.now().plusMonths(1))
                 .build();
     }
 
@@ -72,8 +68,8 @@ public class TestDataBuilder {
                 .regionId("South-East")
                 .userId(userId)
                 .created(ZonedDateTime.now())
-                .beginDate(LocalDate.now().plusDays(1))
-                .endDate(LocalDate.now().plusMonths(1))
+                .beginTime(ZonedDateTime.now().plusDays(1))
+                .endTime(ZonedDateTime.now().plusMonths(1))
                 .build();
     }
 
