@@ -15,7 +15,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceServ
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
 
