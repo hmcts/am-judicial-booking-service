@@ -15,6 +15,6 @@ import java.util.List;
 @Validated
 public class BookingQueryResponse {
 
-    @JsonProperty("bookingQueryResponse")
+    @JsonProperty("bookings")
     private List<BookingEntity> bookingEntities;
 }
