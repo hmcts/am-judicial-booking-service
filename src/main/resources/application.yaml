@@ -111,20 +111,6 @@ integrationTest:
   api:
     url: "/"
 
-feign:
-  hystrix:
-    enabled: true
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: basic
-      ormClient:
-        url: ${AM_ORM_URL:http://localhost:4098}
-      jrdClient:
-        url: ${RD_JRD_URL:http://localhost:4091}
-
 swaggerUrl: "${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}"
 judicialBookingUrl: ${TEST_URL:http://localhost:4097}
 
