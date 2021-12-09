@@ -27,4 +27,9 @@ public class PersistenceService {
     public List<BookingEntity> getValidBookings(List<String> userIds) {
         return bookingRepository.findByUserIdInAndEndTimeGreaterThan(userIds, ZonedDateTime.now());
     }
+
+    @Transactional
+    public void deleteBookings(String userId) {
+        bookingRepository.deleteByUserId(userId);
+    }
 }

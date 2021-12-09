@@ -7,7 +7,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking.CreateBookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,22 +18,22 @@ import static org.mockito.Mockito.when;
 
 class CreateBookingControllerTest {
 
-    private final CreateBookingOrchestrator createBookingOrchestrator =
-            mock(CreateBookingOrchestrator.class);
+    private final BookingOrchestrator bookingOrchestrator =
+            mock(BookingOrchestrator.class);
 
     @InjectMocks
     private CreateBookingController sut;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void createBooking() throws Exception {
         BookingRequest bookingRequest = new BookingRequest();
         ResponseEntity<BookingResponse> expectedResponse = TestDataBuilder.buildCreateBookingResponse();
-        when(createBookingOrchestrator.createBooking(any())).thenReturn(expectedResponse);
+        when(bookingOrchestrator.createBooking(any())).thenReturn(expectedResponse);
         ResponseEntity<BookingResponse> response = sut.createBooking("", bookingRequest);
         assertNotNull(response);
         assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
