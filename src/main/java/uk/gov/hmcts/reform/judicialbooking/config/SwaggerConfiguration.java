@@ -1,18 +1,20 @@
 package uk.gov.hmcts.reform.judicialbooking.config;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.CreateBookingController;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableSwagger2WebMvc
@@ -27,17 +29,14 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
             .groupName("v2")
             .select()
-            //.apis(RequestHandlerSelectors.basePackage(TestFileName.class.getPackage().getName()))
+            .apis(RequestHandlerSelectors.basePackage(CreateBookingController.class.getPackage().getName()))
             .build()
             .useDefaultResponseMessages(false)
             .apiInfo(apiV2Info())
             .host(host)
             .globalOperationParameters(Arrays.asList(
                 headerServiceAuthorization(),
-                headerAuthorization(),
-                headerUserId(),
-                headerUserRoles()
-                                                    ));
+                headerAuthorization()));
     }
 
     private ApiInfo apiV2Info() {

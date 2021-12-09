@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class OrmBookingRequest {
-
-    String actorId;
-    List<String> authorisationIds;
-
+@AllArgsConstructor
+public class UserRequest implements Serializable {
+    private List<String> userIds;
 }

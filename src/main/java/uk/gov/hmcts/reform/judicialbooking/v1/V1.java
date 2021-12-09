@@ -11,8 +11,8 @@ public final class V1 {
 
         // External API
         public static final String SERVICE = "application/vnd.uk.gov.hmcts.judicial-booking-service";
-        public static final String CREATE_BOOKING = SERVICE
-                + ".create-booking+json;charset=UTF-8;version=1.0";
+        public static final String CREATE_BOOKING = SERVICE + ".create-booking+json;charset=UTF-8;version=1.0";
+        public static final String QUERY_BOOKINGS = SERVICE + ".get-bookings+json;charset=UTF-8;version=1.0";
     }
 
     public static final class Error {
@@ -21,6 +21,7 @@ public final class V1 {
 
         public static final String INVALID_REQUEST = "Request is not valid as per validation rule";
         public static final String BAD_REQUEST_INVALID_DATETIME = "Invalid Datetime Parameter";
+        public static final String NO_RECORDS_FOUND_BY_QUERY = "Bookings not found for Queried Id's";
 
     }
 
