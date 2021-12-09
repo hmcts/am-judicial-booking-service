@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.judicialbooking.helper;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
@@ -11,6 +12,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -84,6 +86,12 @@ public class TestDataBuilder {
 
     public static ResponseEntity<BookingQueryResponse> buildQueryResponseEntity() {
         return ResponseEntity.ok(TestDataBuilder.buildQueryResponse(buildListOfBookings()));
+    }
+
+    public static UserInfo buildUserInfo(String uuid) {
+        List<String> list = new ArrayList<>();
+        return UserInfo.builder().sub("sub").uid(uuid)
+                .name("James").givenName("007").familyName("Bond").roles(list).build();
     }
 
 }

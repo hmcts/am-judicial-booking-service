@@ -37,11 +37,11 @@ class QueryBookingOrchestratorTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void queryBooking() throws ParseException {
+    void queryBooking() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
 
         List<BookingEntity> bookingEntities =

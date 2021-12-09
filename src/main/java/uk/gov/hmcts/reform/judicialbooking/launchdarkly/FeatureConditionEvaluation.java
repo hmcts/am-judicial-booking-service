@@ -38,7 +38,6 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
     @Value("${launchdarkly.sdk.user}")
     private String userName;
 
-    private static final HashMap<String, String> getRequestMap = new HashMap<>();
     private static final HashMap<String, String> postRequestMap = new HashMap<>();
 
     static {
@@ -49,7 +48,7 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request,
-                             @NotNull HttpServletResponse response, @NotNull Object arg2) throws Exception {
+                             @NotNull HttpServletResponse response, @NotNull Object arg2) {
 
         String flagName = getLaunchDarklyFlag(request);
 
@@ -66,8 +65,9 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
         if (!flagStatus) {
             throw new ForbiddenException(String.format("Launch Darkly flag is not enabled for the endpoint %s",
                     request.getRequestURI()));
+        } else {
+            return true;
         }
-        return flagStatus;
     }
 
     public boolean isFlagEnabled(String serviceName, String flagName) {
@@ -86,19 +86,10 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
 
     public String getLaunchDarklyFlag(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        switch (request.getMethod()) {
-            case GET:
-                if (getRequestMap.get(uri) != null) {
-                    return getRequestMap.get(uri);
-                }
-                break;
-            case POST:
-                if (postRequestMap.get(uri) != null) {
-                    return postRequestMap.get(uri);
-                }
-                break;
-            default:
+        if (POST.equals(request.getMethod()) && postRequestMap.get(uri) != null) {
+            return postRequestMap.get(uri);
+        } else {
+            return null;
         }
-        return null;
     }
 }

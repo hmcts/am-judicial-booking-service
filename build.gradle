@@ -168,7 +168,14 @@ pitest {
     pitestVersion = "1.5.2"
     testPlugin = "junit5"
     targetClasses = ['uk.gov.hmcts.reform.*']
-    excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication', 'uk.gov.hmcts.reform.judicialbooking.util.Swagger2SpringBoot', 'uk.gov.hmcts.reform.judicialbooking.controller.advice.ErrorConstants', 'uk.gov.hmcts.reform.judicialbooking.configuration.*', 'uk.gov.hmcts.reform.judicialbooking.apihelper.*', 'uk.gov.hmcts.reform.judicialbooking.model.*', 'uk.gov.hmcts.reform.judicialbooking.controller.endpoints.S2SAuthentication']
+    excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication',
+                       'uk.gov.hmcts.reform.judicialbooking.util.Swagger2SpringBoot',
+                       'uk.gov.hmcts.reform.judicialbooking.config.*',
+                       'uk.gov.hmcts.reform.judicialbooking.controller.advice.ErrorConstants',
+                       'uk.gov.hmcts.reform.judicialbooking.configuration.*',
+                       'uk.gov.hmcts.reform.judicialbooking.apihelper.*',
+                       'uk.gov.hmcts.reform.judicialbooking.model.*',
+                       'uk.gov.hmcts.reform.judicialbooking.controller.endpoints.S2SAuthentication']
     threads = 15
     outputFormats = ['XML', 'HTML']
     timestampedReports = true

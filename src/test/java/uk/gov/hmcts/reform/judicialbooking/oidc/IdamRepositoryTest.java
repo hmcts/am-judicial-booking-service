@@ -67,7 +67,7 @@ class IdamRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         idamRepository = new IdamRepository(idamApi, oidcAdminConfiguration,
                 oauth2Configuration, restTemplate,
                 cacheManager
@@ -101,7 +101,7 @@ class IdamRepositoryTest {
     }
 
     @Test
-    void getUserRolesBlankResponse() throws IOException {
+    void getUserRolesBlankResponse() {
         String userId = "003352d0-e699-48bc-b6f5-5810411e60af";
         UserDetails userDetails = UserDetails.builder().email("black@betty.com").forename("ram").surname("jam").id(
                 "1234567890123456")
@@ -164,7 +164,7 @@ class IdamRepositoryTest {
         List<Object> list = new ArrayList<>();
         list.add(mapRoles);
 
-        ResponseEntity<List<Object>> responseEntity = new ResponseEntity<List<Object>>(HttpStatus.OK);
+        ResponseEntity<List<Object>> responseEntity = new ResponseEntity<>(HttpStatus.OK);
         doReturn(responseEntity).when(restTemplate).exchange(isA(String.class), eq(HttpMethod.GET),
                 isA(HttpEntity.class), (ParameterizedTypeReference<?>) any(ParameterizedTypeReference.class));
 
