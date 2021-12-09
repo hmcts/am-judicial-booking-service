@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.querybookings.QueryBookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 import javax.transaction.Transactional;
@@ -22,10 +22,10 @@ import javax.transaction.Transactional;
 @Slf4j
 public class QueryBookingController {
 
-    private final QueryBookingOrchestrator queryBookingOrchestrator;
+    private final BookingOrchestrator bookingOrchestrator;
 
-    public QueryBookingController(QueryBookingOrchestrator queryBookingOrchestrator) {
-        this.queryBookingOrchestrator = queryBookingOrchestrator;
+    public QueryBookingController(BookingOrchestrator bookingOrchestrator) {
+        this.bookingOrchestrator = bookingOrchestrator;
     }
 
     @PostMapping(
@@ -52,7 +52,7 @@ public class QueryBookingController {
                     String correlationId,
             @RequestBody BookingQueryRequest queryRequest) throws Exception {
         long startTime = System.currentTimeMillis();
-        ResponseEntity<BookingQueryResponse> response = queryBookingOrchestrator.queryBookings(
+        ResponseEntity<BookingQueryResponse> response = bookingOrchestrator.queryBookings(
                 queryRequest);
         log.info(
                 " >> queryBookings execution finished at {} . Time taken = {} milliseconds",
