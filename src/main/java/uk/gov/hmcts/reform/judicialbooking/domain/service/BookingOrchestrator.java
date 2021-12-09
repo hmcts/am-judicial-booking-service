@@ -12,6 +12,8 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
+import uk.gov.hmcts.reform.judicialbooking.util.Constants;
+import uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil;
 
 import java.text.ParseException;
 import java.util.List;
@@ -47,6 +49,7 @@ public class BookingOrchestrator {
     }
 
     public ResponseEntity<Void> deleteBookingByUserId(String userId) {
+        ValidationUtil.validateInputParams(Constants.UUID_PATTERN, userId);
         persistenceService.deleteBookings(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
