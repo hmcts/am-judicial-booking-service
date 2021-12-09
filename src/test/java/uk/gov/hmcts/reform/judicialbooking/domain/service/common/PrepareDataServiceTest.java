@@ -1,14 +1,15 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
-import java.util.UUID;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class PrepareDataServiceTest {
@@ -24,15 +25,20 @@ class PrepareDataServiceTest {
     }
 
     @Test
-    void convertBookingToOrmBooking() {
-        String bookingId = "5629957f-4dcd-40b8-a0b2-e64ff5898b30";
-        BookingEntity preparedBooking = TestDataBuilder.buildPreparedBooking();
-        preparedBooking.setId(UUID.fromString(bookingId));
+    void prepareQueryResponse() {
+        UserRequest userRequest = TestDataBuilder.buildRequestIds();
 
-        assertNotNull(preparedBooking);
-        assertNotNull(preparedBooking.getId());
-        assertEquals(bookingId, preparedBooking.getId());
+        ResponseEntity<BookingQueryResponse> response = sut.prepareQueryResponse(TestDataBuilder.buildListOfBookings());
 
+        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
+        Assertions.assertNotNull(Objects.requireNonNull(response.getBody()).getBookingEntities());
+        Assertions.assertEquals(2, response.getBody().getBookingEntities().size());
+        Assertions.assertEquals(userRequest.getUserIds().get(0),
+                response.getBody().getBookingEntities().get(0).getUserId());
+        Assertions.assertEquals(userRequest.getUserIds().get(1),
+                response.getBody().getBookingEntities().get(1).getUserId());
     }
+
+
 
 }
