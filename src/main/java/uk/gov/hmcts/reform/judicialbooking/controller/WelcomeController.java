@@ -11,6 +11,7 @@ public class WelcomeController {
         return "redirect:swagger-ui.html";
     }
 
+
     @GetMapping(value = "/welcome")
     public String welcome() {
         return "Welcome to Judicial Booking service";
