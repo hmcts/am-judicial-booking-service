@@ -1,0 +1,32 @@
+{
+  "_guid_": "DeleteDataForBookings",
+  "productName": "Booking Service",
+  "operationName": "Delete Booking by userId",
+  "method": "DELETE",
+  "uri": "/am/bookings/{userId}",
+  "specs": [
+    "to delete bookings just created above"
+  ],
+  "users": {
+    "invokingUser": {
+      "username": "TEST_AM_USER1_BEFTA@test.local",
+      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
+    }
+  },
+  "request": {
+    "headers": {
+      "Authorization": "[[DEFAULT_AUTO_VALUE]]",
+      "ServiceAuthorization": "[[DEFAULT_AUTO_VALUE]]"
+    },
+    "pathVariables": {
+      "_extends_": "Befta1-UserIds"
+    }
+  },
+  "expectedResponse": {
+    "headers": {
+      "Content-Length": "[[ANYTHING_PRESENT]]",
+      "Content-Type": "application/json"
+    },
+    "_extends_": "Common_204_Response"
+  }
+}

@@ -5,12 +5,6 @@
   "specs": [
     "contains a single booking with all fields"
   ],
-  "users": {
-    "invokingUser": {
-      "username": "TEST_AM_USER2_BEFTA@test.local",
-      "password": "[[$TEST_AM_USER2_BEFTA_PWD]]"
-    }
-  },
   "request": {
     "body": {
       "bookingRequest": {

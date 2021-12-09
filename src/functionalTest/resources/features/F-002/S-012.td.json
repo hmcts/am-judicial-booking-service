@@ -5,16 +5,10 @@
   "specs": [
     "contains an authenticated user id having multiple bookings"
   ],
-  "users": {
-    "invokingUser": {
-      "username": "TEST_AM_USER4_BEFTA@test.local",
-      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
-    }
-  },
   "request": {
     "body": {
       "queryRequest" : {
-        "userIds" : ["08d3332a-9ab2-44dd-bc33-0c700b78480f"]
+        "userIds" : ["eed0af50-5674-4235-a932-a70b85f04f11"]
       }
     }
   },

@@ -5,12 +5,6 @@
   "specs": [
     "contains a non-authenticated user id"
   ],
-  "users": {
-    "invokingUser": {
-      "username": "TEST_AM_USER3_BEFTA@test.local",
-      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
-    }
-  },
   "request": {
     "headers": {
       "Authorization": "[[DEFAULT_AUTO_VALUE]]",
@@ -20,7 +14,7 @@
     },
     "body": {
       "queryRequest" : {
-        "userIds" : ["fb5c1e9c-7963-40b1-9da7-dcaaea3018d6"]
+        "userIds" : ["eed0af50-5674-4235-a932-a70b85f04f11"]
       }
     }
   },

@@ -7,19 +7,13 @@
     "does not have X-Correlation-ID header",
     "contains an user id having booking"
   ],
-  "users": {
-    "invokingUser": {
-      "username": "TEST_AM_USER6_BEFTA@test.local",
-      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
-    }
-  },
   "request": {
     "headers": {
       "X-Correlation-ID": ""
     },
     "body": {
       "queryRequest" : {
-        "userIds" : ["a92dcf18-0f37-4f46-89e0-2392d38fec75"]
+        "userIds" : ["eed0af50-5674-4235-a932-a70b85f04f11"]
       }
     }
   },
