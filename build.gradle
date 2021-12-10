@@ -190,9 +190,14 @@ sonarqube {
         property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
         property "sonar.pitest.mode", "reuseReport"
         property "sonar.pitest.reportsDirectory", "build/reports/pitest"
-        property "sonar.exclusions", "src/main/java/**"
-        //property "sonar.exclusions", "src/main/java/uk/gov/hmcts/reform/judicialbooking/*Application.java," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/util/*Swagger2SpringBoot.java," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/*ErrorConstants.java," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/exception/**," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/configuration/**," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/model/enums/**," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/apihelper/**"
-        //property "sonar.junit.reportPaths", "${project.buildDir}/test-results/junit-platform"
+        property "sonar.exclusions", "src/main/java/uk/gov/hmcts/reform/judicialbooking/*Application.java," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/util/*Swagger2SpringBoot.java," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/*ErrorConstants.java," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/exception/**," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/configuration/**," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/model/enums/**," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/apihelper/**"
+        property "sonar.junit.reportPaths", "${project.buildDir}/test-results/junit-platform"
     }
 }
 
