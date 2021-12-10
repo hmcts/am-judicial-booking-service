@@ -111,7 +111,6 @@ integrationTest:
   api:
     url: "/"
 
-swaggerUrl: "${AM_JUDICIAL_BOOKING_SWAGGER_AM_URL:localhost:4097}"
 judicialBookingUrl: ${TEST_URL:http://localhost:4097}
 
 launchdarkly:

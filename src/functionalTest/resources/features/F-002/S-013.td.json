@@ -1,27 +1,36 @@
 {
-  "title": "must receive an error response for a non-authenticated user id",
-  "_guid_": "S-013",
+  "title": "must successfully receive bookings without X-Correlation-ID Header",
+  "_guid_": "S-014",
   "_extends_": "F-002_Test_Data_Base",
   "specs": [
-    "contains a non-authenticated user id"
+    "Get Bookings by Authenticated User Id",
+    "does not have X-Correlation-ID header",
+    "contains an user id having booking"
   ],
   "request": {
     "headers": {
-      "Authorization": "[[DEFAULT_AUTO_VALUE]]",
-      "ServiceAuthorization": "[[DEFAULT_AUTO_VALUE]]",
-      "X-Correlation-ID": "003352d0-e699-48bc-b6f5-5810411e60af",
-      "Content-Type": "application/json"
+      "X-Correlation-ID": ""
     },
     "body": {
       "queryRequest" : {
-        "userIds" : ["eed0af50-5674-4235-a932-a70b85f04f11"]
+        "userIds" : ["cf07ea33-31c0-4442-b2df-e2032d21b496"]
       }
     }
   },
   "expectedResponse": {
-    "_extends_": "Common_400_Response",
+    "_extends_": "Common_200_Response",
     "body": {
-
+      "bookings":[
+        {
+          "id": "[[ANYTHING_PRESENT]]",
+          "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][0]}",
+          "locationId": "[[ANYTHING_PRESENT]]",
+          "regionId": "[[ANYTHING_PRESENT]]",
+          "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
+          "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"
+        }
+      ]
     }
   }
 }
