@@ -8,7 +8,7 @@
   "request": {
     "body": {
       "queryRequest" : {
-        "userIds" : ["cf07ea33-31c0-4442-b2df-e2032d21b496"]
+        "userIds" : ["${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][actualResponse][body][bookingResponse][userId]}"]
       }
     }
   },

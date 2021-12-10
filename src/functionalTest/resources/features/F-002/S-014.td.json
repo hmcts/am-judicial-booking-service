@@ -1,6 +1,6 @@
 {
   "title": "must receive an error response for an invalid user id",
-  "_guid_": "S-015",
+  "_guid_": "S-014",
   "_extends_": "F-002_Test_Data_Base",
   "specs": [
     "contains an authenticated user id having only single booking",

@@ -12,7 +12,7 @@ Feature: F-001 : Create Judicial Bookings
     And it is submitted to call the [Create Bookings] operation of [Booking Service],
     Then a positive response is received,
     And the response has all other details as expected,
-    And a successful call [to delete bookings just created above] as in [DeleteDataForBookings].
+    And a successful call [to delete bookings just created above] as in [DeleteDataForBookingResponse].
 
   @S-002
   Scenario: must successfully create single booking for fee pay judge with all fields
@@ -22,7 +22,7 @@ Feature: F-001 : Create Judicial Bookings
     And it is submitted to call the [Create Bookings] operation of [Booking Service],
     Then a positive response is received,
     And the response has all other details as expected,
-    And a successful call [to delete bookings just created above] as in [DeleteDataForBookings].
+    And a successful call [to delete bookings just created above] as in [DeleteDataForBookingResponse].
 
   @S-003
   Scenario: must receive a Reject response in logs when creation of booking is not successful

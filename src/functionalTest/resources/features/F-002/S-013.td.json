@@ -1,6 +1,6 @@
 {
   "title": "must successfully receive bookings without X-Correlation-ID Header",
-  "_guid_": "S-014",
+  "_guid_": "S-013",
   "_extends_": "F-002_Test_Data_Base",
   "specs": [
     "Get Bookings by Authenticated User Id",
@@ -13,7 +13,7 @@
     },
     "body": {
       "queryRequest" : {
-        "userIds" : ["cf07ea33-31c0-4442-b2df-e2032d21b496"]
+        "userIds" : ["${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][actualResponse][body][bookingResponse][userId]}"]
       }
     }
   },
