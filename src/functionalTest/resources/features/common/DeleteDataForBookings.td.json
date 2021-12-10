@@ -1,6 +1,6 @@
 {
   "_guid_": "DeleteDataForBookings",
-  "productName": "Booking Service",
+  "productName": "Judicial Booking Service",
   "operationName": "Delete Booking by userId",
   "method": "DELETE",
   "uri": "/am/bookings/{userId}",

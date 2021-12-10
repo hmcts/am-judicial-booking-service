@@ -1,7 +1,7 @@
 {
   "_guid_": "F-002_Test_Data_Base",
   "_extends_": "F-002-Base-Root",
-  "productName": "Booking Service",
+  "productName": "Judicial Booking Service",
   "operationName": "Get Bookings by Authenticated User Id",
   "specs": [
     "an active IDAM profile with full permissions"
