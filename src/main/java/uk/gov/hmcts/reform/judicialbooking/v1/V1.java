@@ -13,6 +13,7 @@ public final class V1 {
         public static final String SERVICE = "application/vnd.uk.gov.hmcts.judicial-booking-service";
         public static final String CREATE_BOOKING = SERVICE + ".create-booking+json;charset=UTF-8;version=1.0";
         public static final String QUERY_BOOKINGS = SERVICE + ".get-bookings+json;charset=UTF-8;version=1.0";
+        public static final String DELETE_BOOKINGS = SERVICE + ".delete-bookings+json;charset=UTF-8;version=1.0";
     }
 
     public static final class Error {
