@@ -31,11 +31,11 @@ def vaultOverrides = [
 
 def secrets = [
     's2s-${env}': [
-        secret('microservicekey-ccd-gw', 'BEFTA_S2S_CLIENT_SECRET'),
+        secret('microservicekey-am-judicial-booking-service', 'BEFTA_S2S_CLIENT_SECRET'),
         secret('microservicekey-am-judicial-booking-service', 'AM_JUDICIAL_BOOKING_SERVICE_SECRET')
     ],
     'am-${env}': [
-            secret('role-assignment-service-IDAM-CLIENT-SECRET', 'ROLE_ASSIGNMENT_IDAM_CLIENT_SECRET'),
+            secret('role-assignment-service-IDAM-CLIENT-SECRET', 'JUDICIAL_BOOKING_IDAM_CLIENT_SECRET'),
             secret('role-assignment-service-LD-SDK-KEY', 'LD_SDK_KEY'),
             secret('test-am-user1-befta-pwd', 'TEST_AM_USER1_BEFTA_PWD'),
             secret('test-am-user2-befta-pwd', 'TEST_AM_USER2_BEFTA_PWD'),
@@ -52,8 +52,9 @@ env.IDAM_URL = "https://idam-api.aat.platform.hmcts.net"
 env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"
 env.IDAM_S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
 env.DEFINITION_STORE_HOST = "http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
-env.BEFTA_S2S_CLIENT_ID = "am_role_assignment_service"
+env.BEFTA_S2S_CLIENT_ID = "am_judicial_booking_service"
 env.OAUTH2_CLIENT_ID = "am_role_assignment"
+env.JUDICIAL_BOOKING_IDAM_CLIENT_ID = "am_role_assignment"
 env.OAUTH2_REDIRECT_URI = "http://am-role-assignment-service-aat.service.core-compute-aat.internal/oauth2redirect"
 env.OAUTH2_ACCESS_TOKEN_TYPE = "OIDC"
 env.BEFTA_RESPONSE_HEADER_CHECK_POLICY = "JUST_WARN"

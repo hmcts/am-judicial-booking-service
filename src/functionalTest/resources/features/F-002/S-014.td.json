@@ -1,0 +1,22 @@
+{
+  "title": "must receive an error response for an invalid user id",
+  "_guid_": "S-014",
+  "_extends_": "F-002_Test_Data_Base",
+  "specs": [
+    "contains an authenticated user id having only single booking",
+    "contains an invalid user id"
+  ],
+  "request": {
+    "body": {
+      "queryRequest" : {
+        "userIds" : ["12345ABC$"]
+      }
+    }
+  },
+  "expectedResponse": {
+    "_extends_": "BadRequestResponse",
+    "body" : {
+      "errorDescription" : "The input parameter: \"${[scenarioContext][testData][request][body][queryRequest][userIds][0]}\", does not comply with the required pattern"
+    }
+  }
+}
