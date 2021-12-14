@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath("net.serenity-bdd:serenity-gradle-plugin:2.4.24")
@@ -168,7 +169,14 @@ pitest {
     pitestVersion = "1.5.2"
     testPlugin = "junit5"
     targetClasses = ['uk.gov.hmcts.reform.*']
-    excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication', 'uk.gov.hmcts.reform.judicialbooking.util.Swagger2SpringBoot', 'uk.gov.hmcts.reform.judicialbooking.controller.advice.ErrorConstants', 'uk.gov.hmcts.reform.judicialbooking.configuration.*', 'uk.gov.hmcts.reform.judicialbooking.apihelper.*', 'uk.gov.hmcts.reform.judicialbooking.model.*', 'uk.gov.hmcts.reform.judicialbooking.controller.endpoints.S2SAuthentication']
+    excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication',
+                       'uk.gov.hmcts.reform.judicialbooking.util.Swagger2SpringBoot',
+                       'uk.gov.hmcts.reform.judicialbooking.config.*',
+                       'uk.gov.hmcts.reform.judicialbooking.controller.advice.ErrorConstants',
+                       'uk.gov.hmcts.reform.judicialbooking.configuration.*',
+                       'uk.gov.hmcts.reform.judicialbooking.apihelper.*',
+                       'uk.gov.hmcts.reform.judicialbooking.model.*',
+                       'uk.gov.hmcts.reform.judicialbooking.controller.endpoints.S2SAuthentication']
     threads = 15
     outputFormats = ['XML', 'HTML']
     timestampedReports = true
@@ -183,14 +191,20 @@ sonarqube {
         property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
         property "sonar.pitest.mode", "reuseReport"
         property "sonar.pitest.reportsDirectory", "build/reports/pitest"
-        property "sonar.exclusions", "src/main/java/**"
-        //property "sonar.exclusions", "src/main/java/uk/gov/hmcts/reform/judicialbooking/*Application.java," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/util/*Swagger2SpringBoot.java," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/*ErrorConstants.java," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/exception/**," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/configuration/**," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/model/enums/**," + "src/main/java/uk/gov/hmcts/reform/judicialbooking/apihelper/**"
-        //property "sonar.junit.reportPaths", "${project.buildDir}/test-results/junit-platform"
+        property "sonar.exclusions",
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/*Application.java," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/util/*Swagger2SpringBoot.java," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/*ErrorConstants.java," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/exception/**," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/configuration/**," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/model/enums/**," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/apihelper/**"
+        property "sonar.junit.reportPaths", "${project.buildDir}/test-results/junit-platform"
     }
 }
 
-/*project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
-project.tasks['sonarqube'].group = "Verification"*/
+project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
+project.tasks['sonarqube'].group = "Verification"
 
 dependencyUpdates.resolutionStrategy {
     componentSelection { rules ->
