@@ -1,45 +1,77 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.inject.Inject;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
-import java.nio.charset.Charset;
-import java.util.HashMap;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
 
-@ActiveProfiles("test")
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class BaseTest {
+
     protected static final ObjectMapper mapper = new ObjectMapper();
-    protected static final TypeReference STRING_NODE_TYPE = new TypeReference<HashMap<String, JsonNode>>() {};
-
-    protected static final MediaType JSON_CONTENT_TYPE = new MediaType(
-        MediaType.APPLICATION_JSON.getType(),
-        MediaType.APPLICATION_JSON.getSubtype(),
-        Charset.forName("utf8"));
-
-
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Inject
-    protected DataSource db;
-
 
     @BeforeClass
     public static void init() {
         mapper.registerModule(new JavaTimeModule());
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
 
-        // Force re-initialisation of base types for each test suite
+    protected static final MediaType JSON_CONTENT_TYPE = new MediaType(
+            MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(),
+            StandardCharsets.UTF_8
+    );
+
+    @TestConfiguration
+    static class Configuration {
+        Connection connection;
+
+        @Bean
+        public EmbeddedPostgres embeddedPostgres() throws IOException {
+            return EmbeddedPostgres
+                    .builder()
+                    .setPort(0)
+                    .start();
+        }
+
+        @Bean
+        public DataSource dataSource(@Autowired EmbeddedPostgres pg) throws Exception {
+
+            final Properties props = new Properties();
+            // Instruct JDBC to accept JSON string for JSONB
+            props.setProperty("stringtype", "unspecified");
+            connection = DriverManager.getConnection(pg.getJdbcUrl("postgres", "postgres"), props);
+            DataSource datasource = new SingleConnectionDataSource(connection, true);
+            return datasource;
+        }
+
+
+
+        @PreDestroy
+        public void contextDestroyed() throws SQLException {
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 }
