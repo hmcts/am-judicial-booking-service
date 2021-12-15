@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.CreateBookingController;
+import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.QueryBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
@@ -24,14 +24,14 @@ import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 @ExtendWith(SpringExtension.class)
-@Provider("am_judicialBooking_create")
+@Provider("am_judicialBooking_query")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
         consumerVersionSelectors = {@VersionSelector(tag = "master")})
 @TestPropertySource(properties = {"spring.cache.type=none", "launchdarkly.sdk.environment=pr"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify
-public class CreateBookingProviderTest {
+public class QueryBookingProviderTest {
 
     @Autowired
     private PersistenceService persistenceService;
@@ -56,7 +56,8 @@ public class CreateBookingProviderTest {
     @BeforeEach
     void beforeCreate(PactVerificationContext context) {
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
-        testTarget.setControllers(new CreateBookingController(
+        System.getProperties().setProperty("pact.verifier.publishResults", "true");
+        testTarget.setControllers(new QueryBookingController(
                 bookingOrchestrator
         ));
         if (context != null) {
@@ -64,15 +65,15 @@ public class CreateBookingProviderTest {
         }
     }
 
-    @State({"A create request is received with valid begin and end dates"})
-    public void createSingleBooking() {
-        initCreateMocks();
+    @State({"A query request is received with a valid userId passed"})
+    public void querySingleValidUserId() {
+        initQueryMocks();
     }
 
-    private void initCreateMocks() {
+    private void initQueryMocks() {
 
-        Mockito.when(persistenceService.persistBooking(Mockito.any()))
-                .thenReturn(TestDataBuilder.buildPreparedBooking());
+        Mockito.when(persistenceService.getValidBookings(TestDataBuilder.buildRequestIds().getUserIds()))
+                .thenReturn(TestDataBuilder.buildListOfBookings());
 
         Mockito.when(securityUtils.getUserId()).thenReturn("5629957f-4dcd-40b8-a0b2-e64ff5898b28");
         Mockito.when(correlationInterceptorUtil.preHandle(Mockito.any()))

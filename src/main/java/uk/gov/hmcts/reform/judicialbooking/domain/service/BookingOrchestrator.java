@@ -35,11 +35,8 @@ public class BookingOrchestrator {
     }
 
     public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest) throws ParseException {
-
         BookingEntity parsedBookingRequest = parseRequestService.parseBookingRequest(bookingRequest);
-
         BookingEntity bookingEntity = persistenceService.persistBooking(parsedBookingRequest);
-
         return prepareDataService.prepareBookingResponse(bookingEntity);
     }
 
