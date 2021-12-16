@@ -3,13 +3,11 @@ package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import com.launchdarkly.sdk.LDUser;
 import com.launchdarkly.sdk.server.LDClient;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -19,7 +17,6 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
-import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 
 import javax.inject.Inject;
 import java.time.ZonedDateTime;
@@ -69,8 +66,8 @@ public class QueryBookingIntegrationTest extends BaseTest {
         doReturn(false).when(ldClient).isFlagKnown(anyString());
 
         mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
-                .headers(getHttpHeaders())
-                .content(mapper.writeValueAsBytes(request)))
+                        .headers(getHttpHeaders())
+                        .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().is5xxServerError())
                 .andExpect(jsonPath("$.errorDescription")
                         .value(containsString("Resource not found: "
@@ -212,10 +209,4 @@ public class QueryBookingIntegrationTest extends BaseTest {
         ));
     }
 
-    @NotNull
-    private HttpHeaders getHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(Constants.CORRELATION_ID_HEADER_NAME, "38a90097-434e-47ee-8ea1-9ea2a267f51d");
-        return headers;
-    }
 }

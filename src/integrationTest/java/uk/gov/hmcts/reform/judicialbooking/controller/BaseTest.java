@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.judicialbooking.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.launchdarkly.shaded.org.jetbrains.annotations.NotNull;
 import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -10,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 
 import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
@@ -42,6 +45,13 @@ public abstract class BaseTest {
             StandardCharsets.UTF_8
     );
 
+    @NotNull
+    HttpHeaders getHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(Constants.CORRELATION_ID_HEADER_NAME, "38a90097-434e-47ee-8ea1-9ea2a267f51d");
+        return headers;
+    }
+
     @TestConfiguration
     static class Configuration {
         Connection connection;
@@ -64,7 +74,6 @@ public abstract class BaseTest {
             DataSource datasource = new SingleConnectionDataSource(connection, true);
             return datasource;
         }
-
 
 
         @PreDestroy

@@ -2,12 +2,10 @@ package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import com.launchdarkly.sdk.LDUser;
 import com.launchdarkly.sdk.server.LDClient;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -15,7 +13,6 @@ import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
-import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import javax.inject.Inject;
@@ -32,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CreateBookingIntegrationTest extends  BaseTest {
+public class CreateBookingIntegrationTest extends BaseTest {
     private static final String URL = "/am/bookings";
 
     private static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
@@ -223,10 +220,4 @@ public class CreateBookingIntegrationTest extends  BaseTest {
                 .andReturn();
     }
 
-    @NotNull
-    private HttpHeaders getHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(Constants.CORRELATION_ID_HEADER_NAME, "38a90097-434e-47ee-8ea1-9ea2a267f51d");
-        return headers;
-    }
 }
