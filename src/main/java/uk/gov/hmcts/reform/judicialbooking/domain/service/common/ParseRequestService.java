@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -26,7 +27,8 @@ public class ParseRequestService {
         ValidationUtil.validateBookingRequest(bookingRequest);
         BookingEntity booking = BookingEntity.builder()
                 .created(ZonedDateTime.now())
-                .userId(securityUtils.getUserId())
+                .userId(StringUtils.isEmpty(bookingRequest.getUserId()) ? securityUtils.getUserId() :
+                        bookingRequest.getUserId())
                 .beginTime(bookingRequest.getBeginDate().atStartOfDay(ZoneId.of("UTC")))
                 .endTime(bookingRequest.getEndDate().plusDays(1).atStartOfDay(ZoneId.of("UTC")))
                 .locationId(bookingRequest.getLocationId())

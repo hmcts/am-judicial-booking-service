@@ -49,7 +49,7 @@ public class ValidationUtil {
         }
     }
 
-    public static boolean sanitiseCorrelationId(String inputString) {
+    public static boolean sanitiseUuid(String inputString) {
         if (inputString != null && !inputString.isEmpty() && !Pattern.matches(Constants.UUID_PATTERN, inputString)) {
             throw new BadRequestException(
                     String.format(
@@ -70,6 +70,9 @@ public class ValidationUtil {
         if ((!ObjectUtils.isEmpty(booking.getLocationId()))
                 && (ObjectUtils.isEmpty(booking.getRegionId()))) {
             throw new BadRequestException("RegionId cannot be Null or Empty, if LocationId is available");
+        }
+        if (!ObjectUtils.isEmpty(booking.getUserId())) {
+            sanitiseUuid(booking.getUserId());
         }
         validateBeginAndEndDates(booking.getBeginDate(), booking.getEndDate());
     }
