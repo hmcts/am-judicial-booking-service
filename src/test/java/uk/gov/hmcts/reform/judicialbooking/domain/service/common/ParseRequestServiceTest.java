@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,12 +10,14 @@ import org.mockito.MockitoAnnotations;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
@@ -61,5 +64,15 @@ class ParseRequestServiceTest {
                 BookingQueryRequest.builder().queryRequest(userRequest).build();
 
         Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequest));
+    }
+
+    @Test
+    void parseQueryRequest_userIdAsParam() throws ParseException {
+        String userId = UUID.randomUUID().toString();
+        BookingRequest request = TestDataBuilder.buildBookingRequest();
+        request.setUserId(userId);
+
+        BookingEntity entity = sut.parseBookingRequest(request);
+        Assert.assertEquals(userId, entity.getUserId());
     }
 }

@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT,use = JsonTypeInfo.Id.NAME)
 public class BookingRequest {
 
+    private String userId;
     private String regionId;
     private String locationId;
     private LocalDate beginDate;
