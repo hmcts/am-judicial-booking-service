@@ -68,7 +68,7 @@ class ValidationUtilTest {
         assertTrue(matcher.matches());
         assertNotNull(uuid);
         assertFalse(uuid.isEmpty());
-        final boolean result = ValidationUtil.sanitiseCorrelationId(uuid);
+        final boolean result = ValidationUtil.sanitiseUuid(uuid);
         assertTrue(result);
 
     }
@@ -82,7 +82,7 @@ class ValidationUtilTest {
         assertNotNull(inputString);
         assertFalse(inputString.isEmpty());
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.sanitiseCorrelationId(inputString)
+                ValidationUtil.sanitiseUuid(inputString)
         );
     }
 
