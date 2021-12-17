@@ -72,7 +72,7 @@ public class ValidationUtil {
             throw new BadRequestException("RegionId cannot be Null or Empty, if LocationId is available");
         }
         if (!ObjectUtils.isEmpty(booking.getUserId())) {
-            sanitiseUuid(booking.getUserId());
+            validateInputParams(booking.getUserId());
         }
         validateBeginAndEndDates(booking.getBeginDate(), booking.getEndDate());
     }
