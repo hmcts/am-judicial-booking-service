@@ -11,7 +11,6 @@ import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
