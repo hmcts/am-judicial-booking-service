@@ -56,7 +56,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     @Test
     public void shouldRejectRequestWithLDFlagDisable() throws Exception {
-        BookingRequest request = new BookingRequest("region", "location", LocalDate.now(),
+        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
                 LocalDate.now());
         doReturn(false).when(ldClient).boolVariation(anyString(), any(LDUser.class), eq(false));
 
@@ -82,7 +82,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     @Test
     public void rejectRequestWithoutRegion() throws Exception {
-        BookingRequest request = new BookingRequest(null, "location", LocalDate.now(),
+        BookingRequest request = new BookingRequest(null, null, "location", LocalDate.now(),
                 LocalDate.now());
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
@@ -96,7 +96,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     @Test
     public void rejectRequestWithoutStartDate() throws Exception {
-        BookingRequest request = new BookingRequest("region", "location", null,
+        BookingRequest request = new BookingRequest(null, "region", "location", null,
                 LocalDate.now());
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
@@ -110,7 +110,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     @Test
     public void rejectRequestWithoutEndDate() throws Exception {
-        BookingRequest request = new BookingRequest("region", "location", LocalDate.now(),
+        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
                 null);
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
@@ -124,7 +124,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     @Test
     public void createJudicialBookings_mandatoryValues() throws Exception {
-        BookingRequest request = new BookingRequest(null, null, LocalDate.now(),
+        BookingRequest request = new BookingRequest(null, null, null, LocalDate.now(),
                 LocalDate.now());
 
         final MvcResult result = mockMvc.perform(post(URL)
@@ -147,7 +147,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
     @Test
     public void createJudicialBooking_fullValues() throws Exception {
 
-        BookingRequest request = new BookingRequest("region", "location", LocalDate.now(),
+        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
                 LocalDate.now());
 
         final MvcResult result = mockMvc.perform(post(URL)
@@ -172,7 +172,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
     @Test
     public void rejectBookingRequest_expiredEndDate() throws Exception {
 
-        BookingRequest request = new BookingRequest("region", "location", LocalDate.now(),
+        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
                 LocalDate.now().minusDays(1));
 
         mockMvc.perform(post(URL)
@@ -189,8 +189,8 @@ public class CreateBookingIntegrationTest extends BaseTest {
     @Test
     public void rejectBookingRequest_greaterStartDate() throws Exception {
 
-        BookingRequest request = new BookingRequest("region", "location", LocalDate.now().plusDays(5),
-                LocalDate.now());
+        BookingRequest request = new BookingRequest(null, "region", "location",
+                LocalDate.now().plusDays(5), LocalDate.now());
 
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
@@ -206,8 +206,8 @@ public class CreateBookingIntegrationTest extends BaseTest {
     @Test
     public void rejectBookingRequest_expiredDates() throws Exception {
 
-        BookingRequest request = new BookingRequest("region", "location", LocalDate.now().minusDays(5),
-                LocalDate.now().minusDays(1));
+        BookingRequest request = new BookingRequest(null, "region", "location",
+                LocalDate.now().minusDays(5), LocalDate.now().minusDays(1));
 
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
@@ -218,6 +218,31 @@ public class CreateBookingIntegrationTest extends BaseTest {
                         .value(containsString("The begin time: " + LocalDate.now().minusDays(5)
                                 + " takes place before the current time: " + LocalDate.now())))
                 .andReturn();
+    }
+
+    @Test
+    public void createBooking_withInputUserId() throws Exception {
+
+        BookingRequest request = new BookingRequest("1234-abcd", "region", "location",
+                LocalDate.now(), LocalDate.now().plusDays(1));
+
+        final MvcResult result = mockMvc.perform(post(URL)
+                        .contentType(JSON_CONTENT_TYPE)
+                        .headers(getHttpHeaders())
+                        .content(mapper.writeValueAsBytes(request)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        BookingResponse response = mapper.readValue(
+                result.getResponse().getContentAsString(),
+                BookingResponse.class
+        );
+        assertNotNull(response);
+        BookingEntity actualBooking = response.getBookingResponse();
+        assertNotNull(actualBooking);
+        assertEquals(request.getUserId(), actualBooking.getUserId());
+        assertEquals(request.getLocationId(), actualBooking.getLocationId());
+        assertEquals(request.getRegionId(), actualBooking.getRegionId());
+        assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
     }
 
 }
