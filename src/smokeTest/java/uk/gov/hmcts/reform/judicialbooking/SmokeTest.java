@@ -25,7 +25,7 @@ public class SmokeTest extends BaseTest {
     String accessToken;
     String serviceAuth;
 
-   @Before
+    @Before
     public void setUp() {
         config = new UserTokenProviderConfig();
         accessToken = searchUserByUserId(config);
@@ -57,11 +57,9 @@ public class SmokeTest extends BaseTest {
         String targetInstance = config.getBaseUrl() + "/am/bookings/query";
         RestAssured.useRelaxedHTTPSValidation();
 
-        String requestBody = "{\n" +
-                "  \"queryRequest\" : {\n" +
-                "    \"userIds\" : [\"b0444ddd-e640-4bbe-a6e9-d0b771171401\",\"b0444ddd-e640-4bbe-a6e9-d0b771171402\"]\n" +
-                "  }\n" +
-                "}";
+        String requestBody = "{\"queryRequest\" : {\n"
+                + "    \"userIds\" : [\"b0444ddd-e640-4bbe-a6e9-d0b771171401\"]\n"
+                + "  }}";
 
         Response response = SerenityRest
                 .given()
