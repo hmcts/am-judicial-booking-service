@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.judicialbooking.helper;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
@@ -11,13 +12,16 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 public class TestDataBuilder {
 
     static String uuidString = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
     static String uuidString2 = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
+    static UUID uuidString3 = UUID.fromString("5629957f-4dcd-40b8-a0b2-e64ff5898b30");
 
     private TestDataBuilder() {
         //not meant to be instantiated.
@@ -44,7 +48,7 @@ public class TestDataBuilder {
 
     public static BookingEntity buildParsedBooking() {
         return BookingEntity.builder()
-                .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
+                .userId(uuidString)
                 .created(ZonedDateTime.now())
                 .beginTime(ZonedDateTime.now().plusDays(1))
                 .endTime(ZonedDateTime.now().plusMonths(1))
@@ -53,9 +57,10 @@ public class TestDataBuilder {
 
     public static BookingEntity buildPreparedBooking() {
         return BookingEntity.builder()
+                .id(uuidString3)
                 .locationId("baseLocationId")
                 .regionId("regionId")
-                .userId("5629957f-4dcd-40b8-a0b2-e64ff5898b28")
+                .userId(uuidString)
                 .created(ZonedDateTime.now())
                 .beginTime(ZonedDateTime.now().plusDays(1))
                 .endTime(ZonedDateTime.now().plusMonths(1))
@@ -64,6 +69,7 @@ public class TestDataBuilder {
 
     public static BookingEntity buildRetrievedBooking(String userId) {
         return BookingEntity.builder()
+                .id(uuidString3)
                 .locationId("LDN")
                 .regionId("South-East")
                 .userId(userId)
@@ -84,6 +90,12 @@ public class TestDataBuilder {
 
     public static ResponseEntity<BookingQueryResponse> buildQueryResponseEntity() {
         return ResponseEntity.ok(TestDataBuilder.buildQueryResponse(buildListOfBookings()));
+    }
+
+    public static UserInfo buildUserInfo(String uuid) {
+        List<String> list = new ArrayList<>();
+        return UserInfo.builder().sub("sub").uid(uuid)
+                .name("James").givenName("007").familyName("Bond").roles(list).build();
     }
 
 }

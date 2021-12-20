@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
@@ -26,7 +27,7 @@ class CreateBookingOrchestratorTest {
     private final PrepareDataService prepareDataService = mock(PrepareDataService.class);
 
     @InjectMocks
-    private final CreateBookingOrchestrator sut = new CreateBookingOrchestrator(
+    private final BookingOrchestrator sut = new BookingOrchestrator(
             parseRequestService,
             persistenceService,
             prepareDataService
@@ -34,7 +35,7 @@ class CreateBookingOrchestratorTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

@@ -1,0 +1,9 @@
+{
+  "_guid_": "DeleteDataForBookingResponse",
+  "_extends_": "DeleteDataForBookings",
+  "request": {
+    "pathVariables": {
+      "userId": "${[scenarioContext][parentContext][testData][actualResponse][body][bookingResponse][userId]}"
+    }
+  }
+}

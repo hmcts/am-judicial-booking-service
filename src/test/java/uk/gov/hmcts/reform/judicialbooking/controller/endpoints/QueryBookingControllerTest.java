@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.querybookings.QueryBookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
 import java.util.Objects;
@@ -20,15 +20,15 @@ import static org.mockito.Mockito.when;
 
 class QueryBookingControllerTest {
 
-    private final QueryBookingOrchestrator queryBookingOrchestrator =
-            mock(QueryBookingOrchestrator.class);
+    private final BookingOrchestrator bookingOrchestrator =
+            mock(BookingOrchestrator.class);
 
     @InjectMocks
     private QueryBookingController sut;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -37,7 +37,7 @@ class QueryBookingControllerTest {
 
         ResponseEntity<BookingQueryResponse> expectedResponse = TestDataBuilder.buildQueryResponseEntity();
 
-        when(queryBookingOrchestrator.queryBookings(any())).thenReturn(expectedResponse);
+        when(bookingOrchestrator.queryBookings(any())).thenReturn(expectedResponse);
 
         ResponseEntity<BookingQueryResponse> response = sut.queryBookings("",
                 BookingQueryRequest.builder().queryRequest(userRequest).build());

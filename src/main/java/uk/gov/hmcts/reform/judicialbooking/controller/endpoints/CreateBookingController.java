@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.createbooking.CreateBookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 import javax.transaction.Transactional;
@@ -26,10 +26,10 @@ import javax.transaction.Transactional;
 @Slf4j
 public class CreateBookingController {
 
-    private final CreateBookingOrchestrator createBookingOrchestrator;
+    private final BookingOrchestrator bookingOrchestrator;
 
-    public CreateBookingController(CreateBookingOrchestrator createBookingOrchestrator) {
-        this.createBookingOrchestrator = createBookingOrchestrator;
+    public CreateBookingController(BookingOrchestrator bookingOrchestrator) {
+        this.bookingOrchestrator = bookingOrchestrator;
     }
 
     @PostMapping(
@@ -57,7 +57,7 @@ public class CreateBookingController {
             @Validated
             @RequestBody BookingRequest bookingRequest) throws Exception {
         long startTime = System.currentTimeMillis();
-        ResponseEntity<BookingResponse> response = createBookingOrchestrator
+        ResponseEntity<BookingResponse> response = bookingOrchestrator
                 .createBooking(bookingRequest);
         log.info(
                 " >> createBooking execution finished at {} . Time taken = {} milliseconds",

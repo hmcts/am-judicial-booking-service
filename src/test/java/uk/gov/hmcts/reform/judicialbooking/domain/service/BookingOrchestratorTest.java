@@ -1,21 +1,23 @@
-package uk.gov.hmcts.reform.judicialbooking.domain.service.querybookings;
+package uk.gov.hmcts.reform.judicialbooking.domain.service;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class QueryBookingOrchestratorTest {
+class BookingOrchestratorTest {
 
     private final ParseRequestService parseRequestService =
             mock(ParseRequestService.class);
@@ -33,15 +35,15 @@ class QueryBookingOrchestratorTest {
             mock(PersistenceService.class);
 
     @InjectMocks
-    private QueryBookingOrchestrator sut;
+    private BookingOrchestrator sut;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void queryBooking() throws ParseException {
+    void queryBooking() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
 
         List<BookingEntity> bookingEntities =
@@ -64,6 +66,28 @@ class QueryBookingOrchestratorTest {
                 response.getBody().getBookingEntities().get(0).getUserId());
         Assertions.assertEquals(userRequest.getUserIds().get(1),
                 response.getBody().getBookingEntities().get(1).getUserId());
+
+    }
+
+    @Test
+    void createBooking() throws Exception {
+
+        when(parseRequestService.parseBookingRequest(any())).thenReturn(TestDataBuilder.buildParsedBooking());
+
+        when(persistenceService.persistBooking(any()))
+                .thenReturn(TestDataBuilder.buildPreparedBooking());
+
+        BookingEntity bookingResponseObject = TestDataBuilder.buildPreparedBooking();
+
+        ResponseEntity<BookingResponse> bookingResponseEntity =
+                ResponseEntity.status(HttpStatus.OK).body(TestDataBuilder.buildBookingResponse(bookingResponseObject));
+
+        when(prepareDataService.prepareBookingResponse(any())).thenReturn(bookingResponseEntity);
+
+        ResponseEntity<BookingResponse> createBookingResponse =
+                sut.createBooking(TestDataBuilder.buildBookingRequest());
+
+        Assert.assertNotNull(createBookingResponse);
 
     }
 }
