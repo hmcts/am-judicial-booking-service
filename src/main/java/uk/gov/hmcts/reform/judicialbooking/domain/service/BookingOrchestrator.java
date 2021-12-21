@@ -15,7 +15,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataServ
 import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 import uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil;
 
-import java.text.ParseException;
 import java.util.List;
 
 @RequestScope
@@ -34,7 +33,7 @@ public class BookingOrchestrator {
         this.prepareDataService = prepareDataService;
     }
 
-    public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest)  {
+    public ResponseEntity<BookingResponse> createBooking(BookingRequest bookingRequest) {
         BookingEntity parsedBookingRequest = parseRequestService.parseBookingRequest(bookingRequest);
         BookingEntity bookingEntity = persistenceService.persistBooking(parsedBookingRequest);
         return prepareDataService.prepareBookingResponse(bookingEntity);
