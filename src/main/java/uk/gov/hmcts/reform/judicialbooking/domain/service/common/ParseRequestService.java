@@ -23,7 +23,7 @@ public class ParseRequestService {
     @Autowired
     private SecurityUtils securityUtils;
 
-    public BookingEntity parseBookingRequest(BookingRequest bookingRequest) throws ParseException {
+    public BookingEntity parseBookingRequest(BookingRequest bookingRequest) {
         ValidationUtil.validateBookingRequest(bookingRequest);
         return BookingEntity.builder()
                 .created(ZonedDateTime.now())
