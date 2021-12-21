@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
 
 class ValidationUtilTest {
 
@@ -22,6 +23,44 @@ class ValidationUtilTest {
     void shouldValidate() {
         assertTrue(ValidationUtil.validate("1212121212121212"));
         assertFalse(ValidationUtil.validate("2323232323232"));
+    }
+
+    @Test
+    void shouldValidateInputParams_EmptyString() {
+        Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateInputParams(INPUT_CASE_ID_PATTERN, "")
+        );
+    }
+
+    @Test
+    void shouldThrow_Pattern_NotMatched() {
+        Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateInputParams(INPUT_CASE_ID_PATTERN, "myreq@123")
+        );
+    }
+
+    @Test
+    void shouldSanitiseCorrelationId() {
+        Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.sanitiseUuid("correlation-id-dummy")
+        );
+    }
+
+    @Test
+    void shouldValidateBookingRequest() {
+        BookingRequest booking = new BookingRequest();
+        Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateBookingRequest(booking)
+        );
+    }
+
+    @Test
+    void shouldValidateInputDates() {
+        LocalDate beginDate = LocalDate.now().minusYears(51L);
+        LocalDate endDate = LocalDate.now().minusYears(51L);
+        Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateBeginAndEndDates(beginDate,endDate)
+        );
     }
 
     @Test
@@ -156,4 +195,6 @@ class ValidationUtilTest {
                 ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
         );
     }
+
+
 }
