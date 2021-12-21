@@ -15,10 +15,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+import uk.gov.hmcts.reform.idam.client.models.TokenRequest;
+import uk.gov.hmcts.reform.idam.client.models.TokenResponse;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 
 import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
@@ -58,7 +69,7 @@ public abstract class BaseTest {
     }
 
 
-    /*public String searchUserByUserId(UserTokenProviderConfig config) {
+    public String searchUserByUserId(UserTokenProviderConfig config) {
         TokenRequest request = config.prepareTokenRequest();
         new ResponseEntity<>(HttpStatus.OK);
         ResponseEntity<TokenResponse> response;
@@ -97,7 +108,7 @@ public abstract class BaseTest {
             throw new BadRequestException("Unable to fetch access token");
 
         }
-    }*/
+    }
 
     @TestConfiguration
     static class Configuration {
