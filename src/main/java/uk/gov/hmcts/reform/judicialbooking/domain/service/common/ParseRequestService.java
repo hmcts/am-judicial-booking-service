@@ -25,7 +25,7 @@ public class ParseRequestService {
 
     public BookingEntity parseBookingRequest(BookingRequest bookingRequest) throws ParseException {
         ValidationUtil.validateBookingRequest(bookingRequest);
-        BookingEntity booking = BookingEntity.builder()
+        return BookingEntity.builder()
                 .created(ZonedDateTime.now())
                 .userId(StringUtils.isEmpty(bookingRequest.getUserId()) ? securityUtils.getUserId() :
                         bookingRequest.getUserId())
@@ -35,7 +35,6 @@ public class ParseRequestService {
                 .regionId(bookingRequest.getRegionId())
                 .log("Booking record is successfully created")
                 .build();
-        return booking;
     }
 
     public List<String> parseQueryRequest(BookingQueryRequest queryRequest) {
