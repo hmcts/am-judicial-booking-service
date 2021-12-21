@@ -31,7 +31,7 @@ class ParseRequestServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -63,9 +63,7 @@ class ParseRequestServiceTest {
         BookingQueryRequest bookingQueryRequest =
                 BookingQueryRequest.builder().queryRequest(userRequest).build();
 
-        Assertions.assertThrows(BadRequestException.class, () -> {
-            sut.parseQueryRequest(bookingQueryRequest);
-        });
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequest));
     }
 
     @Test
