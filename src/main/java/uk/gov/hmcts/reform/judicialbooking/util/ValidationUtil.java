@@ -60,7 +60,7 @@ public class ValidationUtil {
         return true;
     }
 
-    public static void validateBookingRequest(BookingRequest booking) throws ParseException {
+    public static void validateBookingRequest(BookingRequest booking) {
         if (ObjectUtils.isEmpty(booking.getBeginDate())) {
             throw new BadRequestException("Begin date cannot be Null or Empty");
         }
