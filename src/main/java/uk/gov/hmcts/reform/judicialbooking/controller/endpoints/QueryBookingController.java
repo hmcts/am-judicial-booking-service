@@ -50,7 +50,7 @@ public class QueryBookingController {
     public ResponseEntity<BookingQueryResponse> queryBookings(
             @RequestHeader(value = "x-correlation-id", required = false)
                     String correlationId,
-            @RequestBody BookingQueryRequest queryRequest) throws Exception {
+            @RequestBody BookingQueryRequest queryRequest)  {
         long startTime = System.currentTimeMillis();
         ResponseEntity<BookingQueryResponse> response = bookingOrchestrator.queryBookings(
                 queryRequest);

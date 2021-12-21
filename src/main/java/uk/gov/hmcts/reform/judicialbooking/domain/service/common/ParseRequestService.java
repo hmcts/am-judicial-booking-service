@@ -12,7 +12,6 @@ import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 import uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil;
 
-import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -23,9 +22,9 @@ public class ParseRequestService {
     @Autowired
     private SecurityUtils securityUtils;
 
-    public BookingEntity parseBookingRequest(BookingRequest bookingRequest) throws ParseException {
+    public BookingEntity parseBookingRequest(BookingRequest bookingRequest) {
         ValidationUtil.validateBookingRequest(bookingRequest);
-        BookingEntity booking = BookingEntity.builder()
+        return BookingEntity.builder()
                 .created(ZonedDateTime.now())
                 .userId(StringUtils.isEmpty(bookingRequest.getUserId()) ? securityUtils.getUserId() :
                         bookingRequest.getUserId())
@@ -35,7 +34,6 @@ public class ParseRequestService {
                 .regionId(bookingRequest.getRegionId())
                 .log("Booking record is successfully created")
                 .build();
-        return booking;
     }
 
     public List<String> parseQueryRequest(BookingQueryRequest queryRequest) {
