@@ -8,8 +8,9 @@
   "request": {
     "body": {
       "queryRequest" : {
-        "userIds" : ["${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][actualResponse][body][bookingResponse][userId]}",
-          "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser][testData][actualResponse][body][bookingResponse][userId]}"]
+        "userIds" : ["${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser][testData][actualResponse][body][bookingResponse][userId]}",
+          "${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][actualResponse][body][bookingResponse][userId]}"
+          ]
       }
     }
   },

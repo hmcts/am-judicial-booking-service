@@ -1,32 +1,9 @@
 {
   "_guid_": "DeleteDataForBookingsBeftaUser",
-  "productName": "Judicial Booking Service",
-  "operationName": "Delete Booking by userId",
-  "method": "DELETE",
-  "uri": "/am/bookings/{userId}",
-  "specs": [
-    "to delete bookings just created above"
-  ],
-  "users": {
-    "invokingUser": {
-      "username": "TEST_AM_USER2_BEFTA@test.local",
-      "password": "[[$TEST_AM_USER2_BEFTA_PWD]]"
-    }
-  },
+  "_extends_": "DeleteDataForBookings",
   "request": {
-    "headers": {
-      "Authorization": "[[DEFAULT_AUTO_VALUE]]",
-      "ServiceAuthorization": "[[DEFAULT_AUTO_VALUE]]"
-    },
     "pathVariables": {
-      "userId": "${[scenarioContext][parentContext][testData][actualResponse][body][bookings][0][userId]}"
+      "userId": "${[scenarioContext][parentContext][testData][actualResponse][body][bookings][1][userId]}"
     }
-  },
-  "expectedResponse": {
-    "headers": {
-      "Content-Length": "[[ANYTHING_PRESENT]]",
-      "Content-Type": "application/json"
-    },
-    "_extends_": "Common_204_Response"
   }
 }
