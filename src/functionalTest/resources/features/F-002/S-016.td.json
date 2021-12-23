@@ -21,8 +21,8 @@
         {
           "id": "[[ANYTHING_PRESENT]]",
           "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][0]}",
-          "locationId": "[[ANYTHING_PRESENT]]",
-          "regionId": "[[ANYTHING_PRESENT]]",
+          "locationId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser][testData][request][body][bookingRequest][locationId]}",
+          "regionId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser][testData][request][body][bookingRequest][regionId]}",
           "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"
@@ -30,8 +30,8 @@
         {
           "id": "[[ANYTHING_PRESENT]]",
           "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][1]}",
-          "locationId": "[[ANYTHING_PRESENT]]",
-          "regionId": "[[ANYTHING_PRESENT]]",
+          "locationId": "${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][request][body][bookingRequest][locationId]}",
+          "regionId": "${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][request][body][bookingRequest][regionId]}",
           "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"
