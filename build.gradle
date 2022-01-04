@@ -216,7 +216,8 @@ pitest {
                        'uk.gov.hmcts.reform.judicialbooking.configuration.*',
                        'uk.gov.hmcts.reform.judicialbooking.apihelper.*',
                        'uk.gov.hmcts.reform.judicialbooking.model.*',
-                       'uk.gov.hmcts.reform.judicialbooking.controller.endpoints.S2SAuthentication']
+                       'uk.gov.hmcts.reform.judicialbooking.controller.endpoints.S2SAuthentication'
+    ]
     threads = 15
     outputFormats = ['XML', 'HTML']
     timestampedReports = true

@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.judicialbooking.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 
@@ -10,14 +11,17 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
+
 
 class ValidationUtilTest {
 
     private final String beginTimeString = "BeginTime";
+
+
+
+    ValidationUtil validationUtil = Mockito.spy(ValidationUtil.class);
 
     @Test
     void shouldValidate() {
@@ -128,7 +132,7 @@ class ValidationUtilTest {
     @Test
     void validateBookingRequest_happy() {
         BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
-                .beginDate(LocalDate.of(2022, 1, 1))
+                .beginDate(LocalDate.now())
                 .endDate(LocalDate.of(2023, 1, 1))
                 .build();
         Assertions.assertDoesNotThrow(() ->
@@ -171,7 +175,7 @@ class ValidationUtilTest {
 
     @Test
     void validateDates_beginYear_Happy() {
-        LocalDate beginDate = LocalDate.of(2022, 1, 1);
+        LocalDate beginDate = LocalDate.now();
         LocalDate endDate = LocalDate.of(2023, 1, 1);
         Assertions.assertDoesNotThrow(() ->
                 ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
@@ -197,4 +201,9 @@ class ValidationUtilTest {
     }
 
 
+//    @Test
+//    void validate() {
+//        Boolean b = validationUtil.validate("123");
+//        Mockito.verify(validationUtil, times(1)).validateInputParams(anyString(), anyString());
+//    }
 }

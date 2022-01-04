@@ -19,19 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class S2SAuthenticationTest {
 
     @InjectMocks
-    @Spy
     private S2SAuthentication sut = new S2SAuthentication();
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void testS2SAuthorization() {
-        assertEquals("S2S Authentication is successful !!", sut.testS2SAuthorization());
+        assertEquals("S2S Authentication is successful !!", sut.testS2SAuthorization().getBody());
     }
 }

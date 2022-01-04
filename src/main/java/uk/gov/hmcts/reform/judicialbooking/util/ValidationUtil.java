@@ -13,7 +13,6 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
-
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
 
 @Named
