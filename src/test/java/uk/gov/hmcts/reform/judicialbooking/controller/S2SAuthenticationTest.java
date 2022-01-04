@@ -18,6 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class S2SAuthenticationTest {
 
+    @InjectMocks
+    @Spy
+    private  S2SAuthentication sut = new  S2SAuthentication();
+
     @BeforeEach
     void setUp() {
     }

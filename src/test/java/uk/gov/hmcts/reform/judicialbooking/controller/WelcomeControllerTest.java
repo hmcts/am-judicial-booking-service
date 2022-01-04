@@ -18,6 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WelcomeControllerTest {
 
+    @InjectMocks
+    @Spy
+    private  WelcomeController sut = new  WelcomeController();
+
     @BeforeEach
     void setUp() {
     }
