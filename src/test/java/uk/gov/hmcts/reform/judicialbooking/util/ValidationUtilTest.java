@@ -63,7 +63,7 @@ class ValidationUtilTest {
         LocalDate beginDate = LocalDate.now().minusYears(51L);
         LocalDate endDate = LocalDate.now().minusYears(51L);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.validateBeginAndEndDates(beginDate,endDate)
+                ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
         );
     }
 
@@ -81,7 +81,7 @@ class ValidationUtilTest {
         LocalDate beginTime = LocalDate.now().minusDays(1);
         LocalDate endTime = LocalDate.now().minusDays(2);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.compareDateOrder(beginTime,endTime)
+                ValidationUtil.compareDateOrder(beginTime, endTime)
         );
     }
 
@@ -90,7 +90,7 @@ class ValidationUtilTest {
         LocalDate beginTime = LocalDate.now().plusDays(14);
         LocalDate endTime = LocalDate.now().minusDays(1);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.compareDateOrder(beginTime,endTime)
+                ValidationUtil.compareDateOrder(beginTime, endTime)
         );
     }
 
@@ -99,7 +99,7 @@ class ValidationUtilTest {
         LocalDate beginTime = LocalDate.now().plusDays(14);
         LocalDate endTime = LocalDate.now().plusDays(10);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.compareDateOrder(beginTime,endTime)
+                ValidationUtil.compareDateOrder(beginTime, endTime)
         );
     }
 
@@ -200,10 +200,4 @@ class ValidationUtilTest {
         );
     }
 
-
-//    @Test
-//    void validate() {
-//        Boolean b = validationUtil.validate("123");
-//        Mockito.verify(validationUtil, times(1)).validateInputParams(anyString(), anyString());
-//    }
 }
