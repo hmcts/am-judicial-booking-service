@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -20,7 +21,7 @@ class WelcomeControllerTest {
 
     @InjectMocks
     @Spy
-    private  WelcomeController sut = new  WelcomeController();
+    private WelcomeController sut = new WelcomeController();
 
     @BeforeEach
     void setUp() {
@@ -36,6 +37,7 @@ class WelcomeControllerTest {
 
     @Test
     void welcome() {
+        assertEquals("Welcome to Judicial Booking service", sut.welcome());
     }
 
     @Test

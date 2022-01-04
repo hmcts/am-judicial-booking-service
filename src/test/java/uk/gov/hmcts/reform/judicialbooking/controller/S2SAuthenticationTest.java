@@ -20,7 +20,7 @@ class S2SAuthenticationTest {
 
     @InjectMocks
     @Spy
-    private  S2SAuthentication sut = new  S2SAuthentication();
+    private S2SAuthentication sut = new S2SAuthentication();
 
     @BeforeEach
     void setUp() {
@@ -32,5 +32,6 @@ class S2SAuthenticationTest {
 
     @Test
     void testS2SAuthorization() {
+        assertEquals("S2S Authentication is successful !!", sut.testS2SAuthorization());
     }
 }
