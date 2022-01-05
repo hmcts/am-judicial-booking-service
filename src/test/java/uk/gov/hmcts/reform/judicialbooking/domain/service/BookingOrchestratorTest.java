@@ -26,7 +26,10 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+
 
 class BookingOrchestratorTest {
 
@@ -56,7 +59,7 @@ class BookingOrchestratorTest {
 
         List<BookingEntity> bookingEntities =
                 List.of(TestDataBuilder.buildRetrievedBooking(userRequest.getUserIds().get(0)),
-                TestDataBuilder.buildRetrievedBooking(userRequest.getUserIds().get(1)));
+                        TestDataBuilder.buildRetrievedBooking(userRequest.getUserIds().get(1)));
         ResponseEntity<BookingQueryResponse> expectedResponse =
                 ResponseEntity.ok(TestDataBuilder.buildQueryResponse(bookingEntities));
 
@@ -110,7 +113,7 @@ class BookingOrchestratorTest {
 
     @Test
     void deleteBookingByInvalidUserId() {
-        final String inputs ="12345";
+        final String inputs = "12345";
         ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
         BadRequestException exception = Assertions.assertThrows(BadRequestException.class, () ->
@@ -126,6 +129,7 @@ class BookingOrchestratorTest {
         bookingOrchestrator.deleteBookingByUserId(any());
         Mockito.verify(bookingOrchestrator, times(1)).deleteBookingByUserId(any());
     }
+
     @Test
     void deleteNullBookingVerify() {
         bookingOrchestrator.deleteBookingByUserId(null);
