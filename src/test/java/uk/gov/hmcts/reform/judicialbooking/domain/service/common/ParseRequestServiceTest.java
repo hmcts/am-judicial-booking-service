@@ -16,9 +16,7 @@ import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,7 +50,7 @@ class ParseRequestServiceTest {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
 
         List<String> parsedUserIds = sut.parseQueryRequest(
-                        BookingQueryRequest.builder().queryRequest(userRequest).build());
+                BookingQueryRequest.builder().queryRequest(userRequest).build());
 
         Assertions.assertNotNull(parsedUserIds);
         Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
@@ -90,6 +88,7 @@ class ParseRequestServiceTest {
         BookingQueryRequest bookingQueryRequest = BookingQueryRequest.builder().queryRequest(userRequest).build();
         Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequest));
     }
+
     @Test
     void testPareseQueryValidateRequest() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
@@ -100,6 +99,6 @@ class ParseRequestServiceTest {
 
     @Test
     void testParseBookingValidateRequest() {
-       Assertions.assertThrows(BadRequestException.class,()->sut.parseBookingRequest(TestDataBuilder.buildWrongBookingRequest()));
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseBookingRequest(TestDataBuilder.buildWrongBookingRequest()));
     }
 }
