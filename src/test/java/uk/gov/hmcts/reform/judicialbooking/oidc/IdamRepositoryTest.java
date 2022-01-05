@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.TestCase.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -105,7 +104,7 @@ class IdamRepositoryTest {
     void getUserRolesBlankResponse() {
         String userId = "003352d0-e699-48bc-b6f5-5810411e60af";
         UserDetails userDetails = UserDetails.builder().email("black@betty.com").forename("ram").surname("jam").id(
-                "1234567890123456")
+                        "1234567890123456")
                 .roles(null).build();
 
         when(idamApi.getUserByUserId(any(), any())).thenReturn(userDetails);
