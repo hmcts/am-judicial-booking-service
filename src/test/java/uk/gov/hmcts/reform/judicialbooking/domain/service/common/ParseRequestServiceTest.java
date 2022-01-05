@@ -92,13 +92,15 @@ class ParseRequestServiceTest {
     @Test
     void testPareseQueryValidateRequest() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
-        BookingQueryRequest bookingQueryRequestnouserid = BookingQueryRequest.builder().queryRequest(userRequest).build();
+        BookingQueryRequest bookingQueryRequestnouserid =
+                BookingQueryRequest.builder().queryRequest(userRequest).build();
         bookingQueryRequestnouserid.getQueryRequest().setUserIds(Arrays.asList("abc"));
         Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequestnouserid));
     }
 
     @Test
     void testParseBookingValidateRequest() {
-        Assertions.assertThrows(BadRequestException.class, () -> sut.parseBookingRequest(TestDataBuilder.buildWrongBookingRequest()));
+        Assertions.assertThrows(BadRequestException.class,
+                () -> sut.parseBookingRequest(TestDataBuilder.buildWrongBookingRequest()));
     }
 }
