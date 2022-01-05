@@ -75,4 +75,15 @@ class ParseRequestServiceTest {
         BookingEntity entity = sut.parseBookingRequest(request);
         Assert.assertEquals(userId, entity.getUserId());
     }
+
+    @Test
+    void testParseBookingRequest() {
+        String userId = "testnegative";
+        when(securityUtils.getUserId()).thenReturn(userId);
+        Assertions.assertThrows(NullPointerException.class, () -> sut.parseBookingRequest(null));
+    }
+
+    @Test
+    void testParseQueryRequest() {
+    }
 }
