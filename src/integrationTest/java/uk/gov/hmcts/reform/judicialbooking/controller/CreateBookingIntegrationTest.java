@@ -138,7 +138,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
                 BookingResponse.class
         );
         assertNotNull(response);
-        BookingEntity actualBooking = response.getBookingResponse();
+        BookingEntity actualBooking = response.getBookingEntity();
         assertNotNull(actualBooking);
         assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
         assertEquals(actualBooking.getUserId(), ACTOR_ID1);
@@ -161,7 +161,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
                 BookingResponse.class
         );
         assertNotNull(response);
-        BookingEntity actualBooking = response.getBookingResponse();
+        BookingEntity actualBooking = response.getBookingEntity();
         assertNotNull(actualBooking);
         assertEquals(request.getLocationId(), actualBooking.getLocationId());
         assertEquals(request.getRegionId(), actualBooking.getRegionId());
@@ -237,7 +237,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
                 BookingResponse.class
         );
         assertNotNull(response);
-        BookingEntity actualBooking = response.getBookingResponse();
+        BookingEntity actualBooking = response.getBookingEntity();
         assertNotNull(actualBooking);
         assertEquals(request.getUserId(), actualBooking.getUserId());
         assertEquals(request.getLocationId(), actualBooking.getLocationId());

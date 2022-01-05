@@ -12,6 +12,6 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 @Validated
 public class BookingResponse {
 
-    private BookingEntity bookingResponse;
+    private BookingEntity bookingEntity;
 
 }
