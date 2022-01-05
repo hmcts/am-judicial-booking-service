@@ -197,4 +197,9 @@ class IdamRepositoryTest {
         when(idamApi.generateOpenIdToken(any())).thenReturn(tokenResponse);
         Assert.assertThrows(NullPointerException.class, () -> idamRepository.getManageUserToken("123"));
     }
+
+    @Test
+    void testGetHttpHeaders() {
+        Assert.assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(null, null));
+    }
 }

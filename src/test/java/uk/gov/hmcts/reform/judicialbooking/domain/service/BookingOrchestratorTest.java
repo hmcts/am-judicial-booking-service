@@ -126,4 +126,9 @@ class BookingOrchestratorTest {
         bookingOrchestrator.deleteBookingByUserId(any());
         Mockito.verify(bookingOrchestrator, times(1)).deleteBookingByUserId(any());
     }
+    @Test
+    void deleteNullBookingVerify() {
+        bookingOrchestrator.deleteBookingByUserId(null);
+        Mockito.verify(bookingOrchestrator, times(1)).deleteBookingByUserId(null);
+    }
 }

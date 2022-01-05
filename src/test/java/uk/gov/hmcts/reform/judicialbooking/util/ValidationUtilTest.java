@@ -200,4 +200,19 @@ class ValidationUtilTest {
         );
     }
 
+    @Test
+    void validateDates_beginYearNull() {
+        LocalDate endDate = LocalDate.of(2023, 1, 1);
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.validateBeginAndEndDates(null, endDate)
+        );
+    }
+
+    @Test
+    void validateDates_endYearNull() {
+        LocalDate beginDate = LocalDate.of(2022, 1, 1);
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.validateBeginAndEndDates(beginDate, null)
+        );
+    }
 }
