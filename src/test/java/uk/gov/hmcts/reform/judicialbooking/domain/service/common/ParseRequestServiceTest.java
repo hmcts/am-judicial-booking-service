@@ -100,6 +100,6 @@ class ParseRequestServiceTest {
 
     @Test
     void testParseBookingValidateRequest() {
-        Assertions.assertThrows(BadRequestException.class, () -> sut.parseBookingRequest(TestDataBuilder.buildWrongBookingRequest()));
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseBookingRequest(TestDataBuilder.buildWrongBooking()));
     }
 }
