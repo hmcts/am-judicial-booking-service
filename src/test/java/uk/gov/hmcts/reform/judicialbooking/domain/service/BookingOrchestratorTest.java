@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
@@ -37,6 +38,7 @@ class BookingOrchestratorTest {
     private final PersistenceService persistenceService =
             mock(PersistenceService.class);
 
+
     @InjectMocks
     private BookingOrchestrator sut;
 
@@ -47,6 +49,7 @@ class BookingOrchestratorTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
 
     @Test
     void queryBooking() {
@@ -104,5 +107,17 @@ class BookingOrchestratorTest {
         ResponseEntity<Void> response = sut.deleteBookingByUserId(UUID.randomUUID().toString());
         assertNotNull(response);
         Assert.assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
+    }
+
+    @Test
+    void deleteBookingByInvalidUserId() {
+        final String inputs ="12345";
+        ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
+        BadRequestException exception = Assertions.assertThrows(BadRequestException.class, () ->
+                sut.deleteBookingByUserId(inputs));
+        Assertions.assertTrue(exception.getLocalizedMessage().contains(String.format(
+                "The input parameter: \"%s\", does not comply with the required pattern",
+                inputs)));
     }
 }
