@@ -70,6 +70,7 @@ class PersistenceServiceTest {
 
     @Test
     void deleteBookings() {
-        Mockito.verify(bookingRepository, times(0)).deleteByUserId(any());
+        persistenceService.deleteBookings(any());
+        Mockito.verify(bookingRepository, times(1)).deleteByUserId(any());
     }
 }
