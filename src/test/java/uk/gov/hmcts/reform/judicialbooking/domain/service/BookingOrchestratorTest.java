@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,9 @@ import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,6 +39,9 @@ class BookingOrchestratorTest {
 
     @InjectMocks
     private BookingOrchestrator sut;
+
+    private final BookingOrchestrator bookingOrchestrator =
+            mock(BookingOrchestrator.class);
 
     @BeforeEach
     public void setUp() {
@@ -87,7 +93,16 @@ class BookingOrchestratorTest {
         ResponseEntity<BookingResponse> createBookingResponse =
                 sut.createBooking(TestDataBuilder.buildBookingRequest());
 
-        Assert.assertNotNull(createBookingResponse);
+        assertNotNull(createBookingResponse);
 
+    }
+
+    @Test
+    void deleteBookingByUserId() {
+        ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
+        ResponseEntity<Void> response = sut.deleteBookingByUserId(UUID.randomUUID().toString());
+        assertNotNull(response);
+        Assert.assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
     }
 }

@@ -51,4 +51,9 @@ class WelcomeControllerTest {
         assertNotNull(response);
         assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
     }
+
+    @Test
+    void index() {
+        assertEquals("redirect:swagger-ui.html", sut.index());
+    }
 }
