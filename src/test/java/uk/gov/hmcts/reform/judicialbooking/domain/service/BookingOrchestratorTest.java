@@ -26,8 +26,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class BookingOrchestratorTest {
 
@@ -119,5 +118,12 @@ class BookingOrchestratorTest {
         Assertions.assertTrue(exception.getLocalizedMessage().contains(String.format(
                 "The input parameter: \"%s\", does not comply with the required pattern",
                 inputs)));
+    }
+
+    @Test
+    void deleteBookingVerify() {
+        ResponseEntity<Void> response = sut.deleteBookingByUserId(UUID.randomUUID().toString());
+        bookingOrchestrator.deleteBookingByUserId(any());
+        Mockito.verify(bookingOrchestrator, times(1)).deleteBookingByUserId(any());
     }
 }
