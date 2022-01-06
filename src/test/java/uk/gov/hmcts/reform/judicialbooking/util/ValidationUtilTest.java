@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.judicialbooking.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 
