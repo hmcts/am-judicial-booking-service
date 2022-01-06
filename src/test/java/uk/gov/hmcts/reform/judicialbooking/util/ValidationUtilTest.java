@@ -128,8 +128,8 @@ class ValidationUtilTest {
     @Test
     void validateBookingRequest_happy() {
         BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
-                .beginDate(LocalDate.of(2022, 1, 1))
-                .endDate(LocalDate.of(2023, 1, 1))
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusYears(1))
                 .build();
         Assertions.assertDoesNotThrow(() ->
                 ValidationUtil.validateBookingRequest(bookingRequest)
@@ -140,7 +140,7 @@ class ValidationUtilTest {
     void validateBookingRequest_nullBeginDate() {
         BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
                 .beginDate(null)
-                .endDate(LocalDate.of(2023, 1, 1))
+                .endDate(LocalDate.now().plusYears(1))
                 .build();
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.validateBookingRequest(bookingRequest)
@@ -150,7 +150,7 @@ class ValidationUtilTest {
     @Test
     void validateBookingRequest_nullEndDate() {
         BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
-                .beginDate(LocalDate.of(2022, 1, 1))
+                .beginDate(LocalDate.now().plusDays(1))
                 .endDate(null)
                 .build();
         Assertions.assertThrows(BadRequestException.class, () ->
@@ -162,7 +162,7 @@ class ValidationUtilTest {
     void validateBookingRequest_regionIdNull() {
         BookingRequest bookingRequest = BookingRequest.builder().regionId(null).locationId("south-east")
                 .beginDate(null)
-                .endDate(LocalDate.of(2023, 1, 1))
+                .endDate(LocalDate.now().plusYears(1))
                 .build();
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.validateBookingRequest(bookingRequest)
@@ -171,8 +171,8 @@ class ValidationUtilTest {
 
     @Test
     void validateDates_beginYear_Happy() {
-        LocalDate beginDate = LocalDate.of(2022, 1, 1);
-        LocalDate endDate = LocalDate.of(2023, 1, 1);
+        LocalDate beginDate = LocalDate.now().plusDays(5);
+        LocalDate endDate = LocalDate.now().plusYears(2);
         Assertions.assertDoesNotThrow(() ->
                 ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
         );
@@ -181,7 +181,7 @@ class ValidationUtilTest {
     @Test
     void validateDates_beginYear1970() {
         LocalDate beginDate = LocalDate.of(1970, 1, 1);
-        LocalDate endDate = LocalDate.of(2023, 1, 1);
+        LocalDate endDate = LocalDate.now().plusYears(3);
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
         );
@@ -189,7 +189,7 @@ class ValidationUtilTest {
 
     @Test
     void validateDates_endYear1970() {
-        LocalDate beginDate = LocalDate.of(2022, 1, 1);
+        LocalDate beginDate = LocalDate.now().plusDays(10);
         LocalDate endDate = LocalDate.of(1970, 1, 1);
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
