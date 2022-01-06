@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Component
 public class CorrelationInterceptorUtil  {
-    //TODO use this
+
     public String preHandle(final HttpServletRequest request) {
         String correlationId = getCorrelationIdFromHeader(request);
         MDC.put(Constants.CORRELATION_ID_HEADER_NAME, correlationId);
