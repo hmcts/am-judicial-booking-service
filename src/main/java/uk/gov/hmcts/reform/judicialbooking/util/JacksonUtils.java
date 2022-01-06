@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.HashMap;
+import java.util.Map;
 
 @Named
 @Singleton
@@ -31,7 +32,7 @@ public class JacksonUtils {
         .build();
 
 
-    public static HashMap<String, JsonNode> convertValue(Object from) {
+    public static Map<String, JsonNode> convertValue(Object from) {
         return MAPPER.convertValue(from, new TypeReference<HashMap<String, JsonNode>>() {
         });
     }
