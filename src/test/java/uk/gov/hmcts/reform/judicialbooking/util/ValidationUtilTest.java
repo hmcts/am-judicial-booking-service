@@ -23,8 +23,6 @@ class ValidationUtilTest {
     private final String beginTimeString = "BeginTime";
 
 
-    ValidationUtil validationUtil = Mockito.spy(ValidationUtil.class);
-
     @Test
     void shouldValidate() {
         assertTrue(ValidationUtil.validate("1212121212121212"));
