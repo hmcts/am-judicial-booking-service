@@ -2,8 +2,6 @@ package uk.gov.hmcts.reform.judicialbooking.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
@@ -20,8 +18,6 @@ import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE
 @Singleton
 @Slf4j
 public class ValidationUtil {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ValidationUtil.class);
 
     private ValidationUtil() {
     }
