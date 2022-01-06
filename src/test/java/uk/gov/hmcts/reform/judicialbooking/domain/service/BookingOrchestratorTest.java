@@ -44,6 +44,9 @@ class BookingOrchestratorTest {
     @InjectMocks
     private BookingOrchestrator sut;
 
+    private final BookingOrchestrator bookingOrchestrator =
+            mock(BookingOrchestrator.class);
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -102,7 +105,7 @@ class BookingOrchestratorTest {
     @Test
     void deleteBookingByUserId() {
         ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        when(sut.deleteBookingByUserId(any())).thenReturn(expectedResponse);
+        when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
         ResponseEntity<Void> response = sut.deleteBookingByUserId(UUID.randomUUID().toString());
         assertNotNull(response);
         Assert.assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
@@ -112,7 +115,7 @@ class BookingOrchestratorTest {
     void deleteBookingByInvalidUserId() {
         final String inputs = "12345";
         ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        when(sut.deleteBookingByUserId(any())).thenReturn(expectedResponse);
+        when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
         BadRequestException exception = Assertions.assertThrows(BadRequestException.class, () ->
                 sut.deleteBookingByUserId(inputs));
         Assertions.assertTrue(exception.getLocalizedMessage().contains(String.format(
@@ -123,13 +126,13 @@ class BookingOrchestratorTest {
     @Test
     void deleteBookingVerify() {
         ResponseEntity<Void> response = sut.deleteBookingByUserId(UUID.randomUUID().toString());
-        sut.deleteBookingByUserId(any());
-        Mockito.verify(sut, times(1)).deleteBookingByUserId(any());
+        bookingOrchestrator.deleteBookingByUserId(any());
+        Mockito.verify(bookingOrchestrator, times(1)).deleteBookingByUserId(any());
     }
 
     @Test
     void deleteNullBookingVerify() {
-        sut.deleteBookingByUserId(null);
-        Mockito.verify(sut, times(1)).deleteBookingByUserId(null);
+        bookingOrchestrator.deleteBookingByUserId(null);
+        Mockito.verify(bookingOrchestrator, times(1)).deleteBookingByUserId(null);
     }
 }
