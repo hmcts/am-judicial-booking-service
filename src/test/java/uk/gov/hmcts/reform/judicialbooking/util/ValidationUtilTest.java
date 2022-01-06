@@ -239,4 +239,11 @@ class ValidationUtilTest {
                 ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
         );
     }
+
+    @Test
+    void validateDates_null() {
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.validateBeginAndEndDates(null, null)
+        );
+    }
 }
