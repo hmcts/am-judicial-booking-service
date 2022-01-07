@@ -201,7 +201,7 @@ class ValidationUtilTest {
 
     @Test
     void validateDates_beginYearNull() {
-        LocalDate endDate = LocalDate.of(2023, 1, 1);
+        LocalDate endDate = LocalDate.now().plusYears(1);
         Assertions.assertDoesNotThrow(() ->
                 ValidationUtil.validateBeginAndEndDates(null, endDate)
         );
