@@ -15,10 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
 class PersistenceServiceTest {
 
     private final BookingRepository bookingRepository = mock(BookingRepository.class);
+
 
     @InjectMocks
     private PersistenceService persistenceService;
@@ -27,6 +29,8 @@ class PersistenceServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+
 
     @Test
     void persistBooking() {
@@ -62,5 +66,11 @@ class PersistenceServiceTest {
 
         assertNotNull(dbResponse);
         assertEquals(retrievedBookings, dbResponse);
+    }
+
+    @Test
+    void deleteBookings() {
+        persistenceService.deleteBookings(any());
+        Mockito.verify(bookingRepository, times(1)).deleteByUserId(any());
     }
 }

@@ -46,6 +46,13 @@ public class TestDataBuilder {
                 .build();
     }
 
+    public static BookingRequest buildWrongBooking() {
+        return BookingRequest.builder()
+                .beginDate(LocalDate.now().minusDays(1))
+                .endDate(LocalDate.now())
+                .build();
+    }
+
     public static BookingEntity buildParsedBooking() {
         return BookingEntity.builder()
                 .userId(uuidString)
