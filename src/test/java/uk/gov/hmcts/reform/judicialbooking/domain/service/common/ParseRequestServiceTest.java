@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,7 +50,7 @@ class ParseRequestServiceTest {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
 
         List<String> parsedUserIds = sut.parseQueryRequest(
-                        BookingQueryRequest.builder().queryRequest(userRequest).build());
+                BookingQueryRequest.builder().queryRequest(userRequest).build());
 
         Assertions.assertNotNull(parsedUserIds);
         Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
@@ -74,5 +75,32 @@ class ParseRequestServiceTest {
 
         BookingEntity entity = sut.parseBookingRequest(request);
         Assert.assertEquals(userId, entity.getUserId());
+    }
+
+    @Test
+    void testParseBookingRequest() {
+        Assertions.assertThrows(NullPointerException.class, () -> sut.parseBookingRequest(null));
+    }
+
+    @Test
+    void testParseQueryRequest() {
+        UserRequest userRequest = null;
+        BookingQueryRequest bookingQueryRequest = BookingQueryRequest.builder().queryRequest(userRequest).build();
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequest));
+    }
+
+    @Test
+    void testPareseQueryValidateRequest() {
+        UserRequest userRequest = TestDataBuilder.buildRequestIds();
+        BookingQueryRequest bookingQueryRequestnouserid =
+                BookingQueryRequest.builder().queryRequest(userRequest).build();
+        bookingQueryRequestnouserid.getQueryRequest().setUserIds(Arrays.asList("abc"));
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequestnouserid));
+    }
+
+    @Test
+    void testParseBookingValidateRequest() {
+        BookingRequest bookingRequest = TestDataBuilder.buildWrongBooking();
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseBookingRequest(bookingRequest));
     }
 }
