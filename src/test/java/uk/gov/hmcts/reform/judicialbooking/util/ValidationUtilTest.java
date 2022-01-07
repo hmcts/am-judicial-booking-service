@@ -244,4 +244,12 @@ class ValidationUtilTest {
                 ValidationUtil.sanitiseUuid("")
         );
     }
+
+    @Test
+    void validateBookingRequest_null() {
+        BookingRequest booking = null;
+        Assertions.assertThrows(NullPointerException.class, () ->
+                ValidationUtil.validateBookingRequest(booking)
+        );
+    }
 }
