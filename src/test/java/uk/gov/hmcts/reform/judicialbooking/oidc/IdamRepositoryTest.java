@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.oidc;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -103,7 +104,7 @@ class IdamRepositoryTest {
     void getUserRolesBlankResponse() {
         String userId = "003352d0-e699-48bc-b6f5-5810411e60af";
         UserDetails userDetails = UserDetails.builder().email("black@betty.com").forename("ram").surname("jam").id(
-                "1234567890123456")
+                        "1234567890123456")
                 .roles(null).build();
 
         when(idamApi.getUserByUserId(any(), any())).thenReturn(userDetails);
@@ -175,5 +176,29 @@ class IdamRepositoryTest {
         assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
 
 
+    }
+
+    @Test
+    void testGetManageUserToken() {
+        CaffeineCache caffeineCacheMock = mock(CaffeineCache.class);
+        com.github.benmanes.caffeine.cache.Cache cache = mock(com.github.benmanes.caffeine.cache.Cache.class);
+
+        when(cacheManager.getCache(anyString())).thenReturn(caffeineCacheMock);
+        when(caffeineCacheMock.getNativeCache()).thenReturn(null);
+        when(cache.estimatedSize()).thenReturn(1L);
+
+        when(oauth2Configuration.getClientId()).thenReturn("clientId");
+        when(oauth2Configuration.getClientSecret()).thenReturn("secret");
+        when(oidcAdminConfiguration.getSecret()).thenReturn("password");
+        when(oidcAdminConfiguration.getScope()).thenReturn("scope");
+        TokenResponse tokenResponse = new
+                TokenResponse("a", "1", "1", "a", "v", "v");
+        when(idamApi.generateOpenIdToken(any())).thenReturn(tokenResponse);
+        Assert.assertThrows(NullPointerException.class, () -> idamRepository.getManageUserToken("123"));
+    }
+
+    @Test
+    void testGetHttpHeaders() {
+        Assert.assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(null, null));
     }
 }
