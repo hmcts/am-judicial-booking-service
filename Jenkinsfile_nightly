@@ -40,6 +40,7 @@ withNightlyPipeline(type, product, component) {
   env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
   env.PACT_BROKER_PORT = "443"
   env.PACT_BROKER_SCHEME = "https"
+  
   overrideVaultEnvironments(vaultOverrides)
 
   enableFortifyScan()
