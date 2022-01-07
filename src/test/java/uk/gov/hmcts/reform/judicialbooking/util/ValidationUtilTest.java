@@ -10,14 +10,14 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
 
-class ValidationUtilTest {
 
-    private final String beginTimeString = "BeginTime";
+class ValidationUtilTest {
 
     @Test
     void shouldValidate() {
@@ -59,7 +59,7 @@ class ValidationUtilTest {
         LocalDate beginDate = LocalDate.now().minusYears(51L);
         LocalDate endDate = LocalDate.now().minusYears(51L);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.validateBeginAndEndDates(beginDate,endDate)
+                ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
         );
     }
 
@@ -77,7 +77,7 @@ class ValidationUtilTest {
         LocalDate beginTime = LocalDate.now().minusDays(1);
         LocalDate endTime = LocalDate.now().minusDays(2);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.compareDateOrder(beginTime,endTime)
+                ValidationUtil.compareDateOrder(beginTime, endTime)
         );
     }
 
@@ -86,7 +86,7 @@ class ValidationUtilTest {
         LocalDate beginTime = LocalDate.now().plusDays(14);
         LocalDate endTime = LocalDate.now().minusDays(1);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.compareDateOrder(beginTime,endTime)
+                ValidationUtil.compareDateOrder(beginTime, endTime)
         );
     }
 
@@ -95,7 +95,7 @@ class ValidationUtilTest {
         LocalDate beginTime = LocalDate.now().plusDays(14);
         LocalDate endTime = LocalDate.now().plusDays(10);
         Assertions.assertThrows(BadRequestException.class, () ->
-                ValidationUtil.compareDateOrder(beginTime,endTime)
+                ValidationUtil.compareDateOrder(beginTime, endTime)
         );
     }
 
@@ -119,7 +119,6 @@ class ValidationUtilTest {
         final Matcher matcher = pattern.matcher(inputString);
         assertFalse(matcher.matches());
         assertNotNull(inputString);
-        assertFalse(inputString.isEmpty());
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.sanitiseUuid(inputString)
         );
@@ -196,5 +195,72 @@ class ValidationUtilTest {
         );
     }
 
+    @Test
+    void validateDates_beginYearNull() {
+        LocalDate endDate = LocalDate.now().plusYears(1);
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.validateBeginAndEndDates(null, endDate)
+        );
+    }
 
+    @Test
+    void validateDates_endYearNull() {
+        LocalDate beginDate = LocalDate.of(2022, 1, 1);
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.validateBeginAndEndDates(beginDate, null)
+        );
+    }
+
+    @Test
+    void validateDates_now() {
+        LocalDate endDate = LocalDate.now();
+        LocalDate beginDate = LocalDate.now();
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.validateBeginAndEndDates(beginDate, endDate)
+        );
+    }
+
+    @Test
+    void validateDates_null() {
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.validateBeginAndEndDates(null, null)
+        );
+    }
+
+    @Test
+    void sanitiseUuid_null() {
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.sanitiseUuid(null)
+        );
+    }
+
+    @Test
+    void sanitiseUuid_empty() {
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.sanitiseUuid("")
+        );
+    }
+
+    @Test
+    void validateBookingRequest_withoutRegionId() {
+        BookingRequest bookingRequest = BookingRequest.builder().locationId("south-east")
+                .beginDate(LocalDate.now())
+                .endDate(LocalDate.now().plusYears(1))
+                .build();
+        BadRequestException exception = Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateBookingRequest(bookingRequest)
+        );
+        Assertions.assertTrue(exception.getLocalizedMessage().contains("RegionId cannot be Null or Empty, "
+                + "if LocationId is available"));
+    }
+
+    @Test
+    void validateBookingRequest_withOnlyRegionId() {
+        BookingRequest bookingRequest = BookingRequest.builder().regionId("south-east")
+                .beginDate(LocalDate.now())
+                .endDate(LocalDate.now().plusYears(1))
+                .build();
+        Assertions.assertDoesNotThrow(() -> ValidationUtil.validateBookingRequest(bookingRequest));
+
+    }
 }
