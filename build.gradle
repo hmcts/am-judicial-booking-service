@@ -236,7 +236,7 @@ sonarqube {
                 "src/main/java/uk/gov/hmcts/reform/judicialbooking/util/*Swagger2SpringBoot.java," +
                 "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/*ErrorConstants.java," +
                 "src/main/java/uk/gov/hmcts/reform/judicialbooking/controller/advice/exception/**," +
-                "src/main/java/uk/gov/hmcts/reform/judicialbooking/configuration/**," +
+                "src/main/java/uk/gov/hmcts/reform/judicialbooking/config/**," +
                 "src/main/java/uk/gov/hmcts/reform/judicialbooking/model/enums/**," +
                 "src/main/java/uk/gov/hmcts/reform/judicialbooking/apihelper/**"
         property "sonar.junit.reportPaths", "${project.buildDir}/test-results/junit-platform"
