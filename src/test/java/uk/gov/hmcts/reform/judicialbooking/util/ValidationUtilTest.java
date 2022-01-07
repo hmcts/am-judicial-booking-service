@@ -230,4 +230,18 @@ class ValidationUtilTest {
                 ValidationUtil.validateBeginAndEndDates(null, null)
         );
     }
+
+    @Test
+    void sanitiseUuid_null() {
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.sanitiseUuid(null)
+        );
+    }
+
+    @Test
+    void sanitiseUuid_empty() {
+        Assertions.assertDoesNotThrow(() ->
+                ValidationUtil.sanitiseUuid("")
+        );
+    }
 }
