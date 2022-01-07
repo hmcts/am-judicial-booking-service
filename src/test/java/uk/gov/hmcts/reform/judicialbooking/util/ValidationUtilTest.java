@@ -19,9 +19,6 @@ import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE
 
 class ValidationUtilTest {
 
-    private final String beginTimeString = "BeginTime";
-
-
     @Test
     void shouldValidate() {
         assertTrue(ValidationUtil.validate("1212121212121212"));
@@ -122,7 +119,6 @@ class ValidationUtilTest {
         final Matcher matcher = pattern.matcher(inputString);
         assertFalse(matcher.matches());
         assertNotNull(inputString);
-        assertFalse(inputString.isEmpty());
         Assertions.assertThrows(BadRequestException.class, () ->
                 ValidationUtil.sanitiseUuid(inputString)
         );
@@ -246,10 +242,25 @@ class ValidationUtilTest {
     }
 
     @Test
-    void validateBookingRequest_null() {
-        BookingRequest booking = null;
-        Assertions.assertThrows(NullPointerException.class, () ->
-                ValidationUtil.validateBookingRequest(booking)
+    void validateBookingRequest_withoutRegionId() {
+        BookingRequest bookingRequest = BookingRequest.builder().locationId("south-east")
+                .beginDate(LocalDate.now())
+                .endDate(LocalDate.now().plusYears(1))
+                .build();
+        BadRequestException exception = Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateBookingRequest(bookingRequest)
         );
+        Assertions.assertTrue(exception.getLocalizedMessage().contains("RegionId cannot be Null or Empty, "
+                + "if LocationId is available"));
+    }
+
+    @Test
+    void validateBookingRequest_withOnlyRegionId() {
+        BookingRequest bookingRequest = BookingRequest.builder().regionId("south-east")
+                .beginDate(LocalDate.now())
+                .endDate(LocalDate.now().plusYears(1))
+                .build();
+        Assertions.assertDoesNotThrow(() -> ValidationUtil.validateBookingRequest(bookingRequest));
+
     }
 }
