@@ -216,22 +216,6 @@ class ValidationUtilTest {
     }
 
     @Test
-    void validateDates_endYearnot1970() {
-        LocalDate beginDate = LocalDate.of(1971, 1, 1);
-        Assertions.assertDoesNotThrow(() ->
-                ValidationUtil.validateBeginAndEndDates(beginDate, null)
-        );
-    }
-
-    @Test
-    void validateDates_endYearNot1970() {
-        LocalDate endDate = LocalDate.of(1971, 1, 1);
-        Assertions.assertDoesNotThrow(() ->
-                ValidationUtil.validateBeginAndEndDates(null, endDate)
-        );
-    }
-
-    @Test
     void validateDates_now() {
         LocalDate endDate = LocalDate.now();
         LocalDate beginDate = LocalDate.now();
