@@ -2,7 +2,7 @@
 
 properties([
   // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
-  pipelineTriggers([cron('21 01 * * *')])
+  pipelineTriggers([cron('52 01 * * *')])
 ])
 
 @Library("Infrastructure")
@@ -40,6 +40,7 @@ withNightlyPipeline(type, product, component) {
   env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
   env.PACT_BROKER_PORT = "443"
   env.PACT_BROKER_SCHEME = "https"
+  
   overrideVaultEnvironments(vaultOverrides)
 
   enableFortifyScan()
