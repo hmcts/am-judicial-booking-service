@@ -74,6 +74,10 @@ env.PACT_BROKER_SCHEME = "https"
 withPipeline(type, product, component) {
   onMaster {
     enableSlackNotifications('#am-judicial-booking-service-builds')
+    enablePactAs([
+          AppPipelineDsl.PactRoles.PROVIDER,
+          AppPipelineDsl.PactRoles.CONSUMER
+    ])
   }
   if (env.BRANCH_NAME.startsWith("PR")) {
     env.LAUNCH_DARKLY_ENV = "pr"
@@ -87,6 +91,10 @@ withPipeline(type, product, component) {
 
   onPR {
     enableSlackNotifications('#am-judicial-booking-service-builds')
+    enablePactAs([
+          AppPipelineDsl.PactRoles.PROVIDER,
+          AppPipelineDsl.PactRoles.CONSUMER
+    ])
   }
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
@@ -119,18 +127,5 @@ withPipeline(type, product, component) {
 
   after('smoketest:aat') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/site/serenity/**'
-  }
-
-  onMaster(){
-    enablePactAs([
-            AppPipelineDsl.PactRoles.PROVIDER,
-            AppPipelineDsl.PactRoles.CONSUMER
-    ])
-  }
-  onPR(){
-    enablePactAs([
-            AppPipelineDsl.PactRoles.PROVIDER,
-            AppPipelineDsl.PactRoles.CONSUMER
-    ])
   }
 }
