@@ -91,7 +91,7 @@ public class OrgRoleMappingRefreshConsumerTest {
                 .build();
     }
 
-    @Pact(provider = "am_orgRoleMapping_refresh", consumer = "accessMgmt_judicialBooking")
+    @Pact(provider = "am_orgRoleMapping_refresh", consumer = "accessMgmt_judicialBook")
     public RequestResponsePact executeRefreshJudicial(PactDslWithProvider builder) throws JsonProcessingException {
 
         return builder
