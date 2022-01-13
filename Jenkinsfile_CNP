@@ -9,6 +9,8 @@ properties(
   ]
 )
 
+import uk.gov.hmcts.contino.AppPipelineDsl
+
 @Library("Infrastructure")
 
 def type = "java"
