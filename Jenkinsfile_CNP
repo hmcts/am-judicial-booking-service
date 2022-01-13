@@ -74,13 +74,6 @@ env.PACT_BROKER_PORT = "443"
 env.PACT_BROKER_SCHEME = "https"
 
 withPipeline(type, product, component) {
-  onMaster {
-    enableSlackNotifications('#am-judicial-booking-service-builds')
-    enablePactAs([
-          AppPipelineDsl.PactRoles.PROVIDER,
-          AppPipelineDsl.PactRoles.CONSUMER
-    ])
-  }
   if (env.BRANCH_NAME.startsWith("PR")) {
     env.LAUNCH_DARKLY_ENV = "pr"
   }
@@ -89,6 +82,13 @@ withPipeline(type, product, component) {
   }
   else {
     env.LAUNCH_DARKLY_ENV = env.BRANCH_NAME
+  }
+  onMaster {
+    enableSlackNotifications('#am-judicial-booking-service-builds')
+    enablePactAs([
+          AppPipelineDsl.PactRoles.PROVIDER,
+          AppPipelineDsl.PactRoles.CONSUMER
+    ])
   }
 
   onPR {
@@ -129,5 +129,9 @@ withPipeline(type, product, component) {
 
   after('smoketest:aat') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/site/serenity/**'
+  }
+
+  after('pact-consumer-tests') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/**/*'
   }
 }

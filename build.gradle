@@ -175,7 +175,7 @@ task contract(type: Test) {
     useJUnitPlatform()
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
-    include "uk/gov/hmcts/reform/orgrolemapping/*Consumer*"
+    include "uk/gov/hmcts/reform/orgrolemapping/**"
     systemProperty 'pact.rootDir', "pacts"
 }
 
@@ -197,10 +197,9 @@ task runProviderPactVerification(type: Test) {
     classpath = sourceSets.contractTest.runtimeClasspath
     systemProperty 'pact.verifier.publishResults', System.getProperty('pact.verifier.publishResults')
     systemProperty 'pact.provider.version', project.pacticipantVersion
-    include "uk/gov/hmcts/reform/judicialbooking/*Provider*"
+    include "uk/gov/hmcts/reform/judicialbooking/**"
 }
 
-runProviderPactVerification.dependsOn contract
 runProviderPactVerification.finalizedBy pactVerify
 
 pact {
