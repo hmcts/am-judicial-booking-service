@@ -124,7 +124,6 @@ sourceSets {
 }
 
 project.ext {
-    pacticipant = 'accessMgmt_judicialBooking'
     pacticipantVersion = getCheckedOutGitCommitHash()
 }
 
