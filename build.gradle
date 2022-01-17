@@ -200,6 +200,7 @@ task runProviderPactVerification(type: Test) {
     include "uk/gov/hmcts/reform/judicialbooking/**"
 }
 
+runProviderPactVerification.dependsOn contract
 runProviderPactVerification.finalizedBy pactVerify
 
 pact {
