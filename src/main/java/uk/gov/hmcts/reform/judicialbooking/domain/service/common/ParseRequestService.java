@@ -36,6 +36,7 @@ public class ParseRequestService {
                 .build();
     }
 
+
     public List<String> parseQueryRequest(BookingQueryRequest queryRequest) {
         if (queryRequest.getQueryRequest() == null
                 || CollectionUtils.isEmpty(queryRequest.getQueryRequest().getUserIds())) {
