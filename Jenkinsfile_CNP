@@ -9,6 +9,8 @@ properties(
   ]
 )
 
+import uk.gov.hmcts.contino.AppPipelineDsl
+
 @Library("Infrastructure")
 
 def type = "java"
@@ -52,6 +54,7 @@ env.IDAM_URL = "https://idam-api.aat.platform.hmcts.net"
 env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"
 env.IDAM_S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
 env.DEFINITION_STORE_HOST = "http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
+env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
 env.BEFTA_S2S_CLIENT_ID = "am_judicial_booking_service"
 env.OAUTH2_CLIENT_ID = "am_role_assignment"
 env.JUDICIAL_BOOKING_IDAM_CLIENT_ID = "am_role_assignment"
@@ -72,9 +75,6 @@ env.PACT_BROKER_PORT = "443"
 env.PACT_BROKER_SCHEME = "https"
 
 withPipeline(type, product, component) {
-  onMaster {
-    enableSlackNotifications('#am-judicial-booking-service-builds')
-  }
   if (env.BRANCH_NAME.startsWith("PR")) {
     env.LAUNCH_DARKLY_ENV = "pr"
   }
@@ -83,6 +83,9 @@ withPipeline(type, product, component) {
   }
   else {
     env.LAUNCH_DARKLY_ENV = env.BRANCH_NAME
+  }
+  onMaster {
+    enableSlackNotifications('#am-judicial-booking-service-builds')
   }
 
   onPR {
@@ -121,14 +124,20 @@ withPipeline(type, product, component) {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/site/serenity/**'
   }
 
-  /*onMaster(){
-    enablePactAs([
-            AppPipelineDsl.PactRoles.PROVIDER
-    ])
+  after('pact-consumer-tests') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/**/*'
   }
-  onPR(){
-    enablePactAs([
-            AppPipelineDsl.PactRoles.PROVIDER
-    ])
-  }*/
+
+    onMaster(){
+        enablePactAs([
+                AppPipelineDsl.PactRoles.PROVIDER,
+                AppPipelineDsl.PactRoles.CONSUMER
+        ])
+    }
+    onPR(){
+      enablePactAs([
+              AppPipelineDsl.PactRoles.PROVIDER,
+              AppPipelineDsl.PactRoles.CONSUMER
+      ])
+    }
 }
