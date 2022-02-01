@@ -55,7 +55,7 @@ public class CreateBookingController {
             @RequestHeader(value = "x-correlation-id", required = false)
                     String correlationId,
             @Validated
-            @RequestBody BookingRequest bookingRequest) throws Exception {
+            @RequestBody BookingRequest bookingRequest) {
         long startTime = System.currentTimeMillis();
         ResponseEntity<BookingResponse> response = bookingOrchestrator
                 .createBooking(bookingRequest);

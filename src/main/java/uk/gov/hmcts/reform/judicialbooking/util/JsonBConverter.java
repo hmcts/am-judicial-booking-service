@@ -4,6 +4,7 @@ package uk.gov.hmcts.reform.judicialbooking.util;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -33,7 +34,7 @@ public class JsonBConverter implements AttributeConverter<JsonNode, String> {
             }
             return mapper.readTree(dataValue);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to deserialize to json field", e);
+            throw new UnprocessableEntityException("Unable to deserialize to json field");
         }
     }
 }

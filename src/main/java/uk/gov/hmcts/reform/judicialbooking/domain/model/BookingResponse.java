@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 @AllArgsConstructor
 @Validated
 public class BookingResponse {
-
-    private BookingEntity bookingResponse;
+    @JsonProperty(value = "bookingResponse")
+    private BookingEntity bookingResponseEntity;
 
 }
