@@ -36,6 +36,11 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     private MockMvc mockMvc;
 
+    private static final String REGION = "region";
+    private static final String LOCATION = "location";
+
+    private static final String EXPRESSION = "$.errorDescription";
+
     @Inject
     private WebApplicationContext wac;
 
@@ -56,7 +61,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     @Test
     public void shouldRejectRequestWithLDFlagDisable() throws Exception {
-        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
+        var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now());
         doReturn(false).when(ldClient).boolVariation(anyString(), any(LDUser.class), eq(false));
 
@@ -64,7 +69,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().is5xxServerError())
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("Forbidden: Insufficient permissions: "
                                 + "Launch Darkly flag is not enabled for the endpoint")))
                 .andReturn();
@@ -75,56 +80,56 @@ public class CreateBookingIntegrationTest extends BaseTest {
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE).headers(getHttpHeaders()))
                 .andExpect(status().is(400))
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("Required request body is missing")))
                 .andReturn();
     }
 
     @Test
     public void rejectRequestWithoutRegion() throws Exception {
-        BookingRequest request = new BookingRequest(null, null, "location", LocalDate.now(),
+        var request = new BookingRequest(null, null, LOCATION, LocalDate.now(),
                 LocalDate.now());
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("RegionId cannot be Null or Empty, if LocationId is available")))
                 .andReturn();
     }
 
     @Test
     public void rejectRequestWithoutStartDate() throws Exception {
-        BookingRequest request = new BookingRequest(null, "region", "location", null,
+        var request = new BookingRequest(null, REGION, LOCATION, null,
                 LocalDate.now());
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("Begin date cannot be Null or Empty")))
                 .andReturn();
     }
 
     @Test
     public void rejectRequestWithoutEndDate() throws Exception {
-        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
+        var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 null);
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("End date cannot be Null or Empty")))
                 .andReturn();
     }
 
     @Test
-    public void createJudicialBookings_mandatoryValues() throws Exception {
-        BookingRequest request = new BookingRequest(null, null, null, LocalDate.now(),
+    public void createJudicialBookingsMandatoryValues() throws Exception {
+        var request = new BookingRequest(null, null, null, LocalDate.now(),
                 LocalDate.now());
 
         final MvcResult result = mockMvc.perform(post(URL)
@@ -138,16 +143,16 @@ public class CreateBookingIntegrationTest extends BaseTest {
                 BookingResponse.class
         );
         assertNotNull(response);
-        BookingEntity actualBooking = response.getBookingResponse();
+        BookingEntity actualBooking = response.getBookingResponseEntity();
         assertNotNull(actualBooking);
         assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
         assertEquals(actualBooking.getUserId(), ACTOR_ID1);
     }
 
     @Test
-    public void createJudicialBooking_fullValues() throws Exception {
+    public void createJudicialBookingFullValues() throws Exception {
 
-        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
+        var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now());
 
         final MvcResult result = mockMvc.perform(post(URL)
@@ -161,7 +166,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
                 BookingResponse.class
         );
         assertNotNull(response);
-        BookingEntity actualBooking = response.getBookingResponse();
+        BookingEntity actualBooking = response.getBookingResponseEntity();
         assertNotNull(actualBooking);
         assertEquals(request.getLocationId(), actualBooking.getLocationId());
         assertEquals(request.getRegionId(), actualBooking.getRegionId());
@@ -170,9 +175,9 @@ public class CreateBookingIntegrationTest extends BaseTest {
     }
 
     @Test
-    public void rejectBookingRequest_expiredEndDate() throws Exception {
+    public void rejectBookingRequestExpiredEndDate() throws Exception {
 
-        BookingRequest request = new BookingRequest(null, "region", "location", LocalDate.now(),
+        var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now().minusDays(1));
 
         mockMvc.perform(post(URL)
@@ -180,16 +185,16 @@ public class CreateBookingIntegrationTest extends BaseTest {
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("The end time: " + LocalDate.now().minusDays(1)
                                 + " takes place before the current time: " + LocalDate.now())))
                 .andReturn();
     }
 
     @Test
-    public void rejectBookingRequest_greaterStartDate() throws Exception {
+    public void rejectBookingRequestGreaterStartDate() throws Exception {
 
-        BookingRequest request = new BookingRequest(null, "region", "location",
+        var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().plusDays(5), LocalDate.now());
 
         mockMvc.perform(post(URL)
@@ -197,16 +202,16 @@ public class CreateBookingIntegrationTest extends BaseTest {
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("The end time: " + LocalDate.now()
                                 + " takes place before the begin time: " + LocalDate.now().plusDays(5))))
                 .andReturn();
     }
 
     @Test
-    public void rejectBookingRequest_expiredDates() throws Exception {
+    public void rejectBookingRequestExpiredDates() throws Exception {
 
-        BookingRequest request = new BookingRequest(null, "region", "location",
+        var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().minusDays(5), LocalDate.now().minusDays(1));
 
         mockMvc.perform(post(URL)
@@ -214,16 +219,16 @@ public class CreateBookingIntegrationTest extends BaseTest {
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorDescription")
+                .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("The begin time: " + LocalDate.now().minusDays(5)
                                 + " takes place before the current time: " + LocalDate.now())))
                 .andReturn();
     }
 
     @Test
-    public void createBooking_withInputUserId() throws Exception {
+    public void createBookingWithInputUserId() throws Exception {
 
-        BookingRequest request = new BookingRequest("1234-abcd", "region", "location",
+        var request = new BookingRequest("1234-abcd", REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1));
 
         final MvcResult result = mockMvc.perform(post(URL)
@@ -237,7 +242,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
                 BookingResponse.class
         );
         assertNotNull(response);
-        BookingEntity actualBooking = response.getBookingResponse();
+        BookingEntity actualBooking = response.getBookingResponseEntity();
         assertNotNull(actualBooking);
         assertEquals(request.getUserId(), actualBooking.getUserId());
         assertEquals(request.getLocationId(), actualBooking.getLocationId());
