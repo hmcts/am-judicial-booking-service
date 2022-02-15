@@ -28,7 +28,7 @@ public class WelcomeController {
 
     @GetMapping(value = "/welcome")
     public String welcome() {
-        return "Welcome to Judicial Booking service";
+        return " Welcome to Judicial Booking service";
     }
 
 
