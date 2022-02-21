@@ -334,7 +334,7 @@ dependencies {
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.swagger2Version
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
-    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.15'
+    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.16'
     implementation group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.0.4'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
