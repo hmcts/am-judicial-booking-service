@@ -336,7 +336,7 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
     implementation group: 'org.springframework', name: 'spring-core', version: '5.3.15'
     implementation group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.0.4'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.1'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.5.RELEASE'
