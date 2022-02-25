@@ -323,7 +323,7 @@ dependencies {
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot)
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-    implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.4.4'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.5.0'
 
     //Added for Spring Security Implementation
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: versions.springBoot)
@@ -334,7 +334,7 @@ dependencies {
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.swagger2Version
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
-    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.15'
+    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.16'
     implementation group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.0.4'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
@@ -350,7 +350,7 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.1'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '10.0.16'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.58'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.2'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation "org.springframework.security:spring-security-web"
     implementation "org.springframework.security:spring-security-config"
