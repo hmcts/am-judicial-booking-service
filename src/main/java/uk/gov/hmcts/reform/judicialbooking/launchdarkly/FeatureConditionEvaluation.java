@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.launchdarkly;
 
 import com.launchdarkly.sdk.LDUser;
-import com.launchdarkly.sdk.server.LDClient;
+import com.launchdarkly.sdk.server.interfaces.LDClientInterface;
 import com.launchdarkly.shaded.org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,23 +21,20 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
 
     public static final String USER = "user";
     public static final String SERVICE_NAME = "servicename";
-    public static final String GET = "GET";
     public static final String POST = "POST";
-    public static final String DELETE = "DELETE";
 
     @Autowired
     @Lazy
     private SecurityUtils securityUtils;
 
     @Autowired
-    private LDClient ldClient;
+    private LDClientInterface ldClient;
 
     @Value("${launchdarkly.sdk.environment}")
     private String environment;
 
     @Value("${launchdarkly.sdk.user}")
     private String userName;
-
     private static final HashMap<String, String> postRequestMap = new HashMap<>();
 
     static {
