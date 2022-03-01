@@ -44,11 +44,11 @@ withNightlyPipeline(type, product, component) {
   
   overrideVaultEnvironments(vaultOverrides)
 
-  enableFortifyScan()
+  //enableFortifyScan()
 
-  after('fortify-scan') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
-  }
+  //after('fortify-scan') {
+  //  steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+  //}
 
   //enableMutationTest()
 }
