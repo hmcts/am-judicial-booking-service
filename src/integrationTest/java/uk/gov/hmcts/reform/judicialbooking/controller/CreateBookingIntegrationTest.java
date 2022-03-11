@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import com.launchdarkly.sdk.LDUser;
-import com.launchdarkly.sdk.server.LDClient;
+import com.launchdarkly.sdk.server.interfaces.LDClientInterface;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -48,7 +48,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
     SecurityUtils securityUtilsMock;
 
     @MockBean
-    private LDClient ldClient;
+    private LDClientInterface ldClient;
 
     @Before
     public void setUp() {

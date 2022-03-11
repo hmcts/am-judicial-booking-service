@@ -2,7 +2,7 @@ package uk.gov.hmcts.reform.judicialbooking.controller;
 
 
 import com.launchdarkly.sdk.LDUser;
-import com.launchdarkly.sdk.server.LDClient;
+import com.launchdarkly.sdk.server.interfaces.LDClientInterface;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -50,7 +50,7 @@ public class QueryBookingIntegrationTest extends BaseTest {
     private WebApplicationContext wac;
 
     @MockBean
-    private LDClient ldClient;
+    private LDClientInterface ldClient;
 
     @Before
     public void setUp() {
