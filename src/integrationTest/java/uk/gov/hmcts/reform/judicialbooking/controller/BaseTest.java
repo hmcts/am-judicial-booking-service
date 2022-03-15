@@ -69,6 +69,7 @@ public abstract class BaseTest {
             final Properties props = new Properties();
             // Instruct JDBC to accept JSON string for JSONB
             props.setProperty("stringtype", "unspecified");
+            props.setProperty("user", "postgres");
             connection = DriverManager.getConnection(pg.getJdbcUrl("postgres"), props);
             return new SingleConnectionDataSource(connection, true);
         }
