@@ -12,7 +12,7 @@ class JacksonUtilsTest {
 
     @Test
     void convertValue() {
-        assertNotNull(JacksonUtils.convertValue(ValueNode.JsonNode.createJsonNode("Test")));
+        assertNotNull(JacksonUtils.convertValue(ValueNode.createJsonNode("Test")));
     }
 
     @Test
