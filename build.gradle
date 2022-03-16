@@ -449,16 +449,13 @@ dependencyManagement {
             entry 'logback-classic'
             entry 'logback-core'
         }
-        dependencySet(group: 'org.glassfish', version: '4.0.2') {
-            entry 'jakarta.el'
-        }
     }
 }
 
-configurations {
-    runtime.exclude group: 'org.glassfish', module: 'jakarta.el'
-    runtime.exclude group: 'io.github.x-stream', module: 'mxparser'
-    runtime.exclude group: 'io.netty', module: 'netty-tcnative-classes'
+configurations.all {
+    exclude group: "org.glassfish", module: "jakarta.el"
+    exclude group: 'io.github.x-stream', module: 'mxparser'
+    exclude group: 'io.netty', module: 'netty-tcnative-classes'
 }
 
 cucumberReports {
