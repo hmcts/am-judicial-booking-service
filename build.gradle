@@ -395,7 +395,7 @@ dependencies {
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     integrationTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
 
-    pitest 'org.pitest:pitest-junit5-plugin:1.7.4'
+    pitest group: 'org.pitest', name: 'pitest-junit5-plugin', version:versions.pitest
     compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     smokeTestCompileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
@@ -448,6 +448,11 @@ dependencyManagement {
         dependencySet(group: 'ch.qos.logback', version: versions.logbackVersion) {
             entry 'logback-classic'
             entry 'logback-core'
+        }
+        dependencySet(group: 'com.fasterxml.jackson.core', version: '2.13.1') {
+            entry 'jackson-databind'
+            entry 'jackson-core'
+            entry 'jackson-annotations'
         }
     }
 }
