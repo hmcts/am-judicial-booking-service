@@ -395,7 +395,7 @@ dependencies {
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     integrationTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
 
-    pitest group: 'org.pitest', name: 'pitest-junit5-plugin', version:versions.pitest
+    pitest group: 'org.pitest', name: 'pitest-junit5-plugin'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     smokeTestCompileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
