@@ -350,6 +350,9 @@ dependencies {
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '10.0.17'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.58'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.1'
+    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.13.2.20220324', ext: 'pom'
+
 
     //Added for S2S and User Authentication
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: versions.reformS2sClient
@@ -449,7 +452,7 @@ dependencyManagement {
             entry 'logback-classic'
             entry 'logback-core'
         }
-        dependencySet(group: 'com.fasterxml.jackson.core', version: '2.13.2.1') {
+        dependencySet(group: 'com.fasterxml.jackson.core', version: '2.13.2') {
             entry 'jackson-databind'
             entry 'jackson-core'
             entry 'jackson-annotations'
