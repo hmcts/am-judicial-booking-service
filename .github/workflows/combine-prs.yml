@@ -1,0 +1,379 @@
+name: 'Combine PRs'
+
+on:
+  # schedule:
+  #   - cron: '1/5 * * * *'
+
+  # Controls when the action will run - in this case triggered manually
+  workflow_dispatch:
+    inputs:
+      branchPrefix:
+        description: 'Branch prefix to find combinable PRs based on'
+        required: true
+        default: 'dependabot'
+      mustBeGreen:
+        description: 'Only combine PRs that are green (status is success)'
+        required: true
+        default: 'true'
+      combineBranchName:
+        description: 'Name of the branch to combine PRs into'
+        required: true
+        default: 'combine-prs-branch'
+      ignoreLabel:
+        description: 'Exclude PRs with this label'
+        required: true
+        default: 'nocombine'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "combine-prs"
+  combine-prs:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Assign Environment Variables
+        env:
+          DEFAULT_BRANCH_PREFIX: 'dependabot'
+          DEFAULT_MUST_BE_GREEN: 'true'
+          DEFAULT_COMBINE_BRANCH_NAME: 'combine-prs-branch'
+          DEFAULT_IGNORE_LABEL: 'nocombine'
+        run: |
+          echo "BRANCH_PREFIX=${{ github.event.inputs.branchPrefix || env.DEFAULT_BRANCH_PREFIX }}" >> $GITHUB_ENV
+          echo "MUST_BE_GREEN=${{ github.event.inputs.mustBeGreen || env.DEFAULT_MUST_BE_GREEN }}" >> $GITHUB_ENV
+          echo "COMBINE_BRANCH_NAME=${{ github.event.inputs.combineBranchName || env.DEFAULT_COMBINE_BRANCH_NAME }}" >> $GITHUB_ENV
+          echo "IGNORE_LABEL=${{ github.event.inputs.ignoreLabel || env.DEFAULT_IGNORE_LABEL }}" >> $GITHUB_ENV
+
+      - uses: actions/github-script@v3
+        id: fetch-branch-names
+        name: Fetch Branch Names
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const branchPrefix = process.env.BRANCH_PREFIX;
+            const ignoreLabel = process.env.IGNORE_LABEL;
+            const mustBeGreen = process.env.MUST_BE_GREEN;
+
+            const pulls = await github.paginate('GET /repos/:owner/:repo/pulls', {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              sort: 'created',
+              direction: 'asc'
+            });
+
+            branches = [];
+            prs = [];
+            base_branch = null;
+            for (const pull of pulls) {
+              const branch = pull['head']['ref'];
+              
+              console.log('--------------------------------------------------');
+              console.log('PULL FOR BRANCH: ' + branch);
+
+              if (branch.startsWith(branchPrefix)) {
+                console.log('BRANCH MATCHED: ' + branch);
+                statusOK = true;
+                if(mustBeGreen == 'true') {
+                  console.log('CHECKING GREEN STATUS: ' + branch);
+                  const statuses = await github.paginate('GET /repos/{owner}/{repo}/commits/{ref}/status', {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: branch
+                  });
+                  if(statuses.length > 0) {
+                    const latest_status = statuses[0]['state'];
+                    console.log('VALIDATING STATUS: ' + latest_status);
+                    if(latest_status != 'success') {
+                      console.log('DISCARDING ' + branch + ' WITH STATUS ' + latest_status);
+                      statusOK = false;
+                    }
+                  }
+                }
+                console.log('CHECKING LABELS: ' + branch);
+                const labels = pull['labels'];
+                for(const label of labels) {
+                  const labelName = label['name'];
+                  console.log('CHECKING LABEL: ' + labelName);
+                  if(labelName == ignoreLabel) {
+                    console.log('DISCARDING ' + branch + ' WITH LABEL ' + labelName);
+                    statusOK = false;
+                  }
+                }
+                if (statusOK) {
+                  console.log('ADDING BRANCH TO ARRAY: ' + branch);
+                  branches.push(pull['number'] + '~' + branch);
+                  // prs.push('#' + pull['number'] + ' ' + pull['title']);
+                  prs.push(pull['number'] + '~' + pull['title']);
+                  base_branch = pull['base']['ref'];
+                }
+              }
+            }
+
+            if (branches.length == 0) {
+              core.setFailed('No PRs/branches matched criteria');
+              return;
+            }
+
+            combined = branches.join(' ');
+
+            core.setOutput('base-branch', base_branch);
+            core.setOutput('prs-string', prs.join('||'));
+            
+            console.log('--------------------------------------------------');
+            console.log('BASE BRANCH: ' + base_branch);
+            console.log('NUMBER OF IDENTIFIED BRANCHES: ' + branches.length);
+            console.log('IDENTIFIED BRANCHES: ' + combined);
+
+            return combined;
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2.3.3
+        name: Checkout
+        with:
+          fetch-depth: 0
+
+      # Creates a branch with other PR branches merged together
+      - name: Created Combined Branch
+        env:
+          BASE_BRANCH: ${{ steps.fetch-branch-names.outputs.base-branch }}
+          BRANCHES_TO_COMBINE: ${{ steps.fetch-branch-names.outputs.result }}
+        run: |
+          declare -a prNos
+          declare -a prString
+          declare -a conflictPrNos
+
+          sourcebranches="${BRANCHES_TO_COMBINE%\"}"
+          sourcebranches="${sourcebranches#\"}"
+          
+          basebranch="${BASE_BRANCH%\"}"
+          basebranch="${basebranch#\"}"
+
+          git config pull.rebase false
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          
+          combineBranchExists=$(git ls-remote --heads origin ${COMBINE_BRANCH_NAME})
+
+          if [[ -z ${combineBranchExists} ]]; then
+            echo "COMBINED BRANCH $COMBINE_BRANCH_NAME DOES NOT EXIST. CREATING BRANCH $COMBINE_BRANCH_NAME"
+            
+            git branch $COMBINE_BRANCH_NAME $basebranch
+          else
+            echo "COMBINED BRANCH $COMBINE_BRANCH_NAME ALREADY EXISTS"
+          fi
+
+          git checkout $COMBINE_BRANCH_NAME
+
+          branchesArray=($sourcebranches)
+          for branch in "${branchesArray[@]}"
+          do
+            mergeError=false
+
+            IFS='~' read -ra splitArr <<< "$branch"
+
+            branchName=${splitArr[1]}
+
+            echo "--------------------------------------------------"
+            echo "PR NUMBER: ${splitArr[0]}"
+            echo "BRANCH NAME: $branchName"
+
+            git pull origin $branchName --no-edit || mergeError=true
+
+            if [[ "$mergeError" == "true" ]]; then
+              git merge --abort
+              echo "ABORTED GIT MERGE DUE TO FAILURE"
+
+              conflictPrNos+=${splitArr[0]}"~"
+            else
+              prNos+=${splitArr[0]}"~"
+            fi
+          done
+
+          echo "--------------------------------------------------"
+          echo "SUCCESSFUL PRs: $prNos"
+          echo "MERGE CONFLICT PRs: $conflictPrNos"
+          echo "--------------------------------------------------"
+
+          echo "CLOSEPRS=${prNos[*]}" >> $GITHUB_ENV
+          echo "MERGECONFLICTPRS=${conflictPrNos[*]}" >> $GITHUB_ENV
+
+          git push origin $COMBINE_BRANCH_NAME
+
+      # Creates a PR with the new combined branch
+      - uses: actions/github-script@v3
+        # if: ${{ false }}
+        name: Create Combined Pull Request
+        env:
+          PRS_STRING: ${{ steps.fetch-branch-names.outputs.prs-string }}
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            prs = [];
+            const closePrs = process.env.CLOSEPRS;
+            const combineBranchName = process.env.COMBINE_BRANCH_NAME;
+            const prString = process.env.PRS_STRING;
+
+            prStringArr = prString.split("||");
+
+            const closePRArray = closePrs.split("~");
+            closePRArray.pop(); // Remove the last '~' character
+
+            for(const prStr of prStringArr) {
+              tempArr = prStr.split("~");
+
+              if (closePRArray.includes(tempArr[0])) {
+                prs.push('#' + tempArr[0] + ' ' + tempArr[1]);
+              }
+            }
+
+            const body = 'This PR was created by the Combine PRs action by combining the following PRs:\n' + prs.join('\n');
+
+            try {
+              const response = await github.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Dependabot Combined PR',
+                head: combineBranchName,
+                base: '${{ steps.fetch-branch-names.outputs.base-branch }}',
+                body: body
+              });
+
+              console.log('PULL REQUEST SUCCESSFULLY CREATED FOR BRANCH ' + combineBranchName);
+
+              console.log('PULL REQUEST TITLE: Dependabot Combined PR');
+              console.log('PULL REQUEST URL: ' + response['data']['html_url']);
+
+            } catch (error) {
+                if (error.message.includes('A pull request already exists')) {
+                  console.log('A PULL REQUEST ALREADY EXISTS FOR BRANCH ' + combineBranchName);
+                } else {
+                  console.log('ERROR CREATING COMBINED PULL REQUEST: ' + error.message);
+                }
+            }
+
+      - uses: actions/github-script@v3
+        # if: ${{ false }}
+        id: label-conflict-prs
+        name: Add Label To Merge Conflict Pull Requests
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const mergeConlictPrs = process.env.MERGECONFLICTPRS;
+            const autoMergeConflictLabel = 'automergeconflict';
+            let createAutoMergeLabel = false;
+            let autoMergeConflictLabelExists = false;
+
+            try {
+              const label = await github.issues.getLabel({
+                              owner: context.repo.owner,
+                              repo: context.repo.repo,
+                              name: autoMergeConflictLabel
+                            });
+
+              if (label['status'] != '200') {
+                createAutoMergeLabel = true;
+              } else {
+                autoMergeConflictLabelExists = true;
+                console.log('LABEL ' + autoMergeConflictLabel + ' EXISTS');
+              }
+            } catch(getLabelError) {
+              if (getLabelError.status == 404) {
+                createAutoMergeLabel = true;
+
+                console.log('FAILED TO GET LABEL ' + autoMergeConflictLabel + ' DUE TO ' + getLabelError.message);
+              }
+            }
+
+            if (createAutoMergeLabel == true) {
+              console.log('CREATING LABEL ' + autoMergeConflictLabel);
+
+              try {
+                const response = await github.issues.createLabel({
+                                  owner: context.repo.owner,
+                                  repo: context.repo.repo,
+                                  name: autoMergeConflictLabel,
+                                  color: 'B60205',
+                                  description: 'Auto merge conlict'
+                                 });
+
+                if (response['status'] == '201') {
+                  autoMergeConflictLabelExists = true;
+                  console.log('LABEL ' + autoMergeConflictLabel + ' CREATED SUCCESSFULLY');
+                }
+                else {
+                  console.log('FAILED TO CREATE LABEL ' + autoMergeConflictLabel);
+                }
+              } catch (createLabelError) {
+                console.log('FAILED TO CREATE LABEL ' + autoMergeConflictLabel + ' DUE TO ' + createLabelError.message);
+              }
+            }
+
+            if (autoMergeConflictLabelExists == true) {
+              prArray = mergeConlictPrs.split("~");
+              prArray.pop(); // Remove the last '~' character
+
+              for(const pr of prArray) {
+                console.log('--------------------------------------------------');
+                console.log('ATTEMPTING TO ADD LABEL TO PULL REQUEST : ' + pr);
+
+                try {
+                  const response = await github.issues.addLabels({
+                                  owner: context.repo.owner,
+                                  repo: context.repo.repo,
+                                  issue_number: pr,
+                                  labels: [autoMergeConflictLabel]
+                                 });
+
+                  if (response['status'] == '200') {
+                    console.log('LABEL ' + autoMergeConflictLabel + ' ADDED TO PULL REQUEST ' + pr);
+                  }
+                  else {
+                    console.log('FAILED TO ALL LABEL TO PULL REQUEST ' + pr);
+                  }   
+                } catch (addLabelError) {
+                  console.log('FAILED TO ADD LABEL TO PULL REQUEST ' + pr + ' DUE TO ' + addLabelError.message);
+                }
+              }
+            }
+
+      - uses: actions/github-script@v3
+        # if: ${{ false }}
+        id: close-merged-prs
+        name: Close Merged Pull Requests
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            // const closePrs = '2~3~'; // Use this for tests
+
+            const closePrs = process.env.CLOSEPRS;
+            console.log('prsToClose: ' + closePrs);
+
+            const prArray = closePrs.split("~");
+            prArray.pop(); // Remove the last '~' character
+
+            for(const pr of prArray) {
+              console.log('--------------------------------------------------');
+              console.log('ATTEMPTING TO CLOSE PULL REQUEST : ' + pr);
+
+              try {
+                const closePRStatus = await github.pulls.update({
+                                        owner: context.repo.owner,
+                                        repo: context.repo.repo,
+                                        pull_number: pr,
+                                        state: 'closed'
+                                      });
+
+                // console.log('JSON.stringify: ' + JSON.stringify(closePRStatus));
+                console.log('STATUS CODE: ' + closePRStatus['status']);
+
+                if (closePRStatus['status'] == '200') {
+                  console.log('PULL REQUEST ' + pr + ' CLOSED SUCCESSFULLY.');
+                } else {
+                  console.log('PULL REQUEST ' + pr + ' COULD NOT BE CLOSED.');
+                }
+              } catch (error) {
+                console.log('PULL REQUEST ' + pr + ' COULD NOT BE CLOSED DUE TO: ' + error.message);
+              }
+            }
