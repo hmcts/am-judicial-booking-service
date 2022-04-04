@@ -335,7 +335,7 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.2'
     implementation group: 'org.springframework.security', name: 'spring-security-web'
     implementation group: 'org.springframework.security', name: 'spring-security-config'
-    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.16'
+    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.18'
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     implementation 'commons-io:commons-io:20030203.000550'
