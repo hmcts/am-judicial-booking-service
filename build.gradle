@@ -17,7 +17,7 @@ plugins {
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.springframework.boot' version '2.6.6'
+    id 'org.springframework.boot' version '2.4.9'
     id 'info.solidsoft.pitest' version '1.7.4'
     id 'com.github.ben-manes.versions' version '0.38.0'
     id 'org.sonarqube' version '3.3'
@@ -336,6 +336,7 @@ dependencies {
     implementation group: 'org.springframework.security', name: 'spring-security-web'
     implementation group: 'org.springframework.security', name: 'spring-security-config'
     implementation group: 'org.springframework', name: 'spring-core', version: '5.3.18'
+    implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.18'
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     implementation 'commons-io:commons-io:20030203.000550'
