@@ -93,8 +93,6 @@ configurations {
     cucumberRuntime.extendsFrom(functionalRuntime)
     contractTestCompile.extendsFrom testCompile
     contractTestRuntime.extendsFrom testRuntime
-    functionalTestImplementation.extendsFrom testCompile
-    functionalTestRuntime.extendsFrom testRuntime
 }
 
 sourceSets {
@@ -148,12 +146,17 @@ tasks.withType(JavaCompile) {
 }
 
 task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
-
-    systemProperty "scenario", System.getProperty('scenario')
-
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
-    finalizedBy aggregate
+    doFirst {
+        generateCucumberReports.enabled = true
+        javaexec {
+            main = "uk.gov.hmcts.reform.judicialbooking.befta.JudicialBookingAmBeftaMain"
+            classpath += configurations.cucumberRuntime + sourceSets.functionalTest.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', "json:${projectDir}/target/cucumber.json", '--tags', 'not @Ignore', '--glue',
+                    'uk.gov.hmcts.befta.player', 'src/functionalTest/resources/features/']
+        }
+    }
 }
 
 task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
