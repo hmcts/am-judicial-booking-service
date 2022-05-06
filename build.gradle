@@ -245,7 +245,6 @@ jacoco {
 pitest {
     pitestVersion = "1.7.6"
     testPlugin = "junit5"
-    junit5PluginVersion = '0.15'
     targetClasses = ['uk.gov.hmcts.reform.*']
     excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication',
                        'uk.gov.hmcts.reform.judicialbooking.util.Swagger2SpringBoot',
