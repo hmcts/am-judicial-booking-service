@@ -244,7 +244,6 @@ jacoco {
 
 pitest {
     pitestVersion = "1.7.6"
-    testPlugin = "junit5"
     targetClasses = ['uk.gov.hmcts.reform.*']
     excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication',
                        'uk.gov.hmcts.reform.judicialbooking.util.Swagger2SpringBoot',
@@ -356,6 +355,7 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-tx', version: versions.spring
     implementation group: 'org.springframework', name: 'spring-web', version: versions.spring
     implementation group: 'org.springframework', name: 'spring-webmvc', version: versions.spring
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-osgi', version: '4.0.0-M4'
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     implementation 'commons-io:commons-io:20030203.000550'
