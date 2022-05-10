@@ -151,7 +151,7 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
     doFirst {
         generateCucumberReports.enabled = true
         javaexec {
-            jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
+            jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED','--illegal-access=permit']
             executable = javaLauncher.get().metadata.installationPath.asFile.absolutePath+"/bin/java"
             main = "uk.gov.hmcts.reform.judicialbooking.befta.JudicialBookingAmBeftaMain"
             classpath += configurations.cucumberRuntime + sourceSets.functionalTest.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
