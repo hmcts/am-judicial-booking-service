@@ -67,7 +67,6 @@ version = '0.0.1'
 
 tasks.withType(JavaExec).configureEach {
     javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
-    jvmArgs('--add-opens=java.base/java.lang.reflect=ALL-UNNAMED')
 }
 
 java {
@@ -403,7 +402,7 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
 
-    testImplementation 'com.github.hmcts:befta-fw:8.7.1'
+    testImplementation 'com.github.hmcts:befta-fw:8.7.2-CCD-3086.5'
     testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
 
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
