@@ -155,7 +155,7 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
             executable = javaLauncher.get().metadata.installationPath.asFile.absolutePath+"/bin/java"
             main = "uk.gov.hmcts.reform.judicialbooking.befta.JudicialBookingAmBeftaMain"
             classpath += configurations.cucumberRuntime + sourceSets.functionalTest.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', "json:${projectDir}/target/cucumber.json", '--add-opens', 'java.base/java.lang.reflect=ALL-UNNAMED', '--tags', 'not @Ignore', '--glue',
+            args = ['--plugin', "json:${projectDir}/target/cucumber.json", '--tags', 'not @Ignore', '--glue',
                     'uk.gov.hmcts.befta.player', 'src/functionalTest/resources/features/']
         }
     }
