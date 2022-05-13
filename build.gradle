@@ -151,7 +151,7 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
     doFirst {
         generateCucumberReports.enabled = true
         javaexec {
-            jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED','--illegal-access=permit']
+            jvmArgs '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
             executable = javaLauncher.get().metadata.installationPath.asFile.absolutePath+"/bin/java"
             main = "uk.gov.hmcts.reform.judicialbooking.befta.JudicialBookingAmBeftaMain"
             classpath += configurations.cucumberRuntime + sourceSets.functionalTest.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
@@ -402,7 +402,7 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
 
-    testImplementation 'com.github.hmcts:befta-fw:8.7.2-CCD-3086.4'
+    testImplementation 'com.github.hmcts:befta-fw:8.7.1'
     testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
 
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
