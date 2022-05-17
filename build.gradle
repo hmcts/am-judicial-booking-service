@@ -34,7 +34,7 @@ apply plugin: 'io.spring.dependency-management'
 
 def versions = [
         junit              : '5.8.2',
-        lombok             : '1.18.22',
+        lombok             : '1.18.12',
         gradlePitest       : '1.3.0',
         pitest             : '1.7.4',
         reformLogging      : '5.1.7',
@@ -65,14 +65,9 @@ pmd {
 group = 'uk.gov.hmcts.reform.judicialbooking'
 version = '0.0.1'
 
-tasks.withType(JavaExec).configureEach {
-    javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+allprojects {
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
 }
 
 jacocoTestCoverageVerification {
@@ -151,8 +146,6 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
     doFirst {
         generateCucumberReports.enabled = true
         javaexec {
-            jvmArgs '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
-            executable = javaLauncher.get().metadata.installationPath.asFile.absolutePath+"/bin/java"
             main = "uk.gov.hmcts.reform.judicialbooking.befta.JudicialBookingAmBeftaMain"
             classpath += configurations.cucumberRuntime + sourceSets.functionalTest.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
             args = ['--plugin', "json:${projectDir}/target/cucumber.json", '--tags', 'not @Ignore', '--glue',
@@ -230,19 +223,20 @@ pact {
 jacocoTestReport {
     executionData(test)
     reports {
-        xml.required = true
-        csv.required = false
-        xml.outputLocation = file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+        xml.enabled(true)
+        csv.enabled(false)
+        xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
 project.tasks['sonarqube'].dependsOn jacocoTestReport
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.5"
 }
 
 pitest {
+    pitestVersion = "1.5.2"
     testPlugin = "junit5"
     targetClasses = ['uk.gov.hmcts.reform.*']
     excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication',
@@ -402,7 +396,7 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
 
-    testImplementation 'com.github.hmcts:befta-fw:8.7.2-CCD-3086.6'
+    testImplementation 'com.github.hmcts:befta-fw:8.7.1'
     testImplementation 'com.github.hmcts:fortify-client:1.2.0:all'
 
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
