@@ -17,7 +17,7 @@
   "expectedResponse": {
     "headers": {
       "Content-Length": "[[ANYTHING_PRESENT]]",
-      "Content-Type": "application/json"
+      "Content-Type": "application/vnd.uk.gov.hmcts.judicial-booking-service.create-booking+json;version=1.0;charset=UTF-8"
     }
   }
 }
