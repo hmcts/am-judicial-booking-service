@@ -15,6 +15,9 @@
   },
   "expectedResponse": {
     "_extends_": "Common_201_Response",
+    "headers": {
+      "Content-Type": "application/vnd.uk.gov.hmcts.judicial-booking-service.create-booking+json;version=1.0;charset=UTF-8"
+    },
     "body": {
       "bookingResponse":{
         "id": "[[ANYTHING_PRESENT]]",
