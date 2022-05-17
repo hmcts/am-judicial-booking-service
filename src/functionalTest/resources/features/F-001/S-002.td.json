@@ -16,7 +16,6 @@
     }
   },
   "expectedResponse": {
-    "_extends_": "Common_201_Response",
     "body": {
       "bookingResponse":{
         "id": "[[ANYTHING_PRESENT]]",
