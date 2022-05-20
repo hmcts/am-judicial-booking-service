@@ -42,7 +42,7 @@ def versions = [
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
         springBoot         : '2.6.7',
-        spring             : '5.3.19',
+        spring             : '5.3.20',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '2.10.5',
         pact_version       : '4.1.7',
