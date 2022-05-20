@@ -8,4 +8,8 @@
         <cpe>cpe:/a:nim-lang:nim-lang</cpe>
         <cve>CVE-2020-23171</cve>
     </suppress>
+    <suppress>
+        <notes>spring-*-5.3.20</notes>
+        <cve>CVE-2016-1000027</cve>
+    </suppress>
 </suppressions>
