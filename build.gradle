@@ -163,10 +163,11 @@ task functional(type: JavaExec) {
         generateCucumberReports.enabled = true
         generateCucumberReports {
             doLast{
-                delete "${rootDir}/Functional Tests/"
-                new File("${rootDir}/Functional Tests").mkdirs()
-                file("${rootDir}/target/cucumber/cucumber-html-reports").renameTo(file("${rootDir}/Functional Tests"))
-                logger.quiet("Functional test report moved to ---> file://${rootDir}/Functional%20Tests/overview-features.html")
+                def functionalReportsFolder = "${rootDir}/target/cucumber/functional-html-reports/"
+                delete functionalReportsFolder
+                new File(functionalReportsFolder).mkdirs()
+                file("${rootDir}/target/cucumber/cucumber-html-reports").renameTo(file(functionalReportsFolder))
+                logger.quiet("Functional test report moved to ---> file://$functionalReportsFolder/overview-features.html")
             }
         }
     }
