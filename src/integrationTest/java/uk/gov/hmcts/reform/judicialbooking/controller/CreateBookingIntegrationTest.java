@@ -59,7 +59,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
         doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
     }
 
-    //@Test
+    @Test
     public void shouldRejectRequestWithLDFlagDisable() throws Exception {
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now());

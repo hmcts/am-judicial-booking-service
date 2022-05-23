@@ -60,7 +60,7 @@ public class QueryBookingIntegrationTest extends BaseTest {
         doReturn(true).when(ldClient).boolVariation(anyString(), any(LDUser.class), eq(false));
     }
 
-    //@Test
+    @Test
     public void shouldRejectRequestWithLDFlagDisable() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(UserRequest.builder().build());
         doReturn(false).when(ldClient).isFlagKnown(anyString());

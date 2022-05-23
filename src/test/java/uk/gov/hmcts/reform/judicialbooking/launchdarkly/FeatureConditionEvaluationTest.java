@@ -92,7 +92,7 @@ class FeatureConditionEvaluationTest {
         Assertions.assertFalse(sut.isValidFlag("falseServiceName"));
     }
 
-    //@ParameterizedTest
+    @ParameterizedTest
     @CsvSource({
             "/am/bookings,POST,jbs-create-bookings-api-flag",
             "/am/bookings/query,POST,jbs-query-bookings-api-flag"
@@ -105,7 +105,7 @@ class FeatureConditionEvaluationTest {
         Assertions.assertTrue(sut.preHandle(request, response, ""));
     }
 
-    //@ParameterizedTest
+    @ParameterizedTest
     @CsvSource({
             "/am/bookings,POST,jbs-create-bookings-api-flag",
             "/am/bookings/query,POST,jbs-query-bookings-api-flag"
@@ -118,7 +118,7 @@ class FeatureConditionEvaluationTest {
         Assertions.assertThrows(ForbiddenException.class, () -> sut.preHandle(request, response, ""));
     }
 
-    //@ParameterizedTest
+    @ParameterizedTest
     @CsvSource({
             "/am/bookings,POST,jbs-create-bookings-api-flag",
             "/am/bookings/query,POST,jbs-query-bookings-api-flag"
@@ -131,7 +131,7 @@ class FeatureConditionEvaluationTest {
         Assertions.assertThrows(ResourceNotFoundException.class, () -> sut.preHandle(request, response, ""));
     }
 
-    //@ParameterizedTest
+    @ParameterizedTest
     @CsvSource({
             "/am/bookings,,jbs-create-bookings-api-flag",
     })
