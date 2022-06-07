@@ -7,15 +7,16 @@ import org.springframework.http.converter.HttpMessageConversionException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.DuplicateRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ServiceException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import javax.servlet.http.HttpServletRequest;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 class JudicialBookingControllerAdviceTest {
 
@@ -69,6 +70,14 @@ class JudicialBookingControllerAdviceTest {
         ResponseEntity<Object> responseEntity = csda.handleUnprocessableEntityException(servletRequestMock, exception);
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void handleGetRootException() {
+        UnprocessableEntityException exception = mock(UnprocessableEntityException.class);
+        Throwable responseEntity = JudicialBookingControllerAdvice.getRootException(
+                new ServiceException("Unprocessable", exception));
+        assertEquals(UnprocessableEntityException.class, responseEntity.getClass());
     }
 
     @Test
