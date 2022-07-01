@@ -21,7 +21,7 @@ public abstract class WireMockBaseTest extends BaseTest {
 
     @Before
     public void initMock() throws IOException {
-        final String hostUrl = "http://localhost:" + wiremockPort;
+        final var hostUrl = "http://localhost:" + wiremockPort;
 
         LOG.info("Wire mock test, host url is {}", hostUrl);
 

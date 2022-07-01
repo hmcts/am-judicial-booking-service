@@ -56,7 +56,7 @@ public class CreateBookingController {
                     String correlationId,
             @Validated
             @RequestBody BookingRequest bookingRequest) {
-        long startTime = System.currentTimeMillis();
+        var startTime = System.currentTimeMillis();
         ResponseEntity<BookingResponse> response = bookingOrchestrator
                 .createBooking(bookingRequest);
         log.info(
