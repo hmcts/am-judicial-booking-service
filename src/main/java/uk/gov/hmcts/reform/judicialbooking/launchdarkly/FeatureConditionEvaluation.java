@@ -47,7 +47,7 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
     public boolean preHandle(@NotNull HttpServletRequest request,
                              @NotNull HttpServletResponse response, @NotNull Object arg2) {
 
-        String flagName = getLaunchDarklyFlag(request);
+        var flagName = getLaunchDarklyFlag(request);
 
         if (flagName == null) {
             throw new ForbiddenException("The endpoint is not configured in Launch Darkly");
@@ -58,7 +58,7 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
                     "The flag %s is not configured in Launch Darkly", flagName));
         }
 
-        boolean flagStatus = isFlagEnabled(securityUtils.getServiceName(), flagName);
+        var flagStatus = isFlagEnabled(securityUtils.getServiceName(), flagName);
         if (!flagStatus) {
             throw new ForbiddenException(String.format("Launch Darkly flag is not enabled for the endpoint %s",
                     request.getRequestURI()));
@@ -82,7 +82,7 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
     }
 
     public String getLaunchDarklyFlag(HttpServletRequest request) {
-        String uri = request.getRequestURI();
+        var uri = request.getRequestURI();
         if (POST.equals(request.getMethod()) && postRequestMap.get(uri) != null) {
             return postRequestMap.get(uri);
         } else {

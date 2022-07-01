@@ -39,7 +39,7 @@ public class WelcomeControllerIntegrationTest extends BaseTest {
 
     @Test
     public void welcomeApiTest() throws Exception {
-        final String url = "/welcome";
+        final var url = "/welcome";
         logger.info(" WelcomeControllerIntegrationTest : Inside  Welcome API Test method...{}", url);
         final MvcResult result = mockMvc.perform(get(url).contentType(JSON_CONTENT_TYPE))
                 .andExpect(status().is(200))

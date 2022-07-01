@@ -76,7 +76,7 @@ public abstract class BaseTest {
         ResponseEntity<TokenResponse> response;
         HttpHeaders headers = new HttpHeaders();
         try {
-            String url = String.format(
+            var url = String.format(
                     "%s/o/token?client_id=%s&client_secret=%s&grant_type=%s&scope=%s&username=%s&password=%s",
                     config.getIdamURL(),
                     request.getClientId(),
