@@ -24,7 +24,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -69,7 +69,7 @@ class SecurityUtilsTest {
 
 
     private void mockSecurityContextData() {
-        List<String> collection = Collections.emptyList();
+        List<String> collection = new ArrayList<>();
         collection.add("string");
         Map<String, Object> headers = new HashMap<>();
         headers.put("header", "head");
