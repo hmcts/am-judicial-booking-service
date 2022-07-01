@@ -24,7 +24,6 @@ import uk.gov.hmcts.reform.idam.client.models.UserDetails;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,7 +158,7 @@ class IdamRepositoryTest {
 
         Map<String, Object> mapRoles = new HashMap<>();
 
-        mapRoles.put("userRoles", Arrays.asList("caseworker", "am_import"));
+        mapRoles.put("userRoles", List.of("caseworker", "am_import"));
 
         List<Object> list = new ArrayList<>();
         list.add(mapRoles);

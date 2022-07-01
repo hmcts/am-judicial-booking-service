@@ -17,6 +17,7 @@ import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterN
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -86,7 +87,7 @@ class JwtGrantedAuthoritiesConverterTest {
         when(jwt.getClaim(anyString())).thenReturn("access_token");
         when(jwt.getTokenValue()).thenReturn("access_token");
         UserInfo userInfo = mock(UserInfo.class);
-        List<String> roles = Arrays.asList("citizen");
+        List<String> roles = Collections.singletonList("citizen");
         when(userInfo.getRoles()).thenReturn(roles);
         when(userInfo.getRoles()).thenReturn(roles);
         when(idamRepositoryMock.getUserInfo(anyString())).thenReturn(userInfo);
