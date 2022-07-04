@@ -12,7 +12,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -100,7 +100,7 @@ public class TestDataBuilder {
     }
 
     public static UserInfo buildUserInfo(String uuid) {
-        List<String> list = new ArrayList<>();
+        List<String> list = Collections.emptyList();
         return UserInfo.builder().sub("sub").uid(uuid)
                 .name("James").givenName("007").familyName("Bond").roles(list).build();
     }
