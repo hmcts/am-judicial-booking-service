@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.judicialbooking.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.util.ObjectUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
@@ -12,6 +11,8 @@ import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.PredicateValidator.datePredicates;
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.PredicateValidator.valuePredicates;
 
 @Named
 @Singleton
@@ -55,30 +56,30 @@ public class ValidationUtil {
     }
 
     public static void validateBookingRequest(BookingRequest booking) {
-        if (ObjectUtils.isEmpty(booking.getBeginDate())) {
+        if (datePredicates.test(booking.getBeginDate())) {
             throw new BadRequestException("Begin date cannot be Null or Empty");
         }
-        if (ObjectUtils.isEmpty(booking.getEndDate())) {
+        if (datePredicates.test(booking.getEndDate())) {
             throw new BadRequestException("End date cannot be Null or Empty");
         }
-        if ((!ObjectUtils.isEmpty(booking.getLocationId()))
-                && (ObjectUtils.isEmpty(booking.getRegionId()))) {
+        if ((!valuePredicates.test(booking.getLocationId()))
+                && (valuePredicates.test(booking.getRegionId()))) {
             throw new BadRequestException("RegionId cannot be Null or Empty, if LocationId is available");
         }
-        if (!ObjectUtils.isEmpty(booking.getUserId())) {
+        if (!valuePredicates.test(booking.getUserId())) {
             validateInputParams(Constants.NUMBER_TEXT_HYPHEN_PATTERN, booking.getUserId());
         }
         validateBeginAndEndDates(booking.getBeginDate(), booking.getEndDate());
     }
 
     public static void validateBeginAndEndDates(LocalDate beginDate, LocalDate endDate) {
-        if (beginDate != null && beginDate.getYear() == 1970) {
+        if (!datePredicates.test(beginDate) && beginDate.getYear() == 1970) {
             throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for beginDate");
         }
-        if (endDate != null && endDate.getYear() == 1970) {
+        if (!datePredicates.test(endDate) && endDate.getYear() == 1970) {
             throw new BadRequestException(V1.Error.BAD_REQUEST_INVALID_DATETIME + " for endDate");
         }
-        if (beginDate != null && endDate != null) {
+        if (!datePredicates.test(beginDate) && !datePredicates.test(endDate)) {
             compareDateOrder(beginDate, endDate);
         }
     }
