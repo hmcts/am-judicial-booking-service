@@ -385,7 +385,7 @@ dependencies {
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.4.0'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.13.2.20220328', ext: 'pom'
-    implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.6'
+    implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
 
 
     //Added for S2S and User Authentication
