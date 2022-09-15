@@ -47,6 +47,8 @@ security:
 spring:
   application:
     name: Judicial Booking Service
+  config:
+    import: "optional:configtree:/mnt/secrets/am/"
   main:
     allow-bean-definition-overriding: true
   jackson:
