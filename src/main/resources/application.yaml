@@ -122,4 +122,6 @@ launchdarkly:
     user: am-${LAUNCH_DARKLY_ENV:local}
   runOnStartup: ${RUN_LD_ON_STARTUP:false}
 
+logging.level.uk.gov.hmcts: ${APPLICATION_LOGGING_LEVEL:DEBUG}
+
 
