@@ -16,6 +16,20 @@ def vaultOverrides = [
   'spreview': 'saat'
 ]
 
+def secrets = [
+        's2s-${env}': [
+                secret('microservicekey-am-judicial-booking-service', 'BEFTA_S2S_CLIENT_SECRET'),
+                secret('microservicekey-am-judicial-booking-service', 'AM_JUDICIAL_BOOKING_SERVICE_SECRET')
+        ],
+        'am-${env}': [
+                secret('role-assignment-service-IDAM-CLIENT-SECRET', 'JUDICIAL_BOOKING_IDAM_CLIENT_SECRET'),
+                secret('role-assignment-service-LD-SDK-KEY', 'LD_SDK_KEY'),
+                secret('test-am-user1-befta-pwd', 'TEST_AM_USER1_BEFTA_PWD'),
+                secret('test-am-user2-befta-pwd', 'TEST_AM_USER2_BEFTA_PWD'),
+                secret('test-am-user3-befta-pwd', 'TEST_AM_USER3_BEFTA_PWD'),
+                secret('role-assignment-service-IDAM-CLIENT-SECRET', 'OAUTH2_CLIENT_SECRET')
+        ]
+]
 withNightlyPipeline(type, product, component) {
 
 // Vars needed for functional and smoke tests to run against AKS
@@ -41,14 +55,31 @@ withNightlyPipeline(type, product, component) {
   env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
   env.PACT_BROKER_PORT = "443"
   env.PACT_BROKER_SCHEME = "https"
-  
-  overrideVaultEnvironments(vaultOverrides)
 
+  enableMutationTest()
+  overrideVaultEnvironments(vaultOverrides)
+  loadVaultSecrets(secrets)
+
+  enableSecurityScan()
+  enableFullFunctionalTest()
   enableFortifyScan()
+
+  before('fullFunctionalTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/integration/**/*'
+  }
+
+  after('build') {
+    stage("integration tests") {
+      sh "./gradlew integration"
+      steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/integration/**/*'
+    }
+  }
+
+  after('fullFunctionalTest') {
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/cucumber/**/*'
+  }
 
   after('fortify-scan') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
   }
-
-  enableMutationTest()
 }
