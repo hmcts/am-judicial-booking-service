@@ -47,6 +47,8 @@ security:
 spring:
   application:
     name: Judicial Booking Service
+  config:
+    import: "optional:configtree:/mnt/secrets/am/"
   main:
     allow-bean-definition-overriding: true
   jackson:
@@ -119,5 +121,7 @@ launchdarkly:
     environment: ${LAUNCH_DARKLY_ENV:pr}
     user: am-${LAUNCH_DARKLY_ENV:local}
   runOnStartup: ${RUN_LD_ON_STARTUP:false}
+
+logging.level.uk.gov.hmcts: ${APPLICATION_LOGGING_LEVEL:INFO}
 
 
