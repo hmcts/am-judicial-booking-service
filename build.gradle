@@ -340,6 +340,8 @@ repositories {
 
 
 dependencies {
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot) {
         exclude group: 'org.glassfish', module: 'jakarta.el'
     }
