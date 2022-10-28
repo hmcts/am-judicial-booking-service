@@ -8,7 +8,9 @@
     "to delete bookings just created above"
   ],
   "users": {
-    "_extends_": "Common_User_For_Request"
+    "invokingUser": {
+      "_extends_": "BeftaUser1"
+    }
   },
   "request": {
     "headers": {

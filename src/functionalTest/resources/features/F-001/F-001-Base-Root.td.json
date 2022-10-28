@@ -1,7 +1,9 @@
 {
   "_guid_": "F-001-Base-Root",
   "users": {
-    "_extends_": "Common_User_For_Request"
+    "invokingUser": {
+      "_extends_": "BeftaUser1"
+    }
   },
   "request": {
     "headers": {
