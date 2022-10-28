@@ -9,10 +9,7 @@
   "uri": "am/bookings",
 
   "users": {
-    "invokingUser": {
-      "username": "TEST_AM_USER1_BEFTA@test.local",
-      "password": "[[$TEST_AM_USER1_BEFTA_PWD]]"
-    }
+    "_extends_": "Common_User_For_Request"
   },
   "request": {
     "headers": {
