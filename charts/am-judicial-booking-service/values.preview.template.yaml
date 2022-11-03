@@ -26,8 +26,3 @@ java:
     LAUNCH_DARKLY_ENV: pr
   postgresql:
     enabled: true
-    auth:
-      username: am
-      password: am
-      database: judicial_booking
-      port: 5432
