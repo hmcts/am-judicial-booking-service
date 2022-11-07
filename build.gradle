@@ -396,7 +396,7 @@ dependencies {
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.2')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
-    testImplementation('com.github.tomakehurst:wiremock-jre8:2.34.0')
+    testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.0')
     testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.3'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
