@@ -79,7 +79,7 @@ class ParseRequestServiceTest {
 
     @Test
     void testParseBookingRequest() {
-        Assertions.assertThrows(NullPointerException.class, () -> sut.parseBookingRequest(null));
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseBookingRequest(null));
     }
 
     @Test
