@@ -147,6 +147,13 @@ class ValidationUtilTest {
     }
 
     @Test
+    void validateBookingRequest_null() {
+        Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateBookingRequest(null)
+        );
+    }
+
+    @Test
     void validateBookingRequest_nullEndDate() {
         BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
                 .beginDate(LocalDate.now().plusDays(1))

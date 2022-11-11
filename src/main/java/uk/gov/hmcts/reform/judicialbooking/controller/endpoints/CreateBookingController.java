@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
@@ -55,10 +55,10 @@ public class CreateBookingController {
             @RequestHeader(value = "x-correlation-id", required = false)
                     String correlationId,
             @Validated
-            @RequestBody BookingRequest bookingRequest) {
+            @RequestBody BookingRequestWrapper bookingRequest) {
         var startTime = System.currentTimeMillis();
         ResponseEntity<BookingResponse> response = bookingOrchestrator
-                .createBooking(bookingRequest);
+                .createBooking(bookingRequest.getBookingRequest());
         log.info(
                 " >> createBooking execution finished at {} . Time taken = {} milliseconds",
                 System.currentTimeMillis(),
