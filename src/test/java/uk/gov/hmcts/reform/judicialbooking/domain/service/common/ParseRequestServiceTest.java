@@ -101,13 +101,13 @@ class ParseRequestServiceTest {
     }
 
     @Test
-    void testPareseQueryValidateRequest() {
+    void testParseQueryValidateRequest() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
-        BookingQueryRequest bookingQueryRequestnouserid =
+        BookingQueryRequest bookingQueryRequestNonUserId =
                 BookingQueryRequest.builder().queryRequest(userRequest).build();
-        bookingQueryRequestnouserid.getQueryRequest().setUserIds(List.of("abc"));
-        Assertions.assertThrows(UnprocessableEntityException.class, () ->
-                sut.parseQueryRequest(bookingQueryRequestnouserid));
+        bookingQueryRequestNonUserId.getQueryRequest().setUserIds(List.of("abc"));
+        Assertions.assertThrows(BadRequestException.class, () ->
+                sut.parseQueryRequest(bookingQueryRequestNonUserId));
     }
 
     @Test
