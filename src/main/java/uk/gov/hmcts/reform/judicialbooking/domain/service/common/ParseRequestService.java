@@ -44,12 +44,14 @@ public class ParseRequestService {
         if (queryRequest.getQueryRequest() == null
                 || CollectionUtils.isEmpty(queryRequest.getQueryRequest().getUserIds())) {
             throw new BadRequestException("Provided list of userIds is empty");
-        } else if (queryRequest.getQueryRequest().getUserIds().size() == 1) {
-            checkUserId(queryRequest.getQueryRequest().getUserIds().get(0));
         }
 
         ValidationUtil.validateInputParams(Constants.UUID_PATTERN,
                 queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
+
+        if (queryRequest.getQueryRequest().getUserIds().size() == 1) {
+            checkUserId(queryRequest.getQueryRequest().getUserIds().get(0));
+        }
 
         return queryRequest.getQueryRequest().getUserIds();
     }
