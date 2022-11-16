@@ -58,8 +58,8 @@ public class SmokeTest extends BaseTest {
         RestAssured.useRelaxedHTTPSValidation();
 
         String requestBody = "{\"queryRequest\" : {\n"
-                + "    \"userIds\" : [\"b0444ddd-e640-4bbe-a6e9-d0b771171401\"]\n"
-                + "  }}";
+                + "\"userIds\" : [\"b0444ddd-e640-4bbe-a6e9-d0b771171401\",\"b0444ddd-e640-4bbe-a6e9-d0b771171402\"]\n"
+                + "}}";
 
         Response response = SerenityRest
                 .given()
