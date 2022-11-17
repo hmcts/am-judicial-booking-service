@@ -58,6 +58,9 @@ public class ValidationUtil {
     }
 
     public static void validateBookingRequest(BookingRequest booking) {
+        if (booking == null) {
+            throw new BadRequestException("Body cannot be Null or Empty");
+        }
         if (datePredicates.test(booking.getBeginDate())) {
             throw new BadRequestException("Begin date cannot be Null or Empty");
         }

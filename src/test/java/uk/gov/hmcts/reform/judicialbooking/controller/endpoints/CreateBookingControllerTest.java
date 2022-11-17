@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
@@ -34,7 +35,7 @@ class CreateBookingControllerTest {
         BookingRequest bookingRequest = new BookingRequest();
         ResponseEntity<BookingResponse> expectedResponse = TestDataBuilder.buildCreateBookingResponse();
         when(bookingOrchestrator.createBooking(any())).thenReturn(expectedResponse);
-        ResponseEntity<BookingResponse> response = sut.createBooking("", bookingRequest);
+        ResponseEntity<BookingResponse> response = sut.createBooking("", new BookingRequestWrapper(bookingRequest));
         assertNotNull(response);
         assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
         assertEquals(expectedResponse.getBody(), response.getBody());
