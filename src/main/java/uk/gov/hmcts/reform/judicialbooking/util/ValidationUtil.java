@@ -3,12 +3,14 @@ package uk.gov.hmcts.reform.judicialbooking.util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE_ID_PATTERN;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.PredicateValidator.datePredicates;
@@ -26,7 +28,7 @@ public class ValidationUtil {
      * Validate a number string using  algorithm.
      *
      * @param numberString =null
-     * @return
+     * @return true if pattern matches
      */
     public static boolean validate(String numberString) {
         validateInputParams(INPUT_CASE_ID_PATTERN, numberString);
@@ -99,4 +101,11 @@ public class ValidationUtil {
                     String.format("The end time: %s takes place before the begin time: %s", endTime, beginTime));
         }
     }
+
+    public static void validateUserId(String actualUserId, String expectedUserId) {
+        if (!Objects.equals(actualUserId, expectedUserId)) {
+            throw new UnprocessableEntityException("The userId is invalid");
+        }
+    }
+
 }
