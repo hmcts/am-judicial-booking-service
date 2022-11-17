@@ -4,7 +4,7 @@
   "request": {
     "body": {
       "bookingRequest": {
-        "userId": "b9837a7c-3eb9-49c1-ad9c-99710997f0d9",
+        "userId": "cf07ea33-31c0-4442-b2df-e2032d21b496",
         "locationId": "location2",
         "regionId": "region2"
       }

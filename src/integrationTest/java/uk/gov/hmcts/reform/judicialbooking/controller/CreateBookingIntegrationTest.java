@@ -18,6 +18,7 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
@@ -229,7 +230,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
     @Test
     public void createBookingWithInputUserId() throws Exception {
 
-        var request = new BookingRequest("1234-abcd", REGION, LOCATION,
+        var request = new BookingRequest(ACTOR_ID1, REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1));
 
         final MvcResult result = mockMvc.perform(post(URL)
@@ -249,6 +250,19 @@ public class CreateBookingIntegrationTest extends BaseTest {
         assertEquals(request.getLocationId(), actualBooking.getLocationId());
         assertEquals(request.getRegionId(), actualBooking.getRegionId());
         assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
+    }
+
+    @Test
+    public void createBookingWithInvalidInputUserId() throws Exception {
+        var request = new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
+                LocalDate.now(), LocalDate.now().plusDays(1));
+
+        mockMvc.perform(post(URL)
+                        .contentType(JSON_CONTENT_TYPE)
+                        .headers(getHttpHeaders())
+                        .content(mapper.writeValueAsBytes(request)))
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
     }
 
 }
