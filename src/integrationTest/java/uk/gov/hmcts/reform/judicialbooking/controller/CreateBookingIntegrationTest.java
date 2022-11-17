@@ -254,8 +254,8 @@ public class CreateBookingIntegrationTest extends BaseTest {
 
     @Test
     public void createBookingWithInvalidInputUserId() throws Exception {
-        var request = new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
-                LocalDate.now(), LocalDate.now().plusDays(1));
+        var request = new BookingRequestWrapper(new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
+                LocalDate.now(), LocalDate.now().plusDays(1)));
 
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
