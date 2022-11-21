@@ -382,7 +382,7 @@ dependencies {
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.69'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.0'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.0'
-    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.14.0-rc1', ext: 'pom'
+    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.14.0', ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
 
 
@@ -397,7 +397,7 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.0')
-    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.3'
+    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.4'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
