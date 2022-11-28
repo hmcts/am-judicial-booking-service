@@ -351,7 +351,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.5.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.0'
-    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.7.5'
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.0.0'
     implementation group: 'org.springframework.security', name: 'spring-security-web'
     implementation group: 'org.springframework.security', name: 'spring-security-config'
     implementation group: 'org.springframework', name: 'spring-core', version: versions.spring
@@ -377,12 +377,12 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
     implementation group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
     implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: versions.launchDarklySdk
-    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.1'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.2'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.69'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.69'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.0'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.0'
-    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.14.0', ext: 'pom'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
+    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.14.1', ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
 
 
@@ -397,7 +397,7 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.0')
-    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.4'
+    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.5'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
