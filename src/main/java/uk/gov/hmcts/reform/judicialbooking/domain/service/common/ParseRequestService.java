@@ -10,11 +10,14 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
-import uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+
+import static uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil.validateBookingRequest;
+import static uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil.validateInputParams;
+import static uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil.validateUserId;
 
 @Service
 public class ParseRequestService {
@@ -23,11 +26,16 @@ public class ParseRequestService {
     private SecurityUtils securityUtils;
 
     public BookingEntity parseBookingRequest(BookingRequest bookingRequest) {
-        ValidationUtil.validateBookingRequest(bookingRequest);
+        validateBookingRequest(bookingRequest);
+        if (StringUtils.isEmpty(bookingRequest.getUserId())) {
+            bookingRequest.setUserId(securityUtils.getUserId());
+        } else {
+            validateUserId(bookingRequest.getUserId(), securityUtils.getUserId());
+        }
+
         return BookingEntity.builder()
                 .created(ZonedDateTime.now())
-                .userId(StringUtils.isEmpty(bookingRequest.getUserId()) ? securityUtils.getUserId() :
-                        bookingRequest.getUserId())
+                .userId(bookingRequest.getUserId())
                 .beginTime(bookingRequest.getBeginDate().atStartOfDay(ZoneId.of("UTC")))
                 .endTime(bookingRequest.getEndDate().plusDays(1).atStartOfDay(ZoneId.of("UTC")))
                 .locationId(bookingRequest.getLocationId())
@@ -42,10 +50,16 @@ public class ParseRequestService {
             throw new BadRequestException("Provided list of userIds is empty");
         }
 
-        ValidationUtil.validateInputParams(Constants.UUID_PATTERN,
+        validateInputParams(Constants.UUID_PATTERN,
                 queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
+
+        if (queryRequest.getQueryRequest().getUserIds().size() == 1) {
+            validateUserId(queryRequest.getQueryRequest().getUserIds().get(0), securityUtils.getUserId());
+        }
 
         return queryRequest.getQueryRequest().getUserIds();
     }
+
+
 
 }
