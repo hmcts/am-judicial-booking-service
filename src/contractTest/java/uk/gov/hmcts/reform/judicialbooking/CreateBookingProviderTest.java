@@ -76,7 +76,7 @@ public class CreateBookingProviderTest {
         Mockito.when(persistenceService.persistBooking(any()))
                 .thenReturn(TestDataBuilder.buildPreparedBooking());
 
-        Mockito.when(securityUtils.getUserId()).thenReturn("5629957f-4dcd-40b8-a0b2-e64ff5898b28");
+        Mockito.when(securityUtils.getUserId()).thenReturn("3168da13-00b3-41e3-81fa-cbc71ac28a0f");
         Mockito.when(correlationInterceptorUtil.preHandle(any()))
                 .thenReturn("14a21569-eb80-4681-b62c-6ae2ed069e2d");
 
