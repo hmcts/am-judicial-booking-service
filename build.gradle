@@ -351,7 +351,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.5.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.0'
-    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.8.0'
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.0.0'
     implementation group: 'org.springframework.security', name: 'spring-security-web'
     implementation group: 'org.springframework.security', name: 'spring-security-config'
     implementation group: 'org.springframework', name: 'spring-core', version: versions.spring
@@ -381,7 +381,7 @@ dependencies {
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.69'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.69'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.14.1', ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
 
