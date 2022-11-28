@@ -17,6 +17,7 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
+import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import javax.inject.Inject;
 import java.time.ZonedDateTime;
@@ -48,6 +49,9 @@ public class QueryBookingIntegrationTest extends BaseTest {
 
     @Inject
     private WebApplicationContext wac;
+
+    @MockBean
+    SecurityUtils securityUtilsMock;
 
     @MockBean
     private LDClientInterface ldClient;
@@ -116,8 +120,12 @@ public class QueryBookingIntegrationTest extends BaseTest {
 
     @Test
     public void retrieveEmptyJudicialBookings_nonExistingUser() throws Exception {
+        String randomUserId = UUID.randomUUID().toString();
+
+        doReturn(randomUserId).when(securityUtilsMock).getUserId();
+
         BookingQueryRequest request = new BookingQueryRequest(
-                UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
+                UserRequest.builder().userIds(List.of(randomUserId)).build());
 
         mockMvc.perform(post(URL)
                         .contentType(JSON_CONTENT_TYPE)
@@ -128,9 +136,27 @@ public class QueryBookingIntegrationTest extends BaseTest {
     }
 
     @Test
+    public void retrieveJudicialBookingsInvalidUser() throws Exception {
+
+        doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
+
+        BookingQueryRequest request = new BookingQueryRequest(
+                UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
+
+        mockMvc.perform(post(URL)
+                        .contentType(JSON_CONTENT_TYPE)
+                        .headers(getHttpHeaders())
+                        .content(mapper.writeValueAsBytes(request)))
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+    }
+
+    @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
     public void retrieveJudicialBooking_validSingleBooking() throws Exception {
+
+        doReturn(ACTOR_ID2).when(securityUtilsMock).getUserId();
 
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID2)).build());
@@ -158,6 +184,8 @@ public class QueryBookingIntegrationTest extends BaseTest {
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
     public void retrieveJudicialBooking_validMultipleBooking() throws Exception {
+
+        doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
 
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1)).build());

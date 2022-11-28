@@ -8,7 +8,7 @@
   "request": {
     "body": {
       "bookingRequest": {
-        "userId": "58f95b41-25f9-4a58-bfd5-d1232827d241",
+        "userId": "cf07ea33-31c0-4442-b2df-e2032d21b496",
         "locationId": "location1",
         "regionId": "region1",
         "beginDate": "${[scenarioContext][customValues][today]}",
