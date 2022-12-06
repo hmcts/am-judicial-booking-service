@@ -49,7 +49,7 @@ def versions = [
         feign_jackson      : '9.7.0',
         launchDarklySdk    : '5.10.3',
         log4JVersion       : '2.17.1',
-        logbackVersion     : '1.2.10'
+        logbackVersion     : '1.4.5'
 ]
 
 mainClassName = 'uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication'
