@@ -378,7 +378,7 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
     implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: versions.launchDarklySdk
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.2'
-    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.69'
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.70'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.70'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
