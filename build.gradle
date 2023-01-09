@@ -369,7 +369,7 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-webmvc', version: versions.spring
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-    implementation 'commons-io:commons-io:20030203.000550'
+    implementation 'commons-io:commons-io:2.11.0'
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.5.13'
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
@@ -393,7 +393,7 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
 
-    testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.2')
+    testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:4.0.0')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.0')
@@ -403,7 +403,7 @@ dependencies {
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
     testImplementation group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.9.1'
     testImplementation group: 'org.pitest', name: 'pitest', version: versions.pitest
-    testImplementation group: 'info.solidsoft.gradle.pitest', name:'gradle-pitest-plugin', version: '1.7.4'
+    testImplementation group: 'info.solidsoft.gradle.pitest', name:'gradle-pitest-plugin', version: '1.9.11'
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: versions.cucumber
@@ -422,7 +422,7 @@ dependencies {
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
-    smokeTestImplementation group: 'commons-io', name: 'commons-io', version: '20030203.000550'
+    smokeTestImplementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
     // AM-467-Serenity report for Integration test
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
