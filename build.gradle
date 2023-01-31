@@ -15,7 +15,7 @@ plugins {
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.springframework.boot' version '2.7.5'
+    id 'org.springframework.boot' version '2.7.7'
     id 'info.solidsoft.pitest' version '1.7.4'
     id 'com.github.ben-manes.versions' version '0.44.0'
     id 'org.sonarqube' version '3.5.0.2730'
@@ -39,7 +39,7 @@ def versions = [
         reformS2sClient    : '4.0.2',
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
-        springBoot         : '2.7.5',
+        springBoot         : '2.7.7',
         spring             : '5.3.24',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '2.10.5',
@@ -368,14 +368,17 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-web', version: versions.spring
     implementation group: 'org.springframework', name: 'spring-webmvc', version: versions.spring
 
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.8'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.5'
+
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
-    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'commons-io:commons-io:20030203.000550'
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.5.13'
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.swagger2Version
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
-    implementation group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
+//    implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.swagger2Version
+//    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.swagger2Version
+//    implementation group: 'io.springfox', name: 'springfox-spring-webmvc', version: versions.swagger2Version
     implementation group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: versions.launchDarklySdk
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.2'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.70'
@@ -393,7 +396,7 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
 
-    testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:4.0.0')
+    testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.2')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.0')
@@ -403,7 +406,7 @@ dependencies {
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
     testImplementation group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.9.1'
     testImplementation group: 'org.pitest', name: 'pitest', version: versions.pitest
-    testImplementation group: 'info.solidsoft.gradle.pitest', name:'gradle-pitest-plugin', version: '1.9.11'
+    testImplementation group: 'info.solidsoft.gradle.pitest', name:'gradle-pitest-plugin', version: '1.7.4'
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: versions.cucumber
@@ -422,7 +425,7 @@ dependencies {
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
-    smokeTestImplementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    smokeTestImplementation group: 'commons-io', name: 'commons-io', version: '20030203.000550'
     // AM-467-Serenity report for Integration test
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity

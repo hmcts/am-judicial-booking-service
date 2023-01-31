@@ -1,9 +1,10 @@
 package uk.gov.hmcts.reform.judicialbooking.controller.endpoints;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,6 @@ import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 import javax.transaction.Transactional;
 
 
-@Api(value = "booking")
 @RestController
 @Slf4j
 public class CreateBookingController {
@@ -38,18 +38,16 @@ public class CreateBookingController {
             consumes = {"application/json"}
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    @ApiOperation("Creates booking for a fee-pay judge ")
-    @ApiResponses({
-            @ApiResponse(
-                    code = 201,
-                    message = "Created",
-                    response = BookingResponse.class
-            ),
-            @ApiResponse(
-                    code = 400,
-                    message = V1.Error.INVALID_REQUEST
-            )
-    })
+    @Operation(summary = "Creates booking for a fee-pay judge ")
+    @ApiResponse(
+            responseCode = "201",
+            description = "Created",
+            content = @Content(schema = @Schema(implementation = BookingResponse.class))
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = V1.Error.INVALID_REQUEST
+    )
     @Transactional
     public ResponseEntity<BookingResponse> createBooking(
             @RequestHeader(value = "x-correlation-id", required = false)
