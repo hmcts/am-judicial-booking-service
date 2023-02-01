@@ -22,6 +22,7 @@ plugins {
     id 'org.sonarqube' version '3.5.0.2730'
     id 'com.github.spacialcircumstances.gradle-cucumber-reporting' version '0.1.25'
     id 'au.com.dius.pact' version '4.3.12' //don't upgrade or downgrade this or serenity reports will fail to generate
+    id 'org.owasp.dependencycheck' version '8.0.2'
 }
 
 apply plugin: 'info.solidsoft.pitest'
@@ -349,7 +350,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.0.4'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.5.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.5.RELEASE'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.0'
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.0.1'
@@ -371,6 +372,8 @@ dependencies {
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.8'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.5'
+
+    implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.70'
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     implementation 'commons-io:commons-io:20030203.000550'
