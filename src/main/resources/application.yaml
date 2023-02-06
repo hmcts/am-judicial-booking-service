@@ -31,6 +31,7 @@ security:
     - "/health"
     - "/health/liveness"
     - "/health/readiness"
+    - "/health/**"
     - "/actuator/**"
     - "/loggers/**"
     - "/swagger-ui.html"
@@ -43,6 +44,8 @@ security:
     - "/csrf"
     - "/error"
     - "/favicon.ico"
+    - "/status/health"
+    - "/welcome"
   authorisedRoles:
   authorisedServices: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:am_judicial_booking_service}
 
