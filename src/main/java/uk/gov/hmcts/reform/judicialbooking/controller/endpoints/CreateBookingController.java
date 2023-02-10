@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,12 @@ public class CreateBookingController {
             consumes = {"application/json"}
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    @Operation(summary = "Creates booking for a fee-pay judge ")
+    @Operation(summary = "Creates booking for a fee-pay judge",
+            security =
+                    {
+                            @SecurityRequirement(name = "Authorization"),
+                            @SecurityRequirement(name = "ServiceAuthorization")
+                    })
     @ApiResponse(
             responseCode = "201",
             description = "Created",

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,12 @@ public class QueryBookingController {
             consumes = {"application/json"}
     )
     @ResponseStatus(code = HttpStatus.OK)
-    @Operation(description = "Retrieves bookings based on queried user ID's.")
+    @Operation(description = "Retrieves bookings based on queried user ID's",
+            security =
+                    {
+                            @SecurityRequirement(name = "Authorization"),
+                            @SecurityRequirement(name = "ServiceAuthorization")
+                    })
     @ApiResponse(
             responseCode = "200",
             description = "Success",

@@ -14,8 +14,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
 
 @Configuration
-@SecurityScheme(name = "Authorization", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@SecurityScheme(name = "Authorization", type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT", scheme = "bearer")
 @SecurityScheme(name = "ServiceAuthorization", type = SecuritySchemeType.APIKEY,
+        in = SecuritySchemeIn.HEADER, bearerFormat = "JWT", description = "ServiceAuthorization")
+@SecurityScheme(name = "X-API-KEY", type = SecuritySchemeType.APIKEY,
         in = SecuritySchemeIn.HEADER, bearerFormat = "JWT", description = "ServiceAuthorization")
 public class SwaggerConfiguration {
 
@@ -40,11 +43,10 @@ public class SwaggerConfiguration {
                     .in(ParameterIn.HEADER.toString())
                     .schema(new StringSchema())
                     .name("Authorization")
-                    .description("Keyword 'Bearer' followed by a service-to-service "
-                            + "token for a whitelisted micro-service")
+                    .description("Bearer token")
                     .required(true);
-            customOperation.addParametersItem(authorizationHeader);
             customOperation.addParametersItem(serviceAuthorizationHeader);
+            customOperation.addParametersItem(authorizationHeader);
             return customOperation;
         };
     }

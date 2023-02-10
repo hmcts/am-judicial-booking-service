@@ -61,8 +61,8 @@ public class SecurityConfiguration {
 
         this.serviceAuthFilter = serviceAuthFilter;
         this.securityEndpointFilter = securityEndpointFilter;
-        jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        this.jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        this.jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 
     }
 
