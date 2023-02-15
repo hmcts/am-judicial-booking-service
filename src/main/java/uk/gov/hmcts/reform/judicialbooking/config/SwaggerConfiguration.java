@@ -18,8 +18,6 @@ import org.springframework.web.method.HandlerMethod;
         bearerFormat = "JWT", scheme = "bearer")
 @SecurityScheme(name = "ServiceAuthorization", type = SecuritySchemeType.APIKEY,
         in = SecuritySchemeIn.HEADER, bearerFormat = "JWT", description = "ServiceAuthorization")
-@SecurityScheme(name = "X-API-KEY", type = SecuritySchemeType.APIKEY,
-        in = SecuritySchemeIn.HEADER, bearerFormat = "JWT", description = "ServiceAuthorization")
 public class SwaggerConfiguration {
 
     @Bean
