@@ -4,7 +4,6 @@ import feign.FeignException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
