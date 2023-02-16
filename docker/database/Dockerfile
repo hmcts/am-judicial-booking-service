@@ -1,4 +1,4 @@
-FROM postgres:15.1
+FROM postgres:15.2
 USER postgres
 COPY init-database.sh /docker-entrypoint-initdb.d
 

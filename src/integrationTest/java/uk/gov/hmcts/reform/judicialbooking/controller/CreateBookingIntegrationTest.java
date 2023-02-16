@@ -70,7 +70,7 @@ public class CreateBookingIntegrationTest extends BaseTest {
         mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().is5xxServerError())
+                .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath(EXPRESSION)
                         .value(containsString("Forbidden: Insufficient permissions: "
                                 + "Launch Darkly flag is not enabled for the endpoint")))

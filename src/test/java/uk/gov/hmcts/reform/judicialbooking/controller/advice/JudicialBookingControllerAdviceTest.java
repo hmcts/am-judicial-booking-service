@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.DuplicateRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ForbiddenException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ServiceException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
@@ -70,6 +72,24 @@ class JudicialBookingControllerAdviceTest {
         ResponseEntity<Object> responseEntity = csda.handleUnprocessableEntityException(servletRequestMock, exception);
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, responseEntity.getStatusCode());
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void customValidationForbiddenRequestError() {
+        ForbiddenException forbiddenException = mock(ForbiddenException.class);
+        ResponseEntity<Object> responseEntity = csda.customForbiddenException(forbiddenException);
+        assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN.value(), responseEntity.getStatusCodeValue());
+    }
+    
+    @Test
+    void handleResourceNotFoundException() {
+        ResourceNotFoundException resourceNotFoundException =
+                mock(ResourceNotFoundException.class);
+        ResponseEntity<Object> responseEntity =
+                csda.handleResourceNotFoundException(servletRequestMock,resourceNotFoundException);
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.value(), responseEntity.getStatusCodeValue());
     }
 
     @Test
