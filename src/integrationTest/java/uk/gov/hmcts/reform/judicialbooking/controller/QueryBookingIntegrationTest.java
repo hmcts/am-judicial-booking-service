@@ -72,7 +72,7 @@ public class QueryBookingIntegrationTest extends BaseTest {
         mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
                         .headers(getHttpHeaders())
                         .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().is5xxServerError())
+                .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.errorDescription")
                         .value(containsString("Resource not found: "
                                 + "The flag jbs-query-bookings-api-flag is not configured in Launch Darkly")))
