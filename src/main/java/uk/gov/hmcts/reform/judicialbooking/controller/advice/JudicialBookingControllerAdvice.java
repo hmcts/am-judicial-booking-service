@@ -1,13 +1,5 @@
 package uk.gov.hmcts.reform.judicialbooking.controller.advice;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import javax.servlet.http.HttpServletRequest;
-
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +11,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.DuplicateRequestException;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ForbiddenException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRequest;
+import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @ControllerAdvice(basePackages = "uk.gov.hmcts.reform.judicialbooking")
@@ -86,6 +88,29 @@ public class JudicialBookingControllerAdvice {
                 HttpStatus.UNPROCESSABLE_ENTITY,
                 ErrorConstants.UNPROCESSABLE_ENTITY.getErrorCode(),
                 ErrorConstants.UNPROCESSABLE_ENTITY.getErrorMessage()
+        );
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    protected ResponseEntity<Object> handleResourceNotFoundException(
+            HttpServletRequest request,
+            ResourceNotFoundException exception) {
+        return errorDetailsResponseEntity(
+                exception,
+                HttpStatus.NOT_FOUND,
+                ErrorConstants.NOT_FOUND.getErrorCode(),
+                ErrorConstants.NOT_FOUND.getErrorMessage()
+        );
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Object> customForbiddenException(
+            ForbiddenException ex) {
+        return errorDetailsResponseEntity(
+                ex,
+                HttpStatus.FORBIDDEN,
+                ErrorConstants.ACCESS_DENIED.getErrorCode(),
+                ErrorConstants.ACCESS_DENIED.getErrorMessage()
         );
     }
 
