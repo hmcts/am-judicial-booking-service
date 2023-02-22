@@ -1,8 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,17 +36,15 @@ public class WelcomeController {
             produces = V1.MediaType.DELETE_BOOKINGS
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    @ApiResponses({
-            @ApiResponse(
-                    code = 204,
-                    message = "No Content"
-            ),
-            @ApiResponse(
-                    code = 400,
-                    message = V1.Error.INVALID_REQUEST
-            )
-    })
-    public ResponseEntity<Void> deleteBookingByUserId(@ApiParam(value = "userId", required = true)
+    @ApiResponse(
+            responseCode = "204",
+            description = "No Content"
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = V1.Error.INVALID_REQUEST
+    )
+    public ResponseEntity<Void> deleteBookingByUserId(@Parameter(description = "userId", required = true)
                                                          @PathVariable String userId) {
         return bookingOrchestrator.deleteBookingByUserId(userId);
     }
