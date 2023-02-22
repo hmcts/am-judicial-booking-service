@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.ACCESS_TOKEN;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +45,7 @@ class JwtGrantedAuthoritiesConverterTest {
     @DisplayName("No Claims should return empty authorities")
     void shouldReturnEmptyAuthoritiesWhenClaimNotAvailable() {
         Jwt jwt = Mockito.mock(Jwt.class);
-        when(jwt.containsClaim(anyString())).thenReturn(false);
+        when(jwt.hasClaim(anyString())).thenReturn(false);
         Collection<GrantedAuthority> authorities = sut.convert(jwt);
         assertNotNull(authorities);
         assertEquals(0, authorities.size());
@@ -56,7 +55,7 @@ class JwtGrantedAuthoritiesConverterTest {
     @DisplayName("Should return empty authorities when token value is not matching with expected")
     void shouldReturnEmptyAuthoritiesWhenClaimValueNotEquals() {
         Jwt jwt = Mockito.mock(Jwt.class);
-        when(jwt.containsClaim(anyString())).thenReturn(true);
+        when(jwt.hasClaim(anyString())).thenReturn(true);
         when(jwt.getClaim(anyString())).thenReturn("Test");
         Collection<GrantedAuthority> authorities = sut.convert(jwt);
         assertNotNull(authorities);
@@ -67,11 +66,11 @@ class JwtGrantedAuthoritiesConverterTest {
     @DisplayName("Should return empty authorities when token value is not matching with expected")
     void shouldReturnEmptyAuthoritiesWhenIdamReturnsNoUsers() {
         Jwt jwt = Mockito.mock(Jwt.class);
-        when(jwt.containsClaim(anyString())).thenReturn(true);
+        when(jwt.hasClaim(anyString())).thenReturn(true);
         when(jwt.getClaim(anyString())).thenReturn("access_token");
         when(jwt.getTokenValue()).thenReturn("access_token");
         UserInfo userInfo = mock(UserInfo.class);
-        List<String> roles = Arrays.asList();
+        List<String> roles = List.of();
         when(userInfo.getRoles()).thenReturn(roles);
         when(idamRepositoryMock.getUserInfo(anyString())).thenReturn(userInfo);
         Collection<GrantedAuthority> authorities = sut.convert(jwt);
@@ -83,7 +82,7 @@ class JwtGrantedAuthoritiesConverterTest {
     @DisplayName("Should return authorities when token value is matching with expected")
     void shouldReturnAuthoritiesWhenIdamReturnsUserRoles() {
         Jwt jwt = Mockito.mock(Jwt.class);
-        when(jwt.containsClaim(anyString())).thenReturn(true);
+        when(jwt.hasClaim(anyString())).thenReturn(true);
         when(jwt.getClaim(anyString())).thenReturn("access_token");
         when(jwt.getTokenValue()).thenReturn("access_token");
         UserInfo userInfo = mock(UserInfo.class);
