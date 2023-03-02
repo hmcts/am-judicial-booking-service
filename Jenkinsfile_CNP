@@ -85,11 +85,11 @@ withPipeline(type, product, component) {
     env.LAUNCH_DARKLY_ENV = env.BRANCH_NAME
   }
   onMaster {
-    enableSlackNotifications('#am-judicial-booking-service-builds')
+    enableSlackNotifications('#am-master-builds')
   }
 
   onPR {
-    enableSlackNotifications('#am-judicial-booking-service-builds')
+    enableSlackNotifications('#am-master-builds')
   }
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
