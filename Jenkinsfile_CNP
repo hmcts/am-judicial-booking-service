@@ -5,7 +5,12 @@ properties(
       $class       : 'GithubProjectProperty',
       projectUrlStr: 'https://github.com/hmcts/am-judicial-booking-service'
     ],
-    pipelineTriggers([[$class: 'GitHubPushTrigger']])
+    pipelineTriggers([[$class: 'GitHubPushTrigger']]),
+    parameters([
+      string(name: 'SecurityRules',
+            defaultValue: 'http://raw.githubusercontent.com/hmcts/security-test-rules/master/conf/security-rules.conf',
+            description: 'The URL you want to run these tests against'),
+    ])
   ]
 )
 
