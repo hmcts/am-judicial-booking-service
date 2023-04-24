@@ -22,7 +22,7 @@
         "beginTime": "${[scenarioContext][testData][request][body][bookingRequest][beginDate]}T00:00:00Z",
         "endTime": "${[scenarioContext][customValues][tomorrow]}T00:00:00Z",
         "created":"[[ANY_TIMESTAMP_NOT_NULLABLE]]",
-        "log":"Booking record is successfully created"
+        "log":"Booking record is successfully created 123"
       }
     }
   }
