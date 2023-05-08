@@ -356,7 +356,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.1'
-    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.0.2'
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.0.3'
     implementation group: 'org.springframework.security', name: 'spring-security-web'
     implementation group: 'org.springframework.security', name: 'spring-security-config'
     implementation group: 'org.springframework', name: 'spring-core', version: versions.spring
@@ -401,7 +401,7 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
 
-    testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.6')
+    testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.7')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.0')
