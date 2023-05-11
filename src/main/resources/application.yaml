@@ -132,4 +132,7 @@ launchdarkly:
 
 logging.level.uk.gov.hmcts: ${APPLICATION_LOGGING_LEVEL:INFO}
 
+springdoc:
+  writer-with-order-by-keys: true
+
 
