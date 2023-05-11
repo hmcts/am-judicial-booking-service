@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - AM-2793_Publish_Swagger_Docs
   workflow_dispatch:
 
 jobs:
