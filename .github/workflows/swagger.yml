@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - AM-2793_Publish_Swagger_Docs
   pull_request:
     branches:
       - AM-2793_Publish_Swagger_Docs
