@@ -400,6 +400,8 @@ dependencies {
     implementation group: 'com.github.hmcts', name: 'idam-java-client', version: '2.0.1'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
 
+    implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
+
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.6')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
