@@ -20,6 +20,9 @@ import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 import javax.transaction.Transactional;
 
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.AUTHORIZATION;
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.SERVICE_AUTHORIZATION2;
+
 @RestController
 @Slf4j
 public class QueryBookingController {
@@ -39,8 +42,8 @@ public class QueryBookingController {
     @Operation(description = "Retrieves bookings based on queried user ID's",
             security =
                     {
-                            @SecurityRequirement(name = "Authorization"),
-                            @SecurityRequirement(name = "ServiceAuthorization")
+                            @SecurityRequirement(name = AUTHORIZATION),
+                            @SecurityRequirement(name = SERVICE_AUTHORIZATION2)
                     })
     @ApiResponse(
             responseCode = "200",
@@ -49,7 +52,8 @@ public class QueryBookingController {
     )
     @ApiResponse(
             responseCode = "400",
-            description = V1.Error.INVALID_REQUEST
+            description = V1.Error.INVALID_REQUEST,
+            content = @Content()
     )
     @Transactional
     public ResponseEntity<BookingQueryResponse> queryBookings(
