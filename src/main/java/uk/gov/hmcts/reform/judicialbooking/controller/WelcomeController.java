@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
+
+import static org.springdoc.core.Constants.SWAGGER_UI_URL;
 
 @RestController
 @Hidden
@@ -21,9 +24,10 @@ public class WelcomeController {
     @Autowired
     BookingOrchestrator bookingOrchestrator;
 
+
     @GetMapping(value = "/swagger")
-    public String index() {
-        return "redirect:swagger-ui.html";
+    public RedirectView swaggerRedirect() {
+        return new RedirectView(SWAGGER_UI_URL, true, false);
     }
 
 
