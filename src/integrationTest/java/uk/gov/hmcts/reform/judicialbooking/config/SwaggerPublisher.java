@@ -20,7 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Built-in feature which saves service's swagger specs in temporary directory.
- * Each travis run on master should automatically save and upload (if updated) documentation.
+ * Each run of workflow .github/workflows/swagger.yml on master should automatically save and upload (if updated)
+ * documentation.
  */
 public class SwaggerPublisher extends BaseTest {
 
