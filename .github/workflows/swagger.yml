@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - AM-2793_Publish_Swagger_Docs
 
 jobs:
   publish-openapi:
