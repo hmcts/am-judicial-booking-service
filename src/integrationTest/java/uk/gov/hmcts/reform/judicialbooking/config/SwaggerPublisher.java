@@ -36,7 +36,6 @@ public class SwaggerPublisher extends BaseTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @DisplayName("Generate swagger documentation")
     @Test
     public void generateDocs() throws Exception {
         byte[] specs = mockMvc.perform(get(DEFAULT_API_DOCS_URL))
