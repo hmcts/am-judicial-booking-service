@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 @RestController
+@Hidden
 public class WelcomeController {
 
     @Autowired
