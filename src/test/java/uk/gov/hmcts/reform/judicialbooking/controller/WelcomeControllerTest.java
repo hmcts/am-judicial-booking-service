@@ -12,9 +12,11 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springdoc.core.Constants.SWAGGER_UI_URL;
 
 
 class WelcomeControllerTest {
@@ -31,6 +33,15 @@ class WelcomeControllerTest {
             mock(BookingOrchestrator.class);
 
     @Test
+    void swaggerRedirect() {
+        var response = sut.swaggerRedirect();
+
+        assertNotNull(response);
+        assertTrue(response.isRedirectView());
+        assertEquals(SWAGGER_UI_URL, response.getUrl());
+    }
+
+    @Test
     void welcome() {
         assertEquals("Welcome to Judicial Booking service", sut.welcome());
     }
@@ -44,8 +55,4 @@ class WelcomeControllerTest {
         assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
     }
 
-    @Test
-    void index() {
-        assertEquals("redirect:swagger-ui.html", sut.index());
-    }
 }
