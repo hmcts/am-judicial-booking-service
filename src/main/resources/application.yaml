@@ -34,12 +34,10 @@ security:
     - "/health/**"
     - "/actuator/**"
     - "/loggers/**"
+    - "/swagger"
     - "/swagger-ui.html"
     - "/swagger-ui/**"
-    - "/swagger-resources/**"
-    - "/v3/api-docs"
-    - "/v3/**"
-    - "/webjars/springfox-swagger-ui/**"
+    - "/v3/api-docs/**"
     - "/search/**"
     - "/csrf"
     - "/error"
@@ -131,5 +129,11 @@ launchdarkly:
   runOnStartup: ${RUN_LD_ON_STARTUP:false}
 
 logging.level.uk.gov.hmcts: ${APPLICATION_LOGGING_LEVEL:INFO}
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    operationsSorter: method
+  writer-with-order-by-keys: true
 
 
