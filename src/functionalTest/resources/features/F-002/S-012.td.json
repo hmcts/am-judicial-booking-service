@@ -17,6 +17,9 @@
     "body": {
       "bookings":[
         {
+          "__elementId__": "id"
+        },
+        {
           "id": "[[ANYTHING_PRESENT]]",
           "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][0]}",
           "locationId": "[[ANYTHING_PRESENT]]",
