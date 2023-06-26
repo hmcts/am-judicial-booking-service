@@ -22,7 +22,7 @@
     "body": {
       "bookings":[
         {
-          "__elementId__": "id"
+          "__elementId__": "regionId"
         },
         {
           "id": "[[ANYTHING_PRESENT]]",
