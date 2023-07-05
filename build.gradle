@@ -43,7 +43,7 @@ def versions = [
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
         springBoot         : '2.7.11',
-        spring             : '5.3.26',
+        spring             : '5.3.27',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
         pact_version       : '4.1.7',
@@ -160,6 +160,9 @@ task functional(type: JavaExec) {
     ]
     // '--add-opens=...' added to suppress 'WARNING: An illegal reflective access operation has occurred' in uk.gov.hmcts.befta.util.CucumberStepAnnotationUtils
     jvmArgs '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED'
+
+    // Configure array order in FTAs
+    environment "DEFAULT_COLLECTION_ASSERTION_MODE", "UNORDERED"
 
     finalizedBy {
         generateCucumberReports.enabled = true
