@@ -22,6 +22,8 @@ import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
 import javax.transaction.Transactional;
 
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.AUTHORIZATION;
+import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.SERVICE_AUTHORIZATION2;
 
 @RestController
 @Slf4j
@@ -42,8 +44,8 @@ public class CreateBookingController {
     @Operation(summary = "Creates booking for a fee-pay judge",
             security =
                     {
-                            @SecurityRequirement(name = "Authorization"),
-                            @SecurityRequirement(name = "ServiceAuthorization")
+                            @SecurityRequirement(name = AUTHORIZATION),
+                            @SecurityRequirement(name = SERVICE_AUTHORIZATION2)
                     })
     @ApiResponse(
             responseCode = "201",
@@ -52,7 +54,8 @@ public class CreateBookingController {
     )
     @ApiResponse(
             responseCode = "400",
-            description = V1.Error.INVALID_REQUEST
+            description = V1.Error.INVALID_REQUEST,
+            content = @Content()
     )
     @Transactional
     public ResponseEntity<BookingResponse> createBooking(
