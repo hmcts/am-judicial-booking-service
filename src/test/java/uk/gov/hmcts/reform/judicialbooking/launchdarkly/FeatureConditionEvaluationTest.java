@@ -43,8 +43,8 @@ class FeatureConditionEvaluationTest {
 
     @ParameterizedTest
     @CsvSource({
-            "/am/bookings,POST,jbs-create-bookings-api-flag",
-            "/am/bookings/query,POST,jbs-query-bookings-api-flag"
+        "/am/bookings,POST,jbs-create-bookings-api-flag",
+        "/am/bookings/query,POST,jbs-query-bookings-api-flag"
     })
     void getLdFlagWithValidFlagMapEntries(String url, String method, String flag) {
         when(request.getRequestURI()).thenReturn(url);
@@ -55,11 +55,11 @@ class FeatureConditionEvaluationTest {
 
     @ParameterizedTest
     @CsvSource({
-            "GET",
-            "DELETE",
-            "POST",
-            "POST",
-            "INVALID",
+        "GET",
+        "DELETE",
+        "POST",
+        "POST",
+        "INVALID",
     })
     void getLdFlagWithNonExistingUriPath(String method) {
         when(request.getRequestURI()).thenReturn("/am/dummy");
@@ -94,8 +94,8 @@ class FeatureConditionEvaluationTest {
 
     @ParameterizedTest
     @CsvSource({
-            "/am/bookings,POST,jbs-create-bookings-api-flag",
-            "/am/bookings/query,POST,jbs-query-bookings-api-flag"
+        "/am/bookings,POST,jbs-create-bookings-api-flag",
+        "/am/bookings/query,POST,jbs-query-bookings-api-flag"
     })
     void preHandle_happy(String url, String method, String flag) {
         when(request.getRequestURI()).thenReturn(url);
@@ -107,8 +107,8 @@ class FeatureConditionEvaluationTest {
 
     @ParameterizedTest
     @CsvSource({
-            "/am/bookings,POST,jbs-create-bookings-api-flag",
-            "/am/bookings/query,POST,jbs-query-bookings-api-flag"
+        "/am/bookings,POST,jbs-create-bookings-api-flag",
+        "/am/bookings/query,POST,jbs-query-bookings-api-flag"
     })
     void preHandle_forbiddenError(String url, String method, String flag) {
         when(request.getRequestURI()).thenReturn(url);
@@ -120,8 +120,8 @@ class FeatureConditionEvaluationTest {
 
     @ParameterizedTest
     @CsvSource({
-            "/am/bookings,POST,jbs-create-bookings-api-flag",
-            "/am/bookings/query,POST,jbs-query-bookings-api-flag"
+        "/am/bookings,POST,jbs-create-bookings-api-flag",
+        "/am/bookings/query,POST,jbs-query-bookings-api-flag"
     })
     void preHandle_invalidFlag(String url, String method, String flag) {
         when(request.getRequestURI()).thenReturn(url);
@@ -133,7 +133,7 @@ class FeatureConditionEvaluationTest {
 
     @ParameterizedTest
     @CsvSource({
-            "/am/bookings,,jbs-create-bookings-api-flag",
+        "/am/bookings,,jbs-create-bookings-api-flag",
     })
     void preHandle_flagNull(String url, String method, String flag) {
         when(request.getRequestURI()).thenReturn(url);
