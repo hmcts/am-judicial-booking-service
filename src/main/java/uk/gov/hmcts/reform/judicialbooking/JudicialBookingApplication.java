@@ -21,7 +21,7 @@ import java.time.Clock;
 @ConfigurationProperties
 @EnableCaching
 @EnableFeignClients(basePackages = {
-        "uk.gov.hmcts.reform.judicialbooking"}, basePackageClasses = {IdamApi.class, ServiceAuthorisationApi.class})
+    "uk.gov.hmcts.reform.judicialbooking"}, basePackageClasses = {IdamApi.class, ServiceAuthorisationApi.class})
 public class JudicialBookingApplication {
 
     public static void main(final String[] args) {

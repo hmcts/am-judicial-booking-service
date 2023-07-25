@@ -43,10 +43,10 @@ public class CreateBookingController {
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "Creates booking for a fee-pay judge",
             security =
-                    {
-                            @SecurityRequirement(name = AUTHORIZATION),
-                            @SecurityRequirement(name = SERVICE_AUTHORIZATION2)
-                    })
+            {
+                @SecurityRequirement(name = AUTHORIZATION),
+                @SecurityRequirement(name = SERVICE_AUTHORIZATION2)
+            })
     @ApiResponse(
             responseCode = "201",
             description = "Created",
