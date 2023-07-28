@@ -39,12 +39,13 @@ public class QueryBookingController {
             consumes = {"application/json"}
     )
     @ResponseStatus(code = HttpStatus.OK)
-    @Operation(description = "Retrieves bookings based on queried user ID's",
+    @Operation(
+            description = "Retrieves bookings based on queried user ID's",
             security =
-                    {
-                            @SecurityRequirement(name = AUTHORIZATION),
-                            @SecurityRequirement(name = SERVICE_AUTHORIZATION2)
-                    })
+            {
+                @SecurityRequirement(name = AUTHORIZATION),
+                @SecurityRequirement(name = SERVICE_AUTHORIZATION2)
+            })
     @ApiResponse(
             responseCode = "200",
             description = "Success",
