@@ -12,7 +12,7 @@ properties(
 import uk.gov.hmcts.contino.AppPipelineDsl
 import uk.gov.hmcts.contino.GithubAPI
 
-@Library("Infrastructure@DTSPO-12193/aksClient")
+@Library("Infrastructure")
 
 def type = "java"
 def product = "am"
