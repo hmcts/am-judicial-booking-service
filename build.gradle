@@ -44,6 +44,7 @@ def versions = [
         sonarPitest        : '0.5',
         springBoot         : '2.7.12',
         spring             : '5.3.27',
+        springSecurity     : '5.7.10',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
         pact_version       : '4.1.7',
@@ -360,9 +361,14 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.2'
-    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.0.3'
-    implementation group: 'org.springframework.security', name: 'spring-security-web'
-    implementation group: 'org.springframework.security', name: 'spring-security-config'
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurity
+    implementation group: 'org.springframework.security', name: 'spring-security-web', version: versions.springSecurity
+    implementation group: 'org.springframework.security', name: 'spring-security-config', version: versions.springSecurity
+    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: versions.springSecurity
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: versions.springSecurity
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-core', version: versions.springSecurity
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: versions.springSecurity
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server', version: versions.springSecurity
     implementation group: 'org.springframework', name: 'spring-core', version: versions.spring
     implementation group: 'org.springframework', name: 'spring-beans', version: versions.spring
     implementation group: 'org.springframework', name: 'spring-aop', version: versions.spring
