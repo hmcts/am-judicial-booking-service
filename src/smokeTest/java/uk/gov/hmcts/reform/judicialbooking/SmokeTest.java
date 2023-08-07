@@ -37,21 +37,6 @@ public class SmokeTest extends BaseTest {
     }
 
     @Test
-    public void should_receive_response_for_welcomeAPI() {
-
-        var targetInstance = getRequiredVariable("TEST_URL") + "/welcome";
-        RestAssured.useRelaxedHTTPSValidation();
-
-        Response response = SerenityRest
-                .given()
-                .relaxedHTTPSValidation()
-                .when()
-                .get(targetInstance)
-                .andReturn();
-        response.then().assertThat().statusCode(HttpStatus.OK.value());
-    }
-
-    @Test
     public void should_receive_response_for_query_bookings() {
 
         var targetInstance = config.getBaseUrl() + "/am/bookings/query";

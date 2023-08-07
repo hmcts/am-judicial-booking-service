@@ -43,7 +43,6 @@ security:
     - "/error"
     - "/favicon.ico"
     - "/status/health"
-    - "/welcome"
   authorisedRoles:
   authorisedServices: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:am_judicial_booking_service}
 
@@ -112,9 +111,6 @@ idam:
       scope: ${JUDICIAL_BOOKING_IDAM_ADMIN_SCOPE:openid profile roles authorities}
 
 auth.idam.client.baseUrl: ${IDAM_USER_URL:http://localhost:5000}
-testS2S:
-  api:
-    url: "/testS2SAuthorization"
 integrationTest:
   api:
     url: "/"
