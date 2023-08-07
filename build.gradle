@@ -50,7 +50,7 @@ def versions = [
         pact_version       : '4.1.7',
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
-        feign_jackson      : '12.2',
+        feign_jackson      : '12.4',
         launchDarklySdk    : '5.10.9',
         log4JVersion       : '2.20.0',
         logbackVersion     : '1.2.10'
