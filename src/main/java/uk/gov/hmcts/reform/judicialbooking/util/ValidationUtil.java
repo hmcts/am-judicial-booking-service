@@ -72,7 +72,7 @@ public class ValidationUtil {
             throw new BadRequestException("RegionId cannot be Null or Empty, if LocationId is available");
         }
         if (!valuePredicates.test(booking.getUserId())) {
-            validateInputParams(Constants.NUMBER_TEXT_HYPHEN_PATTERN, booking.getUserId());
+            validateInputParams(Constants.IDAM_ID_PATTERN, booking.getUserId());
         }
         validateBeginAndEndDates(booking.getBeginDate(), booking.getEndDate());
     }
