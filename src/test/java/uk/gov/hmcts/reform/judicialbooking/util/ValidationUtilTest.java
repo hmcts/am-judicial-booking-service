@@ -19,6 +19,11 @@ import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE
 
 class ValidationUtilTest {
 
+    static String uuidString1 = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
+    static String uuidString2 = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
+    static String oldIdamIdString = "98073";
+    static String invalidIdamIdString = "abcde";
+
     @Test
     void shouldValidate() {
         assertTrue(ValidationUtil.validate("1212121212121212"));
@@ -269,5 +274,36 @@ class ValidationUtilTest {
                 .build();
         Assertions.assertDoesNotThrow(() -> ValidationUtil.validateBookingRequest(bookingRequest));
 
+    }
+
+    @Test
+    void validateBookingRequest_validUserId() {
+        BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusYears(1))
+                .userId(uuidString1)
+                .build();
+        Assertions.assertDoesNotThrow(() -> ValidationUtil.validateBookingRequest(bookingRequest));
+    }
+
+    @Test
+    void validateBookingRequest_oldValidUserId() {
+        BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusYears(1))
+                .userId(oldIdamIdString)
+                .build();
+        Assertions.assertDoesNotThrow(() -> ValidationUtil.validateBookingRequest(bookingRequest));
+    }
+
+    @Test
+    void validateBookingRequest_inValidUserId() {
+        BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
+                .beginDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusYears(1))
+                .userId(invalidIdamIdString)
+                .build();
+        Assertions.assertThrows(BadRequestException.class, () ->
+                ValidationUtil.validateBookingRequest(bookingRequest));
     }
 }
