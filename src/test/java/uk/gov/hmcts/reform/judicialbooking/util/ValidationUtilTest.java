@@ -19,7 +19,7 @@ import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.INPUT_CASE
 
 class ValidationUtilTest {
 
-    static String uuidString1 = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
+    static String uuidString = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
     static String oldIdamIdString = "98073";
     static String invalidIdamIdString = "abcde";
 
@@ -280,7 +280,7 @@ class ValidationUtilTest {
         BookingRequest bookingRequest = BookingRequest.builder().regionId("BA1").locationId("south-east")
                 .beginDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusYears(1))
-                .userId(uuidString1)
+                .userId(uuidString)
                 .build();
         Assertions.assertDoesNotThrow(() -> ValidationUtil.validateBookingRequest(bookingRequest));
     }
