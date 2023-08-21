@@ -113,7 +113,7 @@ class BookingOrchestratorTest {
 
     @Test
     void deleteBookingByInvalidUserId() {
-        final String inputs = "12345";
+        final String inputs = "abcde";
         ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
         BadRequestException exception = Assertions.assertThrows(BadRequestException.class, () ->

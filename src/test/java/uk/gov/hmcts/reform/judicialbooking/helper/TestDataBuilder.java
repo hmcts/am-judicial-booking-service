@@ -22,6 +22,8 @@ public class TestDataBuilder {
     static String uuidString = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
     static String uuidString2 = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
     static UUID uuidString3 = UUID.fromString("5629957f-4dcd-40b8-a0b2-e64ff5898b30");
+    static String oldIdamIdString = "98073";
+    static String oldInvalidIdamIdString = "abcde";
 
     private TestDataBuilder() {
         //not meant to be instantiated.
@@ -90,6 +92,10 @@ public class TestDataBuilder {
         return UserRequest.builder().userIds(List.of(uuidString, uuidString2)).build();
     }
 
+    public static UserRequest buildRequestIdsWithOldIdamId() {
+        return UserRequest.builder().userIds(List.of(uuidString, uuidString2,oldIdamIdString)).build();
+    }
+
     public static List<BookingEntity> buildListOfBookings() {
         return List.of(TestDataBuilder.buildRetrievedBooking(uuidString),
                 TestDataBuilder.buildRetrievedBooking(uuidString2));
@@ -105,4 +111,7 @@ public class TestDataBuilder {
                 .name("James").givenName("007").familyName("Bond").roles(list).build();
     }
 
+    public static UserRequest buildRequestIdsWithInvalidOldIdamId() {
+        return UserRequest.builder().userIds(List.of(uuidString, uuidString2,oldInvalidIdamIdString)).build();
+    }
 }
