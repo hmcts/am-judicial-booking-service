@@ -3,5 +3,6 @@
   "90033_Loosely Scoped Cookie_http://am-judicial-booking-service-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
   "10010_Cookie No HttpOnly Flag_http://am-judicial-booking-service-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
   "10054_Cookie without SameSite Attribute_http://am-judicial-booking-service-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
-  "10096_Timestamp Disclosure - Unix_http://am-judicial-booking-service-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore"
+  "10096_Timestamp Disclosure - Unix_http://am-judicial-booking-service-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
+  "10049_Non-Storable Content_http://am-judicial-booking-service-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore"
 }
