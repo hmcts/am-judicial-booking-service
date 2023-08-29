@@ -68,6 +68,28 @@ class ParseRequestServiceTest {
     }
 
     @Test
+    void parseQueryRequestWithOldIdamId() {
+        UserRequest userRequest = TestDataBuilder.buildRequestIdsWithOldIdamId();
+
+        List<String> parsedUserIds = sut.parseQueryRequest(
+                BookingQueryRequest.builder().queryRequest(userRequest).build());
+
+        Assertions.assertNotNull(parsedUserIds);
+        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
+        Assertions.assertEquals(3, parsedUserIds.size());
+    }
+
+    @Test
+    void parseQueryRequestWithInvalidOldIdamId() {
+        UserRequest userRequest = TestDataBuilder.buildRequestIdsWithInvalidOldIdamId();
+
+        BookingQueryRequest bookingQueryRequest =
+                BookingQueryRequest.builder().queryRequest(userRequest).build();
+        Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequest));
+
+    }
+
+    @Test
     void parseQueryRequest_EmptyIds() {
         UserRequest userRequest = UserRequest.builder().build();
 

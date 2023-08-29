@@ -50,7 +50,7 @@ public class ParseRequestService {
             throw new BadRequestException("Provided list of userIds is empty");
         }
 
-        validateInputParams(Constants.UUID_PATTERN,
+        validateInputParams(Constants.IDAM_ID_PATTERN,
                 queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
 
         if (queryRequest.getQueryRequest().getUserIds().size() == 1) {

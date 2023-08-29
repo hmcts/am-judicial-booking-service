@@ -45,7 +45,7 @@ public class BookingOrchestrator {
     }
 
     public ResponseEntity<Void> deleteBookingByUserId(String userId) {
-        ValidationUtil.validateInputParams(Constants.UUID_PATTERN, userId);
+        ValidationUtil.validateInputParams(Constants.IDAM_ID_PATTERN, userId);
         persistenceService.deleteBookings(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
