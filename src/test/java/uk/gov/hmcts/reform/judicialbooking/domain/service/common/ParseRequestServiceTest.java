@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
@@ -107,6 +106,7 @@ class ParseRequestServiceTest {
         Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
         Assertions.assertEquals(3, parsedUserIds.size());
     }
+
     @Test
     void parseQueryRequestWithInvalidOldIdamId() {
         UserRequest userRequest = TestDataBuilder.buildRequestIdsWithInvalidOldIdamId();
