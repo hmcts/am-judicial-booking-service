@@ -73,15 +73,8 @@ module "judicial-booking-database-v15" {
   business_area        = "cft"
   name               = join("-", [var.product-V15,var.component-V15])
   product            = var.product-V15
-  //location           = var.location
   env                = var.env
   component          = var.component-V15
-  //subscription       = var.subscription
-  //postgresql_user    = var.postgresql_user
-  //database_name      = var.database_name
-  //storage_mb         = var.database_storage_mb
-  //sku_name           = var.database_sku_name
-  //sku_capacity       = var.database_sku_capacity
   common_tags        = var.common_tags
   pgsql_version      = "15"
 
