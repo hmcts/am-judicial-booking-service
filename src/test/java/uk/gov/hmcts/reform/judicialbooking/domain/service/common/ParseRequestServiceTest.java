@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 class ParseRequestServiceTest {
 
-    @InjectMocks
+
     private ParseRequestService sut;
 
     @Mock
@@ -31,6 +31,7 @@ class ParseRequestServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        this.sut = new ParseRequestService(securityUtils,"am_org_role_mapping_service");
     }
 
     @Test
@@ -59,6 +60,7 @@ class ParseRequestServiceTest {
     void parseQueryRequest() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
 
+        when(securityUtils.getServiceName()).thenReturn("am_org_role_mapping_service");
         List<String> parsedUserIds = sut.parseQueryRequest(
                 BookingQueryRequest.builder().queryRequest(userRequest).build());
 
@@ -71,6 +73,7 @@ class ParseRequestServiceTest {
     void parseQueryRequestWithOldIdamId() {
         UserRequest userRequest = TestDataBuilder.buildRequestIdsWithOldIdamId();
 
+        when(securityUtils.getServiceName()).thenReturn("am_org_role_mapping_service");
         List<String> parsedUserIds = sut.parseQueryRequest(
                 BookingQueryRequest.builder().queryRequest(userRequest).build());
 
@@ -79,6 +82,31 @@ class ParseRequestServiceTest {
         Assertions.assertEquals(3, parsedUserIds.size());
     }
 
+    @Test
+    void parseQueryRequestWithOldIdamIdWithNonServiceName() {
+        UserRequest userRequest = TestDataBuilder.buildRequestIdsWithOldIdamId();
+
+        when(securityUtils.getServiceName()).thenReturn("ccd");
+
+        List<String> parsedUserIds = sut.parseQueryRequest(
+                BookingQueryRequest.builder().queryRequest(userRequest).build());
+
+        Assertions.assertNotNull(parsedUserIds);
+        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
+        Assertions.assertEquals(3, parsedUserIds.size());
+    }
+
+    @Test
+    void parseQueryRequestWithOldIdamIdWithNullServiceName() {
+        UserRequest userRequest = TestDataBuilder.buildRequestIdsWithOldIdamId();
+
+        List<String> parsedUserIds = sut.parseQueryRequest(
+                BookingQueryRequest.builder().queryRequest(userRequest).build());
+
+        Assertions.assertNotNull(parsedUserIds);
+        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
+        Assertions.assertEquals(3, parsedUserIds.size());
+    }
     @Test
     void parseQueryRequestWithInvalidOldIdamId() {
         UserRequest userRequest = TestDataBuilder.buildRequestIdsWithInvalidOldIdamId();
