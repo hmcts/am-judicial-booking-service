@@ -64,14 +64,16 @@ public class ParseRequestService {
         validateInputParams(Constants.IDAM_ID_PATTERN,
                 queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
 
-        //NBP Fix for AM-2911
-        String serviceName = securityUtils.getServiceName();
-        if (Objects.nonNull(serviceName) && !byPassQueryValidationForServices.contains(serviceName) &&
-                queryRequest.getQueryRequest().getUserIds().size() == 1) {
+        if (!byPassQueryValidation() && queryRequest.getQueryRequest().getUserIds().size() == 1) {
             validateUserId(queryRequest.getQueryRequest().getUserIds().get(0), securityUtils.getUserId());
         }
 
         return queryRequest.getQueryRequest().getUserIds();
+    }
+
+    private boolean byPassQueryValidation() {
+        String serviceName = securityUtils.getServiceName();
+        return Objects.nonNull(serviceName) && byPassQueryValidationForServices.contains(serviceName);
     }
 
 }

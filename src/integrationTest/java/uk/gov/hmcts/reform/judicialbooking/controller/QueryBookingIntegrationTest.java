@@ -45,6 +45,10 @@ public class QueryBookingIntegrationTest extends BaseTest {
 
     private static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
     private static final String ACTOR_ID2 = "123e4567-e89b-42d3-a456-556642445678";
+
+    private static final String SERVICE_NAME_EXUI = "xui_webapp";
+    private static final String SERVICE_NAME_ORM = "am_org_role_mapping_service";
+
     private MockMvc mockMvc;
 
     @Inject
@@ -55,6 +59,7 @@ public class QueryBookingIntegrationTest extends BaseTest {
 
     @MockBean
     private LDClientInterface ldClient;
+
 
     @Before
     public void setUp() {
@@ -139,6 +144,7 @@ public class QueryBookingIntegrationTest extends BaseTest {
     public void retrieveJudicialBookingsInvalidUser() throws Exception {
 
         doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
+        doReturn(SERVICE_NAME_EXUI).when(securityUtilsMock).getServiceName();
 
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
@@ -150,7 +156,22 @@ public class QueryBookingIntegrationTest extends BaseTest {
                 .andExpect(status().isUnprocessableEntity())
                 .andReturn();
     }
+    @Test
+    public void retrieveJudicialBookingsInvalidUser_bypassValidation() throws Exception {
 
+        doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
+        doReturn(SERVICE_NAME_ORM).when(securityUtilsMock).getServiceName();
+
+        BookingQueryRequest request = new BookingQueryRequest(
+                UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
+
+        mockMvc.perform(post(URL)
+                        .contentType(JSON_CONTENT_TYPE)
+                        .headers(getHttpHeaders())
+                        .content(mapper.writeValueAsBytes(request)))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
