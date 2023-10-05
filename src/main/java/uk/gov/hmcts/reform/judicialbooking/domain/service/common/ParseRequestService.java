@@ -30,7 +30,7 @@ public class ParseRequestService {
 
     public ParseRequestService(SecurityUtils securityUtils,
                                @Value("${judicial-booking.query.bypass-userid-validation-for-services}")
-                               final String byPassQueryValidationForServices){
+                               final String byPassQueryValidationForServices) {
         this.byPassQueryValidationForServices = List.of(byPassQueryValidationForServices.split(","));
         this.securityUtils = securityUtils;
     }

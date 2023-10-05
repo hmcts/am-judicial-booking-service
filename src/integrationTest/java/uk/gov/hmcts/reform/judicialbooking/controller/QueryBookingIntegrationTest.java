@@ -156,6 +156,7 @@ public class QueryBookingIntegrationTest extends BaseTest {
                 .andExpect(status().isUnprocessableEntity())
                 .andReturn();
     }
+
     @Test
     public void retrieveJudicialBookingsInvalidUser_bypassValidation() throws Exception {
 
@@ -172,6 +173,7 @@ public class QueryBookingIntegrationTest extends BaseTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
+
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
