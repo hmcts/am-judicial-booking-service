@@ -14,7 +14,6 @@ variable "raw_product" {
 
 variable "component" {
   type = string
-  default="postgres-db-v11"
 }
 
 variable "component-V15" {
