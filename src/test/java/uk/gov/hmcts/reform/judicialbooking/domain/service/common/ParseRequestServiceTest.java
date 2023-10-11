@@ -130,6 +130,7 @@ class ParseRequestServiceTest {
         Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
         Assertions.assertEquals(1, parsedUserIds.size());
     }
+
     @Test
     void parseQueryRequest_singleUserIdMismatched_error() {
         String userID1 = UUID.randomUUID().toString();
