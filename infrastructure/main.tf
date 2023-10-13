@@ -80,7 +80,7 @@ module "judicial-booking-database-v15" {
 
   pgsql_databases = [
       {
-        name = var.database_name
+        name    = var.database_name
       }
     ]
 }
