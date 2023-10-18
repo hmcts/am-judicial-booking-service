@@ -18,7 +18,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.16'
     id 'info.solidsoft.pitest' version '1.7.4'
     id 'com.github.ben-manes.versions' version '0.48.0'
-    id 'org.sonarqube' version '4.4.0.3356'
+    id 'org.sonarqube' version '4.4.1.3373'
     id 'com.github.spacialcircumstances.gradle-cucumber-reporting' version '0.1.25'
     id 'au.com.dius.pact' version '4.3.12' //don't upgrade or downgrade this or serenity reports will fail to generate
     id 'org.owasp.dependencycheck' version '8.4.0'
@@ -43,7 +43,7 @@ def versions = [
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
         springBoot         : '2.7.16',
-        spring             : '5.3.29',
+        spring             : '5.3.30',
         springSecurity     : '5.7.10',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
@@ -415,7 +415,7 @@ dependencies {
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.8')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
-    testImplementation('com.opentable.components:otj-pg-embedded:1.0.1')
+    testImplementation('com.opentable.components:otj-pg-embedded:1.0.2')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.1')
     testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.9'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
