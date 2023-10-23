@@ -71,7 +71,7 @@ module "judicial-booking-database-v15" {
 
   admin_user_object_id = var.jenkins_AAD_objectId
   business_area        = "cft"
-  name               = join("-", [var.product-V15,var.component-V15])
+  name               = join("-", [local.app_full_name, "postgres-db", "v15"])
   product            = var.product-V15
   env                = var.env
   component          = var.component-V15
@@ -81,6 +81,12 @@ module "judicial-booking-database-v15" {
   pgsql_databases = [
       {
         name = var.database_name
+      }
+    ]
+  pgsql_server_configuration = [
+      {
+        name  = "azure.extensions"
+        value = "plpgsql,pg_stat_statements,pg_buffercache"
       }
     ]
 }
