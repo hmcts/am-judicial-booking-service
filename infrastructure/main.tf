@@ -72,9 +72,9 @@ module "judicial-booking-database-v15" {
   admin_user_object_id = var.jenkins_AAD_objectId
   business_area        = "cft"
   name               = join("-", [local.app_full_name, "postgres-db", "v15"])
-  product            = var.product-V15
+  product            = var.product
   env                = var.env
-  component          = var.component-V15
+  component          = var.component
   common_tags        = var.common_tags
   pgsql_version      = "15"
 

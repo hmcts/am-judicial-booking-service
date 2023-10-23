@@ -2,11 +2,6 @@ variable "product" {
   type = string
 }
 
-variable "product-V15" {
-  type = string
-  default="am-judicial-booking-service"
-}
-
 variable "raw_product" {
   type    = string
   default = "am"
@@ -14,11 +9,6 @@ variable "raw_product" {
 
 variable "component" {
   type = string
-}
-
-variable "component-V15" {
-  type = string
-  default="postgres-db-v15"
 }
 
 variable "location" {
