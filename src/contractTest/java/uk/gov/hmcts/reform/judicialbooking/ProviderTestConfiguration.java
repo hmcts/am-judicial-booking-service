@@ -16,6 +16,9 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 public class ProviderTestConfiguration {
 
     @MockBean
+    private SecurityUtils securityUtils;
+
+    @MockBean
     private PersistenceService persistenceService;
 
     @Bean
@@ -30,11 +33,8 @@ public class ProviderTestConfiguration {
     @Bean
     @Primary
     public ParseRequestService getParseRequestService() {
-        return new ParseRequestService();
+        return new ParseRequestService(securityUtils,"");
     }
-
-    @MockBean
-    SecurityUtils securityUtils;
 
     @MockBean
     private CacheManager cacheManager;
