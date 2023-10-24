@@ -92,7 +92,7 @@ module "judicial-booking-database-v15" {
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS-V15" {
-  name          = "${var.component}-POSTGRES-USER-V15"
+  name          = "${var.component}-POSTGRES-PASS-V15"
   value         = module.judicial-booking-database-v15.password
   key_vault_id  = data.azurerm_key_vault.am_key_vault.id
 }
