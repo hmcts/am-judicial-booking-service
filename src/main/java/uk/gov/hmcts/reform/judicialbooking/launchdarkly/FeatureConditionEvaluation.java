@@ -23,11 +23,8 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
     public static final String SERVICE_NAME = "servicename";
     public static final String POST = "POST";
 
-    @Autowired
-    @Lazy
     private SecurityUtils securityUtils;
 
-    @Autowired
     private LDClientInterface ldClient;
 
     @Value("${launchdarkly.sdk.environment}")
@@ -41,6 +38,12 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
         //Any new end point need to be placed in respective map.
         postRequestMap.put("/am/bookings","jbs-create-bookings-api-flag");
         postRequestMap.put("/am/bookings/query","jbs-query-bookings-api-flag");
+    }
+
+    @Autowired
+    public FeatureConditionEvaluation(@Lazy SecurityUtils securityUtils, LDClientInterface ldClient) {
+        this.securityUtils = securityUtils;
+        this.ldClient = ldClient;
     }
 
     @Override

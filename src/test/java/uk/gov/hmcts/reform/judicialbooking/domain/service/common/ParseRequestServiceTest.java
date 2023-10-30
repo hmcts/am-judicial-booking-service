@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
@@ -22,15 +21,21 @@ import static org.mockito.Mockito.when;
 
 class ParseRequestServiceTest {
 
-    @InjectMocks
+
     private ParseRequestService sut;
 
     @Mock
     private SecurityUtils securityUtils;
 
+
+    private static final String S2S_BYPASS_VALIDATION = "S2S_BYPASS";
+
+    private static final String S2S_NOBYPASS_VALIDATION = "S2S_NOBYPASS";
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        this.sut = new ParseRequestService(securityUtils,S2S_BYPASS_VALIDATION + ",S2S_OTHER");
     }
 
     @Test
@@ -58,6 +63,7 @@ class ParseRequestServiceTest {
     @Test
     void parseQueryRequest() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
+        when(securityUtils.getServiceName()).thenReturn(S2S_NOBYPASS_VALIDATION);
 
         List<String> parsedUserIds = sut.parseQueryRequest(
                 BookingQueryRequest.builder().queryRequest(userRequest).build());
@@ -70,6 +76,7 @@ class ParseRequestServiceTest {
     @Test
     void parseQueryRequestWithOldIdamId() {
         UserRequest userRequest = TestDataBuilder.buildRequestIdsWithOldIdamId();
+        when(securityUtils.getServiceName()).thenReturn(S2S_NOBYPASS_VALIDATION);
 
         List<String> parsedUserIds = sut.parseQueryRequest(
                 BookingQueryRequest.builder().queryRequest(userRequest).build());
@@ -87,6 +94,74 @@ class ParseRequestServiceTest {
                 BookingQueryRequest.builder().queryRequest(userRequest).build();
         Assertions.assertThrows(BadRequestException.class, () -> sut.parseQueryRequest(bookingQueryRequest));
 
+    }
+
+    @Test
+    void parseQueryRequest_singleUserIdMatched_ok() {
+        String userID = UUID.randomUUID().toString();
+
+        UserRequest userRequest = UserRequest.builder().userIds(List.of(userID)).build();
+
+        when(securityUtils.getServiceName()).thenReturn(S2S_NOBYPASS_VALIDATION);
+        when(securityUtils.getUserId()).thenReturn(userID);
+
+        BookingQueryRequest bookingQueryRequest = BookingQueryRequest.builder().queryRequest(userRequest).build();
+        List<String> parsedUserIds = sut.parseQueryRequest(bookingQueryRequest);
+
+        Assertions.assertNotNull(parsedUserIds);
+        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
+        Assertions.assertEquals(1, parsedUserIds.size());
+    }
+
+
+    @Test
+    void parseQueryRequest_singleUserIdMatched_ok_null_Servicename() {
+        String userID = UUID.randomUUID().toString();
+
+        UserRequest userRequest = UserRequest.builder().userIds(List.of(userID)).build();
+
+        when(securityUtils.getServiceName()).thenReturn(null);
+        when(securityUtils.getUserId()).thenReturn(userID);
+
+        BookingQueryRequest bookingQueryRequest = BookingQueryRequest.builder().queryRequest(userRequest).build();
+        List<String> parsedUserIds = sut.parseQueryRequest(bookingQueryRequest);
+
+        Assertions.assertNotNull(parsedUserIds);
+        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
+        Assertions.assertEquals(1, parsedUserIds.size());
+    }
+
+    @Test
+    void parseQueryRequest_singleUserIdMismatched_error() {
+        String userID1 = UUID.randomUUID().toString();
+        String userID2 = UUID.randomUUID().toString();
+
+        UserRequest userRequest = UserRequest.builder().userIds(List.of(userID1)).build();
+
+        when(securityUtils.getServiceName()).thenReturn(S2S_NOBYPASS_VALIDATION);
+        when(securityUtils.getUserId()).thenReturn(userID2);
+
+        BookingQueryRequest bookingQueryRequest = BookingQueryRequest.builder().queryRequest(userRequest).build();
+
+        Assertions.assertThrows(UnprocessableEntityException.class, () -> sut.parseQueryRequest(bookingQueryRequest));
+    }
+
+    @Test
+    void parseQueryRequest_singleUserIdMismatchedBypass_noerror() {
+        String userID1 = UUID.randomUUID().toString();
+        String userID2 = UUID.randomUUID().toString();
+
+        UserRequest userRequest = UserRequest.builder().userIds(List.of(userID1)).build();
+
+        when(securityUtils.getServiceName()).thenReturn(S2S_BYPASS_VALIDATION);
+        when(securityUtils.getUserId()).thenReturn(userID2);
+
+        BookingQueryRequest bookingQueryRequest = BookingQueryRequest.builder().queryRequest(userRequest).build();
+        List<String> parsedUserIds = sut.parseQueryRequest(bookingQueryRequest);
+
+        Assertions.assertNotNull(parsedUserIds);
+        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
+        Assertions.assertEquals(1, parsedUserIds.size());
     }
 
     @Test

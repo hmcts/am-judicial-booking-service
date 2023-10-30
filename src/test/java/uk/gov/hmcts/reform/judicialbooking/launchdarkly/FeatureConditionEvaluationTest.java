@@ -34,7 +34,7 @@ class FeatureConditionEvaluationTest {
     private final HttpServletResponse response = mock(HttpServletResponse.class);
 
     @InjectMocks
-    private final FeatureConditionEvaluation sut = new FeatureConditionEvaluation();
+    private final FeatureConditionEvaluation sut = new FeatureConditionEvaluation(securityUtils, ldClient);
 
     @BeforeEach
     public void setUp() {
