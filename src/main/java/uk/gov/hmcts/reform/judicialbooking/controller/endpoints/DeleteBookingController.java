@@ -17,8 +17,12 @@ import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 @Hidden
 public class DeleteBookingController {
 
-    @Autowired
     BookingOrchestrator bookingOrchestrator;
+
+    @Autowired
+    public DeleteBookingController(BookingOrchestrator bookingOrchestrator) {
+        this.bookingOrchestrator = bookingOrchestrator;
+    }
 
     @DeleteMapping(
             path = "am/bookings/{userId}",
