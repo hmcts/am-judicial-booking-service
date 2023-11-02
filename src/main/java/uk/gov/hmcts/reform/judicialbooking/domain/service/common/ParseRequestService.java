@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service.common;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
@@ -14,6 +14,7 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import static uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil.validateBookingRequest;
 import static uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil.validateInputParams;
@@ -22,8 +23,18 @@ import static uk.gov.hmcts.reform.judicialbooking.util.ValidationUtil.validateUs
 @Service
 public class ParseRequestService {
 
-    @Autowired
-    private SecurityUtils securityUtils;
+    private final SecurityUtils securityUtils;
+
+    private final  List<String> byPassQueryValidationForServices;
+
+
+    public ParseRequestService(SecurityUtils securityUtils,
+                               @Value("${judicial-booking.query.bypass-userid-validation-for-services}")
+                               final String byPassQueryValidationForServices) {
+        this.byPassQueryValidationForServices = List.of(byPassQueryValidationForServices.split(","));
+        this.securityUtils = securityUtils;
+    }
+
 
     public BookingEntity parseBookingRequest(BookingRequest bookingRequest) {
         validateBookingRequest(bookingRequest);
@@ -53,13 +64,16 @@ public class ParseRequestService {
         validateInputParams(Constants.IDAM_ID_PATTERN,
                 queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
 
-        if (queryRequest.getQueryRequest().getUserIds().size() == 1) {
+        if (!byPassQueryValidation() && queryRequest.getQueryRequest().getUserIds().size() == 1) {
             validateUserId(queryRequest.getQueryRequest().getUserIds().get(0), securityUtils.getUserId());
         }
 
         return queryRequest.getQueryRequest().getUserIds();
     }
 
-
+    private boolean byPassQueryValidation() {
+        String serviceName = securityUtils.getServiceName();
+        return Objects.nonNull(serviceName) && byPassQueryValidationForServices.contains(serviceName);
+    }
 
 }
