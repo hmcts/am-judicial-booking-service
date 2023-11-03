@@ -79,7 +79,7 @@ module "judicial-booking-database-v15" {
   pgsql_version      = "15"
 
   # The original subnet is full, this is required to use the new subnet for new databases
-   subnet_suffix = "expanded"
+  subnet_suffix = "expanded"
 
   pgsql_databases = [
       {
