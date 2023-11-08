@@ -88,11 +88,11 @@ module "judicial-booking-database-v15" {
     ]
 
   pgsql_server_configuration = [
-      {
-        name  = "azure.extensions"
-        value = "plpgsql,pg_stat_statements,pg_buffercache"
-      }
-    ]
+    {
+      name  = "azure.extensions"
+      value = "plpgsql,pg_stat_statements,pg_buffercache"
+    }
+  ]
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS-V15" {
