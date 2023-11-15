@@ -400,7 +400,7 @@ dependencies {
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.3'
-    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.15.2', ext: 'pom'
+    implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.16.0', ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
     implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
