@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id 'application'
-    id 'uk.gov.hmcts.java' version '0.12.47'
+    id 'uk.gov.hmcts.java' version '0.12.49'
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.4'
@@ -21,7 +21,7 @@ plugins {
     id 'org.sonarqube' version '4.4.1.3373'
     id 'com.github.spacialcircumstances.gradle-cucumber-reporting' version '0.1.25'
     id 'au.com.dius.pact' version '4.3.12' //don't upgrade or downgrade this or serenity reports will fail to generate
-    id 'org.owasp.dependencycheck' version '8.4.2'
+    id 'org.owasp.dependencycheck' version '8.4.3'
 }
 
 apply plugin: 'info.solidsoft.pitest'
@@ -43,11 +43,11 @@ def versions = [
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
         springBoot         : '2.7.18',
-        spring             : '5.3.30',
+        spring             : '5.3.31',
         springSecurity     : '5.7.10',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
-        tomcat             : '9.0.82',
+        tomcat             : '9.0.83',
         pact_version       : '4.1.7',
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
@@ -403,7 +403,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
-    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37'
+    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.1'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
 
     //Added for S2S and User Authentication
