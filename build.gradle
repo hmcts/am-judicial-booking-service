@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id 'application'
-    id 'uk.gov.hmcts.java' version '0.12.49'
+    id 'uk.gov.hmcts.java' version '0.12.51'
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.4'
@@ -399,11 +399,11 @@ dependencies {
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.8'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
-    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.1'
+    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.3'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
 
     //Added for S2S and User Authentication
