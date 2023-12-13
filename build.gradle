@@ -137,6 +137,20 @@ sourceSets {
     }
 }
 
+idea {
+    module {
+        // config to allow Intelij to mark test source and resource files correctly to help linting tools
+        testSources.from(java.sourceSets.functionalTest.java.srcDirs)
+        testSources.from(java.sourceSets.integrationTest.java.srcDirs)
+        testSources.from(java.sourceSets.smokeTest.java.srcDirs)
+        testSources.from(java.sourceSets.contractTest.java.srcDirs)
+        testResources.from(java.sourceSets.functionalTest.resources.srcDirs)
+        testResources.from(java.sourceSets.integrationTest.resources.srcDirs)
+        testResources.from(java.sourceSets.smokeTest.resources.srcDirs)
+        testResources.from(java.sourceSets.contractTest.resources.srcDirs)
+    }
+}
+
 project.ext {
     pacticipant = 'accessMgmt_judicialBooking'
     pacticipantVersion = getCheckedOutGitCommitHash()
@@ -348,6 +362,14 @@ repositories {
     }
 }
 
+tasks.named('integration') {
+    useJUnitPlatform()
+
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
+
 
 dependencies {
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot) {
@@ -413,6 +435,7 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
 
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
+    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.5.11'
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.8')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
