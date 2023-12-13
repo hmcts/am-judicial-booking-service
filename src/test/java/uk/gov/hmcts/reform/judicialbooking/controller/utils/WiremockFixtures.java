@@ -11,17 +11,9 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-//import static com.azure.core.http.ContentType.APPLICATION_JSON;
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.resetAllRequests;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
-import static uk.gov.hmcts.reform.judicialbooking.controller.BaseTestIntegration.WIRE_MOCK_SERVER;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static uk.gov.hmcts.reform.judicialbooking.controller.BaseTest.WIRE_MOCK_SERVER;
 import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
-import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
-//import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
 
 public class WiremockFixtures {
 

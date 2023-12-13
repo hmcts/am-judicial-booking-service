@@ -43,46 +43,46 @@ import java.util.Properties;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
-@ContextConfiguration(initializers = {BaseTest.WireMockServerInitializer.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(SpringExtension.class)
+//@ContextConfiguration(initializers = {BaseTestIntegration.WireMockServerInitializer.class})
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@ExtendWith(SpringExtension.class)
 @ActiveProfiles("itest")
-@EnableConfigurationProperties
-public abstract class BaseTest {
+//@EnableConfigurationProperties
+public abstract class BaseTestIntegration extends BaseTest {
 
-    public static final WireMockServer WIRE_MOCK_SERVER = new WireMockServer(options().dynamicPort());
+//    public static final WireMockServer WIRE_MOCK_SERVER = new WireMockServer(options().dynamicPort());
+//
+//    protected static final ObjectMapper mapper = new ObjectMapper();
 
-    protected static final ObjectMapper mapper = new ObjectMapper();
+//    @MockBean(name = "clientRegistrationRepository")
+//    private ClientRegistrationRepository getClientRegistrationRepository;
+//
+//    @MockBean(name = "reactiveClientRegistrationRepository")
+//    private ReactiveClientRegistrationRepository getReactiveClientRegistrationRepository;
 
-    @MockBean(name = "clientRegistrationRepository")
-    private ClientRegistrationRepository getClientRegistrationRepository;
+//    static {
+//        if (!WIRE_MOCK_SERVER.isRunning()) {
+//            WIRE_MOCK_SERVER.start();
+//        }
+//
+//        mapper.registerModule(new JavaTimeModule());
+//        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+//        // Force re-initialisation of base types for each test suite
+//    }
 
-    @MockBean(name = "reactiveClientRegistrationRepository")
-    private ReactiveClientRegistrationRepository getReactiveClientRegistrationRepository;
-
-    static {
-        if (!WIRE_MOCK_SERVER.isRunning()) {
-            WIRE_MOCK_SERVER.start();
-        }
-
-        mapper.registerModule(new JavaTimeModule());
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        // Force re-initialisation of base types for each test suite
-    }
-
-    protected static final MediaType JSON_CONTENT_TYPE = new MediaType(
-            MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            StandardCharsets.UTF_8
-    );
-
-    @NotNull
-    HttpHeaders getHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(Constants.CORRELATION_ID_HEADER_NAME, "38a90097-434e-47ee-8ea1-9ea2a267f51d");
-        return headers;
-    }
+//    protected static final MediaType JSON_CONTENT_TYPE = new MediaType(
+//            MediaType.APPLICATION_JSON.getType(),
+//            MediaType.APPLICATION_JSON.getSubtype(),
+//            StandardCharsets.UTF_8
+//    );
+//
+//    @NotNull
+//    HttpHeaders getHttpHeaders() {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(Constants.CORRELATION_ID_HEADER_NAME, "38a90097-434e-47ee-8ea1-9ea2a267f51d");
+//        return headers;
+//    }
 
     @TestConfiguration
     static class Configuration {
@@ -115,30 +115,30 @@ public abstract class BaseTest {
         }
     }
 
-    public static class WireMockServerInitializer
-            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-
-        private final WiremockFixtures wiremockFixtures = new WiremockFixtures();
-
-        @Override
-        public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
-
-            TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
-                    applicationContext,
-                    "wiremock.server.port=" + WIRE_MOCK_SERVER.port()
-            );
-
-            try {
-                wiremockFixtures.stubIdamConfig();
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-
-            applicationContext.addApplicationListener((ApplicationListener<ContextClosedEvent>) event -> {
-                if (WIRE_MOCK_SERVER.isRunning()) {
-                    WIRE_MOCK_SERVER.shutdown();
-                }
-            });
-        }
-    }
+//    public static class WireMockServerInitializer
+//            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+//
+//        private final WiremockFixtures wiremockFixtures = new WiremockFixtures();
+//
+//        @Override
+//        public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
+//
+//            TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
+//                    applicationContext,
+//                    "wiremock.server.port=" + WIRE_MOCK_SERVER.port()
+//            );
+//
+//            try {
+//                wiremockFixtures.stubIdamConfig();
+//            } catch (JsonProcessingException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//            applicationContext.addApplicationListener((ApplicationListener<ContextClosedEvent>) event -> {
+//                if (WIRE_MOCK_SERVER.isRunning()) {
+//                    WIRE_MOCK_SERVER.shutdown();
+//                }
+//            });
+//        }
+//    }
 }

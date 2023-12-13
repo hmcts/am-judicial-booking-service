@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CreateBookingIntegrationTest extends BaseTest {
+public class CreateBookingIntegrationTest extends BaseTestIntegration {
     private static final String URL = "/am/bookings";
 
     private static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";

@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-public class SwaggerRedirectControllerIntegrationTest extends BaseTest {
+public class SwaggerRedirectControllerIntegrationTest extends BaseTestIntegration {
 
     private transient MockMvc mockMvc;
 
