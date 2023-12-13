@@ -20,8 +20,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static uk.gov.hmcts.reform.judicialbooking.controller.BaseTestIntegration.WIRE_MOCK_SERVER;
 import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
-import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
-//import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
 
 public class WiremockFixtures {
 
