@@ -30,7 +30,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialRefreshRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
@@ -40,14 +39,13 @@ import java.util.List;
 import java.util.Map;
 
 @ExtendWith(PactConsumerTestExt.class)
-@ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @PactTestFor(providerName = "am_orgRoleMapping_refresh")
 @PactFolder("pacts")
 @ContextConfiguration(classes = {OrgRoleMappingApplication.class})
 @TestPropertySource(properties = {"feign.client.config.jbsClient.url=http://localhost:4097"})
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-public class OrgRoleMappingRefreshConsumerTest {
+public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
 
     private static final String CONTENT_TYPE = "application/vnd.uk.gov.hmcts.am-org-role-mapping-service"
             + ".map-judicial-assignments+json;charset=UTF-8;version=1.0";
