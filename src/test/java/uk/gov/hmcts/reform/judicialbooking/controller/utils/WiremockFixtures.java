@@ -72,12 +72,4 @@ public class WiremockFixtures {
 
     }
 
-    public void stubRoleAssignments(String body, int returnHttpStatus) {
-        WIRE_MOCK_SERVER.stubFor(WireMock.post(urlEqualTo("/am/role-assignments"))
-                .willReturn(aResponse()
-                        .withHeader("Content-Type", "application/json")
-                        .withBody(body)
-                        .withStatus(returnHttpStatus)
-                ));
-    }
 }
