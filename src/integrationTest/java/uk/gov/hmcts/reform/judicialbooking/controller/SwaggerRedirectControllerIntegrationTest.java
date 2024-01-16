@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-public class SwaggerRedirectControllerIntegrationTest extends BaseTest {
+public class SwaggerRedirectControllerIntegrationTest extends BaseTestIntegration {
 
     private transient MockMvc mockMvc;
 
@@ -26,7 +26,7 @@ public class SwaggerRedirectControllerIntegrationTest extends BaseTest {
     @Autowired
     private transient SwaggerRedirectController swaggerRedirectController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.mockMvc = standaloneSetup(this.swaggerRedirectController).build();
     }
