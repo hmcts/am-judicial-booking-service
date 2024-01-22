@@ -54,7 +54,7 @@ def versions = [
         feign_jackson      : '12.5',
         jacksondata        : '2.16.1',
         launchDarklySdk    : '5.10.9',
-        log4JVersion       : '2.20.0',
+        log4JVersion       : '2.22.1',
         logbackVersion     : '1.2.13'
 ]
 
