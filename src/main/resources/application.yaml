@@ -17,6 +17,9 @@ management:
       cache:
         time-to-live: 5s
       show-details: "always"
+      group:
+        readiness:
+          include: "db"
   security:
     enabled: true
   endpoints:
