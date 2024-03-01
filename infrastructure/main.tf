@@ -79,7 +79,7 @@ module "judicial-booking-database-v15" {
   pgsql_version      = "15"
 
   # Setup Access Reader db user
-  force_user_permissions_trigger = "2"
+  force_user_permissions_trigger = "3"
 
   # The original subnet is full, this is required to use the new subnet for new databases
   subnet_suffix = "expanded"
