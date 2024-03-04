@@ -70,3 +70,9 @@ variable "jenkins_AAD_objectId" {
   description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
+variable "enable_schema_ownership" {
+  type        = bool
+  default     = false
+  description = "Enables the schema ownership script. Change this to true if you want to use the script. Defaults to false"
+}
+
