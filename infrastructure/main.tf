@@ -88,7 +88,7 @@ module "judicial-booking-database-v15" {
 
   # Sets correct DB owner after migration to fix permissions
   enable_schema_ownership = var.enable_schema_ownership
-  kv_subscription = var.subscription
+  kv_subscription = var.kv_subscription
   kv_name = data.azurerm_key_vault.am_key_vault.name
   user_secret_name = azurerm_key_vault_secret.POSTGRES-USER.name
   pass_secret_name = azurerm_key_vault_secret.POSTGRES-PASS.name

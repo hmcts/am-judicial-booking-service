@@ -76,3 +76,9 @@ variable "enable_schema_ownership" {
   description = "Enables the schema ownership script. Change this to true if you want to use the script. Defaults to false"
 }
 
+variable "kv_subscription" {
+  default     = "DCD-CNP-DEV"
+  type        = string
+  description = "Update this with the name of the subscription where the single server key vault is. Defaults to DCD-CNP-DEV."
+}
+
