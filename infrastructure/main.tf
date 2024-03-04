@@ -38,6 +38,11 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
 ////////////////////////////////
 // Populate Vault with DB info//
 ////////////////////////////////
+resource "azurerm_key_vault_secret" "POSTGRES-USER" {
+  name          = join("-", [var.component, "POSTGRES-USER"])
+  value         = var.postgresql_user
+  key_vault_id  = data.azurerm_key_vault.am_key_vault.id
+}
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name          = join("-", [var.component, "POSTGRES-PASS"])
