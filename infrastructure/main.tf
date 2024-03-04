@@ -68,7 +68,7 @@ module "judicial-booking-database-v11" {
 }
 
 module "judicial-booking-database-v15" {
-  source             = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=dtspo-16806-schema-owner"
+  source             = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
 
   providers = {
       azurerm.postgres_network = azurerm.postgres_network
