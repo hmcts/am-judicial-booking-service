@@ -63,7 +63,7 @@ module "judicial-booking-database-v11" {
 }
 
 module "judicial-booking-database-v15" {
-  source             = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
+  source             = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=dtspo-16806-schema-owner"
 
   providers = {
       azurerm.postgres_network = azurerm.postgres_network
@@ -80,6 +80,13 @@ module "judicial-booking-database-v15" {
 
   # Setup Access Reader db user
   force_user_permissions_trigger = "2"
+
+  # Sets correct DB owner after migration to fix permissions
+  enable_schema_ownership = var.enable_schema_ownership
+  kv_subscription = var.subscription
+  kv_name = data.azurerm_key_vault.am_key_vault.name
+  user_secret_name = azurerm_key_vault_secret.POSTGRES-USER.name
+  pass_secret_name = azurerm_key_vault_secret.POSTGRES-PASS.name
 
   # The original subnet is full, this is required to use the new subnet for new databases
   subnet_suffix = "expanded"
