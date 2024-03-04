@@ -76,6 +76,12 @@ variable "enable_schema_ownership" {
   description = "Enables the schema ownership script. Change this to true if you want to use the script. Defaults to false"
 }
 
+variable "force_schema_ownership_trigger" {
+  default     = ""
+  type        = string
+  description = "Update this to a new value to force the schema ownership script to run again."
+}
+
 variable "kv_subscription" {
   default     = "DCD-CNP-DEV"
   type        = string
