@@ -44,7 +44,7 @@ def versions = [
         sonarPitest        : '0.5',
         springBoot         : '2.7.18',
         spring             : '5.3.32',
-        springSecurity     : '5.8.9',
+        springSecurity     : '5.8.10',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
         tomcat             : '9.0.85',
@@ -419,7 +419,7 @@ dependencies {
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.8'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.1'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.2'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
@@ -438,7 +438,7 @@ dependencies {
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.10')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.2')
-    testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.1')
+    testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.2')
     testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.12'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
