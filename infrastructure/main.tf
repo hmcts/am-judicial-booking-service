@@ -107,6 +107,10 @@ module "judicial-booking-database-v15" {
     {
       name  = "azure.extensions"
       value = "plpgsql,pg_stat_statements,pg_buffercache"
+    },
+    {
+      name  = "enable_temp_tablespaces_on_local_ssd"
+      value = "off"
     }
   ]
 }
