@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id 'application'
-    id 'uk.gov.hmcts.java' version '0.12.59'
+    id 'uk.gov.hmcts.java' version '0.12.60'
     id 'pmd'
     id 'jacoco'
     id 'io.spring.dependency-management' version '1.1.4'
@@ -43,8 +43,8 @@ def versions = [
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
         springBoot         : '2.7.18',
-        spring             : '5.3.32',
-        springSecurity     : '5.8.10',
+        spring             : '5.3.33',
+        springSecurity     : '5.8.11',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
         tomcat             : '9.0.86',
@@ -419,7 +419,7 @@ dependencies {
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.8'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.2'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
@@ -433,11 +433,11 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
 
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
-    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.2'
+    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.5'
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.10')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
-    testImplementation('com.opentable.components:otj-pg-embedded:1.0.2')
+    testImplementation('com.opentable.components:otj-pg-embedded:1.0.3')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.2')
     testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.12'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
