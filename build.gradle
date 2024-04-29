@@ -43,11 +43,11 @@ def versions = [
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
         springBoot         : '2.7.18',
-        spring             : '5.3.33',
+        spring             : '5.3.34',
         springSecurity     : '5.8.11',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
-        tomcat             : '9.0.86',
+        tomcat             : '9.0.88',
         pact_version       : '4.1.7',
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
@@ -439,7 +439,7 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.3')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.2')
-    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.12'
+    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
