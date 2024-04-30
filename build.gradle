@@ -45,7 +45,7 @@ def versions = [
         springBoot         : '2.7.18',
         spring             : '5.3.34',
         springSecurity     : '5.8.11',
-        springCloud        : '2021.0.3',
+        springCloud        : '2021.0.8',
         swagger2Version    : '3.0.0',
         tomcat             : '9.0.88',
         pact_version       : '4.1.7',
