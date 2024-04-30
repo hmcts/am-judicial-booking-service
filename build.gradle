@@ -45,7 +45,7 @@ def versions = [
         springBoot         : '2.7.18',
         spring             : '5.3.34',
         springSecurity     : '5.8.11',
-        springHystrix      : '2.1.1.RELEASE',
+        springCloud        : '2021.0.3',
         swagger2Version    : '3.0.0',
         tomcat             : '9.0.88',
         pact_version       : '4.1.7',
@@ -381,9 +381,12 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.8'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.10.RELEASE'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.8'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.10.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
+    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.5'
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurity
     implementation group: 'org.springframework.security', name: 'spring-security-web', version: versions.springSecurity
@@ -408,7 +411,7 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-webmvc', version: versions.spring
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.8'
+    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.8'
 
     implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
     implementation 'commons-io:commons-io:20030203.000550'
@@ -434,8 +437,10 @@ dependencies {
 
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
     implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.5'
+    implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
 
-    testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.10')
+    //testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.10')
+    testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock'
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testImplementation('com.opentable.components:otj-pg-embedded:1.0.3')
     testImplementation('com.github.tomakehurst:wiremock-jre8:2.35.2')
@@ -530,6 +535,10 @@ dependencyManagement {
             entry 'jackson-core'
             entry 'jackson-annotations'
         }
+    }
+
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.springCloud}"
     }
 }
 
