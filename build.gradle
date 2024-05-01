@@ -433,6 +433,7 @@ dependencies {
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
     implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.5'
     implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15to18', version: '1.78.1'
 
     testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock'
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
@@ -540,6 +541,7 @@ configurations.all {
     exclude group: "org.glassfish", module: "jakarta.el"
     exclude group: 'io.github.x-stream', module: 'mxparser'
     exclude group: 'io.netty', module: 'netty-tcnative-classes'
+    exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
 }
 
 cucumberReports {
