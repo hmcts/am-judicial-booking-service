@@ -14,8 +14,8 @@ import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.Forbidden
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;

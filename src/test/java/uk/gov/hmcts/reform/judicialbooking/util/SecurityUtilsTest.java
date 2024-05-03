@@ -9,10 +9,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletRequest;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -31,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.SERVICE_AUTHORIZATION;
@@ -52,10 +55,17 @@ class SecurityUtilsTest {
     @Mock
     IdamRepository idamRepository = mock(IdamRepository.class);
 
+    @Mock
+    Jwt jwtMock = mock(Jwt.class);
+
+    @Mock
+    JwtDecoder jwtDecoder = mock(JwtDecoder.class);
+
     @InjectMocks
     private final SecurityUtils securityUtils = new SecurityUtils(
             authTokenGenerator,
-            jwtGrantedAuthoritiesConverter
+            jwtGrantedAuthoritiesConverter,
+            jwtDecoder
     );
 
     private final String serviceAuthorization = "Bearer eyJhbGciOiJIUzUxMiJ9"
@@ -64,9 +74,8 @@ class SecurityUtilsTest {
     private final String serviceAuthorizationNoBearer = "eyJhbGciOiJIUzUxMiJ9"
             + ".eyJzdWIiOiJjY2RfZ3ciLCJleHAiOjE1OTQ2ODQ5MTF9"
             + ".LH3aiNniHNMlTwuSdzgRic9sD_4inQv5oUqJ0kkRKVasS4RfhIz2tRdttf-sSMkUga1p1teOt2iCq4BQBDS7KA";
+    private final String subject = "ccd_gw";
     private static final String USER_ID = "21334a2b-79ce-44eb-9168-2d49a744be9c";
-
-
 
     private void mockSecurityContextData() {
         List<String> collection = new ArrayList<>();
@@ -157,6 +166,8 @@ class SecurityUtilsTest {
 
     @Test
     void removeBearerFromToken() {
+        when(jwtMock.getSubject()).thenReturn(subject);
+        when(jwtDecoder.decode(anyString())).thenReturn(jwtMock);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorization);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -165,6 +176,8 @@ class SecurityUtilsTest {
 
     @Test
     void removeBearerFromToken_NoBearerTag() {
+        when(jwtMock.getSubject()).thenReturn(subject);
+        when(jwtDecoder.decode(anyString())).thenReturn(jwtMock);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorizationNoBearer);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));

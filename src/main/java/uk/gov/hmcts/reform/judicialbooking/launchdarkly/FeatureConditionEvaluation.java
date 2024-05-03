@@ -12,8 +12,8 @@ import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.Forbidden
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 @Component
@@ -46,7 +46,7 @@ public class FeatureConditionEvaluation implements HandlerInterceptor {
         this.ldClient = ldClient;
     }
 
-    @Override
+    //@Override
     public boolean preHandle(@NotNull HttpServletRequest request,
                              @NotNull HttpServletResponse response, @NotNull Object arg2) {
 
