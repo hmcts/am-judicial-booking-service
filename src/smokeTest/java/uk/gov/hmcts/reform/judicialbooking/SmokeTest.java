@@ -33,7 +33,8 @@ public class SmokeTest extends BaseTest {
     public void setUp() {
         log.error("Inside setUp");
         config = new UserTokenProviderConfig();
-        log.error("config secret: " + config.getSecret() + " microservice: " + config.getMicroService() + " S2sUrl: " + config.getS2sUrl());
+        log.error("config secret: " + config.getSecret() + " microservice: " + config.getMicroService()
+                + " S2sUrl: " + config.getS2sUrl());
         accessToken = searchUserByUserId(config);
         serviceAuth = authTokenGenerator(
                 config.getSecret(),
@@ -63,7 +64,8 @@ public class SmokeTest extends BaseTest {
                 .post(targetInstance)
                 .andReturn();
 
-        log.error("serviceAuth: " + serviceAuth + " accessToken: " + accessToken + " Response Body: " + response.getBody().asPrettyString());
+        log.error("serviceAuth: " + serviceAuth + " accessToken: " + accessToken + " Response Body: "
+                + response.getBody().asPrettyString());
 
         response.then().assertThat().statusCode(HttpStatus.OK.value());
 
