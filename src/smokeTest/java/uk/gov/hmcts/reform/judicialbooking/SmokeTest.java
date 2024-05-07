@@ -11,12 +11,16 @@ import org.apache.commons.lang3.Validate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
 @NoArgsConstructor
 @WithTags({@WithTag("testType:Smoke")})
 public class SmokeTest extends BaseTest {
+
+    private static final Logger log = LoggerFactory.getLogger(SmokeTest.class);
     public static final String AUTHORIZATION = "Authorization";
     public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
     public static final String BEARER = "Bearer ";
@@ -56,6 +60,9 @@ public class SmokeTest extends BaseTest {
                 .when()
                 .post(targetInstance)
                 .andReturn();
+
+        log.error("Response Body: " + response.getBody().toString());
+
         response.then().assertThat().statusCode(HttpStatus.OK.value());
 
     }
