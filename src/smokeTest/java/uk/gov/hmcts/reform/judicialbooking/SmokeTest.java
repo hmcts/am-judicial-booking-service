@@ -61,7 +61,7 @@ public class SmokeTest extends BaseTest {
                 .post(targetInstance)
                 .andReturn();
 
-        log.error("Response Body: " + response.getBody().toString());
+        log.error("Response Body: " + response.getBody().asPrettyString());
 
         response.then().assertThat().statusCode(HttpStatus.OK.value());
 
