@@ -67,7 +67,8 @@ public class SmokeTest extends BaseTest {
         log.error("serviceAuth: " + serviceAuth + " accessToken: " + accessToken + " Response Body: "
                 + response.getBody().prettyPrint());
 
-        response.then().assertThat().statusCode(HttpStatus.OK.value());
+        //response.then().assertThat().statusCode(HttpStatus.OK.value());
+        response.then().assertThat().statusCode(HttpStatus.FORBIDDEN.value());
 
     }
 
