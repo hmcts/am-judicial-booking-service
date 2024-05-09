@@ -172,7 +172,7 @@ task functional(type: JavaExec) {
     generateCucumberReports.enabled = false
     main("uk.gov.hmcts.reform.judicialbooking.befta.JudicialBookingAmBeftaMain")
     classpath += configurations.cucumberRuntime + sourceSets.functionalTest.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
-    args = ['--tags', 'not @Ignore',
+    args = ['--strict', '--tags', 'not @Ignore',
             '--plugin', "json:${rootDir}/target/cucumber.json", '--plugin', "junit:${buildDir}/test-results/functional/cucumber.xml",
             '--glue', 'uk.gov.hmcts.befta.player', 'src/functionalTest/resources/features'
     ]
@@ -450,6 +450,7 @@ dependencies {
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: versions.cucumber
+    testImplementation group: 'io.cucumber', name: 'cucumber-core', version: versions.cucumber
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
     testImplementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign_jackson
     testImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
@@ -543,10 +544,6 @@ dependencyManagement {
         dependencySet(group: 'org.springframework', version: versions.spring) {
             entry 'spring-test'
         }
-        //dependencySet(group: 'org.springframework.boot', version: versions.springBoot) {
-            //entry 'spring-boot-autoconfigure'
-            //entry 'spring-boot-starter'
-        //}
 
     }
 
