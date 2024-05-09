@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.util;
 
+import com.auth0.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.GrantedAuthority;
@@ -86,10 +87,9 @@ public class SecurityUtils {
                 ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
 
         if (servletRequestAttributes != null
-            && servletRequestAttributes.getRequest().getHeader(SERVICE_AUTHORIZATION) != null) {
-            String tokenWithoutBearer = removeBearerFromToken(servletRequestAttributes.getRequest().getHeader(
-                    SERVICE_AUTHORIZATION));
-            return jwtDecoder.decode(tokenWithoutBearer).getSubject();
+                && servletRequestAttributes.getRequest().getHeader(SERVICE_AUTHORIZATION) != null) {
+            return JWT.decode(removeBearerFromToken(servletRequestAttributes.getRequest().getHeader(
+                    SERVICE_AUTHORIZATION))).getSubject();
         }
         return null;
     }

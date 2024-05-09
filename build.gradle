@@ -435,6 +435,7 @@ dependencies {
     implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.5'
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2'
     implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
