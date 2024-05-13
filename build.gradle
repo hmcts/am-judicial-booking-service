@@ -451,6 +451,7 @@ dependencies {
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: versions.cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-core', version: versions.cucumber
+    testImplementation group: 'io.cucumber', name: 'cucumber-spring', version: versions.cucumber
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
     testImplementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign_jackson
     testImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
@@ -458,7 +459,6 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
 
-    //testImplementation 'com.github.hmcts:befta-fw:8.7.11'
     testImplementation 'com.github.hmcts:befta-fw:8.8.2'
     testImplementation 'com.github.hmcts:fortify-client:1.4.1:all'
 
@@ -475,6 +475,36 @@ dependencies {
     smokeTestImplementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     smokeTestImplementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.1'
 
+    //from testImplementation ############################################
+    smokeTestImplementation('org.springframework.cloud:spring-cloud-contract-wiremock')
+    smokeTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
+    smokeTestImplementation('com.opentable.components:otj-pg-embedded:1.0.3')
+    smokeTestImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
+    smokeTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
+    smokeTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
+    smokeTestRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
+    smokeTestImplementation group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.9.3'
+    smokeTestImplementation group: 'org.pitest', name: 'pitest', version: versions.pitest
+    smokeTestImplementation group: 'info.solidsoft.gradle.pitest', name:'gradle-pitest-plugin', version: '1.15.0'
+    smokeTestImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
+    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
+    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-junit', version: versions.cucumber
+    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-core', version: versions.cucumber
+    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-spring', version: versions.cucumber
+    smokeTestImplementation group: 'io.cucumber', name: 'tag-expressions', version: '3.0.1'
+    smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
+    smokeTestImplementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign_jackson
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+
+    smokeTestImplementation 'com.github.hmcts:befta-fw:8.8.2'
+    smokeTestImplementation 'com.github.hmcts:fortify-client:1.4.1:all'
+
+    smokeTestImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
+    smokeTestImplementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
+    //end from testImplementation ###########################################
 
     // AM-467-Serenity report for Integration test
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
@@ -504,7 +534,7 @@ dependencies {
     functionalTestImplementation sourceSets.test.runtimeClasspath
 
     smokeTestImplementation sourceSets.main.runtimeClasspath
-    smokeTestImplementation sourceSets.test.runtimeClasspath
+    //smokeTestImplementation sourceSets.test.runtimeClasspath
 
     contractTestImplementation sourceSets.main.runtimeClasspath
     contractTestImplementation sourceSets.test.runtimeClasspath
