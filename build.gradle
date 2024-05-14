@@ -468,21 +468,8 @@ dependencies {
     smokeTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
     smokeTestImplementation group: 'commons-io', name: 'commons-io', version: '20030203.000550'
 
-    smokeTestImplementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-    smokeTestImplementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.1'
-    smokeTestImplementation('org.springframework.cloud:spring-cloud-contract-wiremock')
     smokeTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     smokeTestImplementation('com.opentable.components:otj-pg-embedded:1.0.3')
-    smokeTestImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
-    smokeTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
-    smokeTestImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: versions.junit
-    smokeTestRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: versions.junit
-    smokeTestImplementation group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.9.3'
-    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
-    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-junit', version: versions.cucumber
-    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-core', version: versions.cucumber
-    smokeTestImplementation group: 'io.cucumber', name: 'cucumber-spring', version: versions.cucumber
-    smokeTestImplementation group: 'io.cucumber', name: 'tag-expressions', version: '3.0.1'
     smokeTestImplementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign_jackson
     smokeTestImplementation group : 'com.github.hmcts', name: 'befta-fw', version: versions.befta
     smokeTestImplementation 'com.github.hmcts:fortify-client:1.4.1:all'
