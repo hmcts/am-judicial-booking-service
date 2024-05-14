@@ -133,7 +133,7 @@ judicial-booking:
   query:
     bypass-userid-validation-for-services: am_org_role_mapping_service
 
-logging.level.uk.gov.hmcts: ${APPLICATION_LOGGING_LEVEL:DEBUG}
+logging.level.uk.gov.hmcts: ${APPLICATION_LOGGING_LEVEL:INFO}
 
 springdoc:
   swagger-ui:

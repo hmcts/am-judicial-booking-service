@@ -9,7 +9,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletRequest;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,7 +73,7 @@ class SecurityUtilsTest {
     private final String serviceAuthorizationNoBearer = "eyJhbGciOiJIUzUxMiJ9"
             + ".eyJzdWIiOiJjY2RfZ3ciLCJleHAiOjE1OTQ2ODQ5MTF9"
             + ".LH3aiNniHNMlTwuSdzgRic9sD_4inQv5oUqJ0kkRKVasS4RfhIz2tRdttf-sSMkUga1p1teOt2iCq4BQBDS7KA";
-    private final String subject = "ccd_gw";
+    private static final String SUBJECT = "ccd_gw";
     private static final String USER_ID = "21334a2b-79ce-44eb-9168-2d49a744be9c";
 
     private void mockSecurityContextData() {
@@ -166,22 +165,22 @@ class SecurityUtilsTest {
 
     @Test
     void removeBearerFromToken() {
-        when(jwtMock.getSubject()).thenReturn(subject);
+        when(jwtMock.getSubject()).thenReturn(SUBJECT);
         when(jwtDecoder.decode(anyString())).thenReturn(jwtMock);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorization);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        assertEquals("ccd_gw", securityUtils.getServiceName());
+        assertEquals(SUBJECT, securityUtils.getServiceName());
     }
 
     @Test
     void removeBearerFromToken_NoBearerTag() {
-        when(jwtMock.getSubject()).thenReturn(subject);
+        when(jwtMock.getSubject()).thenReturn(SUBJECT);
         when(jwtDecoder.decode(anyString())).thenReturn(jwtMock);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorizationNoBearer);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        assertEquals("ccd_gw", securityUtils.getServiceName());
+        assertEquals(SUBJECT, securityUtils.getServiceName());
     }
 
     @Test
