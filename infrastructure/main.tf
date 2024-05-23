@@ -40,13 +40,31 @@ resource "azurerm_key_vault_secret" "am_judicial_booking_service_s2s_secret" {
 ////////////////////////////////
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name          = join("-", [var.component, "POSTGRES-USER"])
-  value         = var.postgresql_user
+  value         = module.judicial-booking-database-v15.username
   key_vault_id  = data.azurerm_key_vault.am_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name          = join("-", [var.component, "POSTGRES-PASS"])
-  value         = module.judicial-booking-database-v11.postgresql_password
+  value         = module.judicial-booking-database-v15.password
+  key_vault_id  = data.azurerm_key_vault.am_key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
+  name          = join("-", [var.component, "POSTGRES-HOST"])
+  value         = module.judicial-booking-database-v15.fqdn
+  key_vault_id  = data.azurerm_key_vault.am_key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
+  name          = join("-", [var.component, "POSTGRES-PORT"])
+  value         = "5432"
+  key_vault_id  = data.azurerm_key_vault.am_key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
+  name          = join("-", [var.component, "POSTGRES-DATABASE"])
+  value         = var.database_name
   key_vault_id  = data.azurerm_key_vault.am_key_vault.id
 }
 
