@@ -441,7 +441,7 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
 
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '3.4.11'
-    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.5'
+    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.6'
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2'
     implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
     implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
@@ -468,7 +468,7 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     testImplementation group: 'com.github.hmcts', name: 'befta-fw', version: versions.befta
-    testImplementation 'com.github.hmcts:fortify-client:1.4.1:all'
+    testImplementation 'com.github.hmcts:fortify-client:1.4.2:all'
 
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
