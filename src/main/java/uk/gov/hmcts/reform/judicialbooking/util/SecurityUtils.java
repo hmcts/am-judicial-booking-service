@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -13,7 +14,6 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRoles;
 import uk.gov.hmcts.reform.judicialbooking.oidc.JwtGrantedAuthoritiesConverter;
-
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -26,13 +26,16 @@ public class SecurityUtils {
     public static final String SERVICE_AUTHORIZATION = "serviceauthorization";
     public static final String BEARER = "Bearer ";
 
+    public JwtDecoder jwtDecoder;
+
     @Autowired
     public SecurityUtils(final AuthTokenGenerator authTokenGenerator,
-                         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter
+                         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter,
+                         JwtDecoder jwtDecoder
     ) {
         this.authTokenGenerator = authTokenGenerator;
         this.jwtGrantedAuthoritiesConverter = jwtGrantedAuthoritiesConverter;
-
+        this.jwtDecoder = jwtDecoder;
     }
 
     public HttpHeaders authorizationHeaders() {

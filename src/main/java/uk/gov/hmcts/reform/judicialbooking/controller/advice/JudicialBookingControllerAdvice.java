@@ -16,7 +16,7 @@ import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.InvalidRe
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
