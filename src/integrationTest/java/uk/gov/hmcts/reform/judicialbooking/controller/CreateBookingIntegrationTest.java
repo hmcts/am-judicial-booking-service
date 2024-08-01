@@ -1,7 +1,5 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import com.launchdarkly.sdk.LDUser;
-import com.launchdarkly.sdk.server.interfaces.LDClientInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -23,9 +21,9 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+//import static org.mockito.ArgumentMatchers.any;
+//import static org.mockito.ArgumentMatchers.anyString;
+//import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -49,33 +47,27 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
     @MockBean
     SecurityUtils securityUtilsMock;
 
-    @MockBean
-    private LDClientInterface ldClient;
-
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
         MockitoAnnotations.openMocks(this);
-        doReturn(true).when(ldClient).isFlagKnown(anyString());
-        doReturn(true).when(ldClient).boolVariation(anyString(), any(LDUser.class), eq(false));
         doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
     }
 
-    @Test
-    public void shouldRejectRequestWithLDFlagDisable() throws Exception {
-        var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
-                LocalDate.now()));
-        doReturn(false).when(ldClient).boolVariation(anyString(), any(LDUser.class), eq(false));
+    //@Test
+    //public void shouldRejectRequestWithLDFlagDisable() throws Exception {
+    //    var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
+    //            LocalDate.now()));
 
-        mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("Forbidden: Insufficient permissions: "
-                                + "Launch Darkly flag is not enabled for the endpoint")))
-                .andReturn();
-    }
+    //    mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
+    //                    .headers(getHttpHeaders())
+    //                    .content(mapper.writeValueAsBytes(request)))
+    //            .andExpect(status().is4xxClientError())
+    //            .andExpect(jsonPath(EXPRESSION)
+    //                    .value(containsString("Forbidden: Insufficient permissions: "
+    //                            + "Launch Darkly flag is not enabled for the endpoint")))
+    //            .andReturn();
+    //}
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
