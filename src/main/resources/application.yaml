@@ -122,12 +122,6 @@ integrationTest:
 
 judicialBookingUrl: ${TEST_URL:http://localhost:4097}
 
-launchdarkly:
-  sdk:
-    key: ${LD_SDK_KEY:}
-    environment: ${LAUNCH_DARKLY_ENV:pr}
-    user: am-${LAUNCH_DARKLY_ENV:local}
-  runOnStartup: ${RUN_LD_ON_STARTUP:false}
 
 judicial-booking:
   query:
