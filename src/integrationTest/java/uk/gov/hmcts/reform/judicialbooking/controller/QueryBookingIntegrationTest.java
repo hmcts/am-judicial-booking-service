@@ -29,9 +29,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.ArgumentMatchers.anyString;
-//import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -61,20 +58,6 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
         MockitoAnnotations.openMocks(this);
     }
-
-    //@Test
-    //public void shouldRejectRequestWithLDFlagDisable() throws Exception {
-    //    BookingQueryRequest request = new BookingQueryRequest(UserRequest.builder().build());
-
-    //    mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
-    //                    .headers(getHttpHeaders())
-    //                    .content(mapper.writeValueAsBytes(request)))
-    //            .andExpect(status().is4xxClientError())
-    //            .andExpect(jsonPath("$.errorDescription")
-    //                    .value(containsString("Resource not found: "
-    //                            + "The flag jbs-query-bookings-api-flag is not configured in Launch Darkly")))
-    //            .andReturn();
-    //}
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {

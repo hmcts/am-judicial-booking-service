@@ -21,9 +21,6 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.ArgumentMatchers.anyString;
-//import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -53,21 +50,6 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
         MockitoAnnotations.openMocks(this);
         doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
     }
-
-    //@Test
-    //public void shouldRejectRequestWithLDFlagDisable() throws Exception {
-    //    var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
-    //            LocalDate.now()));
-
-    //    mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
-    //                    .headers(getHttpHeaders())
-    //                    .content(mapper.writeValueAsBytes(request)))
-    //            .andExpect(status().is4xxClientError())
-    //            .andExpect(jsonPath(EXPRESSION)
-    //                    .value(containsString("Forbidden: Insufficient permissions: "
-    //                            + "Launch Darkly flag is not enabled for the endpoint")))
-    //            .andReturn();
-    //}
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
