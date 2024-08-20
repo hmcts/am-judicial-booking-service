@@ -80,13 +80,13 @@ env.TESTCONTAINERS_HUB_IMAGE_NAME_PREFIX="hmctspublic.azurecr.io/imported/"
 
 withPipeline(type, product, component) {
   if (env.BRANCH_NAME.startsWith("PR")) {
-    env.LAUNCH_DARKLY_ENV = "pr"
+    env.JBS_ENV = "pr"
   }
   else if(env.BRANCH_NAME == 'master') {
-    env.LAUNCH_DARKLY_ENV = "aat"
+    env.JBS_ENV = "aat"
   }
   else {
-    env.LAUNCH_DARKLY_ENV = env.BRANCH_NAME
+    env.JBS_ENV = env.BRANCH_NAME
   }
   onMaster {
     enableSlackNotifications('#am-master-builds')
