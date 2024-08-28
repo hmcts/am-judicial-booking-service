@@ -1,8 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 
-import com.launchdarkly.sdk.LDUser;
-import com.launchdarkly.sdk.server.interfaces.LDClientInterface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,9 +29,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -57,31 +52,11 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
     @MockBean
     SecurityUtils securityUtilsMock;
 
-    @MockBean
-    private LDClientInterface ldClient;
-
 
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
         MockitoAnnotations.openMocks(this);
-        doReturn(true).when(ldClient).isFlagKnown(anyString());
-        doReturn(true).when(ldClient).boolVariation(anyString(), any(LDUser.class), eq(false));
-    }
-
-    @Test
-    public void shouldRejectRequestWithLDFlagDisable() throws Exception {
-        BookingQueryRequest request = new BookingQueryRequest(UserRequest.builder().build());
-        doReturn(false).when(ldClient).isFlagKnown(anyString());
-
-        mockMvc.perform(post(URL).contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.errorDescription")
-                        .value(containsString("Resource not found: "
-                                + "The flag jbs-query-bookings-api-flag is not configured in Launch Darkly")))
-                .andReturn();
     }
 
     @Test
