@@ -39,7 +39,6 @@ def secrets = [
         ],
         'am-${env}': [
                 secret('role-assignment-service-IDAM-CLIENT-SECRET', 'JUDICIAL_BOOKING_IDAM_CLIENT_SECRET'),
-                secret('role-assignment-service-LD-SDK-KEY', 'LD_SDK_KEY'),
                 secret('test-am-user1-befta-pwd', 'TEST_AM_USER1_BEFTA_PWD'),
                 secret('test-am-user2-befta-pwd', 'TEST_AM_USER2_BEFTA_PWD'),
                 secret('test-am-user3-befta-pwd', 'TEST_AM_USER3_BEFTA_PWD'),
@@ -47,16 +46,6 @@ def secrets = [
         ]
 ]
 withNightlyPipeline(type, product, component) {
-
-  if (env.BRANCH_NAME.startsWith("PR")) {
-    env.LAUNCH_DARKLY_ENV = "pr"
-  }
-  else if (env.BRANCH_NAME == 'master') {
-    env.LAUNCH_DARKLY_ENV = "aat"
-  }
-  else {
-    env.LAUNCH_DARKLY_ENV = env.BRANCH_NAME
-  }
 
 // Vars needed for functional and smoke tests to run against AKS
   env.TEST_URL = "http://am-judicial-booking-service-aat.service.core-compute-aat.internal"
