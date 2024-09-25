@@ -48,7 +48,7 @@ def versions = [
         springSecurity     : '5.8.14',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
-        tomcat             : '9.0.93',
+        tomcat             : '9.0.95',
         pact_version       : '4.1.7',
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
@@ -398,7 +398,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.8'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.10.RELEASE'
-    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.8'
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.9'
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurity
     implementation group: 'org.springframework.security', name: 'spring-security-web', version: versions.springSecurity
     implementation group: 'org.springframework.security', name: 'spring-security-config', version: versions.springSecurity
@@ -436,7 +436,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
-    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.40'
+    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.41.1'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
 
     //Added for S2S and User Authentication
