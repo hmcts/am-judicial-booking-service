@@ -295,7 +295,7 @@ task migratePostgresDatabase(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
 }
 
 pitest {
-    pitestVersion = '1.17.0'
+    pitestVersion = versions.pitest
     targetClasses = ['uk.gov.hmcts.reform.*']
     excludedClasses = ['uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication',
                        'uk.gov.hmcts.reform.judicialbooking.util.Swagger2SpringBoot',
