@@ -50,8 +50,8 @@ Feature: F-002 : Get Judicial Bookings
 
   @S-016
   Scenario: must successfully receive bookings for multiple users
-    Given a user with [an active IDAM profile with full permissions],
-    And a user with [an active IDAM profile with full permissionss],
+    Given a user [BeftaUser1 - with an active IDAM profile],
+    And a user [BeftaUser2 - with an active IDAM profile],
     And a successful call [to create a booking] as in [CreationBaseDataForBooking],
     And a successful call [to create a booking] as in [CreationBaseDataForBookingBeftaUser2],
     When a request is prepared with appropriate values,

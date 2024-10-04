@@ -3,7 +3,9 @@
   "_guid_": "S-016",
   "_extends_": "F-002_Test_Data_Base",
   "specs": [
-    "contains multiple users"
+    "contains multiple users",
+    "BeftaUser1 - with an active IDAM profile",
+    "BeftaUser2 - with an active IDAM profile"
   ],
   "users": {
     "invokingUser": {
