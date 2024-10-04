@@ -1,5 +1,5 @@
 {
-  "_guid_": "DeleteDataForBookingsBeftaUser",
+  "_guid_": "DeleteDataForBookingsBeftaUser2",
   "_extends_": "DeleteDataForBookings",
   "request": {
     "pathVariables": {

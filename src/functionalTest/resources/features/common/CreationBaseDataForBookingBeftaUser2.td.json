@@ -1,5 +1,5 @@
 {
-  "_guid_": "CreationBaseDataForBookingBeftaUser",
+  "_guid_": "CreationBaseDataForBookingBeftaUser2",
   "_extends_": "CreationBaseDataForBooking",
   "request": {
     "body": {
