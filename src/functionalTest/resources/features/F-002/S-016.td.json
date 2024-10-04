@@ -5,8 +5,10 @@
   "specs": [
     "contains multiple users",
     "BeftaUser1 - with an active IDAM profile",
-    "BeftaUser2 - with an active IDAM profile"
+    "BeftaUser2 - with an active IDAM profile",
+    "comes from an approved S2S serivce that is also permitted to bypass the UserId validation"
   ],
+  "s2sClientId": "am_org_role_mapping_service",
   "users": {
     "invokingUser": {
         "_extends_": "BeftaUser1"
