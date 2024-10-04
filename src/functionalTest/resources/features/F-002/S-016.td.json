@@ -19,7 +19,8 @@
     "body": {
       "bookings":[
         {
-          "__ordering__": "ordered"
+          "__ordering__": "unordered",
+          "__elementId__": "userId,regionId,locationId"
         },
         {
           "id": "[[ANYTHING_PRESENT]]",
