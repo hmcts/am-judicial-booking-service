@@ -1,10 +1,17 @@
 {
   "_guid_": "CreationBaseDataForBookingBeftaUser2",
   "_extends_": "CreationBaseDataForBooking",
+
+  "users": {
+    "invokingUser": {
+      "_extends_": "BeftaUser2"
+    }
+  },
+
   "request": {
     "body": {
       "bookingRequest": {
-        "userId": "cf07ea33-31c0-4442-b2df-e2032d21b496",
+        "userId": "${[scenarioContext][testData][users][invokingUser][id]}",
         "locationId": "location2",
         "regionId": "region2"
       }
