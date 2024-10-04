@@ -1,6 +1,6 @@
 {
   "title": "must receive an error response when querying a different users bookings",
-  "_guid_": "S-016",
+  "_guid_": "S-017",
   "_extends_": "F-002_Test_Data_Base",
   "specs": [
     "contains a call for a different users bookings",
