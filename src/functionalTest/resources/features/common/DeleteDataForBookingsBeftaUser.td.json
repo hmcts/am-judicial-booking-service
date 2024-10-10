@@ -1,9 +1,0 @@
-{
-  "_guid_": "DeleteDataForBookingsBeftaUser",
-  "_extends_": "DeleteDataForBookings",
-  "request": {
-    "pathVariables": {
-      "userId": "${[scenarioContext][parentContext][testData][actualResponse][body][bookings][1][userId]}"
-    }
-  }
-}

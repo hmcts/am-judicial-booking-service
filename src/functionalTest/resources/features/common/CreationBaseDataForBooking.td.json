@@ -7,7 +7,7 @@
   ],
   "method": "POST",
   "uri": "am/bookings",
-
+  "s2sClientId": "xui_webapp",
   "users": {
     "invokingUser": {
       "_extends_": "BeftaUser1"
