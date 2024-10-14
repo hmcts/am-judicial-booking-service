@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
