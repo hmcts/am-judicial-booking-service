@@ -48,13 +48,13 @@ def versions = [
         springSecurity     : '5.8.14',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
-        tomcat             : '9.0.95',
+        tomcat             : '9.0.96',
         pact_version       : '4.1.7',
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
         feign_jackson      : '13.5',
         jacksondata        : '2.18.0',
-        log4JVersion       : '2.23.1',
+        log4JVersion       : '2.24.1',
         logbackVersion     : '1.2.13'
 ]
 
@@ -444,7 +444,7 @@ dependencies {
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
 
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
-    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.10'
+    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.6.11'
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.10')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
