@@ -1,0 +1,35 @@
+{
+  "title": "must receive an error response when querying a different users bookings",
+  "_guid_": "S-017",
+  "_extends_": "F-002_Test_Data_Base",
+  "specs": [
+    "contains a call for a different users bookings",
+    "BeftaUser1 - with an active IDAM profile",
+    "BeftaUser2 - with an active IDAM profile",
+    "comes from an approved S2S serivce that is not permitted to bypass the UserId validation"
+  ],
+  "s2sClientId": "xui_webapp",
+  "users": {
+    "invokingUser": {
+        "_extends_": "BeftaUser1"
+    },
+    "beftaUser2": {
+      "_extends_": "BeftaUser2"
+    }
+  },
+  "request": {
+    "body": {
+      "queryRequest" : {
+        "userIds" : [
+          "${[scenarioContext][testData][users][beftaUser2][id]}"
+        ]
+      }
+    }
+  },
+  "expectedResponse": {
+    "_extends_": "UnprocessableEntityResponse",
+    "body" : {
+      "errorDescription" : "The userId is invalid"
+    }
+  }
+}

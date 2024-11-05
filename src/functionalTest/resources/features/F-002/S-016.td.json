@@ -3,14 +3,27 @@
   "_guid_": "S-016",
   "_extends_": "F-002_Test_Data_Base",
   "specs": [
-    "contains multiple users"
+    "contains multiple users",
+    "BeftaUser1 - with an active IDAM profile",
+    "BeftaUser2 - with an active IDAM profile",
+    "comes from an approved S2S serivce that is also permitted to bypass the UserId validation"
   ],
+  "s2sClientId": "am_org_role_mapping_service",
+  "users": {
+    "invokingUser": {
+        "_extends_": "BeftaUser1"
+    },
+    "beftaUser2": {
+      "_extends_": "BeftaUser2"
+    }
+  },
   "request": {
     "body": {
       "queryRequest" : {
-        "userIds" : ["${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser][testData][actualResponse][body][bookingResponse][userId]}",
-          "${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][actualResponse][body][bookingResponse][userId]}"
-          ]
+        "userIds" : [
+          "${[scenarioContext][testData][users][invokingUser][id]}",
+          "${[scenarioContext][testData][users][beftaUser2][id]}"
+        ]
       }
     }
   },
@@ -24,18 +37,18 @@
         },
         {
           "id": "[[ANYTHING_PRESENT]]",
-          "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][0]}",
-          "locationId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser][testData][request][body][bookingRequest][locationId]}",
-          "regionId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser][testData][request][body][bookingRequest][regionId]}",
+          "userId": "${[scenarioContext][testData][users][invokingUser][id]}",
+          "locationId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser1][testData][request][body][bookingRequest][locationId]}",
+          "regionId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser1][testData][request][body][bookingRequest][regionId]}",
           "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"
         },
         {
           "id": "[[ANYTHING_PRESENT]]",
-          "userId": "${[scenarioContext][testData][request][body][queryRequest][userIds][1]}",
-          "locationId": "${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][request][body][bookingRequest][locationId]}",
-          "regionId": "${[scenarioContext][childContexts][CreationBaseDataForBooking][testData][request][body][bookingRequest][regionId]}",
+          "userId": "${[scenarioContext][testData][users][beftaUser2][id]}",
+          "locationId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser2][testData][request][body][bookingRequest][locationId]}",
+          "regionId": "${[scenarioContext][childContexts][CreationBaseDataForBookingBeftaUser2][testData][request][body][bookingRequest][regionId]}",
           "beginTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "endTime": "[[ANY_TIMESTAMP_NOT_NULLABLE]]",
           "created" : "[[ANY_TIMESTAMP_NOT_NULLABLE]]"

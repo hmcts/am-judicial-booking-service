@@ -1,0 +1,16 @@
+{
+  "_guid_": "DeleteDataForBookingsBeftaUser1",
+  "_extends_": "DeleteDataForBookings",
+
+  "users": {
+    "invokingUser": {
+      "_extends_": "BeftaUser1"
+    }
+  },
+
+  "request": {
+    "pathVariables": {
+      "userId": "${[scenarioContext][testData][users][invokingUser][id]}"
+    }
+  }
+}
