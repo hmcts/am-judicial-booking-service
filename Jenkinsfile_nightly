@@ -33,17 +33,19 @@ def vaultOverrides = [
 ]
 
 def secrets = [
-        's2s-${env}': [
-                secret('microservicekey-am-judicial-booking-service', 'BEFTA_S2S_CLIENT_SECRET'),
-                secret('microservicekey-am-judicial-booking-service', 'AM_JUDICIAL_BOOKING_SERVICE_SECRET')
-        ],
-        'am-${env}': [
-                secret('role-assignment-service-IDAM-CLIENT-SECRET', 'JUDICIAL_BOOKING_IDAM_CLIENT_SECRET'),
-                secret('test-am-user1-befta-pwd', 'TEST_AM_USER1_BEFTA_PWD'),
-                secret('test-am-user2-befta-pwd', 'TEST_AM_USER2_BEFTA_PWD'),
-                secret('test-am-user3-befta-pwd', 'TEST_AM_USER3_BEFTA_PWD'),
-                secret('role-assignment-service-IDAM-CLIENT-SECRET', 'OAUTH2_CLIENT_SECRET')
-        ]
+    's2s-${env}': [
+            secret('microservicekey-am-judicial-booking-service', 'BEFTA_S2S_CLIENT_SECRET'),
+            secret('microservicekey-am-judicial-booking-service', 'AM_JUDICIAL_BOOKING_SERVICE_SECRET'),
+            secret('microservicekey-am-org-role-mapping-service', 'BEFTA_S2S_CLIENT_SECRET_OF_AM_ORG_ROLE_MAPPING_SERVICE'),
+            secret('microservicekey-xui-webapp', 'BEFTA_S2S_CLIENT_SECRET_OF_XUI_WEBAPP')
+    ],
+    'am-${env}': [
+            secret('role-assignment-service-IDAM-CLIENT-SECRET', 'JUDICIAL_BOOKING_IDAM_CLIENT_SECRET'),
+            secret('test-am-user1-befta-pwd', 'TEST_AM_USER1_BEFTA_PWD'),
+            secret('test-am-user2-befta-pwd', 'TEST_AM_USER2_BEFTA_PWD'),
+            secret('test-am-user3-befta-pwd', 'TEST_AM_USER3_BEFTA_PWD'),
+            secret('role-assignment-service-IDAM-CLIENT-SECRET', 'OAUTH2_CLIENT_SECRET')
+    ]
 ]
 withNightlyPipeline(type, product, component) {
 
@@ -55,6 +57,8 @@ withNightlyPipeline(type, product, component) {
   env.DEFINITION_STORE_HOST = "http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
   env.DEFINITION_STORE_URL_BASE = "http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
   env.BEFTA_S2S_CLIENT_ID = "am_judicial_booking_service"
+  env.BEFTA_S2S_CLIENT_ID_OF_AM_ORG_ROLE_MAPPING_SERVICE = "am_org_role_mapping_service"
+  env.BEFTA_S2S_CLIENT_ID_OF_XUI_WEBAPP = "xui_webapp"
   env.BEFTA_RETRY_MAX_ATTEMPTS = "3"
   env.BEFTA_RETRY_STATUS_CODES = "502,503,504"
   env.BEFTA_RETRY_MAX_DELAY = "1000"
