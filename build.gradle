@@ -45,7 +45,7 @@ def versions = [
         sonarPitest        : '0.5',
         springBoot         : '2.7.18',
         spring             : '5.3.39',
-        springSecurity     : '5.8.14',
+        springSecurity     : '5.8.15',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
         tomcat             : '9.0.96',
@@ -53,7 +53,7 @@ def versions = [
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
         feign_jackson      : '13.5',
-        jacksondata        : '2.18.0',
+        jacksondata        : '2.18.1',
         log4JVersion       : '2.24.1',
         logbackVersion     : '1.2.13'
 ]
@@ -398,7 +398,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.9'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.10.RELEASE'
-    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.9'
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '2.0.10'
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: versions.springSecurity
     implementation group: 'org.springframework.security', name: 'spring-security-web', version: versions.springSecurity
     implementation group: 'org.springframework.security', name: 'spring-security-config', version: versions.springSecurity
