@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @WithTags({@WithTag("testType:Smoke")})
 public class SmokeTest extends BaseTest {
+
     public static final String AUTHORIZATION = "Authorization";
     public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
     public static final String BEARER = "Bearer ";
@@ -56,8 +57,8 @@ public class SmokeTest extends BaseTest {
                 .when()
                 .post(targetInstance)
                 .andReturn();
-        response.then().assertThat().statusCode(HttpStatus.OK.value());
 
+        response.then().assertThat().statusCode(HttpStatus.OK.value());
     }
 
     public static String getRequiredVariable(String name) {
