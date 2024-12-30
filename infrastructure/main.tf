@@ -12,6 +12,7 @@ locals {
   previewResourceGroup    = join("-", [var.raw_product, "shared-infrastructure-aat"])
   nonPreviewResourceGroup = join("-", [var.raw_product, "shared-infrastructure", var.env])
   sharedResourceGroup     = (var.env == "preview" || var.env == "spreview") ? local.previewResourceGroup : local.nonPreviewResourceGroup
+  dbName                  = join("-", [local.app_full_name, "postgres-db", "v15"])
 }
 
 data "azurerm_key_vault" "am_key_vault" {
@@ -77,7 +78,7 @@ module "judicial-booking-database-v15" {
 
   admin_user_object_id = var.jenkins_AAD_objectId
   business_area        = "cft"
-  name                 = join("-", [local.app_full_name, "postgres-db", "v15"])
+  name                 = local.dbName
   product              = var.product
   env                  = var.env
   component            = var.component
@@ -98,6 +99,10 @@ module "judicial-booking-database-v15" {
 
   # The original subnet is full, this is required to use the new subnet for new databases
   subnet_suffix = "expanded"
+
+  action_group_name = join("-", [local.dbName, var.action_group_name])
+  email_address_key = var.email_address_key
+  email_address_key_vault_id = data.azurerm_key_vault.am_key_vault.id
 
   pgsql_databases = [
     {
