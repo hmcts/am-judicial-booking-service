@@ -14,7 +14,7 @@ plugins {
     id 'uk.gov.hmcts.java' version '0.12.63'
     id 'pmd'
     id 'jacoco'
-    id 'io.spring.dependency-management' version '1.1.6'
+    id 'io.spring.dependency-management' version '1.1.7'
     id 'org.springframework.boot' version '2.7.18'
     id 'info.solidsoft.pitest' version '1.15.0'
     id 'com.github.ben-manes.versions' version '0.51.0'
@@ -467,7 +467,7 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     testImplementation 'com.github.hmcts:befta-fw:9.1.0'
-    testImplementation 'com.github.hmcts:fortify-client:1.4.5:all'
+    testImplementation 'com.github.hmcts:fortify-client:1.4.6:all'
 
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
