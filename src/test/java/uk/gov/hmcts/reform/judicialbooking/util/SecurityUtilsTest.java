@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -22,17 +21,16 @@ import uk.gov.hmcts.reform.judicialbooking.oidc.IdamRepository;
 import uk.gov.hmcts.reform.judicialbooking.oidc.JwtGrantedAuthoritiesConverter;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.SERVICE_AUTHORIZATION;
@@ -57,14 +55,10 @@ class SecurityUtilsTest {
     @Mock
     Jwt jwtMock = mock(Jwt.class);
 
-    @Mock
-    JwtDecoder jwtDecoder = mock(JwtDecoder.class);
-
     @InjectMocks
     private final SecurityUtils securityUtils = new SecurityUtils(
             authTokenGenerator,
-            jwtGrantedAuthoritiesConverter,
-            jwtDecoder
+            jwtGrantedAuthoritiesConverter
     );
 
     private final String serviceAuthorization = "Bearer eyJhbGciOiJIUzUxMiJ9"
@@ -166,7 +160,6 @@ class SecurityUtilsTest {
     @Test
     void removeBearerFromToken() {
         when(jwtMock.getSubject()).thenReturn(SUBJECT);
-        when(jwtDecoder.decode(anyString())).thenReturn(jwtMock);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorization);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -176,7 +169,6 @@ class SecurityUtilsTest {
     @Test
     void removeBearerFromToken_NoBearerTag() {
         when(jwtMock.getSubject()).thenReturn(SUBJECT);
-        when(jwtDecoder.decode(anyString())).thenReturn(jwtMock);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorizationNoBearer);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));

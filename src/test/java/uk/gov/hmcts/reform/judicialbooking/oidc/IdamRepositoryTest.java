@@ -58,7 +58,6 @@ class IdamRepositoryTest {
     @Mock
     private CacheManager cacheManager = mock(CacheManager.class);
 
-
     private RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
     IdamRepository idamRepository;
@@ -67,14 +66,10 @@ class IdamRepositoryTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         idamRepository = new IdamRepository(idamApi, oidcAdminConfiguration,
-                oauth2Configuration, restTemplate,
-                cacheManager
-        );
+                oauth2Configuration, restTemplate, cacheManager);
         ReflectionTestUtils.setField(
                 idamRepository,
-                "cacheType", ""
-
-        );
+                "cacheType", "");
     }
 
     @Test
@@ -95,7 +90,6 @@ class IdamRepositoryTest {
         verify(cacheManager, times(1)).getCache(any());
         verify(caffeineCacheMock, times(1)).getNativeCache();
         verify(cache, times(1)).estimatedSize();
-
     }
 
     @Test
@@ -147,14 +141,10 @@ class IdamRepositoryTest {
                 .exchange(anyString(), any(), any(), (Class<?>) any(Class.class));
 
         assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(token, userId));
-
-
     }
 
     @Test
     void shouldReturnUserRoles() {
-
-
         Map<String, Object> mapRoles = new HashMap<>();
 
         mapRoles.put("userRoles", List.of("caseworker", "am_import"));
@@ -172,18 +162,13 @@ class IdamRepositoryTest {
         ResponseEntity<List<Object>> actualResponse = idamRepository.searchUserByUserId(token, userId);
         assertNotNull(actualResponse);
         assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
-
-
     }
 
     @Test
     void testGetManageUserToken() {
         CaffeineCache caffeineCacheMock = mock(CaffeineCache.class);
-        com.github.benmanes.caffeine.cache.Cache cache = mock(com.github.benmanes.caffeine.cache.Cache.class);
-
         when(cacheManager.getCache(anyString())).thenReturn(caffeineCacheMock);
         when(caffeineCacheMock.getNativeCache()).thenReturn(null);
-
         assertThrows(NullPointerException.class, () -> idamRepository.getManageUserToken("123"));
     }
 

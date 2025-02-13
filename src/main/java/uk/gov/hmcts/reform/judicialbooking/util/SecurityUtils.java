@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -26,16 +25,11 @@ public class SecurityUtils {
     public static final String SERVICE_AUTHORIZATION = "serviceauthorization";
     public static final String BEARER = "Bearer ";
 
-    public JwtDecoder jwtDecoder;
-
     @Autowired
     public SecurityUtils(final AuthTokenGenerator authTokenGenerator,
-                         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter,
-                         JwtDecoder jwtDecoder
-    ) {
+                         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter) {
         this.authTokenGenerator = authTokenGenerator;
         this.jwtGrantedAuthoritiesConverter = jwtGrantedAuthoritiesConverter;
-        this.jwtDecoder = jwtDecoder;
     }
 
     public HttpHeaders authorizationHeaders() {
