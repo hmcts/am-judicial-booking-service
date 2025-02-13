@@ -246,6 +246,7 @@ runProviderPactVerification.dependsOn contract
 runProviderPactVerification.finalizedBy pactVerify
 
 pact {
+    version = '4.6.16'
     broker {
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
     }
