@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller.advice;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,11 @@ import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceN
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ServiceException;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 class JudicialBookingControllerAdviceTest {

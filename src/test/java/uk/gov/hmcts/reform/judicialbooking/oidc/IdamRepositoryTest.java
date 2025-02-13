@@ -1,13 +1,12 @@
 package uk.gov.hmcts.reform.judicialbooking.oidc;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.core.ParameterizedTypeReference;
@@ -44,7 +43,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 class IdamRepositoryTest {
 
     @Mock
@@ -184,20 +183,12 @@ class IdamRepositoryTest {
 
         when(cacheManager.getCache(anyString())).thenReturn(caffeineCacheMock);
         when(caffeineCacheMock.getNativeCache()).thenReturn(null);
-        when(cache.estimatedSize()).thenReturn(1L);
 
-        when(oauth2Configuration.getClientId()).thenReturn("clientId");
-        when(oauth2Configuration.getClientSecret()).thenReturn("secret");
-        when(oidcAdminConfiguration.getSecret()).thenReturn("password");
-        when(oidcAdminConfiguration.getScope()).thenReturn("scope");
-        TokenResponse tokenResponse = new
-                TokenResponse("a", "1", "1", "a", "v", "v");
-        when(idamApi.generateOpenIdToken(any())).thenReturn(tokenResponse);
-        Assert.assertThrows(NullPointerException.class, () -> idamRepository.getManageUserToken("123"));
+        assertThrows(NullPointerException.class, () -> idamRepository.getManageUserToken("123"));
     }
 
     @Test
     void testGetHttpHeaders() {
-        Assert.assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(null, null));
+        assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(null, null));
     }
 }

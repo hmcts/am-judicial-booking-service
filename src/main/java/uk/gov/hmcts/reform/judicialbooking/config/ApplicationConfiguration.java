@@ -44,7 +44,6 @@ public class ApplicationConfiguration {
         return builder.requestFactory(HttpComponentsClientHttpRequestFactory.class)
                 .setConnectTimeout(Duration.ofSeconds(timeout))
                 .setReadTimeout(Duration.ofSeconds(timeout))
-                .setBufferRequestBody(true)
                 .build();
     }
 }
