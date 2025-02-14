@@ -229,13 +229,6 @@ task runAndPublishConsumerPactTests(type: Test, description: 'Publish pact test 
     systemProperty 'pact.rootDir', "pacts"
 }
 
-tasks.register("pactPublish") {
-    dependsOn("runAndPublishConsumerPactTests")
-    doLast {
-        println("Publishing Pacts...")
-    }
-}
-
 runAndPublishConsumerPactTests.finalizedBy pactPublish
 
 task runProviderPactVerification(type: Test) {
@@ -260,6 +253,7 @@ pact {
     }
     publish {
         pactDirectory = 'pacts'
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
         version = project.pacticipantVersion
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
     }
