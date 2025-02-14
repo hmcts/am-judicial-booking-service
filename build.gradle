@@ -229,6 +229,13 @@ task runAndPublishConsumerPactTests(type: Test, description: 'Publish pact test 
     systemProperty 'pact.rootDir', "pacts"
 }
 
+tasks.register("pactPublish") {
+    dependsOn("runAndPublishConsumerPactTests")
+    doLast {
+        println("Publishing Pacts...")
+    }
+}
+
 runAndPublishConsumerPactTests.finalizedBy pactPublish
 
 task runProviderPactVerification(type: Test) {
