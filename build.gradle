@@ -253,10 +253,13 @@ pact {
     publish {
         pactDirectory = 'pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
-        pactBrokerToken = System.getenv("PACT_BROKER_TOKEN")
         version = project.pacticipantVersion
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
     }
+}
+
+pactPublish {
+    pactPublish = project.pact.publish
 }
 
 jacocoTestReport {
