@@ -2,40 +2,18 @@ server:
   port: ${PORT:4097}
 
 management:
-  health:
-    db:
-      enabled: true
-    defaults:
-      enabled: true
-    diskspace:
-      enabled: true
-    probes:
-      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,data-extract
+      base-path: /
   endpoint:
     health:
-      show-details: "always"
+      show-details: always
       enabled: true
-      cache:
-        time-to-live: 1s
-      group:
-        readiness:
-          include: "db"
-    # METRICS ENDPOINT CONFIG
-    # Enable the metrics endpoint
-    metrics:
-      enabled: true
-      cache:
-        time-to-live: 1s
-  endpoints:
-    health:
-      sensitive: true
-    web:
-      base-path: /
-      exposure:
-        include: "*"
-  server:
-    servlet:
-      context-path: /
+  health:
+    db:
+      enabled: false
 
 security:
   anonymousPaths:
