@@ -36,7 +36,6 @@ def versions = [
         reformS2sClient    : '5.3.0',
         serenity           : '4.2.16',
         pact_version       : '4.6.16',
-        pact_version_cn    : '4.1.43',
         rest_assured       : '5.5.0',
         cucumber           : '7.20.1',
         feign_jackson      : '13.5',
@@ -500,9 +499,10 @@ dependencies {
     contractTestImplementation group: 'org.junit.platform', name: 'junit-platform-commons', version: versions.junitPlatform
     contractTestRuntimeOnly group: 'org.junit.platform', name: 'junit-platform-engine', version: versions.junitPlatform
 
-    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version_cn
-    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version_cn
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
+    contractTestRuntimeOnly group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
     contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact_version
     contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
 
     integrationTestImplementation sourceSets.main.runtimeClasspath
