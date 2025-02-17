@@ -13,41 +13,48 @@ management:
       enabled: true
   endpoint:
     health:
+      show-details: "always"
       enabled: true
       cache:
-        time-to-live: 5s
-      show-details: "always"
+        time-to-live: 1s
       group:
         readiness:
           include: "db"
-  security:
-    enabled: true
+    # METRICS ENDPOINT CONFIG
+    # Enable the metrics endpoint
+    metrics:
+      enabled: true
+      cache:
+        time-to-live: 1s
   endpoints:
     health:
       sensitive: true
     web:
       base-path: /
       exposure:
-        include: 'health'
+        include: "*"
+  server:
+    servlet:
+      context-path: /
 
 security:
   anonymousPaths:
     - "/"
-    - "/health"
-    - "/health/liveness"
-    - "/health/readiness"
     - "/health/**"
-    - "/actuator/**"
+    - "/health/liveness"
     - "/loggers/**"
     - "/swagger"
     - "/swagger-ui.html"
+    - "/swagger-resources/**"
     - "/swagger-ui/**"
     - "/v3/api-docs/**"
+    - "/v3/**"
     - "/search/**"
     - "/csrf"
     - "/error"
     - "/favicon.ico"
     - "/status/health"
+    - "/welcome"
   authorisedRoles:
   authorisedServices: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:am_judicial_booking_service}
 
@@ -74,12 +81,16 @@ spring:
   flyway.enabled: ${ENABLE_DB_MIGRATE:true}
   flyway.locations: classpath:db/migration
   datasource:
-    driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://${JUDICIAL_BOOKING_SERVICE_POSTGRES_HOST:localhost}:${JUDICIAL_BOOKING_SERVICE_POSTGRES_PORT:5451}/${JUDICIAL_BOOKING_SERVICE_POSTGRES_DATABASE:judicial_booking}${JUDICIAL_BOOKING_SERVICE_DB_OPTIONS:}
     username: ${JUDICIAL_BOOKING_SERVICE_POSTGRES_USER:am}
     password: ${JUDICIAL_BOOKING_SERVICE_POSTGRES_PASS:am}
     properties:
-      charSet: UTF-8
+      charSet: UTFh-8
+    hikari:
+      maximumPoolSize: ${MAX_POOL_SIZE:8}
+      poolName: AMHikariCP
+      connectionTimeout: ${CONNECTION_TIMEOUT:50000}
+      keepAliveTime: ${KEEP_ALIVE_TIME:60000}
   security:
     oauth2:
       client:
