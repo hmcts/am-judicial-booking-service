@@ -428,7 +428,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
-    testImplementation group: 'io.zonky.test', name: 'embedded-postgres', version: '2.1.0'
+    testImplementation('com.opentable.components:otj-pg-embedded:1.1.0')
     testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.16'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
@@ -463,8 +463,7 @@ dependencies {
         exclude group: 'junit', module: 'junit'
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    smokeTestImplementation group: 'io.zonky.test', name: 'embedded-postgres', version: '2.1.0'
-
+    smokeTestImplementation('com.opentable.components:otj-pg-embedded:1.1.0')
     smokeTestImplementation(group: 'com.github.hmcts', name: 'befta-fw', version: versions.befta) {
         exclude group: 'com.github.hmcts', module: 'service-auth-provider-java-client'
     }

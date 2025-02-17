@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 
-import io.zonky.test.db.postgres.embedded.EmbeddedPostgres;
+import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -39,7 +39,7 @@ public abstract class BaseTestIntegration extends BaseTest {
             // Instruct JDBC to accept JSON string for JSONB
             props.setProperty("stringtype", "unspecified");
             props.setProperty("user", "postgres");
-            connection = DriverManager.getConnection(pg.getJdbcUrl("postgres", "postgres"), props);
+            connection = DriverManager.getConnection(pg.getJdbcUrl("postgres"), props);
             return new SingleConnectionDataSource(connection, true);
         }
 
