@@ -558,7 +558,6 @@ configurations.all {
     exclude group: 'org.codehaus.groovy', module: 'groovy-xml'
     exclude group: 'org.codehaus.groovy', module: 'groovy-json'
     exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
-    exclude group: 'junit', module: 'junit'
 }
 
 cucumberReports {
