@@ -250,8 +250,6 @@ pact {
     publish {
         pactDirectory = 'pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
-        println 'pact-pactBrokerUrl in publish =' +  pactBrokerUrl
-        println 'pact-System.getenv("PACT_BROKER_FULL_URL") in publish =' +  System.getenv("PACT_BROKER_FULL_URL")
         version = project.pacticipantVersion
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
     }
