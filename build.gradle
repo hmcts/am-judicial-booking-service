@@ -146,7 +146,6 @@ project.ext {
         // DTSAM-382 GIT_COMMIT null in local build fix
         pacticipantVersion = getCheckedOutGitCommitHash()
     }
-    println 'pact-pacticipantVersion in ext =' +  project.pacticipantVersion
 }
 
 static def getCheckedOutGitCommitHash() {
@@ -241,8 +240,6 @@ task runProviderPactVerification(type: Test) {
         systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
     }
     systemProperty 'pact.provider.version', project.pacticipantVersion
-    println 'pact-pacticipantVersion in runProviderPactVerification =' +  project.pacticipantVersion
-
     include "uk/gov/hmcts/reform/judicialbooking/**"
 }
 
@@ -250,14 +247,12 @@ runProviderPactVerification.dependsOn contract
 runProviderPactVerification.finalizedBy pactVerify
 
 pact {
-    broker {
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
-    }
     publish {
         pactDirectory = 'pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
+        println 'pact-pactBrokerUrl in publish =' +  pactBrokerUrl
+        println 'pact-System.getenv("PACT_BROKER_FULL_URL") in publish =' +  System.getenv("PACT_BROKER_FULL_URL")
         version = project.pacticipantVersion
-        println 'pact-pacticipantVersion in pact publish =' +  project.pacticipantVersion
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
     }
 }
