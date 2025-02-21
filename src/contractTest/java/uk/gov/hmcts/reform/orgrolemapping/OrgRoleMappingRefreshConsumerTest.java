@@ -5,7 +5,7 @@ import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.core.model.V4Pact;
+import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import au.com.dius.pact.core.model.annotations.PactFolder;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -83,7 +83,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     }
 
     @Pact(provider = "am_orgRoleMapping_refresh", consumer = "accessMgmt_judicialBooking")
-    public V4Pact executeRefreshJudicial(PactDslWithProvider builder) throws JsonProcessingException {
+    public RequestResponsePact executeRefreshJudicial(PactDslWithProvider builder) throws JsonProcessingException {
 
         return builder
                 .given("A refresh request is received with a valid userId passed")
@@ -95,7 +95,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
                 .status(HttpStatus.OK.value())
                 .headers(getResponseHeaders())
                 .body(createJudicialRefreshResponse())
-                .toPact(V4Pact.class);
+                .toPact();
     }
 
     @Test
