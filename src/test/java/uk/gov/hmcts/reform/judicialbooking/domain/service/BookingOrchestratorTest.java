@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.judicialbooking.domain.service;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -71,11 +71,11 @@ class BookingOrchestratorTest {
                 BookingQueryRequest.builder().queryRequest(userRequest).build());
 
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
-        Assertions.assertNotNull(Objects.requireNonNull(response.getBody()).getBookingEntities());
-        Assertions.assertEquals(2, response.getBody().getBookingEntities().size());
-        Assertions.assertEquals(userRequest.getUserIds().get(0),
+        assertNotNull(Objects.requireNonNull(response.getBody()).getBookingEntities());
+        assertEquals(2, response.getBody().getBookingEntities().size());
+        assertEquals(userRequest.getUserIds().get(0),
                 response.getBody().getBookingEntities().get(0).getUserId());
-        Assertions.assertEquals(userRequest.getUserIds().get(1),
+        assertEquals(userRequest.getUserIds().get(1),
                 response.getBody().getBookingEntities().get(1).getUserId());
 
     }
@@ -108,7 +108,7 @@ class BookingOrchestratorTest {
         when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
         ResponseEntity<Void> response = sut.deleteBookingByUserId(UUID.randomUUID().toString());
         assertNotNull(response);
-        Assert.assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
+        assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
     }
 
     @Test

@@ -1,13 +1,13 @@
 package uk.gov.hmcts.reform.judicialbooking.util;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import wiremock.com.jayway.jsonpath.internal.filter.ValueNode;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 class JacksonUtilsTest {
 
     @Test
