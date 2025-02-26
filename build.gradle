@@ -48,7 +48,7 @@ def versions = [
         springSecurity     : '5.8.16',
         springHystrix      : '2.1.1.RELEASE',
         swagger2Version    : '3.0.0',
-        tomcat             : '9.0.98',
+        tomcat             : '9.0.100',
         pact_version       : '4.1.7',
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
@@ -467,7 +467,7 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     testImplementation 'com.github.hmcts:befta-fw:9.1.0'
-    testImplementation 'com.github.hmcts:fortify-client:1.4.6:all'
+    testImplementation 'com.github.hmcts:fortify-client:1.4.7:all'
 
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
