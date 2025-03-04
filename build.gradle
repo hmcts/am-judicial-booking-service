@@ -53,7 +53,7 @@ def versions = [
         rest_assured       : '3.3.0',
         cucumber           : '5.7.0',
         feign_jackson      : '13.5',
-        jacksondata        : '2.18.2',
+        jacksondata        : '2.18.3',
         log4JVersion       : '2.24.3',
         logbackVersion     : '1.2.13'
 ]
