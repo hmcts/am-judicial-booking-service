@@ -247,6 +247,9 @@ runProviderPactVerification.dependsOn contract
 runProviderPactVerification.finalizedBy pactVerify
 
 pact {
+    broker {
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
+    }
     publish {
         pactDirectory = 'pacts'
         pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'

@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.orgrolemapping;
 
 import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.dsl.DslPart;
+import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
@@ -32,8 +33,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialRefreshRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
-
-import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
 
 import java.util.List;
 import java.util.Map;
@@ -84,9 +83,8 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     }
 
     private DslPart createJudicialRefreshResponse() {
-        return newJsonBody(o -> o
-                .stringValue("Message", "Role assignments have been refreshed successfully"))
-                .build();
+        return new PactDslJsonBody()
+                .stringValue("Message", "Role assignments have been refreshed successfully");
     }
 
     @Pact(provider = "am_orgRoleMapping_refresh", consumer = "accessMgmt_judicialBooking")
