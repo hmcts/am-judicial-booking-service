@@ -428,7 +428,7 @@ dependencies {
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.5.13'
     implementation group: 'com.google.guava', name: 'guava', version: '33.4.0-jre'
     implementation group: 'javax.inject', name: 'javax.inject', version: '1'
-    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.8'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.0'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
@@ -482,7 +482,7 @@ dependencies {
     integrationTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     integrationTestImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
 
-    implementation group: 'org.pitest', name: 'pitest-junit5-plugin', version: '1.2.1'
+    implementation group: 'org.pitest', name: 'pitest-junit5-plugin', version: '1.2.2'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     smokeTestCompileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
