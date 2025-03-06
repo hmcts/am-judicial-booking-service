@@ -158,6 +158,7 @@ tasks.withType(JavaCompile) {
 }
 
 task functional(type: JavaExec) {
+    useJUnitPlatform()
     description = "Runs the functional tests"
     group = "Verification"
 
