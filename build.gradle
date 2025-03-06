@@ -19,6 +19,7 @@ plugins {
 apply plugin: 'info.solidsoft.pitest'
 apply plugin: 'java'
 apply plugin: 'project-report'
+apply plugin: 'au.com.dius.pact'
 apply plugin: 'idea'
 apply plugin: 'io.spring.dependency-management'
 
@@ -163,7 +164,7 @@ task functional(type: JavaExec) {
     generateCucumberReports.enabled = false
     main("uk.gov.hmcts.reform.judicialbooking.befta.JudicialBookingAmBeftaMain")
     classpath += configurations.cucumberRuntime + sourceSets.functionalTest.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
-    args = ['--strict', '--tags', 'not @Ignore',
+    args = ['--strict',  '--tags', 'not @Ignore',
             '--plugin', "json:${rootDir}/target/cucumber.json", '--plugin', "junit:${buildDir}/test-results/functional/cucumber.xml",
             '--glue', 'uk.gov.hmcts.befta.player', 'src/functionalTest/resources/features'
     ]
@@ -229,6 +230,22 @@ task runAndPublishConsumerPactTests(type: Test, description: 'Publish pact test 
     systemProperty 'pact.rootDir', "pacts"
 }
 
+pact {
+    broker {
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
+    }
+    publish {
+        pactDirectory = 'pacts'
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
+        version = project.pacticipantVersion
+        tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
+    }
+}
+
+pactPublish {
+    pactPublish = project.pact.publish
+}
+
 runAndPublishConsumerPactTests.finalizedBy pactPublish
 
 task runProviderPactVerification(type: Test) {
@@ -245,24 +262,6 @@ task runProviderPactVerification(type: Test) {
 
 runProviderPactVerification.dependsOn contract
 runProviderPactVerification.finalizedBy pactVerify
-
-pact {
-    broker {
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
-    }
-    publish {
-        pactDirectory = 'pacts'
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:9292'
-        println 'pact-pactBrokerUrl in publish =' +  pactBrokerUrl
-        println 'pact-System.getenv("PACT_BROKER_FULL_URL") in publish =' +  System.getenv("PACT_BROKER_FULL_URL")
-        version = project.pacticipantVersion
-        tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
-    }
-}
-
-pactPublish {
-    pactPublish = project.pact.publish
-}
 
 jacocoTestReport {
     executionData(test)
