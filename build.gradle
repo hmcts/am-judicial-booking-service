@@ -18,7 +18,6 @@ plugins {
 
 apply plugin: 'info.solidsoft.pitest'
 apply plugin: 'java'
-apply plugin: 'net.serenity-bdd.aggregator'
 apply plugin: 'project-report'
 apply plugin: 'au.com.dius.pact'
 apply plugin: 'idea'
