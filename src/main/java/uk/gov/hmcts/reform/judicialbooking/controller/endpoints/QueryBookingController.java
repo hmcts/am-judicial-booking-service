@@ -18,7 +18,7 @@ import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.AUTHORIZATION;
 import static uk.gov.hmcts.reform.judicialbooking.apihelper.Constants.SERVICE_AUTHORIZATION2;
