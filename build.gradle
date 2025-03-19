@@ -423,7 +423,7 @@ dependencies {
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.8.0'
 
-    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.10.1'
     implementation 'commons-io:commons-io:20030203.000550'
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '8.5.13'
     implementation group: 'com.google.guava', name: 'guava', version: '33.4.0-jre'
