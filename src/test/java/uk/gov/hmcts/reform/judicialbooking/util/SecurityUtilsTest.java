@@ -21,10 +21,10 @@ import uk.gov.hmcts.reform.judicialbooking.oidc.IdamRepository;
 import uk.gov.hmcts.reform.judicialbooking.oidc.JwtGrantedAuthoritiesConverter;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,6 +52,9 @@ class SecurityUtilsTest {
     @Mock
     IdamRepository idamRepository = mock(IdamRepository.class);
 
+    @Mock
+    Jwt jwtMock = mock(Jwt.class);
+
     @InjectMocks
     private final SecurityUtils securityUtils = new SecurityUtils(
             authTokenGenerator,
@@ -64,9 +67,8 @@ class SecurityUtilsTest {
     private final String serviceAuthorizationNoBearer = "eyJhbGciOiJIUzUxMiJ9"
             + ".eyJzdWIiOiJjY2RfZ3ciLCJleHAiOjE1OTQ2ODQ5MTF9"
             + ".LH3aiNniHNMlTwuSdzgRic9sD_4inQv5oUqJ0kkRKVasS4RfhIz2tRdttf-sSMkUga1p1teOt2iCq4BQBDS7KA";
+    private static final String SUBJECT = "ccd_gw";
     private static final String USER_ID = "21334a2b-79ce-44eb-9168-2d49a744be9c";
-
-
 
     private void mockSecurityContextData() {
         List<String> collection = new ArrayList<>();
@@ -157,18 +159,20 @@ class SecurityUtilsTest {
 
     @Test
     void removeBearerFromToken() {
+        when(jwtMock.getSubject()).thenReturn(SUBJECT);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorization);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        assertEquals("ccd_gw", securityUtils.getServiceName());
+        assertEquals(SUBJECT, securityUtils.getServiceName());
     }
 
     @Test
     void removeBearerFromToken_NoBearerTag() {
+        when(jwtMock.getSubject()).thenReturn(SUBJECT);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(SERVICE_AUTHORIZATION, serviceAuthorizationNoBearer);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        assertEquals("ccd_gw", securityUtils.getServiceName());
+        assertEquals(SUBJECT, securityUtils.getServiceName());
     }
 
     @Test
