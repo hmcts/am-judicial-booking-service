@@ -16,9 +16,6 @@ import uk.gov.hmcts.reform.idam.client.IdamApi;
 
 import java.time.Clock;
 
-
-//@SpringBootApplication(scanBasePackages = {"uk.gov.hmcts.reform.judicialbooking",
-//        "uk.gov.hmcts.reform.idam", "uk.gov.hmcts.reform.authorisation"})
 @SpringBootApplication
 @ConfigurationProperties
 @EnableCaching
