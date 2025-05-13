@@ -26,3 +26,4 @@ lib/applicationinsights-agent-*.jar
 lib/applicationinsights.log
 
 integrationTest
+/pacts/
