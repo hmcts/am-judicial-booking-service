@@ -473,7 +473,7 @@ implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.7.4
     smokeTestImplementation(group: 'com.github.hmcts', name: 'befta-fw', version: versions.befta) {
         exclude group: 'com.github.hmcts', module: 'service-auth-provider-java-client'
     }
-    smokeTestImplementation 'com.github.hmcts:fortify-client:1.4.1:all'
+    smokeTestImplementation 'com.github.hmcts:fortify-client:1.4.9:all'
     smokeTestImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     smokeTestImplementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
 
