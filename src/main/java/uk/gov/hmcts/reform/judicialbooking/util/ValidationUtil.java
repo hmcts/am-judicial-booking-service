@@ -1,5 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.util;
 
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadRequestException;
@@ -7,8 +9,6 @@ import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.Unprocess
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.v1.V1;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.regex.Pattern;
