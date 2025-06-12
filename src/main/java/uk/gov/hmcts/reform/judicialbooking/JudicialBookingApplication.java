@@ -16,7 +16,6 @@ import uk.gov.hmcts.reform.idam.client.IdamApi;
 
 import java.time.Clock;
 
-
 @SpringBootApplication
 @ConfigurationProperties
 @EnableCaching
