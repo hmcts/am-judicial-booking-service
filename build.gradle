@@ -39,8 +39,8 @@ def versions = [
         lombok             : '1.18.38',
         gradlePitest       : '1.3.0',
         pitest             : '1.17.0',
-        reformLogging      : '6.1.8',
-        reformS2sClient    : '4.0.2',
+        reformLogging      : '6.1.9',
+        reformS2sClient    : '4.1.2',
         serenity           : '2.2.12',
         sonarPitest        : '0.5',
         springBoot         : '2.7.18',
@@ -75,7 +75,7 @@ tasks.withType(JavaExec).configureEach {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -283,7 +283,7 @@ jacocoTestReport {
 project.tasks['sonarqube'].dependsOn jacocoTestReport
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.13"
 }
 
 task migratePostgresDatabase(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
@@ -440,11 +440,14 @@ dependencies {
 
     //Added for S2S and User Authentication
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: versions.reformS2sClient
-    implementation group: 'com.github.hmcts', name: 'idam-java-client', version: '2.0.1'
+    implementation group: 'com.auth0', name: 'java-jwt', version: '3.12.0'
+    implementation group: 'com.github.hmcts', name: 'idam-java-client', version: '2.1.2'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
 
     implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
     implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.7.4'
+
+    implementation 'net.bytebuddy:byte-buddy:1.14.19'
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock:3.1.10')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
@@ -466,7 +469,7 @@ dependencies {
     testImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
-    testImplementation 'com.github.hmcts:befta-fw:9.1.0'
+    testImplementation 'com.github.hmcts:befta-fw:9.2.4'
     testImplementation 'com.github.hmcts:fortify-client:1.4.9:all'
 
     smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
