@@ -1,13 +1,12 @@
 package uk.gov.hmcts.reform.judicialbooking.oidc;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.core.ParameterizedTypeReference;
@@ -44,7 +43,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 class IdamRepositoryTest {
 
     @Mock
@@ -59,7 +58,6 @@ class IdamRepositoryTest {
     @Mock
     private CacheManager cacheManager = mock(CacheManager.class);
 
-
     private RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
     IdamRepository idamRepository;
@@ -68,14 +66,10 @@ class IdamRepositoryTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         idamRepository = new IdamRepository(idamApi, oidcAdminConfiguration,
-                oauth2Configuration, restTemplate,
-                cacheManager
-        );
+                oauth2Configuration, restTemplate, cacheManager);
         ReflectionTestUtils.setField(
                 idamRepository,
-                "cacheType", ""
-
-        );
+                "cacheType", "");
     }
 
     @Test
@@ -96,7 +90,6 @@ class IdamRepositoryTest {
         verify(cacheManager, times(1)).getCache(any());
         verify(caffeineCacheMock, times(1)).getNativeCache();
         verify(cache, times(1)).estimatedSize();
-
     }
 
     @Test
@@ -148,14 +141,10 @@ class IdamRepositoryTest {
                 .exchange(anyString(), any(), any(), (Class<?>) any(Class.class));
 
         assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(token, userId));
-
-
     }
 
     @Test
     void shouldReturnUserRoles() {
-
-
         Map<String, Object> mapRoles = new HashMap<>();
 
         mapRoles.put("userRoles", List.of("caseworker", "am_import"));
@@ -173,31 +162,18 @@ class IdamRepositoryTest {
         ResponseEntity<List<Object>> actualResponse = idamRepository.searchUserByUserId(token, userId);
         assertNotNull(actualResponse);
         assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
-
-
     }
 
     @Test
     void testGetManageUserToken() {
         CaffeineCache caffeineCacheMock = mock(CaffeineCache.class);
-        com.github.benmanes.caffeine.cache.Cache cache = mock(com.github.benmanes.caffeine.cache.Cache.class);
-
         when(cacheManager.getCache(anyString())).thenReturn(caffeineCacheMock);
         when(caffeineCacheMock.getNativeCache()).thenReturn(null);
-        when(cache.estimatedSize()).thenReturn(1L);
-
-        when(oauth2Configuration.getClientId()).thenReturn("clientId");
-        when(oauth2Configuration.getClientSecret()).thenReturn("secret");
-        when(oidcAdminConfiguration.getSecret()).thenReturn("password");
-        when(oidcAdminConfiguration.getScope()).thenReturn("scope");
-        TokenResponse tokenResponse = new
-                TokenResponse("a", "1", "1", "a", "v", "v");
-        when(idamApi.generateOpenIdToken(any())).thenReturn(tokenResponse);
-        Assert.assertThrows(NullPointerException.class, () -> idamRepository.getManageUserToken("123"));
+        assertThrows(NullPointerException.class, () -> idamRepository.getManageUserToken("123"));
     }
 
     @Test
     void testGetHttpHeaders() {
-        Assert.assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(null, null));
+        assertThrows(NullPointerException.class, () -> idamRepository.searchUserByUserId(null, null));
     }
 }
