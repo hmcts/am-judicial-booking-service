@@ -14,7 +14,6 @@ import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRoles;
 import uk.gov.hmcts.reform.judicialbooking.oidc.JwtGrantedAuthoritiesConverter;
 
-
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -28,11 +27,9 @@ public class SecurityUtils {
 
     @Autowired
     public SecurityUtils(final AuthTokenGenerator authTokenGenerator,
-                         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter
-    ) {
+                         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter) {
         this.authTokenGenerator = authTokenGenerator;
         this.jwtGrantedAuthoritiesConverter = jwtGrantedAuthoritiesConverter;
-
     }
 
     public HttpHeaders authorizationHeaders() {

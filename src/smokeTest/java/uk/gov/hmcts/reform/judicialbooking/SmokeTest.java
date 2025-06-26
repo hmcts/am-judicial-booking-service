@@ -3,20 +3,21 @@ package uk.gov.hmcts.reform.judicialbooking;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lombok.NoArgsConstructor;
-import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.serenitybdd.annotations.WithTag;
+import net.serenitybdd.annotations.WithTags;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.rest.SerenityRest;
-import net.thucydides.core.annotations.WithTag;
-import net.thucydides.core.annotations.WithTags;
 import org.apache.commons.lang3.Validate;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpStatus;
 
-@RunWith(SpringIntegrationSerenityRunner.class)
+@ExtendWith(SerenityJUnit5Extension.class)
 @NoArgsConstructor
 @WithTags({@WithTag("testType:Smoke")})
 public class SmokeTest extends BaseTest {
+
     public static final String AUTHORIZATION = "Authorization";
     public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
     public static final String BEARER = "Bearer ";
@@ -25,7 +26,7 @@ public class SmokeTest extends BaseTest {
     String accessToken;
     String serviceAuth;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         config = new UserTokenProviderConfig();
         accessToken = searchUserByUserId(config);
@@ -56,8 +57,8 @@ public class SmokeTest extends BaseTest {
                 .when()
                 .post(targetInstance)
                 .andReturn();
-        response.then().assertThat().statusCode(HttpStatus.OK.value());
 
+        response.then().assertThat().statusCode(HttpStatus.OK.value());
     }
 
     public static String getRequiredVariable(String name) {
