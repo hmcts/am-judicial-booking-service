@@ -22,16 +22,16 @@ ext {
 
 def versions = [
         pitest             : '1.17.0',
-        lombok             : '1.18.36',
-        reformLogging      : '6.1.7',
-        reformS2sClient    : '5.3.0',
+        lombok             : '1.18.38',
+        reformLogging      : '6.1.9',
+        reformS2sClient    : '5.3.2',
         serenity           : '4.2.16',
         pact_version       : '4.1.7',
         rest_assured       : '5.5.0',
         cucumber           : '5.7.0',
         feign_jackson      : '13.5',
         jacksondata        : '2.18.3',
-        befta              : '9.2.1'
+        befta              : '9.2.4'
 ]
 
 mainClassName = 'uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication'
@@ -265,7 +265,7 @@ jacocoTestReport {
 project.tasks['sonarqube'].dependsOn jacocoTestReport
 
 jacoco {
-    toolVersion = "0.8.11"
+    toolVersion = "0.8.13"
 }
 
 task migratePostgresDatabase(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
@@ -356,9 +356,6 @@ repositories {
     maven {
         url 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1'
     }
-    maven {
-        url 'https://jitpack.io'
-    }
 }
 
 tasks.named('integration') {
@@ -401,6 +398,7 @@ dependencies {
 
     //Added for S2S and User Authentication
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: versions.reformS2sClient
+    implementation group: 'com.auth0', name: 'java-jwt', version: '3.12.0'
     implementation group: 'com.github.hmcts', name: 'idam-java-client', version: '3.0.3'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
 
@@ -409,6 +407,8 @@ dependencies {
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2'
     implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
     implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
+
+    implementation 'net.bytebuddy:byte-buddy:1.14.19'
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
