@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.orgrolemapping;
 
 import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.dsl.DslPart;
+import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
@@ -11,14 +12,14 @@ import au.com.dius.pact.core.model.annotations.PactFolder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
-import com.launchdarkly.shaded.org.jetbrains.annotations.NotNull;
 import io.restassured.http.ContentType;
+import jakarta.validation.constraints.NotNull;
 import net.serenitybdd.rest.SerenityRest;
 import org.apache.http.client.fluent.Executor;
 import org.assertj.core.api.Assertions;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -32,8 +33,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialRefreshRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
-
-import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
 
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
         Thread.sleep(2000);
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         Executor.closeIdleConnections();
     }
@@ -84,9 +83,8 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     }
 
     private DslPart createJudicialRefreshResponse() {
-        return newJsonBody(o -> o
-                .stringValue("Message", "Role assignments have been refreshed successfully"))
-                .build();
+        return new PactDslJsonBody()
+                .stringValue("Message", "Role assignments have been refreshed successfully");
     }
 
     @Pact(provider = "am_orgRoleMapping_refresh", consumer = "accessMgmt_judicialBooking")

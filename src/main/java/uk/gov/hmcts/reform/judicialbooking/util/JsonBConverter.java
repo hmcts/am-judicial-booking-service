@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.UnprocessableEntityException;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import java.io.IOException;
 
 @Converter(autoApply = true)
