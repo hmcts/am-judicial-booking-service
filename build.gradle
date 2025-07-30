@@ -425,7 +425,7 @@ dependencies {
     testImplementation group: 'io.cucumber', name: 'cucumber-core', version: versions.cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-spring', version: versions.cucumber
     testImplementation group: 'io.cucumber', name: 'cucumber-junit-platform-engine', version: versions.cucumber
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-suite-api', version: '1.10.0'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-suite-api', version: '1.13.4'
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.rest_assured
     testImplementation group: 'io.github.openfeign', name: 'feign-jackson', version: versions.feign_jackson
     testImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
