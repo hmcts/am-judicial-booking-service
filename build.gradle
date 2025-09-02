@@ -38,7 +38,7 @@ mainClassName = 'uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication'
 def jarName = 'am-judicial-booking-service.jar'
 
 pmd {
-    toolVersion = '6.55.0'
+    toolVersion = '7.16.0'
     sourceSets = []
 }
 
@@ -388,7 +388,7 @@ dependencies {
     implementation group: 'jakarta.inject', name: 'jakarta.inject-api', version: '2.0.1'
     implementation group: 'jakarta.el', name: 'jakarta.el-api', version: '6.0.1'
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.2'
-    implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.6.27.Final'
+    implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.6.28.Final'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.7'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
