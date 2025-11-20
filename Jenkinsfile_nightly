@@ -12,7 +12,7 @@ properties([
   ])
 ])
 
-@Library("Infrastructure@docker-wait")
+@Library("Infrastructure")
 
 def type = "java"
 def product = "am"
