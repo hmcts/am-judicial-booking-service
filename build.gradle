@@ -364,6 +364,11 @@ tasks.named('integration') {
     testLogging {
         exceptionFormat = 'full'
     }
+
+    systemProperty 'testcontainers.reuse.enable', 'false'
+    environment 'DOCKER_HOST', 'unix:///var/run/docker.sock'
+    environment 'TESTCONTAINERS_RYUK_DISABLED', 'false'
+    environment 'TESTCONTAINERS_CHECKS_DISABLE', 'false'
 }
 
 
