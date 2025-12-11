@@ -416,7 +416,6 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
-    testImplementation('com.opentable.components:otj-pg-embedded:1.1.1')
     testImplementation('org.testcontainers:testcontainers-postgresql:2.0.2')
     testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.17'
 
@@ -446,7 +445,7 @@ dependencies {
         exclude group: 'junit', module: 'junit'
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    smokeTestImplementation('com.opentable.components:otj-pg-embedded:1.1.0')
+    smokeTestImplementation('org.testcontainers:testcontainers-postgresql:2.0.2')
     smokeTestImplementation(group: 'com.github.hmcts', name: 'befta-fw', version: versions.befta) {
         exclude group: 'com.github.hmcts', module: 'service-auth-provider-java-client'
     }
