@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.judicialbooking;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import feign.Feign;
 import feign.jackson.JacksonEncoder;
 import jakarta.annotation.PreDestroy;
@@ -116,15 +115,15 @@ public abstract class BaseTest {
         Connection connection;
 
         @Bean
-        public EmbeddedPostgres embeddedPostgres() throws IOException {
-            return EmbeddedPostgres
+        public PostgresTestContainer embeddedPostgres() throws IOException {
+            return PostgresTestContainer
                     .builder()
                     .start();
         }
 
         @Bean
         public DataSource dataSource() throws IOException, SQLException {
-            final EmbeddedPostgres pg = embeddedPostgres();
+            final PostgresTestContainer pg = embeddedPostgres();
 
             final Properties props = new Properties();
             // Instruct JDBC to accept JSON string for JSONB
