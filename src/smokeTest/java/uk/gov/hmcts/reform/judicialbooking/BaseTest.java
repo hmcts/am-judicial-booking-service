@@ -32,7 +32,6 @@ import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.BadReques
 import uk.gov.hmcts.reform.judicialbooking.controller.advice.exception.ResourceNotFoundException;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -115,14 +114,14 @@ public abstract class BaseTest {
         Connection connection;
 
         @Bean
-        public PostgresTestContainer embeddedPostgres() throws IOException {
+        public PostgresTestContainer embeddedPostgres() {
             return PostgresTestContainer
                     .builder()
                     .start();
         }
 
         @Bean
-        public DataSource dataSource() throws IOException, SQLException {
+        public DataSource dataSource() throws SQLException {
             final PostgresTestContainer pg = embeddedPostgres();
 
             final Properties props = new Properties();
@@ -134,7 +133,7 @@ public abstract class BaseTest {
         }
 
         @PreDestroy
-        public void contextDestroyed() throws IOException, SQLException {
+        public void contextDestroyed() throws SQLException {
             if (connection != null) {
                 connection.close();
             }

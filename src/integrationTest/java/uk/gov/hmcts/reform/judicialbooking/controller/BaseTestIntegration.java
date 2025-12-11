@@ -9,7 +9,6 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ public abstract class BaseTestIntegration extends BaseTest {
         Connection connection;
 
         @Bean
-        public PostgresTestContainer embeddedPostgres() throws IOException {
+        public PostgresTestContainer embeddedPostgres() {
             return PostgresTestContainer
                     .builder()
                     .start();
