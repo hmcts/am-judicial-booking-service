@@ -89,7 +89,8 @@ withNightlyPipeline(type, product, component) {
   overrideVaultEnvironments(vaultOverrides)
   loadVaultSecrets(secrets)
 
-  enableSecurityScan()
+  // DTSAM-1155 Temp disabling of Security Scan (Zap) in Nightly
+  //enableSecurityScan()
   enableFullFunctionalTest()
   enableFortifyScan()
 
