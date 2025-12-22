@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class CreateBookingIntegrationTest extends BaseTestIntegration {
@@ -160,15 +159,15 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now().minusDays(1));
 
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(new BookingRequestWrapper(request))))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("The end time: " + LocalDate.now().minusDays(1)
-                                + " takes place before the current time: " + LocalDate.now())))
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .and()
+                .body(containsString("The end time: " + LocalDate.now().minusDays(1)
+                        + " takes place before the current time: " + LocalDate.now()));
     }
 
     @Test
@@ -177,15 +176,15 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().plusDays(5), LocalDate.now());
 
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(new BookingRequestWrapper(request))))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("The end time: " + LocalDate.now()
-                                + " takes place before the begin time: " + LocalDate.now().plusDays(5))))
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .and()
+                .body(containsString("The end time: " + LocalDate.now()
+                        + " takes place before the begin time: " + LocalDate.now().plusDays(5)));
     }
 
     @Test
@@ -194,15 +193,15 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().minusDays(5), LocalDate.now().minusDays(1));
 
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(new BookingRequestWrapper(request))))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("The begin time: " + LocalDate.now().minusDays(5)
-                                + " takes place before the current time: " + LocalDate.now())))
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .and()
+                .body(containsString("The begin time: " + LocalDate.now().minusDays(5)
+                                + " takes place before the current time: " + LocalDate.now()));
     }
 
     @Test
@@ -235,12 +234,12 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
         var request = new BookingRequestWrapper(new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1)));
 
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().isUnprocessableEntity())
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .body(mapper.writeValueAsBytes(request))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
 
 }
