@@ -1,9 +1,12 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
+import io.restassured.http.ContentType;
+import net.serenitybdd.rest.SerenityRest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -50,57 +53,58 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
         MockitoAnnotations.openMocks(this);
         doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
     }
-
+    
     @Test
     public void rejectRequestWithoutBody() throws Exception {
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE).headers(getHttpHeaders()))
-                .andExpect(status().is(400))
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("Required request body is missing")))
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .and()
+                .body(containsString("Required request body is missing"));
     }
 
     @Test
     public void rejectRequestWithoutRegion() throws Exception {
         var request = new BookingRequestWrapper(new BookingRequest(null, null, LOCATION, LocalDate.now(),
                 LocalDate.now()));
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("RegionId cannot be Null or Empty, if LocationId is available")))
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .body(mapper.writeValueAsBytes(request))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .and()
+                .body(containsString("RegionId cannot be Null or Empty, if LocationId is available"));
     }
 
     @Test
     public void rejectRequestWithoutStartDate() throws Exception {
         var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, null,
                 LocalDate.now()));
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("Begin date cannot be Null or Empty")))
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .body(mapper.writeValueAsBytes(request))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .and()
+                .body(containsString("Begin date cannot be Null or Empty"));
     }
 
     @Test
     public void rejectRequestWithoutEndDate() throws Exception {
         var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 null));
-        mockMvc.perform(post(URL)
-                        .contentType(JSON_CONTENT_TYPE)
-                        .headers(getHttpHeaders())
-                        .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath(EXPRESSION)
-                        .value(containsString("End date cannot be Null or Empty")))
-                .andReturn();
+        SerenityRest.given()
+                .contentType(ContentType.JSON).headers(getHttpHeaders())
+                .body(mapper.writeValueAsBytes(request))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .and()
+                .body(containsString("End date cannot be Null or Empty"));
     }
 
     @Test
