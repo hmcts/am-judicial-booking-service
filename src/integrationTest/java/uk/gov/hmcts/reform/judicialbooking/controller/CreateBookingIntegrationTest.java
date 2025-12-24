@@ -101,7 +101,8 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                 .body(mapper.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
+                // Change bad request to OK to cause a fail.
+                .statusCode(HttpStatus.OK.value())
                 .and()
                 .body(containsString("End date cannot be Null or Empty"));
     }
