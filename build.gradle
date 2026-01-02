@@ -410,6 +410,8 @@ dependencies {
 
     implementation 'net.bytebuddy:byte-buddy:1.17.7'
 
+    testImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
         exclude group: 'junit', module: 'junit'
