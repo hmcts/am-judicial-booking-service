@@ -14,7 +14,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.client.IdamOpenId;
@@ -28,7 +27,6 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 
-@ActiveProfiles("itest")
 @ExtendWith({SerenityJUnit5Extension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestPropertySource({"classpath:application-itest.yaml"})
