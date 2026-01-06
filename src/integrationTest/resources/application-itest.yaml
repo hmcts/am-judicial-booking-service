@@ -8,5 +8,15 @@ spring:
 
 idam:
   s2s-auth:
+    totp_secret: ${AM_JUDICIAL_BOOKING_SERVICE_SECRET:AAAAAAAAAAAAAAAA}
+    microservice: am_judicial_booking_service
     url: http://localhost:${wiremock.server.port:4502}
   api.url: http://localhost:${wiremock.server.port:5000}
+  client:
+    id: ${JUDICIAL_BOOKING_IDAM_CLIENT_ID:am_docker}
+    secret: ${JUDICIAL_BOOKING_IDAM_CLIENT_SECRET:am_docker_secret}
+    redirect_uri: ${JUDICIAL_BOOKING_IDAM_REDIRECT_URI:http://localhost:4096/oauth2redirect}
+
+scope-name: openid profile roles manage-user create-user search-user
+oauth2-client-secret: ${OAUTH2_CLIENT_SECRET:}
+test.user.password: test
