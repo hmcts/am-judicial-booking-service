@@ -18,5 +18,5 @@ idam:
     redirect_uri: ${JUDICIAL_BOOKING_IDAM_REDIRECT_URI:http://localhost:4096/oauth2redirect}
 
 scope-name: openid profile roles manage-user create-user search-user
-oauth2-client-secret: ${OAUTH2_CLIENT_SECRET:}
+oauth2-client-secret: ${OAUTH2_CLIENT_SECRET:AAAAAAAAAAAAAAAA}
 test.user.password: test
