@@ -100,7 +100,7 @@ public class IdamOpenId {
         }
 
 
-        assertThat(createdUserResponse.getStatusCode()).isEqualTo(201);
+        assertThat(createdUserResponse.getStatusCode()).isEqualTo(200);
         setEmailsTobeDeleted(userEmail);
 
         Map<String, String> userCreds = new HashMap<>();

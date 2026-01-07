@@ -1,6 +1,8 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.restassured.parsing.Parser;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.rest.SerenityRest;
@@ -14,7 +16,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.client.IdamOpenId;
 import uk.gov.hmcts.reform.judicialbooking.client.S2sClient;
@@ -27,9 +29,9 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 
+@ActiveProfiles("itest")
 @ExtendWith({SerenityJUnit5Extension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestPropertySource({"classpath:application-itest.yaml"})
 public class CreateBookingIntegrationTest {
     private static final String URL = "/am/bookings";
     private static final String SERVICE_HEADER = "ServiceAuthorization";
@@ -39,7 +41,8 @@ public class CreateBookingIntegrationTest {
     private static final String REGION = "region";
     private static final String LOCATION = "location";
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+            .registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     private static String s2sToken;
     private static IdamOpenId idamOpenIdClient;
@@ -96,7 +99,7 @@ public class CreateBookingIntegrationTest {
                 .relaxedHTTPSValidation()
                 .baseUri(baseUrl)
                 .headers(getHeaders())
-                .body(mapper.writeValueAsBytes(request))
+                .body(MAPPER.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -112,7 +115,7 @@ public class CreateBookingIntegrationTest {
                 .relaxedHTTPSValidation()
                 .baseUri(baseUrl)
                 .headers(getHeaders())
-                .body(mapper.writeValueAsBytes(request))
+                .body(MAPPER.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -128,7 +131,7 @@ public class CreateBookingIntegrationTest {
                 .relaxedHTTPSValidation()
                 .baseUri(baseUrl)
                 .headers(getHeaders())
-                .body(mapper.writeValueAsBytes(request))
+                .body(MAPPER.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -193,7 +196,7 @@ public class CreateBookingIntegrationTest {
                 .relaxedHTTPSValidation()
                 .baseUri(baseUrl)
                 .headers(getHeaders())
-                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .body(MAPPER.writeValueAsBytes(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -212,7 +215,7 @@ public class CreateBookingIntegrationTest {
                 .relaxedHTTPSValidation()
                 .baseUri(baseUrl)
                 .headers(getHeaders())
-                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .body(MAPPER.writeValueAsBytes(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -231,7 +234,7 @@ public class CreateBookingIntegrationTest {
                 .relaxedHTTPSValidation()
                 .baseUri(baseUrl)
                 .headers(getHeaders())
-                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .body(MAPPER.writeValueAsBytes(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -274,7 +277,7 @@ public class CreateBookingIntegrationTest {
                 .relaxedHTTPSValidation()
                 .baseUri(baseUrl)
                 .headers(getHeaders())
-                .body(mapper.writeValueAsBytes(request))
+                .body(MAPPER.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
