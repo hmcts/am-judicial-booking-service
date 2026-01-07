@@ -29,7 +29,7 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 
-@ActiveProfiles("itest")
+@ActiveProfiles("serenity")
 @ExtendWith({SerenityJUnit5Extension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CreateBookingIntegrationTest {
