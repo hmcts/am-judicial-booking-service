@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ActiveProfiles;
 
 @Getter
 @Setter
 @Configuration
+@ActiveProfiles("serenity")
 public class TestConfigProperties {
 
     @Value("${oauth2-client-secret}")
