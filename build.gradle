@@ -406,13 +406,11 @@ dependencies {
     implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.8.1'
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2'
     implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
     implementation group: 'com.auth0', name: 'java-jwt', version: '4.5.0'
 
     implementation 'net.bytebuddy:byte-buddy:1.17.7'
 
     testImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-    testImplementation group: 'com.github.mifmif', name: 'generex', version: '1.0.2'
 
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
