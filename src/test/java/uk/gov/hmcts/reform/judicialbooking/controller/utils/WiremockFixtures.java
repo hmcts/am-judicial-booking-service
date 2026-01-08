@@ -67,14 +67,6 @@ public class WiremockFixtures {
                         .withHeader("Content-Type", "application/json")
                         .withBody(OBJECT_MAPPER.writeValueAsString(getUserInfo()))
                 ));
-
-//        WIRE_MOCK_SERVER.stubFor(post(urlEqualTo("/lease"))
-//                .willReturn(aResponse()
-//                        .withStatus(HttpStatus.OK.value())
-//                        .withHeader("Content-Type", "application/json")
-//                        .withBody("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyZF9wcm9mZXNzaW9uYWxfYXBpIiwiZXhwIjoxNTY0NzU2MzY4fQ"
-//                                + ".UnRfwq_yGo6tVWEoBldCkD1zFoiMSqqm1rTHqq4f_PuTEHIJj2IHeARw3wOnJG2c3MpjM71ZTFa0RNE4D2"
-//                                + "AUgA")));
     }
 
     private UserInfo getUserInfo() {

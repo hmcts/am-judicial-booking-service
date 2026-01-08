@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
+import com.nimbusds.jose.JOSEException;
 import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.rest.SerenityRest;
@@ -212,7 +213,7 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
 
-    private RequestSpecification getRequestSpecification() {
+    private RequestSpecification getRequestSpecification() throws JOSEException {
         return SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .baseUri(BASEURL)
