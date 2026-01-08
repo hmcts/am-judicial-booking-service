@@ -1,26 +1,19 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import io.restassured.parsing.Parser;
+import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.rest.SerenityRest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.gov.hmcts.reform.judicialbooking.client.IdamOpenId;
-import uk.gov.hmcts.reform.judicialbooking.client.S2sClient;
-import uk.gov.hmcts.reform.judicialbooking.config.TestConfigProperties;
+import uk.gov.hmcts.reform.judicialbooking.controller.utils.MockUtils;
+import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
 
@@ -29,61 +22,29 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 
-@ActiveProfiles("serenity")
 @ExtendWith({SerenityJUnit5Extension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class CreateBookingIntegrationTest {
+public class CreateBookingIntegrationTest extends BaseTestIntegration {
     private static final String URL = "/am/bookings";
-    private static final String SERVICE_HEADER = "ServiceAuthorization";
-    private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
 
     private static final String REGION = "region";
     private static final String LOCATION = "location";
 
-    private static final ObjectMapper MAPPER = new ObjectMapper()
-            .registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-    private static String s2sToken;
-    private static IdamOpenId idamOpenIdClient;
     private String baseUrl = "http://localhost";
 
-    @Value("${idam.s2s-auth.totp_secret}")
-    protected String s2sSecret;
-
-    @Value("${idam.s2s-auth.url}")
-    protected String s2sUrl;
-
-    @Value("${idam.s2s-auth.microservice}")
-    protected String s2sName;
-
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    private TestConfigProperties configProperties;
+    @Value("${server.port}")
+    private int serverPort;
 
     @BeforeEach
     public void init() {
-        baseUrl = baseUrl.concat(":").concat(port + "");
         SerenityRest.useRelaxedHTTPSValidation();
         SerenityRest.setDefaultParser(Parser.JSON);
-
-        if (null == s2sToken) {
-            s2sToken = new S2sClient(s2sUrl, s2sName, s2sSecret).signIntoS2S();
-        }
-
-        if (null == idamOpenIdClient) {
-            idamOpenIdClient = new IdamOpenId(configProperties);
-        }
     }
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
-        SerenityRest.with()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
+        getRequestSpecification()
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -95,11 +56,8 @@ public class CreateBookingIntegrationTest {
     public void rejectRequestWithoutRegion() throws Exception {
         var request = new BookingRequestWrapper(new BookingRequest(null, null, LOCATION, LocalDate.now(),
                 LocalDate.now()));
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
-                .body(MAPPER.writeValueAsBytes(request))
+        getRequestSpecification()
+                .body(mapper.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -111,11 +69,8 @@ public class CreateBookingIntegrationTest {
     public void rejectRequestWithoutStartDate() throws Exception {
         var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, null,
                 LocalDate.now()));
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
-                .body(MAPPER.writeValueAsBytes(request))
+        getRequestSpecification()
+                .body(mapper.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -127,11 +82,8 @@ public class CreateBookingIntegrationTest {
     public void rejectRequestWithoutEndDate() throws Exception {
         var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 null));
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
-                .body(MAPPER.writeValueAsBytes(request))
+        getRequestSpecification()
+                .body(mapper.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -192,11 +144,8 @@ public class CreateBookingIntegrationTest {
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now().minusDays(1));
 
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
-                .body(MAPPER.writeValueAsBytes(new BookingRequestWrapper(request)))
+        getRequestSpecification()
+                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -211,11 +160,8 @@ public class CreateBookingIntegrationTest {
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().plusDays(5), LocalDate.now());
 
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
-                .body(MAPPER.writeValueAsBytes(new BookingRequestWrapper(request)))
+        getRequestSpecification()
+                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -230,11 +176,8 @@ public class CreateBookingIntegrationTest {
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().minusDays(5), LocalDate.now().minusDays(1));
 
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
-                .body(MAPPER.writeValueAsBytes(new BookingRequestWrapper(request)))
+        getRequestSpecification()
+                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -273,21 +216,18 @@ public class CreateBookingIntegrationTest {
         var request = new BookingRequestWrapper(new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1)));
 
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
-                .headers(getHeaders())
-                .body(MAPPER.writeValueAsBytes(request))
+        getRequestSpecification()
+                .body(mapper.writeValueAsBytes(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
-    
-    private HttpHeaders getHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(SERVICE_HEADER, "Bearer " + s2sToken);
-        headers.add(AUTHORIZATION_HEADER, "Bearer " + idamOpenIdClient.getcwdAdminOpenIdToken( "caseworker-civil-admin"));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        return headers;
+
+    private RequestSpecification getRequestSpecification() {
+        return SerenityRest.given()
+                .relaxedHTTPSValidation()
+                .baseUri(baseUrl)
+                .port(serverPort)
+                .headers(MockUtils.getHttpHeaders(MockUtils.S2S_JBS));
     }
 }

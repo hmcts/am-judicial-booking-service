@@ -83,6 +83,7 @@ public abstract class BaseTest {
 
             try {
                 wiremockFixtures.stubIdamConfig();
+                wiremockFixtures.stubAuthorisation();
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }

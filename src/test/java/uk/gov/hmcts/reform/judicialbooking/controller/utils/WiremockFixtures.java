@@ -4,21 +4,29 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.gson.Gson;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.containing;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.client.WireMock.resetAllRequests;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static uk.gov.hmcts.reform.judicialbooking.controller.BaseTest.WIRE_MOCK_SERVER;
 import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
+import static wiremock.com.google.common.collect.ImmutableList.of;
 
 public class WiremockFixtures {
+
+    private final Gson jsonReader = new Gson();
 
     public static final ObjectMapper OBJECT_MAPPER = new Jackson2ObjectMapperBuilder()
             .modules(new Jdk8Module(), new JavaTimeModule())
@@ -48,6 +56,29 @@ public class WiremockFixtures {
                         .withBody(getJwksResponse())
                 ));
 
+    }
+
+    public void stubAuthorisation() {
+        WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/details"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("am_judicial_booking_service")
+                ));
+
+        WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/o/userinfo"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(getUserInfoAsJson())));
+    }
+
+    private String getUserInfoAsJson() {
+        return jsonReader.toJson(new UserInfo("sub",
+                "uid",
+                "test",
+                "given_name",
+                "family_Name", of("cft-audit-investigator")));
     }
 
     private Map<String, Object> getOpenIdResponse() {
