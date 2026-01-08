@@ -1,19 +1,15 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
-import io.restassured.parsing.Parser;
 import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.rest.SerenityRest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.MockUtils;
-import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
 
@@ -30,17 +26,10 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
 
     private static final String REGION = "region";
     private static final String LOCATION = "location";
+    private static final String BASEURL = "http://localhost";
 
-    private String baseUrl = "http://localhost";
-
-    @Value("${server.port}")
+    @LocalServerPort
     private int serverPort;
-
-    @BeforeEach
-    public void init() {
-        SerenityRest.useRelaxedHTTPSValidation();
-        SerenityRest.setDefaultParser(Parser.JSON);
-    }
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
@@ -226,7 +215,7 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
     private RequestSpecification getRequestSpecification() {
         return SerenityRest.given()
                 .relaxedHTTPSValidation()
-                .baseUri(baseUrl)
+                .baseUri(BASEURL)
                 .port(serverPort)
                 .headers(MockUtils.getHttpHeaders(MockUtils.S2S_JBS));
     }
