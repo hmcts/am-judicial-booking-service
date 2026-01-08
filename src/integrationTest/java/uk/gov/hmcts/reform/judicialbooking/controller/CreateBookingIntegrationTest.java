@@ -11,19 +11,24 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.MockUtils;
+import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
+import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
 
 @ExtendWith({SerenityJUnit5Extension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CreateBookingIntegrationTest extends BaseTestIntegration {
     private static final String URL = "/am/bookings";
-    private static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
 
     private static final String REGION = "region";
     private static final String LOCATION = "location";
@@ -81,52 +86,53 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                 .body(containsString("End date cannot be Null or Empty"));
     }
 
-    //    @Test
-    //    public void createJudicialBookingsMandatoryValues() throws Exception {
-    //        var request = new BookingRequest(null, null, null, LocalDate.now(),
-    //                LocalDate.now());
-    //
-    //        final MvcResult result = mockMvc.perform(post(URL)
-    //                        .contentType(JSON_CONTENT_TYPE)
-    //                        .headers(getHttpHeaders())
-    //                        .content(mapper.writeValueAsBytes(new BookingRequestWrapper(request))))
-    //                .andExpect(status().isCreated())
-    //                .andReturn();
-    //        BookingResponse response = mapper.readValue(
-    //                result.getResponse().getContentAsString(),
-    //                BookingResponse.class
-    //        );
-    //        assertNotNull(response);
-    //        BookingEntity actualBooking = response.getBookingResponseEntity();
-    //        assertNotNull(actualBooking);
-    //        assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
-    //        assertEquals(actualBooking.getUserId(), ACTOR_ID1);
-    //    }
+    @Test
+    public void createJudicialBookingsMandatoryValues() throws Exception {
+        var request = new BookingRequest(null, null, null, LocalDate.now(),
+                LocalDate.now());
 
-    //    @Test
-    //    public void createJudicialBookingFullValues() throws Exception {
-    //
-    //        var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
-    //                LocalDate.now());
-    //
-    //        final MvcResult result = mockMvc.perform(post(URL)
-    //                        .contentType(JSON_CONTENT_TYPE)
-    //                        .headers(getHttpHeaders())
-    //                        .content(mapper.writeValueAsBytes(new BookingRequestWrapper(request))))
-    //                .andExpect(status().isCreated())
-    //                .andReturn();
-    //        BookingResponse response = mapper.readValue(
-    //                result.getResponse().getContentAsString(),
-    //                BookingResponse.class
-    //        );
-    //        assertNotNull(response);
-    //        BookingEntity actualBooking = response.getBookingResponseEntity();
-    //        assertNotNull(actualBooking);
-    //        assertEquals(request.getLocationId(), actualBooking.getLocationId());
-    //        assertEquals(request.getRegionId(), actualBooking.getRegionId());
-    //        assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
-    //        assertEquals(actualBooking.getUserId(), ACTOR_ID1);
-    //    }
+        String response = getRequestSpecification()
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract().body().asString();
+        BookingResponse bookingResponse = OBJECT_MAPPER.readValue(
+                response,
+                BookingResponse.class
+        );
+        assertNotNull(bookingResponse);
+        BookingEntity actualBooking = bookingResponse.getBookingResponseEntity();
+        assertNotNull(actualBooking);
+        assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
+        assertEquals(actualBooking.getUserId(), ACTOR_ID1);
+    }
+
+    @Test
+    public void createJudicialBookingFullValues() throws Exception {
+        var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
+                LocalDate.now());
+
+        String response = getRequestSpecification()
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract().body().asString();
+        BookingResponse bookingResponse = OBJECT_MAPPER.readValue(
+                response,
+                BookingResponse.class
+        );
+        assertNotNull(bookingResponse);
+        BookingEntity actualBooking = bookingResponse.getBookingResponseEntity();
+        assertNotNull(actualBooking);
+        assertEquals(request.getLocationId(), actualBooking.getLocationId());
+        assertEquals(request.getRegionId(), actualBooking.getRegionId());
+        assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
+        assertEquals(actualBooking.getUserId(), ACTOR_ID1);
+    }
 
     @Test
     public void rejectBookingRequestExpiredEndDate() throws Exception {
@@ -176,30 +182,31 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                                 + " takes place before the current time: " + LocalDate.now()));
     }
 
-    //    @Test
-    //    public void createBookingWithInputUserId() throws Exception {
-    //
-    //        var request = new BookingRequest(ACTOR_ID1, REGION, LOCATION,
-    //                LocalDate.now(), LocalDate.now().plusDays(1));
-    //
-    //        final MvcResult result = mockMvc.perform(post(URL)
-    //                        .contentType(JSON_CONTENT_TYPE)
-    //                        .headers(getHttpHeaders())
-    //                        .content(mapper.writeValueAsBytes(new BookingRequestWrapper(request))))
-    //                .andExpect(status().isCreated())
-    //                .andReturn();
-    //        BookingResponse response = mapper.readValue(
-    //                result.getResponse().getContentAsString(),
-    //                BookingResponse.class
-    //        );
-    //        assertNotNull(response);
-    //        BookingEntity actualBooking = response.getBookingResponseEntity();
-    //        assertNotNull(actualBooking);
-    //        assertEquals(request.getUserId(), actualBooking.getUserId());
-    //        assertEquals(request.getLocationId(), actualBooking.getLocationId());
-    //        assertEquals(request.getRegionId(), actualBooking.getRegionId());
-    //        assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
-    //    }
+    @Test
+    public void createBookingWithInputUserId() throws Exception {
+
+        var request = new BookingRequest(ACTOR_ID1, REGION, LOCATION,
+                LocalDate.now(), LocalDate.now().plusDays(1));
+
+        String response = getRequestSpecification()
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract().body().asString();
+        BookingResponse bookingResponse = OBJECT_MAPPER.readValue(
+                response,
+                BookingResponse.class
+        );
+        assertNotNull(bookingResponse);
+        BookingEntity actualBooking = bookingResponse.getBookingResponseEntity();
+        assertNotNull(actualBooking);
+        assertEquals(request.getUserId(), actualBooking.getUserId());
+        assertEquals(request.getLocationId(), actualBooking.getLocationId());
+        assertEquals(request.getRegionId(), actualBooking.getRegionId());
+        assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
+    }
 
     @Test
     public void createBookingWithInvalidInputUserId() throws Exception {

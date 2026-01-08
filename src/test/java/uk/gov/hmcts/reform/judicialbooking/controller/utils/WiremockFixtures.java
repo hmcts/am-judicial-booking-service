@@ -27,6 +27,8 @@ public class WiremockFixtures {
             .modules(new Jdk8Module(), new JavaTimeModule())
             .build();
 
+    public static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
+
     public WiremockFixtures() {
         configureFor(WIRE_MOCK_SERVER.port());
     }
@@ -71,7 +73,7 @@ public class WiremockFixtures {
 
     private UserInfo getUserInfo() {
         return UserInfo.builder()
-                .uid("%s")
+                .uid(ACTOR_ID1)
                 .givenName("Super")
                 .familyName("User")
                 .roles(List.of("%s"))
