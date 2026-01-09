@@ -116,7 +116,6 @@ withPipeline(type, product, component) {
 
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/test-results/test/*.xml'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/test-results/integration/*.xml'
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
 
     publishHTML target: [
             allowMissing         : true,
@@ -189,10 +188,26 @@ withPipeline(type, product, component) {
 
   afterAlways('smoketest:preview') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/site/serenity/**'
+
+    publishHTML target: [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "target/site/serenity",
+            reportFiles          : "index.html",
+            reportName           : "Serenity Tests Report"
   }
 
   afterAlways('smoketest:aat') {
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/site/serenity/**'
+
+    publishHTML target: [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "target/site/serenity",
+            reportFiles          : "index.html",
+            reportName           : "Serenity Tests Report"
   }
 
   afterAlways('pact-consumer-tests') {
