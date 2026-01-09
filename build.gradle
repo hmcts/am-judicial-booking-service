@@ -185,6 +185,7 @@ task integration(type: Test, description: 'Runs the integration tests.', group: 
     classpath = sourceSets.integrationTest.runtimeClasspath
     finalizedBy aggregate
 }
+check.dependsOn integration
 
 task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
     useJUnitPlatform()
