@@ -105,9 +105,8 @@ withPipeline(type, product, component) {
 
   afterAlways('test') {
     // jenkins may fail to copy artifacts after some failures
-
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/test-results/test/*.xml'
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/test-results/integration/*.xml'
+    steps.junit allowEmptyResults: true, testResults: '**/test-results/test/*.xml'
+    steps.junit allowEmptyResults: true, testResults: '**/test-results/integration/*.xml'
 
     publishHTML target: [
             allowMissing         : true,
