@@ -182,7 +182,7 @@ task functional(type: JavaExec) {
 task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
-    serenity.outputDirectory = file("${projectDir}/integrationTest/site/reports")
+    mustRunAfter test
     finalizedBy aggregate
 }
 check.dependsOn integration
@@ -191,7 +191,6 @@ task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verificatio
     useJUnitPlatform()
     testClassesDirs = sourceSets.smokeTest.output.classesDirs
     classpath = sourceSets.smokeTest.runtimeClasspath
-    finalizedBy aggregate
 }
 
 task fortifyScan(type: JavaExec)  {
