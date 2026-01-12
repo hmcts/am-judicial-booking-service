@@ -98,10 +98,12 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     @Test
     public void retrieveJudicialBookingsInvalidUser_bypassValidation() throws Exception {
-        BookingQueryRequest request = new BookingQueryRequest(
-                UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
+        String randomUserId = UUID.randomUUID().toString();
 
-        getRequestSpecification(SERVICE_NAME_ORM, ACTOR_ID1)
+        BookingQueryRequest request = new BookingQueryRequest(
+                UserRequest.builder().userIds(List.of(randomUserId)).build());
+
+        getRequestSpecification(SERVICE_NAME_ORM, randomUserId)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
