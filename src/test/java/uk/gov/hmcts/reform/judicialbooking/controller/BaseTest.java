@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -23,7 +22,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.TestPropertySourceUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
-import uk.gov.hmcts.reform.judicialbooking.util.Constants;
 
 import java.nio.charset.StandardCharsets;
 
@@ -61,12 +59,6 @@ public abstract class BaseTest {
             MediaType.APPLICATION_JSON.getSubtype(),
             StandardCharsets.UTF_8
     );
-    
-    HttpHeaders getHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(Constants.CORRELATION_ID_HEADER_NAME, "38a90097-434e-47ee-8ea1-9ea2a267f51d");
-        return headers;
-    }
 
     public static class WireMockServerInitializer
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {

@@ -28,6 +28,7 @@ public class WiremockFixtures {
             .build();
 
     public static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
+    public static final String ACTOR_ID2 = "123e4567-e89b-42d3-a456-556642445678";
 
     public WiremockFixtures() {
         configureFor(WIRE_MOCK_SERVER.port());
