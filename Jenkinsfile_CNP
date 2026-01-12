@@ -103,20 +103,10 @@ withPipeline(type, product, component) {
   // Sync environment specific branches with master branch
   syncBranchesWithMaster(branchesToSync)
 
-  before('functionalTest:aat') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/integration/**/*'
-  }
-
-  before('functionalTest:preview') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/integration/**/*'
-  }
-
   afterAlways('test') {
     // jenkins may fail to copy artifacts after some failures
-
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/test-results/test/*.xml'
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/test-results/integration/*.xml'
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+    steps.junit allowEmptyResults: true, testResults: '**/test-results/test/*.xml'
+    steps.junit allowEmptyResults: true, testResults: '**/test-results/integration/*.xml'
 
     publishHTML target: [
             allowMissing         : true,
@@ -160,8 +150,6 @@ withPipeline(type, product, component) {
   }
 
   afterAlways('functionalTest:preview') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/cucumber/**/*'
-
     publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -174,8 +162,6 @@ withPipeline(type, product, component) {
   }
 
   afterAlways('functionalTest:aat') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/cucumber/**/*'
-
     publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -188,11 +174,25 @@ withPipeline(type, product, component) {
   }
 
   afterAlways('smoketest:preview') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/site/serenity/**'
+    publishHTML target: [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "target/site/serenity",
+            reportFiles          : "index.html",
+            reportName           : "Serenity Tests Report"
+    ]
   }
 
   afterAlways('smoketest:aat') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/site/serenity/**'
+    publishHTML target: [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "target/site/serenity",
+            reportFiles          : "index.html",
+            reportName           : "Serenity Tests Report"
+    ]
   }
 
   afterAlways('pact-consumer-tests') {
