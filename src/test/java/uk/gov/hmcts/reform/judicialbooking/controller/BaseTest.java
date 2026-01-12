@@ -1,10 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,8 +31,6 @@ public abstract class BaseTest {
 
     public static final WireMockServer WIRE_MOCK_SERVER = new WireMockServer(options().dynamicPort());
 
-    protected static final ObjectMapper mapper = new ObjectMapper();
-
     @MockBean(name = "clientRegistrationRepository")
     private ClientRegistrationRepository getClientRegistrationRepository;
 
@@ -47,10 +41,6 @@ public abstract class BaseTest {
         if (!WIRE_MOCK_SERVER.isRunning()) {
             WIRE_MOCK_SERVER.start();
         }
-
-        mapper.registerModule(new JavaTimeModule());
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         // Force re-initialisation of base types for each test suite
     }
 

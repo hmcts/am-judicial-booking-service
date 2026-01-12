@@ -48,7 +48,7 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(UserRequest.builder().build());
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -61,7 +61,7 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(UserRequest.builder().userIds(List.of("abc-12")).build());
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -90,7 +90,7 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
                 UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
@@ -102,7 +102,7 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
                 UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
@@ -116,8 +116,7 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
                 UserRequest.builder().userIds(List.of(ACTOR_ID1)).build());
 
         String response = getRequestSpecification()
-                .body(OBJECT_MAPPER
-                        .writeValueAsString(request))
+                .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.OK.value())
@@ -144,8 +143,7 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
                 UserRequest.builder().userIds(List.of(ACTOR_ID1, ACTOR_ID2)).build());
 
         String response = getRequestSpecification()
-                .body(OBJECT_MAPPER
-                        .writeValueAsString(request))
+                .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.OK.value())

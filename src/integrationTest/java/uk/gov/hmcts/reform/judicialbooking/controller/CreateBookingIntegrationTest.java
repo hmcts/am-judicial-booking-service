@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
@@ -23,9 +22,6 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
     private static final String REGION = "region";
     private static final String LOCATION = "location";
 
-    @LocalServerPort
-    private int serverPort;
-
     @Test
     public void rejectRequestWithoutBody() throws Exception {
         getRequestSpecification()
@@ -38,10 +34,11 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
 
     @Test
     public void rejectRequestWithoutRegion() throws Exception {
-        var request = new BookingRequestWrapper(new BookingRequest(null, null, LOCATION, LocalDate.now(),
-                LocalDate.now()));
+        var request = new BookingRequest(null, null, LOCATION, LocalDate.now(),
+                LocalDate.now());
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -51,10 +48,11 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
 
     @Test
     public void rejectRequestWithoutStartDate() throws Exception {
-        var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, null,
-                LocalDate.now()));
+        var request = new BookingRequest(null, REGION, LOCATION, null,
+                LocalDate.now());
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -64,10 +62,11 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
 
     @Test
     public void rejectRequestWithoutEndDate() throws Exception {
-        var request = new BookingRequestWrapper(new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
-                null));
+        var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
+                null);
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -130,7 +129,8 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                 LocalDate.now().minusDays(1));
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -146,7 +146,8 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                 LocalDate.now().plusDays(5), LocalDate.now());
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -162,7 +163,8 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                 LocalDate.now().minusDays(5), LocalDate.now().minusDays(1));
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(new BookingRequestWrapper(request)))
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -199,11 +201,12 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
 
     @Test
     public void createBookingWithInvalidInputUserId() throws Exception {
-        var request = new BookingRequestWrapper(new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
-                LocalDate.now(), LocalDate.now().plusDays(1)));
+        var request = new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
+                LocalDate.now(), LocalDate.now().plusDays(1));
 
         getRequestSpecification()
-                .body(mapper.writeValueAsBytes(request))
+                .body(OBJECT_MAPPER
+                        .writeValueAsString(new BookingRequestWrapper(request)))
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
