@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
 
-public class CreateBookingIntegrationTest extends BaseTestIntegration {
+public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     private static final String URL = "/am/bookings";
 
     private static final String REGION = "region";

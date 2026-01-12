@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 
-public class DeleteBookingControllerIntegrationTest extends BaseTestIntegration {
+public class DeleteBookingControllerIntegrationTest extends BaseAuthorisedTestIntegration {
     private static final String URL = "/am/bookings/";
 
     @Test

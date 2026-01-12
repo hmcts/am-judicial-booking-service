@@ -30,6 +30,10 @@ public class WiremockFixtures {
     public static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
     public static final String ACTOR_ID2 = "123e4567-e89b-42d3-a456-556642445678";
 
+    public static final String SERVICE_NAME_EXUI = "xui_webapp";
+    public static final String SERVICE_NAME_ORM = "am_org_role_mapping_service";
+
+
     public WiremockFixtures() {
         configureFor(WIRE_MOCK_SERVER.port());
     }
@@ -56,25 +60,26 @@ public class WiremockFixtures {
 
     }
 
-    public void stubAuthorisation() throws JsonProcessingException {
+    public void stubAuthorisation(String serviceName, String actorId)
+            throws JsonProcessingException {
         WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/details"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody("am_judicial_booking_service")
+                        .withBody(serviceName)
                 ));
 
         WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/o/userinfo"))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(OBJECT_MAPPER.writeValueAsString(getUserInfo()))
+                        .withBody(OBJECT_MAPPER.writeValueAsString(getUserInfo(actorId)))
                 ));
     }
 
-    private UserInfo getUserInfo() {
+    private UserInfo getUserInfo(String actorId) {
         return UserInfo.builder()
-                .uid(ACTOR_ID1)
+                .uid(actorId)
                 .givenName("Super")
                 .familyName("User")
                 .roles(List.of("%s"))

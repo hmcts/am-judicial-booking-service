@@ -24,14 +24,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID2;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_EXUI;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_ORM;
 
-public class QueryBookingIntegrationTest extends BaseTestIntegration {
+public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     private static final String URL = "/am/bookings/query";
-
-
-    private static final String SERVICE_NAME_EXUI = "xui_webapp";
-    private static final String SERVICE_NAME_ORM = "am_org_role_mapping_service";
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
@@ -70,24 +68,26 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
                         + "does not comply with the required pattern"));
     }
 
-    //    @Test
-    //    public void retrieveEmptyJudicialBookings_nonExistingUser() throws Exception {
-    //        String randomUserId = UUID.randomUUID().toString();
-    //
-    //        BookingQueryRequest request = new BookingQueryRequest(
-    //                UserRequest.builder().userIds(List.of(randomUserId)).build());
-    //
-    //        getRequestSpecification()
-    //                .body(mapper.writeValueAsBytes(request))
-    //                .when().post(URL)
-    //                .then().assertThat()
-    //                .statusCode(HttpStatus.OK.value());
-    //    }
+        @Test
+        public void retrieveEmptyJudicialBookings_nonExistingUser() throws Exception {
+            String randomUserId = UUID.randomUUID().toString();
+
+            BookingQueryRequest request = new BookingQueryRequest(
+                    UserRequest.builder().userIds(List.of(randomUserId)).build());
+
+            getRequestSpecification(SERVICE_NAME_EXUI, randomUserId)
+                    .body(OBJECT_MAPPER.writeValueAsString(request))
+                    .when().post(URL)
+                    .then().assertThat()
+                    .statusCode(HttpStatus.OK.value());
+        }
 
     @Test
     public void retrieveJudicialBookingsInvalidUser() throws Exception {
+        String randomUserId = UUID.randomUUID().toString();
+
         BookingQueryRequest request = new BookingQueryRequest(
-                UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
+                UserRequest.builder().userIds(List.of(randomUserId)).build());
 
         getRequestSpecification()
                 .body(OBJECT_MAPPER.writeValueAsString(request))
@@ -101,17 +101,43 @@ public class QueryBookingIntegrationTest extends BaseTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(UUID.randomUUID().toString())).build());
 
-        getRequestSpecification()
+        getRequestSpecification(SERVICE_NAME_ORM, ACTOR_ID1)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
-                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
+                .statusCode(HttpStatus.OK.value());
     }
 
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
     public void retrieveJudicialBooking_validSingleBooking() throws Exception {
+        BookingQueryRequest request = new BookingQueryRequest(
+                UserRequest.builder().userIds(List.of(ACTOR_ID2)).build());
+
+        String response = getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID2)
+                .body(OBJECT_MAPPER.writeValueAsString(request))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract().body().asString();
+        BookingQueryResponse bookingResponse = OBJECT_MAPPER.readValue(
+                response,
+                BookingQueryResponse.class
+        );
+        assertNotNull(bookingResponse);
+        List<BookingEntity> actualBookings = bookingResponse.getBookingEntities();
+        assertNotNull(actualBookings);
+        actualBookings.forEach(actual -> Assertions.assertAll(
+                () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
+                () -> assertEquals(actual.getUserId(), ACTOR_ID2)
+        ));
+    }
+
+    @Test
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
+            scripts = {"classpath:sql/insert_judicial_bookings.sql"})
+    public void retrieveJudicialBooking_validMultipleBooking() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1)).build());
 

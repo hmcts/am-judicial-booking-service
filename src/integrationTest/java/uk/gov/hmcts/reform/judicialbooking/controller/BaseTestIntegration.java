@@ -36,9 +36,6 @@ public abstract class BaseTestIntegration extends BaseTest {
 
     protected static final String BASEURL = "http://localhost";
 
-    @LocalServerPort
-    private int serverPort;
-
     @TestConfiguration
     static class Configuration {
         Connection connection;
@@ -68,13 +65,5 @@ public abstract class BaseTestIntegration extends BaseTest {
                 connection.close();
             }
         }
-    }
-
-    protected RequestSpecification getRequestSpecification() throws JOSEException {
-        return SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(BASEURL)
-                .port(serverPort)
-                .headers(MockUtils.getHttpHeaders(MockUtils.S2S_JBS));
     }
 }
