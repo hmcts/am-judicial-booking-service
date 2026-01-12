@@ -1,13 +1,8 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import com.nimbusds.jose.JOSEException;
-import io.restassured.specification.RequestSpecification;
-import net.serenitybdd.rest.SerenityRest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import uk.gov.hmcts.reform.judicialbooking.controller.utils.MockUtils;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
@@ -22,13 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CreateBookingIntegrationTest extends BaseTestIntegration {
     private static final String URL = "/am/bookings";
 
     private static final String REGION = "region";
     private static final String LOCATION = "location";
-    private static final String BASEURL = "http://localhost";
 
     @LocalServerPort
     private int serverPort;
@@ -214,13 +207,5 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
                 .when().post(URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
-    }
-
-    private RequestSpecification getRequestSpecification() throws JOSEException {
-        return SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .baseUri(BASEURL)
-                .port(serverPort)
-                .headers(MockUtils.getHttpHeaders(MockUtils.S2S_JBS));
     }
 }
