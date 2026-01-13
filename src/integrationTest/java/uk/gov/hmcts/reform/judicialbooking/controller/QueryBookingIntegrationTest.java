@@ -188,6 +188,5 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
             () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
         ));
     }
-
-
+    
 }
