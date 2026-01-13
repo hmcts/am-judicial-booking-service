@@ -1,42 +1,33 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.tomakehurst.wiremock.stubbing.StubMapping;
 import com.nimbusds.jose.JOSEException;
 import io.restassured.specification.RequestSpecification;
+import net.serenitybdd.annotations.WithTag;
+import net.serenitybdd.annotations.WithTags;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.rest.SerenityRest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import uk.gov.hmcts.reform.idam.client.models.UserInfo;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.MockUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
 
-import java.util.List;
-import java.util.UUID;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_EXUI;
 
+@ExtendWith({SerenityJUnit5Extension.class, SpringExtension.class})
+@WithTags({@WithTag("testType:Integration")})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration {
+
+    protected static final String BASEURL = "http://localhost";
 
     private WiremockFixtures wiremockFixtures;
 
     @LocalServerPort
     private int serverPort;
-
-    private UserInfo getUserInfo(String actorId) {
-        return UserInfo.builder()
-                .uid(actorId)
-                .givenName("Super")
-                .familyName("User")
-                .roles(List.of("%s"))
-                .build();
-    }
 
     protected RequestSpecification getRequestSpecification()
             throws JOSEException, JsonProcessingException {
