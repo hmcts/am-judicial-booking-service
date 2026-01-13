@@ -68,19 +68,19 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
                         + "does not comply with the required pattern"));
     }
 
-        @Test
-        public void retrieveEmptyJudicialBookings_nonExistingUser() throws Exception {
-            String randomUserId = UUID.randomUUID().toString();
+    @Test
+    public void retrieveEmptyJudicialBookings_nonExistingUser() throws Exception {
+        String randomUserId = UUID.randomUUID().toString();
 
-            BookingQueryRequest request = new BookingQueryRequest(
-                    UserRequest.builder().userIds(List.of(randomUserId)).build());
+        BookingQueryRequest request = new BookingQueryRequest(
+                UserRequest.builder().userIds(List.of(randomUserId)).build());
 
-            getRequestSpecification(SERVICE_NAME_EXUI, randomUserId)
-                    .body(OBJECT_MAPPER.writeValueAsString(request))
-                    .when().post(URL)
-                    .then().assertThat()
-                    .statusCode(HttpStatus.OK.value());
-        }
+        getRequestSpecification(SERVICE_NAME_EXUI, randomUserId)
+                .body(OBJECT_MAPPER.writeValueAsString(request))
+                .when().post(URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.OK.value());
+    }
 
     @Test
     public void retrieveJudicialBookingsInvalidUser() throws Exception {
@@ -188,4 +188,6 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
             () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
         ));
     }
+
+
 }

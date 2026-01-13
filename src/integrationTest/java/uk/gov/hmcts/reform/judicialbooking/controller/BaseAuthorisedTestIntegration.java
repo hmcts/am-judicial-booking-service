@@ -23,6 +23,7 @@ import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtu
 public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration {
 
     protected static final String BASEURL = "http://localhost";
+    private static final long WAIT_TIME_MS = 1000;
 
     private WiremockFixtures wiremockFixtures;
 
@@ -30,12 +31,12 @@ public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration 
     private int serverPort;
 
     protected RequestSpecification getRequestSpecification()
-            throws JOSEException, JsonProcessingException {
+            throws JOSEException, JsonProcessingException, InterruptedException {
         return getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID1);
     }
 
     protected RequestSpecification getRequestSpecification(String serviceName, String actorId)
-            throws JOSEException, JsonProcessingException {
+            throws JOSEException, JsonProcessingException, InterruptedException {
         resetWiremockServer(serviceName, actorId);
         return SerenityRest.given()
                 .relaxedHTTPSValidation()
@@ -44,10 +45,16 @@ public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration 
                 .headers(MockUtils.getHttpHeaders(MockUtils.S2S_JBS));
     }
 
-    protected void resetWiremockServer(String serviceName, String actorId) throws JsonProcessingException {
-        wiremockFixtures = new WiremockFixtures();
+    protected void resetWiremockServer(String serviceName, String actorId)
+            throws JsonProcessingException, InterruptedException {
+        // Clear the stubs and requests
         WIRE_MOCK_SERVER.resetAll();
+        // Recreate the stubs
+        wiremockFixtures = new WiremockFixtures();
         wiremockFixtures.stubIdamConfig();
-        wiremockFixtures.stubAuthorisation(serviceName, actorId);
+        wiremockFixtures.stubAuthorisationDetails(serviceName);
+        wiremockFixtures.stubAuthorisationUserInfo(actorId);
+        // Allow some time for Wiremock to reset
+        Thread.sleep(WAIT_TIME_MS);
     }
 }
