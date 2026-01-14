@@ -103,7 +103,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(randomUserId)).build());
 
-        getRequestSpecification(SERVICE_NAME_ORM, randomUserId)
+        getRequestSpecification(SERVICE_NAME_ORM, ACTOR_ID1)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()

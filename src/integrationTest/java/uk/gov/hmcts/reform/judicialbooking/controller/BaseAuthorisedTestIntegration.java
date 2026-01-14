@@ -35,7 +35,7 @@ public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration 
                 .relaxedHTTPSValidation()
                 .baseUri(BASEURL)
                 .port(serverPort)
-                .headers(MockUtils.getHttpHeaders(MockUtils.S2S_JBS));
+                .headers(MockUtils.getHttpHeaders(serviceName));
     }
 
     protected void resetWiremockServer(String serviceName, String actorId)
