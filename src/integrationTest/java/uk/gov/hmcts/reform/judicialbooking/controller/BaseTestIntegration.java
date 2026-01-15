@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 
-import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -10,7 +9,6 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -26,14 +24,14 @@ public abstract class BaseTestIntegration extends BaseTest {
         Connection connection;
 
         @Bean
-        public EmbeddedPostgres embeddedPostgres() throws IOException {
-            return EmbeddedPostgres
+        public PostgresTestContainer embeddedPostgres() {
+            return PostgresTestContainer
                     .builder()
                     .start();
         }
 
         @Bean
-        public DataSource dataSource(@Autowired EmbeddedPostgres pg) throws Exception {
+        public DataSource dataSource(@Autowired PostgresTestContainer pg) throws Exception {
 
             final Properties props = new Properties();
             // Instruct JDBC to accept JSON string for JSONB
