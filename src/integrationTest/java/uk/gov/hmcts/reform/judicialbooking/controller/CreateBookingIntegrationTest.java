@@ -3,7 +3,7 @@ package uk.gov.hmcts.reform.judicialbooking.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -41,7 +41,7 @@ public class CreateBookingIntegrationTest extends BaseTestIntegration {
     @Inject
     private WebApplicationContext wac;
 
-    @MockBean
+    @MockitoBean
     SecurityUtils securityUtilsMock;
 
     @BeforeEach
