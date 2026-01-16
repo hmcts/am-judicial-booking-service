@@ -31,6 +31,7 @@ def versions = [
         cucumber           : '5.7.0',
         feign_jackson      : '13.6',
         jacksondata        : '2.19.2',
+        logstashEncoder    : '8.0',
         befta              : '9.2.4'
 ]
 
@@ -419,6 +420,11 @@ dependencies {
 
     implementation 'net.bytebuddy:byte-buddy:1.17.7'
 
+    implementation('net.logstash.logback:logstash-logback-encoder') {
+        version { strictly versions.logstashEncoder }
+        because 'logstash 9 pulls Jackson 3 (tools.*); stay on Jackson 2 for Spring Boot 3'
+    }
+
     testImplementation('org.springframework.cloud:spring-cloud-contract-wiremock')
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
         exclude group: 'junit', module: 'junit'
@@ -543,6 +549,31 @@ configurations.all {
     exclude group: 'org.codehaus.groovy', module: 'groovy-xml'
     exclude group: 'org.codehaus.groovy', module: 'groovy-json'
     exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+    
+    resolutionStrategy {
+        force "net.logstash.logback:logstash-logback-encoder:${versions.logstashEncoder}"
+        force "org.springframework.boot:spring-boot-jackson:${springBootVersion}"
+        eachDependency { details ->
+            if (details.requested.group == 'org.springframework.cloud'
+                    && details.requested.name == 'spring-cloud-openfeign-core') {
+                details.useVersion '4.3.0'
+                details.because 'Feign 5.x brings Jackson 3 (tools.*) classes incompatible with Spring Boot 3/Jackson 2'
+            }
+            if (details.requested.group == 'org.springframework.cloud'
+                    && details.requested.name == 'spring-cloud-starter-openfeign') {
+                details.useVersion '4.3.0'
+            }
+            if (details.requested.group == 'org.springframework.cloud'
+                    && details.requested.name == 'spring-cloud-context') {
+                details.useVersion '4.3.0'
+                details.because 'Spring Cloud context 5.x expects Boot bootstrap package; align with Boot 3.x'
+            }
+            if (details.requested.group == 'org.springframework.cloud'
+                    && details.requested.name == 'spring-cloud-commons') {
+                details.useVersion '4.3.0'
+            }
+        }
+    }
 }
 
 cucumberReports {
