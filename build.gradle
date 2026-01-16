@@ -16,9 +16,8 @@ plugins {
     id 'net.serenity-bdd.serenity-gradle-plugin' version '4.3.2'
 }
 
-ext {
-    springCloudVersion = '2025.1.0'
-}
+def springBootVersion = plugins.getPlugin('org.springframework.boot').class.package.implementationVersion
+def springCloudVersion = '2025.1.0'
 
 def versions = [
         pitest             : '1.17.0',
@@ -376,6 +375,8 @@ configurations.all {
 }
 
 dependencies {
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web')
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa')
     implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator')
