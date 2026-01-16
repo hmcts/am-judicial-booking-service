@@ -42,8 +42,8 @@ public class ApplicationConfiguration {
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         var timeout = 10;
         return builder.requestFactory(HttpComponentsClientHttpRequestFactory.class)
-                .setConnectTimeout(Duration.ofSeconds(timeout))
-                .setReadTimeout(Duration.ofSeconds(timeout))
+                .connectTimeout(Duration.ofSeconds(timeout))
+                .readTimeout(Duration.ofSeconds(timeout))
                 .build();
     }
 }
