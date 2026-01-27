@@ -138,6 +138,16 @@ withPipeline(type, product, component) {
             reportName           : "Integration Test Report"
     ]
 
+    // Publish Serenity report after unit tests even if failure.
+    publishHTML target: [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "target/site/serenity",
+            reportFiles          : "index.html",
+            reportName           : "Serenity Tests Report"
+    ]
+
   }
 
   afterAlways('functionalTest:preview') {
@@ -164,6 +174,7 @@ withPipeline(type, product, component) {
     ]
   }
 
+  // Publish Serenity report even if unit tests are skipped after a failure.
   afterAlways('smoketest:preview') {
     publishHTML target: [
             allowMissing         : true,
@@ -175,6 +186,7 @@ withPipeline(type, product, component) {
     ]
   }
 
+  // Publish Serenity report even if unit tests are skipped after a failure.
   afterAlways('smoketest:aat') {
     publishHTML target: [
             allowMissing         : true,
