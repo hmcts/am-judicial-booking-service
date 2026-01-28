@@ -28,7 +28,7 @@ def versions = [
         serenity           : '4.2.34',
         spring             : '6.2.15',
         pact_version       : '4.1.7',
-        rest_assured       : '5.5.6',
+        rest_assured       : '5.5.7',
         cucumber           : '5.7.0',
         feign_jackson      : '13.6',
         jacksondata        : '2.19.2',
@@ -396,7 +396,7 @@ dependencies {
     implementation group: 'jakarta.inject', name: 'jakarta.inject-api', version: '2.0.1'
     implementation group: 'jakarta.el', name: 'jakarta.el-api', version: '6.0.1'
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.3'
-    implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.6.40.Final'
+    implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.6.41.Final'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.8'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
