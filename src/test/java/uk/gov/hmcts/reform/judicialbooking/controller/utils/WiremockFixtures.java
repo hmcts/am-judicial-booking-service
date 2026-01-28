@@ -5,10 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.jose.JOSEException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
@@ -24,6 +28,22 @@ public class WiremockFixtures {
             .modules(new Jdk8Module(), new JavaTimeModule())
             .build();
 
+    public static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
+    public static final String ACTOR_ID2 = "123e4567-e89b-42d3-a456-556642445678";
+
+    public static final String SERVICE_NAME_EXUI = "xui_webapp";
+    public static final String SERVICE_NAME_ORM = "am_org_role_mapping_service";
+
+    private static final UUID AUTH_DETAILS_EXUI =
+            UUID.fromString("d290f1ee-6c54-4b01-90e6-d701748f0851");
+    private static final UUID AUTH_DETAILS_ORM =
+            UUID.fromString("4a1a5f3c-8b9f-4d2e-9f7c-5f6e8c9d0a2b");
+    private static final UUID AUTH_DETAILS_ACTOR1 =
+            UUID.fromString("9f8c7d6e-5b4a-3c2d-1e0f-9a8b7c6d5e4f");
+    private static final UUID AUTH_DETAILS_ACTOR2 =
+            UUID.fromString("0f1e2d3c-4b5a-6d7e-8f9a-0b1c2d3e4f5a");
+
+
     public WiremockFixtures() {
         configureFor(WIRE_MOCK_SERVER.port());
     }
@@ -36,18 +56,69 @@ public class WiremockFixtures {
 
         WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/o/.well-known/openid-configuration"))
                 .willReturn(aResponse()
-                        .withStatus(200)
+                        .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
                         .withBody(OBJECT_MAPPER.writeValueAsString(getOpenIdResponse()))
                 ));
 
         WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/o/jwks"))
                 .willReturn(aResponse()
-                        .withStatus(200)
+                        .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
                         .withBody(getJwksResponse())
                 ));
+    }
 
+    public void stubAuthorisationDetails(String serviceName) {
+        WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/details"))
+                .withId(getUuidForServiceName(serviceName))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(serviceName)
+                ));
+    }
+
+    private UUID getUuidForServiceName(String serviceName) {
+        switch (serviceName) {
+            case SERVICE_NAME_EXUI:
+                return AUTH_DETAILS_EXUI;
+            case SERVICE_NAME_ORM:
+                return AUTH_DETAILS_ORM;
+            default:
+                return UUID.randomUUID();
+        }
+    }
+
+    public void stubAuthorisationUserInfo(String actorId)
+            throws JsonProcessingException {
+        WIRE_MOCK_SERVER.stubFor(get(urlPathMatching("/o/userinfo"))
+                .withId(getUuidForActorIdentity(actorId))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(OBJECT_MAPPER.writeValueAsString(getUserInfo(actorId)))
+                ));
+    }
+
+    private UUID getUuidForActorIdentity(String actorId) {
+        switch (actorId) {
+            case ACTOR_ID1:
+                return AUTH_DETAILS_ACTOR1;
+            case ACTOR_ID2:
+                return AUTH_DETAILS_ACTOR2;
+            default:
+                return UUID.randomUUID();
+        }
+    }
+
+    private UserInfo getUserInfo(String actorId) {
+        return UserInfo.builder()
+                .uid(actorId)
+                .givenName("Super")
+                .familyName("User")
+                .roles(List.of("%s"))
+                .build();
     }
 
     private Map<String, Object> getOpenIdResponse() {
