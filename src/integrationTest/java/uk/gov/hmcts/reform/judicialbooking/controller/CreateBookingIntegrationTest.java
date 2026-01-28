@@ -1,6 +1,12 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
@@ -21,6 +27,21 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
 
     private static final String REGION = "region";
     private static final String LOCATION = "location";
+
+    private static final String EXPRESSION = "$.errorDescription";
+
+    @Inject
+    private WebApplicationContext wac;
+
+    @MockitoBean
+    SecurityUtils securityUtilsMock;
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        MockitoAnnotations.openMocks(this);
+        doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
+    }
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
