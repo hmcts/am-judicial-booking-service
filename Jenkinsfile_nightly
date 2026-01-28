@@ -101,11 +101,29 @@ withNightlyPipeline(type, product, component) {
     stage("integration tests") {
       sh "./gradlew integration"
       steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/integration/**/*'
+
+      publishHTML target: [
+              allowMissing         : true,
+              alwaysLinkToLastBuild: true,
+              keepAll              : true,
+              reportDir            : "build/reports/tests/integration",
+              reportFiles          : "index.html",
+              reportTitles         : "Index",
+              reportName           : "Integration Test Report"
+      ]
+
+      publishHTML target: [
+              allowMissing         : true,
+              alwaysLinkToLastBuild: true,
+              keepAll              : true,
+              reportDir            : "target/site/serenity",
+              reportFiles          : "index.html",
+              reportName           : "Serenity Tests Report"
+      ]
     }
   }
 
   afterAlways('fullFunctionalTest') {
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/cucumber/**/*'
 
     publishHTML target: [
             allowMissing         : true,
