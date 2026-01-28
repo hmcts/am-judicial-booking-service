@@ -34,7 +34,6 @@ public abstract class BaseTest {
     protected static final ObjectMapper mapper = new ObjectMapper();
 
     @MockitoBean(name = "clientRegistrationRepository")
-    @MockBean(name = "clientRegistrationRepository")
     private ClientRegistrationRepository getClientRegistrationRepository;
 
     @MockitoBean(name = "reactiveClientRegistrationRepository")
