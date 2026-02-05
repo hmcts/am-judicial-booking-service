@@ -254,6 +254,27 @@ task runProviderPactVerification(type: Test) {
 runProviderPactVerification.dependsOn contract
 runProviderPactVerification.finalizedBy pactVerify
 
+// Ensure Pact tests can reach the broker without relying on local defaults
+[contract, runAndPublishConsumerPactTests, runProviderPactVerification].each { pactTask ->
+    tasks.named(pactTask.name).configure {
+        systemProperty 'PACT_BROKER_URL',
+                System.getenv('PACT_BROKER_URL') ?:
+                        System.getProperty('PACT_BROKER_URL') ?:
+                        project.findProperty('pact.broker.url') ?:
+                        'pact-broker.platform.hmcts.net'
+        systemProperty 'PACT_BROKER_PORT',
+                System.getenv('PACT_BROKER_PORT') ?:
+                        System.getProperty('PACT_BROKER_PORT') ?:
+                        project.findProperty('pact.broker.port') ?:
+                        '443'
+        systemProperty 'PACT_BROKER_SCHEME',
+                System.getenv('PACT_BROKER_SCHEME') ?:
+                        System.getProperty('PACT_BROKER_SCHEME') ?:
+                        project.findProperty('pact.broker.scheme') ?:
+                        'https'
+    }
+}
+
 jacocoTestReport {
     executionData(test)
     reports {
