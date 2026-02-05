@@ -5,8 +5,6 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,8 +14,6 @@ import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
-import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
-
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -29,11 +25,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID2;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_EXUI;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_ORM;
 
 public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
@@ -50,14 +42,10 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     @Inject
     private WebApplicationContext wac;
 
-    @MockitoBean
-    SecurityUtils securityUtilsMock;
-
 
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-        MockitoAnnotations.openMocks(this);
     }
 
     @Test
