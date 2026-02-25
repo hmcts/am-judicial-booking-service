@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * documentation.
  */
 @TestPropertySource(properties = {
-        // NB: hide testing-support endpoint from Swagger Publish
-        "testing.support.enabled=false"
+    // NB: hide testing-support endpoint from Swagger Publish
+    "testing.support.enabled=false"
 })
 public class SwaggerPublisher extends BaseTestIntegration {
 
