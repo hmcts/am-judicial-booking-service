@@ -77,7 +77,7 @@ public class QueryBookingProviderTest {
         String currentUserId = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
 
         Mockito.when(persistenceService.getValidBookings(List.of(currentUserId)))
-                .thenReturn(TestDataBuilder.buildListOfBookings());
+                .thenReturn(List.of(TestDataBuilder.buildRetrievedBooking(currentUserId)));
 
         Mockito.when(securityUtils.getUserId()).thenReturn(currentUserId);
         Mockito.when(correlationInterceptorUtil.preHandle(any()))
