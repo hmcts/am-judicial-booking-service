@@ -30,7 +30,7 @@ public class SwaggerConfiguration {
     public GroupedOpenApi publicApi(OperationCustomizer customGlobalHeaders) {
         return GroupedOpenApi.builder()
                 .group("am-judicial-booking-service")
-                .pathsToMatch("/**")
+                .pathsToMatch("/am/bookings/**")
                 .build();
     }
 
