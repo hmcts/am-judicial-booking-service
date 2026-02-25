@@ -23,8 +23,6 @@ import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(SpringExtension.class)
@@ -74,12 +72,12 @@ public class QueryBookingProviderTest {
     }
 
     private void initQueryMocks() {
-        String currentUserId = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
 
-        Mockito.when(persistenceService.getValidBookings(List.of(currentUserId)))
-                .thenReturn(List.of(TestDataBuilder.buildRetrievedBooking(currentUserId)));
+        Mockito.when(persistenceService.getValidBookings(TestDataBuilder.buildRequestIds().getUserIds()))
+                .thenReturn(TestDataBuilder.buildListOfBookings());
 
-        Mockito.when(securityUtils.getUserId()).thenReturn(currentUserId);
+        Mockito.when(securityUtils.getServiceName()).thenReturn("am_org_role_mapping_service");
+        Mockito.when(securityUtils.getUserId()).thenReturn("5629957f-4dcd-40b8-a0b2-e64ff5898b28");
         Mockito.when(correlationInterceptorUtil.preHandle(any()))
                 .thenReturn("14a21569-eb80-4681-b62c-6ae2ed069e2d");
 
