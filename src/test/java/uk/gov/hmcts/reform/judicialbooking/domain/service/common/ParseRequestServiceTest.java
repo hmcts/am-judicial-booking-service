@@ -61,36 +61,23 @@ class ParseRequestServiceTest {
     }
 
     @Test
-    void parseQueryRequest() {
+    void parseQueryRequest_MultipleUsers() {
         UserRequest userRequest = TestDataBuilder.buildRequestIds();
         when(securityUtils.getServiceName()).thenReturn(S2S_NOBYPASS_VALIDATION);
-        when(securityUtils.getUserId())
-                .thenReturn(userRequest.getUserIds().get(0))
-                .thenReturn(userRequest.getUserIds().get(1));
 
-        List<String> parsedUserIds = sut.parseQueryRequest(
-                BookingQueryRequest.builder().queryRequest(userRequest).build());
-
-        Assertions.assertNotNull(parsedUserIds);
-        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
-        Assertions.assertEquals(2, parsedUserIds.size());
+        Assertions.assertThrows(UnprocessableEntityException.class, () ->
+                sut.parseQueryRequest(
+                        BookingQueryRequest.builder().queryRequest(userRequest).build()));
     }
 
     @Test
     void parseQueryRequestWithOldIdamId() {
         UserRequest userRequest = TestDataBuilder.buildRequestIdsWithOldIdamId();
         when(securityUtils.getServiceName()).thenReturn(S2S_NOBYPASS_VALIDATION);
-        when(securityUtils.getUserId())
-                .thenReturn(userRequest.getUserIds().get(0))
-                .thenReturn(userRequest.getUserIds().get(1))
-                .thenReturn(userRequest.getUserIds().get(2));
 
-        List<String> parsedUserIds = sut.parseQueryRequest(
-                BookingQueryRequest.builder().queryRequest(userRequest).build());
-
-        Assertions.assertNotNull(parsedUserIds);
-        Assertions.assertEquals(userRequest.getUserIds(), parsedUserIds);
-        Assertions.assertEquals(3, parsedUserIds.size());
+        Assertions.assertThrows(UnprocessableEntityException.class, () ->
+                sut.parseQueryRequest(
+                        BookingQueryRequest.builder().queryRequest(userRequest).build()));
     }
 
     @Test

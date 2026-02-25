@@ -14,12 +14,10 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID2;
@@ -165,7 +163,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
-    public void retrieveJudicialBooking_validMultipleUsers() throws Exception {
+    public void retrieveJudicialBooking_invalidMultipleUsers() throws Exception {
 
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1, ACTOR_ID2)).build());
@@ -174,19 +172,14 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
                 .extract().body().asString();
         BookingQueryResponse bookingResponse = OBJECT_MAPPER.readValue(
                 response,
                 BookingQueryResponse.class
         );
         assertNotNull(bookingResponse);
-        List<BookingEntity> actualBookings = bookingResponse.getBookingEntities();
-        assertNotNull(actualBookings);
-        actualBookings.forEach(actual -> Assertions.assertAll(
-            () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
-            () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
-        ));
+        assertNull(bookingResponse.getBookingEntities());
     }
     
 }
