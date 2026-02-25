@@ -64,8 +64,10 @@ public class ParseRequestService {
         validateInputParams(Constants.IDAM_ID_PATTERN,
                 queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
 
-        if (!byPassQueryValidation() && queryRequest.getQueryRequest().getUserIds().size() == 1) {
-            validateUserId(queryRequest.getQueryRequest().getUserIds().get(0), securityUtils.getUserId());
+        if (!byPassQueryValidation()) {
+            for (String userId : queryRequest.getQueryRequest().getUserIds()) {
+                validateUserId(userId, securityUtils.getUserId());
+            }
         }
 
         return queryRequest.getQueryRequest().getUserIds();
