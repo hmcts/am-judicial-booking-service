@@ -124,4 +124,5 @@ springdoc:
     operationsSorter: method
   writer-with-order-by-keys: true
 
-
+oidc:
+  issuer: ${OIDC_ISSUER_URL:http://fr-am:8080/openam/oauth2/hmcts}
