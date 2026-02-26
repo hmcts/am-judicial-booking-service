@@ -59,7 +59,8 @@ public class DeleteBookingController {
     }
 
     /**
-     * @deprecated Use deleteBookingByUserId instead.
+     * This method is deprecated and should not be used.
+     * @deprecated Use {@link #deleteBookingByUserId(String)} instead.
      */
     @Deprecated
     @DeleteMapping(
