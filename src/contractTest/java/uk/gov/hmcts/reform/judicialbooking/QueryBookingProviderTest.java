@@ -30,7 +30,8 @@ import static org.mockito.ArgumentMatchers.any;
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
         consumerVersionSelectors = {@VersionSelector(tag = "master")})
-@TestPropertySource(properties = {"spring.cache.type=none"})
+@TestPropertySource(properties = {"spring.cache.type=none",
+        "judicial-booking.query.bypass-userid-validation-for-services=am_org_role_mapping_service"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify
 public class QueryBookingProviderTest {
