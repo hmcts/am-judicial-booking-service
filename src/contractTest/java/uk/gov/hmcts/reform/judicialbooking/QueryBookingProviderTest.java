@@ -11,18 +11,14 @@ import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.QueryBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
@@ -34,31 +30,22 @@ import static org.mockito.ArgumentMatchers.any;
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
         consumerVersionSelectors = {@VersionSelector(tag = "master")})
-@TestPropertySource(properties = {"spring.cache.type=none",
-    "judicial-booking.query.bypass-userid-validation-for-services=am_org_role_mapping_service"})
+@TestPropertySource(properties = {"spring.cache.type=none"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify
 public class QueryBookingProviderTest {
 
-    @Mock
+    @Autowired
     private PersistenceService persistenceService;
 
-    @Mock
+    @Autowired
     private SecurityUtils securityUtils;
 
-    @Mock
+    @Autowired
     private CorrelationInterceptorUtil correlationInterceptorUtil;
 
-    private final BookingOrchestrator bookingOrchestrator;
-
     @Autowired
-    public QueryBookingProviderTest(PrepareDataService prepareDataService) {
-        MockitoAnnotations.openMocks(this);
-        this.bookingOrchestrator = new BookingOrchestrator(
-                new ParseRequestService(this.securityUtils, "am_org_role_mapping_service"),
-                this.persistenceService,
-                prepareDataService);
-    }
+    private BookingOrchestrator bookingOrchestrator;
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
@@ -89,7 +76,6 @@ public class QueryBookingProviderTest {
         Mockito.when(persistenceService.getValidBookings(TestDataBuilder.buildRequestIds().getUserIds()))
                 .thenReturn(TestDataBuilder.buildListOfBookings());
 
-        Mockito.when(securityUtils.getServiceName()).thenReturn("am_org_role_mapping_service");
         Mockito.when(securityUtils.getUserId()).thenReturn("5629957f-4dcd-40b8-a0b2-e64ff5898b28");
         Mockito.when(correlationInterceptorUtil.preHandle(any()))
                 .thenReturn("14a21569-eb80-4681-b62c-6ae2ed069e2d");

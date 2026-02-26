@@ -33,7 +33,7 @@ public class ProviderTestConfiguration {
     @Bean
     @Primary
     public ParseRequestService getParseRequestService() {
-        return new ParseRequestService(securityUtils,"");
+        return new ParseRequestService(securityUtils,"am_org_role_mapping_service");
     }
 
     @MockBean
