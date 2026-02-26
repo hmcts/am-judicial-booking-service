@@ -63,7 +63,7 @@ public class DeleteBookingController {
      * @deprecated Use {@link #deleteBookingByUserId(String)} instead.
      */
     @Deprecated(forRemoval = true)
-    @SuppressWarnings("squid:S1133")
+    @SuppressWarnings({"squid:S1133", "DeprecatedIsStillUsed"})
     @DeleteMapping(
             path = "am/bookings/{userId}",
             produces = V1.MediaType.DELETE_BOOKINGS
