@@ -25,8 +25,10 @@ public class UserTokenProviderConfig {
 
         idamURL = EnvironmentVariableUtils.getRequiredVariable("IDAM_URL");
         baseUrl = EnvironmentVariableUtils.getRequiredVariable("TEST_URL");
-        secret = EnvironmentVariableUtils.getRequiredVariable("BEFTA_S2S_CLIENT_SECRET_OF_AM_ORG_ROLE_MAPPING_SERVICE");
-        microService = EnvironmentVariableUtils.getRequiredVariable("BEFTA_S2S_CLIENT_ID_OF_AM_ORG_ROLE_MAPPING_SERVICE");
+        secret = EnvironmentVariableUtils.getRequiredVariable(
+                "BEFTA_S2S_CLIENT_SECRET_OF_AM_ORG_ROLE_MAPPING_SERVICE");
+        microService = EnvironmentVariableUtils.getRequiredVariable(
+                "BEFTA_S2S_CLIENT_ID_OF_AM_ORG_ROLE_MAPPING_SERVICE");
         s2sUrl = EnvironmentVariableUtils.getRequiredVariable("IDAM_S2S_URL");
         clientSecret = EnvironmentVariableUtils.getRequiredVariable("JUDICIAL_BOOKING_IDAM_CLIENT_SECRET");
         clientId = EnvironmentVariableUtils.getRequiredVariable("IDAM_CLIENT_ID");
