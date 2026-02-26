@@ -59,10 +59,9 @@ public class DeleteBookingController {
     }
 
     /**
-     * @deprecated (deprecated in favour of testing-support endpoint.)
+     * @deprecated Use deleteBookingByUserId instead.
      */
-    @SuppressWarnings({"squid:S1133", "DeprecatedIsStillUsed"})
-    @Deprecated(forRemoval = true)
+    @Deprecated
     @DeleteMapping(
             path = "am/bookings/{userId}",
             produces = V1.MediaType.DELETE_BOOKINGS
