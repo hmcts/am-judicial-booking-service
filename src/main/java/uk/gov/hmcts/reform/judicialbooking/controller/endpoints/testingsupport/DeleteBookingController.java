@@ -58,6 +58,9 @@ public class DeleteBookingController {
         return bookingOrchestrator.deleteBookingByUserId(userId);
     }
 
+    /**
+     * @deprecated (deprecated in favour of testing-support endpoint.)
+     */
     @SuppressWarnings({"squid:S1133", "DeprecatedIsStillUsed"})
     @Deprecated(forRemoval = true)
     @DeleteMapping(
