@@ -18,7 +18,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.QueryBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
@@ -40,13 +42,22 @@ public class QueryBookingProviderTest {
     private PersistenceService persistenceService;
 
     @Autowired
+    private PrepareDataService prepareDataService;
+
+    @Autowired
     private SecurityUtils securityUtils;
 
     @Autowired
     private CorrelationInterceptorUtil correlationInterceptorUtil;
 
-    @Autowired
-    private BookingOrchestrator bookingOrchestrator;
+    private final BookingOrchestrator bookingOrchestrator;
+
+    public QueryBookingProviderTest() {
+        this.bookingOrchestrator = new BookingOrchestrator(
+                new ParseRequestService(this.securityUtils, "am_org_role_mapping_service"),
+                this.persistenceService,
+                this.prepareDataService);
+    }
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
