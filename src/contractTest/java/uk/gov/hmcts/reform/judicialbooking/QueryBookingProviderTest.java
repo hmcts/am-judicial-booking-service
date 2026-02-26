@@ -11,7 +11,9 @@ import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
@@ -38,25 +40,24 @@ import static org.mockito.ArgumentMatchers.any;
 @IgnoreNoPactsToVerify
 public class QueryBookingProviderTest {
 
-    @Autowired
+    @Mock
     private PersistenceService persistenceService;
 
-    @Autowired
-    private PrepareDataService prepareDataService;
-
-    @Autowired
+    @Mock
     private SecurityUtils securityUtils;
 
-    @Autowired
+    @Mock
     private CorrelationInterceptorUtil correlationInterceptorUtil;
 
     private final BookingOrchestrator bookingOrchestrator;
 
-    public QueryBookingProviderTest() {
+    @Autowired
+    public QueryBookingProviderTest(PrepareDataService prepareDataService) {
+        MockitoAnnotations.openMocks(this);
         this.bookingOrchestrator = new BookingOrchestrator(
                 new ParseRequestService(this.securityUtils, "am_org_role_mapping_service"),
                 this.persistenceService,
-                this.prepareDataService);
+                prepareDataService);
     }
 
     @TestTemplate
