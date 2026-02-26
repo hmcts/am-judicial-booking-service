@@ -67,9 +67,8 @@ public class ParseRequestService {
         if (!byPassQueryValidation()) {
             String currentUserId = securityUtils.getUserId();
             // Validate that the query is only from the current self-service user.
-            for (String userId : queryRequest.getQueryRequest().getUserIds()) {
-                validateUserId(userId, currentUserId);
-            }
+            queryRequest.getQueryRequest().getUserIds().forEach(userId ->
+                validateUserId(userId, currentUserId));
         }
 
         return queryRequest.getQueryRequest().getUserIds();
