@@ -35,7 +35,7 @@ public class DeleteBookingController {
     }
 
     @DeleteMapping(
-            path = "am/testing-support/bookings/{userId}",
+            path = "/am/testing-support/bookings/{userId}",
             produces = V1.MediaType.DELETE_BOOKINGS
     )
     @Operation(summary = "deletes a booking by user",
