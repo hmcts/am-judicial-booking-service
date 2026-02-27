@@ -3,7 +3,7 @@
   "productName": "Judicial Booking Service",
   "operationName": "Delete Booking by userId",
   "method": "DELETE",
-  "uri": "/am/test-support/bookings/{userId}",
+  "uri": "/am/testing-support/bookings/{userId}",
   "specs": [
     "to delete bookings just created above"
   ],
