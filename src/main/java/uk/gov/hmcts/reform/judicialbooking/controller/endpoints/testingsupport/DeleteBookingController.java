@@ -71,9 +71,7 @@ public class DeleteBookingController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @Hidden
     public ResponseEntity<Void> deleteBookingByUserIdDeprecated(
-            @Parameter(description = "userId", required = true)
-            @PathVariable String userId) {
-        log.info("deleteBookingByUserIdDeprecated called");
+            @Parameter(description = "userId", required = true) @PathVariable String userId) {
         return deleteBookingByUserId(userId);
     }
 }
