@@ -125,6 +125,7 @@ springdoc:
   writer-with-order-by-keys: true
 
 oidc:
+  issuer: ${OIDC_ISSUER_URL:https://idam-web-public.aat.platform.hmcts.net/o}
   issuers:
     validation: ${JWT_ISSUER_VALIDATION_ENABLED:true}
 

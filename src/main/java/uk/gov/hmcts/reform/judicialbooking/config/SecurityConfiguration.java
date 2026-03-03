@@ -41,8 +41,11 @@ public class SecurityConfiguration {
     @Value("${spring.security.oauth2.client.provider.oidc.issuer-uri}")
     private String issuerUri;
 
-    @Value("${oidc.jwt-issuer-validation-enabled:false}")
+    @Value("${oidc.issuers.validation:true}")
     private Boolean jwtIssuerValidationEnabled;
+
+    @Value("${oidc.issuer}")
+    private String issuerOverride;
 
     @Order(1)
     private final ServiceAuthFilter serviceAuthFilter;
@@ -103,7 +106,8 @@ public class SecurityConfiguration {
         if (jwtIssuerValidationEnabled) {
             validator = new DelegatingOAuth2TokenValidator<>(withTimestamp,
                     JwtValidators.createDefaultWithValidators(
-                            Arrays.asList(new JwtIssuerValidator(issuerUri))
+                            Arrays.asList(new JwtIssuerValidator(issuerUri),
+                                    new JwtIssuerValidator(issuerOverride))
                     ));
         } else {
             validator = new DelegatingOAuth2TokenValidator<>(withTimestamp);
