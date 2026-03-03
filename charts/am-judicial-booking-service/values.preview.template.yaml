@@ -21,5 +21,6 @@ java:
     IDAM_S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     OPEN_ID_API_BASE_URI: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/o
     JBS_ENV: pr
+    JWT_ISSUER_VALIDATION_ENABLED: false
   postgresql:
     enabled: true
