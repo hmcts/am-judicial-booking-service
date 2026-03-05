@@ -12,10 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 @ExtendWith(SerenityJUnit5Extension.class)
 @NoArgsConstructor
 @WithTags({@WithTag("testType:Smoke")})
+@TestPropertySource(properties = {"oidc.issuerValidation=false"})
 public class SmokeTest extends BaseTest {
 
     public static final String AUTHORIZATION = "Authorization";
