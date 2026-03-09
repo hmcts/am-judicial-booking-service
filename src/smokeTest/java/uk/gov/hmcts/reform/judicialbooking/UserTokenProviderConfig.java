@@ -13,7 +13,6 @@ public class UserTokenProviderConfig {
     private final String secret;
     private final String microService;
     private final String s2sUrl;
-    private final String s2sOverrideUrl;
 
     private final String clientId;
     private final String clientSecret;
@@ -30,7 +29,6 @@ public class UserTokenProviderConfig {
         secret = EnvironmentVariableUtils.getRequiredVariable("AM_JUDICIAL_BOOKING_SERVICE_SECRET");
         microService = MICRO_SERVICE_NAME;
         s2sUrl = EnvironmentVariableUtils.getRequiredVariable("IDAM_S2S_URL");
-        s2sOverrideUrl = EnvironmentVariableUtils.getRequiredVariable("OIDC_ISSUER_URL");
         clientSecret = EnvironmentVariableUtils.getRequiredVariable("JUDICIAL_BOOKING_IDAM_CLIENT_SECRET");
         clientId = EnvironmentVariableUtils.getRequiredVariable("IDAM_CLIENT_ID");
         username = USER_NAME;

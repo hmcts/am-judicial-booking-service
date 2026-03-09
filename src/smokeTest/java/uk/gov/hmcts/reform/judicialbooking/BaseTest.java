@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import feign.Feign;
+import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import jakarta.annotation.PreDestroy;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
@@ -58,6 +59,7 @@ public abstract class BaseTest {
     public ServiceAuthorisationApi generateServiceAuthorisationApi(final String s2sUrl) {
         return Feign.builder()
                 .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
                 .contract(new SpringMvcContract())
                 .target(ServiceAuthorisationApi.class, s2sUrl);
     }
