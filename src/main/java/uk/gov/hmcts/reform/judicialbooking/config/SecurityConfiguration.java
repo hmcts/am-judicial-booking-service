@@ -101,7 +101,7 @@ public class SecurityConfiguration {
 
         OAuth2TokenValidator<Jwt> withTimestamp = new JwtTimestampValidator();
         OAuth2TokenValidator<Jwt> validator;
-        if (issuerValidationEnabled) {
+        if (issuerValidationEnabled && issuerOverride != null && !issuerOverride.isEmpty()) {
             OAuth2TokenValidator<Jwt> withIssuer = new JwtIssuerValidator(issuerOverride);
             validator = new DelegatingOAuth2TokenValidator<>(withTimestamp, withIssuer);
         } else {
