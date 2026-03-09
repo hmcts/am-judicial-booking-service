@@ -14,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
+import java.util.Properties;
+
 import static uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils.BEARER;
 import static uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils.SERVICE_AUTHORIZATION;
 
@@ -29,6 +31,11 @@ public class SmokeTest extends BaseTest {
     @BeforeEach
     public void setUp() {
         config = new UserTokenProviderConfig();
+        Properties properties = System.getProperties();
+        properties.setProperty(
+                "spring.security.oauth2.client.provider.oidc.issuer-uri",config.getS2sUrl());
+        properties.setProperty("oidc.issuerValidation", "true");
+        properties.setProperty("oidc.issuer",config.getS2sUrl());
         accessToken = searchUserByUserId(config);
         serviceAuth = authTokenGenerator(
                 config.getSecret(),
