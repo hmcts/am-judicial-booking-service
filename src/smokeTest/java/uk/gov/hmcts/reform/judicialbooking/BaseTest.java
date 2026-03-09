@@ -58,8 +58,8 @@ public abstract class BaseTest {
 
     public ServiceAuthorisationApi generateServiceAuthorisationApi(final String s2sUrl) {
         return Feign.builder()
-                .encoder(new JacksonEncoder())
-                .decoder(new JacksonDecoder())
+                .encoder(new JacksonEncoder(mapper))
+                .decoder(new JacksonDecoder(mapper))
                 .contract(new SpringMvcContract())
                 .target(ServiceAuthorisationApi.class, s2sUrl);
     }
