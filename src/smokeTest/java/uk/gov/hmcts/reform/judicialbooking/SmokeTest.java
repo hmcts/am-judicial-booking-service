@@ -7,20 +7,19 @@ import net.serenitybdd.annotations.WithTag;
 import net.serenitybdd.annotations.WithTags;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.rest.SerenityRest;
-import org.apache.commons.lang3.Validate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+
+import static uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils.BEARER;
+import static uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils.SERVICE_AUTHORIZATION;
 
 @ExtendWith(SerenityJUnit5Extension.class)
 @NoArgsConstructor
 @WithTags({@WithTag("testType:Smoke")})
 public class SmokeTest extends BaseTest {
-
-    public static final String AUTHORIZATION = "Authorization";
-    public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
-    public static final String BEARER = "Bearer ";
 
     UserTokenProviderConfig config;
     String accessToken;
@@ -51,18 +50,14 @@ public class SmokeTest extends BaseTest {
                 .given()
                 .relaxedHTTPSValidation()
                 .header("Content-Type", "application/json")
-                .header(SERVICE_AUTHORIZATION, BEARER + serviceAuth)
-                .header(AUTHORIZATION, BEARER + accessToken)
+                .header(SERVICE_AUTHORIZATION, serviceAuth)
+                .header(HttpHeaders.AUTHORIZATION, BEARER + accessToken)
                 .body(requestBody)
                 .when()
                 .post(targetInstance)
                 .andReturn();
 
         response.then().assertThat().statusCode(HttpStatus.OK.value());
-    }
-
-    public static String getRequiredVariable(String name) {
-        return Validate.notNull(System.getenv(name), "Environment variable `%s` is required", name);
     }
 
 }
