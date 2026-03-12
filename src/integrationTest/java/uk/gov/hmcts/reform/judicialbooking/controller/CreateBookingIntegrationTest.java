@@ -1,11 +1,19 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
+import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -13,14 +21,34 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doReturn;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
 
 public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     private static final String URL = "/am/bookings";
 
+    private static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
+
     private static final String REGION = "region";
     private static final String LOCATION = "location";
+
+    private static final String EXPRESSION = "$.errorDescription";
+
+    private MockMvc mockMvc;
+
+    @Inject
+    private WebApplicationContext wac;
+
+    @MockitoBean
+    SecurityUtils securityUtilsMock;
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+        MockitoAnnotations.openMocks(this);
+        doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
+    }
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
@@ -170,7 +198,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
                 .body(containsString("The begin time: " + LocalDate.now().minusDays(5)
-                                + " takes place before the current time: " + LocalDate.now()));
+                        + " takes place before the current time: " + LocalDate.now()));
     }
 
     @Test

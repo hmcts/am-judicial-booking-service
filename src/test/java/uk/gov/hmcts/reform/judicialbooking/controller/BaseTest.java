@@ -1,11 +1,11 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,6 +15,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.TestPropertySourceUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
@@ -31,10 +32,12 @@ public abstract class BaseTest {
 
     public static final WireMockServer WIRE_MOCK_SERVER = new WireMockServer(options().dynamicPort());
 
-    @MockBean(name = "clientRegistrationRepository")
+    protected static final ObjectMapper mapper = new ObjectMapper();
+
+    @MockitoBean(name = "clientRegistrationRepository")
     private ClientRegistrationRepository getClientRegistrationRepository;
 
-    @MockBean(name = "reactiveClientRegistrationRepository")
+    @MockitoBean(name = "reactiveClientRegistrationRepository")
     private ReactiveClientRegistrationRepository getReactiveClientRegistrationRepository;
 
     static {
