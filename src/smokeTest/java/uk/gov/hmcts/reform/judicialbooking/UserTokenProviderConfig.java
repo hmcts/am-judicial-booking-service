@@ -1,10 +1,11 @@
 package uk.gov.hmcts.reform.judicialbooking;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.befta.util.EnvironmentVariableUtils;
 import uk.gov.hmcts.reform.idam.client.models.TokenRequest;
 
-
+@Slf4j
 @Getter
 public class UserTokenProviderConfig {
 
@@ -35,6 +36,7 @@ public class UserTokenProviderConfig {
         username = USER_NAME;
         password = EnvironmentVariableUtils.getRequiredVariable("TEST_AM_USER2_BEFTA_PWD");
         scope = getScope();
+        log.info("UserTokenProviderConfig initialized with scope: {}", scope);
     }
 
     public static String getScope() {
