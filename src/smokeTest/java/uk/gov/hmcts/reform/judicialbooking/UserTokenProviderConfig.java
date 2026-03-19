@@ -1,11 +1,9 @@
 package uk.gov.hmcts.reform.judicialbooking;
 
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.befta.util.EnvironmentVariableUtils;
 import uk.gov.hmcts.reform.idam.client.models.TokenRequest;
 
-@Slf4j
 @Getter
 public class UserTokenProviderConfig {
 
@@ -22,7 +20,6 @@ public class UserTokenProviderConfig {
     private final String scope;
     private static final String MICRO_SERVICE_NAME = "am_judicial_booking_service";
     private static final String USER_NAME = "TEST_AM_USER2_BEFTA@test.local";
-    private static final String SCOPE_OPENID = "openid";
 
     public UserTokenProviderConfig() {
 
@@ -35,18 +32,8 @@ public class UserTokenProviderConfig {
         clientId = EnvironmentVariableUtils.getRequiredVariable("IDAM_CLIENT_ID");
         username = USER_NAME;
         password = EnvironmentVariableUtils.getRequiredVariable("TEST_AM_USER2_BEFTA_PWD");
-        scope = getScope();
-        log.info("UserTokenProviderConfig initialized with scope: {}", scope);
-    }
-
-    public static String getScope() {
-        String scope = EnvironmentVariableUtils.getRequiredVariable("OPENID_SCOPE_VARIABLES");
-        // SecurityConfiguration needs the 'iss' claim, which comes from the openid scope entry.
-        if (!scope.contains(SCOPE_OPENID)) {
-            // If openid is not present then add it.
-            scope += " " + SCOPE_OPENID;
-        }
-        return scope;
+        // scope = EnvironmentVariableUtils.getRequiredVariable("OPENID_SCOPE_VARIABLES");
+        scope = "openid profile roles authorities";
     }
 
     public TokenRequest prepareTokenRequest() {
