@@ -33,7 +33,7 @@ public class UserTokenProviderConfig {
         username = USER_NAME;
         password = EnvironmentVariableUtils.getRequiredVariable("TEST_AM_USER2_BEFTA_PWD");
         // scope = EnvironmentVariableUtils.getRequiredVariable("OPENID_SCOPE_VARIABLES");
-        scope = "openid profile roles authorities";
+        scope = "openid";
     }
 
     public TokenRequest prepareTokenRequest() {
