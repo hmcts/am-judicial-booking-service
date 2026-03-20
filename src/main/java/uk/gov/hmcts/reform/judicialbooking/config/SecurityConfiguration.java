@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.config;
 
 import jakarta.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,7 @@ import uk.gov.hmcts.reform.judicialbooking.oidc.JwtGrantedAuthoritiesConverter;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Configuration
 @ConfigurationProperties(prefix = "security")
 @EnableWebSecurity
@@ -103,10 +105,12 @@ public class SecurityConfiguration {
         OAuth2TokenValidator<Jwt> withTimestamp = new JwtTimestampValidator();
         OAuth2TokenValidator<Jwt> validator;
         if (issuerValidationEnabled) {
+            log.info("Validating issuers");
             List<String> validIssuers = Arrays.asList(issuerUri, issuerOverride);
             OAuth2TokenValidator<Jwt> withIssuer = new MultiIssuerValidator(validIssuers);
             validator = new DelegatingOAuth2TokenValidator<>(withTimestamp, withIssuer);
         } else {
+            log.info("Validating timestamp");
             validator = new DelegatingOAuth2TokenValidator<>(withTimestamp);
         }
         jwtDecoder.setJwtValidator(validator);
