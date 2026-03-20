@@ -104,6 +104,8 @@ public class SecurityConfiguration {
 
         OAuth2TokenValidator<Jwt> withTimestamp = new JwtTimestampValidator();
         OAuth2TokenValidator<Jwt> validator;
+        log.info("Issuer {}", issuerUri);
+        log.info("IssuerOverride {}", issuerOverride);
         if (issuerValidationEnabled) {
             log.info("Validating issuers");
             List<String> validIssuers = Arrays.asList(issuerUri, issuerOverride);
