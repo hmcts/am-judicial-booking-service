@@ -100,8 +100,6 @@ public class SecurityConfiguration {
     @Bean
     JwtDecoder jwtDecoder() {
 
-        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuerUri);
-
         OAuth2TokenValidator<Jwt> withTimestamp = new JwtTimestampValidator();
         OAuth2TokenValidator<Jwt> validator;
         log.info("Issuer {}", issuerUri);
@@ -115,6 +113,7 @@ public class SecurityConfiguration {
             log.info("Validating timestamp");
             validator = new DelegatingOAuth2TokenValidator<>(withTimestamp);
         }
+        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuerUri);
         jwtDecoder.setJwtValidator(validator);
         return jwtDecoder;
     }
