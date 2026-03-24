@@ -4,6 +4,7 @@ import lombok.Getter;
 import uk.gov.hmcts.befta.util.EnvironmentVariableUtils;
 import uk.gov.hmcts.reform.idam.client.models.TokenRequest;
 
+
 @Getter
 public class UserTokenProviderConfig {
 
@@ -36,6 +37,7 @@ public class UserTokenProviderConfig {
         scope = EnvironmentVariableUtils.getRequiredVariable("OPENID_SCOPE_VARIABLES");
     }
 
+    
     public TokenRequest prepareTokenRequest() {
 
         return new TokenRequest(
