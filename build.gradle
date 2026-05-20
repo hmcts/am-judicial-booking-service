@@ -431,7 +431,7 @@ dependencies {
     testImplementation group: 'com.opentable.components', name: 'otj-pg-embedded', version: versions.pg_embedded
     testImplementation group: 'org.testcontainers', name: 'testcontainers', version: versions.testcontainers
     testImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
-    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.17'
+    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.18'
 
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
