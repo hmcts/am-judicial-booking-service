@@ -34,7 +34,7 @@ def versions = [
         jacksondata        : '2.19.2',
         testcontainers     : '1.21.4',
         pg_embedded        : '1.1.1',
-        befta              : '9.2.4'
+        befta              : '9.2.6'
 ]
 
 mainClassName = 'uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication'
@@ -397,7 +397,7 @@ dependencies {
     implementation group: 'com.google.guava', name: 'guava', version: '33.6.0-jre'
     implementation group: 'jakarta.inject', name: 'jakarta.inject-api', version: '2.0.1'
     implementation group: 'jakarta.el', name: 'jakarta.el-api', version: '6.0.1'
-    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.3'
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.2.4'
     implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.6.49.Final'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.11'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
@@ -431,7 +431,7 @@ dependencies {
     testImplementation group: 'com.opentable.components', name: 'otj-pg-embedded', version: versions.pg_embedded
     testImplementation group: 'org.testcontainers', name: 'testcontainers', version: versions.testcontainers
     testImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
-    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.17'
+    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.18'
 
     testImplementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
     testImplementation group: 'io.cucumber', name: 'cucumber-java', version: versions.cucumber
