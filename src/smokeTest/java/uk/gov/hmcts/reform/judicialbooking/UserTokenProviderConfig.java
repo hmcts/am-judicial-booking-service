@@ -19,15 +19,16 @@ public class UserTokenProviderConfig {
     private final String username;
     private final String password;
     private final String scope;
-    private static final String MICRO_SERVICE_NAME = "am_judicial_booking_service";
     private static final String USER_NAME = "TEST_AM_USER2_BEFTA@test.local";
 
     public UserTokenProviderConfig() {
 
         idamURL = EnvironmentVariableUtils.getRequiredVariable("IDAM_URL");
         baseUrl = EnvironmentVariableUtils.getRequiredVariable("TEST_URL");
-        secret = EnvironmentVariableUtils.getRequiredVariable("AM_JUDICIAL_BOOKING_SERVICE_SECRET");
-        microService = MICRO_SERVICE_NAME;
+        secret = EnvironmentVariableUtils.getRequiredVariable(
+                "BEFTA_S2S_CLIENT_SECRET_OF_AM_ORG_ROLE_MAPPING_SERVICE");
+        microService = EnvironmentVariableUtils.getRequiredVariable(
+                "BEFTA_S2S_CLIENT_ID_OF_AM_ORG_ROLE_MAPPING_SERVICE");
         s2sUrl = EnvironmentVariableUtils.getRequiredVariable("IDAM_S2S_URL");
         clientSecret = EnvironmentVariableUtils.getRequiredVariable("JUDICIAL_BOOKING_IDAM_CLIENT_SECRET");
         clientId = EnvironmentVariableUtils.getRequiredVariable("IDAM_CLIENT_ID");
