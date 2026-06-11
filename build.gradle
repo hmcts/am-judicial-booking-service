@@ -17,7 +17,7 @@ plugins {
 }
 
 ext['log4j2.version'] = '2.25.4' // Fix CVE-2026-34477...CVE-2026-34481, CVE-2025-68161
-ext['commons-lang3.version'] = '3.20.0' // Fix CVE-2025-48924
+ext['commons-lang3.version'] = '3.18.0' // Fix CVE-2025-48924
 ext {
     springCloudVersion = '2025.0.2'
 }
