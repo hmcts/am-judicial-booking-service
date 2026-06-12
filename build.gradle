@@ -26,7 +26,7 @@ def versions = [
         pitest             : '1.17.0',
         lombok             : '1.18.46',
         reformLogging      : '8.0.0',
-        reformS2sClient    : '5.3.3',
+        reformS2sClient    : '5.3.4',
         serenity           : '4.2.34',
         spring             : '6.2.19',
         pact_version       : '4.1.7',
@@ -405,7 +405,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jacksondata
     implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jacksondata, ext: 'pom'
     implementation group: 'com.nimbusds', name: 'lang-tag', version: '1.7'
-    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '10.9'
+    implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '10.9.1'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.6.0'
 
     //Added for S2S and User Authentication
