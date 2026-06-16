@@ -494,6 +494,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
+    contractTestRuntimeOnly group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: '4.0.10'
     contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
     contractTestRuntimeOnly group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
 
