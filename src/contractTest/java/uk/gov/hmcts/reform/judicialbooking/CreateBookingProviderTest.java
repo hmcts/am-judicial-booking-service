@@ -13,7 +13,6 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,7 +25,6 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import static org.mockito.ArgumentMatchers.any;
 
-@ComponentScan(basePackages = "uk.gov.hmcts.reform.judicialbooking")
 @ExtendWith(SpringExtension.class)
 @Provider("am_judicialBooking_create")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
