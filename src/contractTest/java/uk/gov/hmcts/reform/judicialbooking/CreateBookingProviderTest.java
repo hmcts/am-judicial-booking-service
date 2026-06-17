@@ -6,17 +6,20 @@ import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
-import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerConsumerVersionSelectors;
+import au.com.dius.pact.provider.junitsupport.loader.SelectorBuilder;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.CreateBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
@@ -28,15 +31,16 @@ import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(SpringExtension.class)
 @Provider("am_judicialBooking_create")
-@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
-        host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
-        consumerVersionSelectors = {@VersionSelector(tag = "master")})
+@PactBroker(url = "${PACT_BROKER_SCHEME:http}://${PACT_BROKER_URL:localhost}:${PACT_BROKER_PORT:9292}")
 @TestPropertySource(properties = {"spring.cache.type=none"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify
 public class CreateBookingProviderTest {
 
-    @MockitoBean
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
     private PersistenceService persistenceService;
 
     @Autowired
@@ -48,6 +52,14 @@ public class CreateBookingProviderTest {
     @Autowired
     private BookingOrchestrator bookingOrchestrator;
 
+    @PactBrokerConsumerVersionSelectors
+    public static SelectorBuilder consumerVersionSelectors() {
+        return new SelectorBuilder()
+                .matchingBranch()
+                .mainBranch()
+                .deployedOrReleased();
+    }
+
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
@@ -58,13 +70,18 @@ public class CreateBookingProviderTest {
 
     @BeforeEach
     void beforeCreate(PactVerificationContext context) {
-        var testTarget = new MockMvcTestTarget();
+        var testTarget = new MockMvcTestTarget(mockMvc);
         testTarget.setControllers(new CreateBookingController(
                 bookingOrchestrator
         ));
         if (context != null) {
             context.setTarget(testTarget);
         }
+    }
+
+    @AfterEach
+    void tearDown() {
+        SecurityContextHolder.clearContext();
     }
 
     @State({"A create request is received with valid begin and end dates"})
