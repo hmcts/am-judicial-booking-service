@@ -6,9 +6,9 @@ import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.core.model.V4Pact;
+import au.com.dius.pact.core.model.PactSpecVersion;
+import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
@@ -29,6 +29,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import uk.gov.hmcts.reform.idam.client.IdamApi;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialRefreshRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
@@ -37,15 +39,17 @@ import java.util.Map;
 
 @ExtendWith(PactConsumerTestExt.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@PactTestFor(providerName = "am_orgRoleMapping_refresh")
-@PactFolder("pacts")
+@PactTestFor(providerName = "am_orgRoleMapping_refresh", pactVersion = PactSpecVersion.V3)
 @ContextConfiguration(classes = {OrgRoleMappingApplication.class})
 @TestPropertySource(properties = {"feign.client.config.jbsClient.url=http://localhost:4097"})
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
 
+    @MockitoBean
+    private IdamApi idamApi;
+
     private static final String CONTENT_TYPE = "application/vnd.uk.gov.hmcts.am-org-role-mapping-service"
-            + ".map-judicial-assignments+json;charset=UTF-8;version=1.0";
+            + ".map-judicial-assignments+json; charset=UTF-8; version=1.0";
     private static final String ORM_REFRESH_URL = "/am/role-mapping/judicial/refresh";
     private static final String USER_ID = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
     private static final String USER_ID2 = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
@@ -81,7 +85,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     }
 
     @Pact(provider = "am_orgRoleMapping_refresh", consumer = "accessMgmt_judicialBooking")
-    public V4Pact executeRefreshJudicial(PactDslWithProvider builder) throws JsonProcessingException {
+    public RequestResponsePact executeRefreshJudicial(PactDslWithProvider builder) throws JsonProcessingException {
 
         return builder
                 .given("A refresh request is received with a valid userId passed")
@@ -93,7 +97,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
                 .status(HttpStatus.OK.value())
                 .headers(getResponseHeaders())
                 .body(createJudicialRefreshResponse())
-                .toPact(V4Pact.class);
+                .toPact(RequestResponsePact.class);
     }
 
     @Test
