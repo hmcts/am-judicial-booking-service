@@ -15,7 +15,6 @@ import com.google.common.collect.Maps;
 import io.restassured.http.ContentType;
 import jakarta.validation.constraints.NotNull;
 import net.serenitybdd.rest.SerenityRest;
-import org.apache.http.client.fluent.Executor;
 import org.assertj.core.api.Assertions;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +28,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -64,7 +64,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
 
     @AfterEach
     public void teardown() {
-        Executor.closeIdleConnections();
+        SecurityContextHolder.clearContext();
     }
 
     private HttpHeaders getHttpHeaders() {
