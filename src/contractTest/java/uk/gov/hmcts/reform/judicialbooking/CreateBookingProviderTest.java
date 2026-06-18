@@ -27,9 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(SpringExtension.class)
 @Provider("am_judicialBooking_create")
-@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
-        host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
-        consumerVersionSelectors = {@VersionSelector(tag = "master")})
+@PactBroker(url = "${PACT_BROKER_SCHEME:http}://${PACT_BROKER_URL:localhost}:${PACT_BROKER_PORT:9292}")
 @TestPropertySource(properties = {"spring.cache.type=none"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify
