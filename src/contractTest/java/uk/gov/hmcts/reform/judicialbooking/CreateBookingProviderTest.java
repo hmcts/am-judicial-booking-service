@@ -38,13 +38,13 @@ import static org.mockito.ArgumentMatchers.any;
 public class CreateBookingProviderTest {
 
     @Autowired
-    private PersistenceService persistenceService;
+    PersistenceService persistenceService;
 
     @Autowired
-    private SecurityUtils securityUtils;
+    SecurityUtils securityUtils;
 
     @Autowired
-    private CorrelationInterceptorUtil correlationInterceptorUtil;
+    CorrelationInterceptorUtil correlationInterceptorUtil;
 
     @Autowired
     private BookingOrchestrator bookingOrchestrator;

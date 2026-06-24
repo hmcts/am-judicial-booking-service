@@ -16,10 +16,10 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 public class ProviderTestConfiguration {
 
     @MockitoBean
-    private SecurityUtils securityUtils;
+    SecurityUtils securityUtils;
 
     @MockitoBean
-    private PersistenceService persistenceService;
+    PersistenceService persistenceService;
 
     @Bean
     @Primary
