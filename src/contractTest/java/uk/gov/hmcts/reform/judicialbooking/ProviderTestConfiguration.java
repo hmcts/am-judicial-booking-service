@@ -5,10 +5,13 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
+import uk.gov.hmcts.reform.judicialbooking.config.SecurityEndpointFilter;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
+import uk.gov.hmcts.reform.judicialbooking.oidc.JwtGrantedAuthoritiesConverter;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
@@ -17,6 +20,15 @@ public class ProviderTestConfiguration {
 
     @MockitoBean
     SecurityUtils securityUtils;
+
+    @MockitoBean
+    JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter;
+
+    @MockitoBean
+    ServiceAuthFilter serviceAuthFilter;
+
+    @MockitoBean
+    SecurityEndpointFilter securityEndpointFilter;
 
     @MockitoBean
     PersistenceService persistenceService;
