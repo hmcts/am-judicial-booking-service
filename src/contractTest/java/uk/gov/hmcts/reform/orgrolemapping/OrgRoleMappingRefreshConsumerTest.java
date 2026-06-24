@@ -93,7 +93,8 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
                 .given("A refresh request is received with a valid userId passed")
                 .uponReceiving("A refresh request is received with a valid userId passed")
                 .path(ORM_REFRESH_URL)
-                .body(new ObjectMapper().writeValueAsString(createJudicialRefreshRequest()))
+                .body(new ObjectMapper().writeValueAsString(createJudicialRefreshRequest()),
+                        String.valueOf(ContentType.JSON))
                 .method(HttpMethod.POST.toString())
                 .willRespondWith()
                 .status(HttpStatus.OK.value())
