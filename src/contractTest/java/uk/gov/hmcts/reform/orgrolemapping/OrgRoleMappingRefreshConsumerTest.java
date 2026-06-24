@@ -99,7 +99,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
                 .status(HttpStatus.OK.value())
                 .headers(getResponseHeaders())
                 .body(createJudicialRefreshResponse())
-                .toPact();
+                .toPact(RequestResponsePact.class);
     }
 
     @Test
