@@ -41,10 +41,10 @@ public class CreateBookingProviderTest {
     @MockitoBean
     PersistenceService persistenceService;
 
-    @Autowired
+    @MockitoBean
     SecurityUtils securityUtils;
 
-    @Autowired
+    @MockitoBean
     CorrelationInterceptorUtil correlationInterceptorUtil;
 
     @Autowired
