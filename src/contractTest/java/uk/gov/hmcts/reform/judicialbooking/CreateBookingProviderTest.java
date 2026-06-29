@@ -39,13 +39,13 @@ import static org.mockito.ArgumentMatchers.any;
 public class CreateBookingProviderTest {
 
     @MockitoBean
-    PersistenceService persistenceService;
+    private PersistenceService persistenceService;
 
     @MockitoBean
-    SecurityUtils securityUtils;
+    private SecurityUtils securityUtils;
 
     @MockitoBean
-    CorrelationInterceptorUtil correlationInterceptorUtil;
+    private CorrelationInterceptorUtil correlationInterceptorUtil;
 
     @Autowired
     private BookingOrchestrator bookingOrchestrator;
