@@ -9,7 +9,6 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
-import uk.gov.hmcts.reform.judicialbooking.oidc.JwtGrantedAuthoritiesConverter;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
@@ -21,9 +20,6 @@ public class ProviderTestConfiguration {
 
     @MockitoBean
     private PersistenceService persistenceService;
-
-    @MockitoBean
-    private JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter;
 
     @Bean
     @Primary

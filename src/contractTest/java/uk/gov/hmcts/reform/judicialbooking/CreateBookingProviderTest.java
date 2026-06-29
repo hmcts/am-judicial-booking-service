@@ -16,7 +16,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.CreateBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
@@ -38,13 +37,13 @@ import static org.mockito.ArgumentMatchers.any;
 @IgnoreNoPactsToVerify
 public class CreateBookingProviderTest {
 
-    @MockitoBean
+    @Autowired
     PersistenceService persistenceService;
 
-    @MockitoBean
+    @Autowired
     SecurityUtils securityUtils;
 
-    @MockitoBean
+    @Autowired
     CorrelationInterceptorUtil correlationInterceptorUtil;
 
     @Autowired
