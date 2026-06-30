@@ -29,8 +29,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import uk.gov.hmcts.reform.idam.client.IdamApi;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialRefreshRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
@@ -50,9 +48,6 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     private static final String ORM_REFRESH_URL = "/am/role-mapping/judicial/refresh";
     private static final String USER_ID = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
     private static final String USER_ID2 = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
-
-    @MockitoBean
-    private IdamApi idamApi;
 
     @BeforeEach
     public void setUpEachTest() throws InterruptedException {
