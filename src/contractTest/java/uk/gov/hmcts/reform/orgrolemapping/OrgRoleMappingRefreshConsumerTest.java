@@ -39,7 +39,7 @@ import java.util.Map;
 
 @ExtendWith(PactConsumerTestExt.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@PactTestFor(providerName = "am_orgRoleMapping_refresh", pactVersion = PactSpecVersion.V1)
+@PactTestFor(providerName = "am_orgRoleMapping_refresh", pactVersion = PactSpecVersion.V2)
 @ContextConfiguration(classes = {OrgRoleMappingApplication.class})
 @TestPropertySource(properties = {"feign.client.config.jbsClient.url=http://localhost:4097"})
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
