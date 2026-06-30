@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.judicialbooking;
 
-import au.com.dius.pact.core.model.annotations.PactDirectory;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
@@ -29,10 +28,11 @@ import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(SpringExtension.class)
 @Provider("am_judicialBooking_create")
-@PactDirectory("pacts")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
-        consumerVersionSelectors = {@VersionSelector(tag = "master")})
+        consumerVersionSelectors = {@VersionSelector(tag = "master")},
+        providerTags = "${pactbroker.providerTags:master}",
+        enablePendingPacts = "${pactbroker.enablePending:true}")
 @TestPropertySource(properties = {"spring.cache.type=none"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify

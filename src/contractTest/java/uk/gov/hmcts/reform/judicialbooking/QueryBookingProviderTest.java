@@ -30,7 +30,9 @@ import static org.mockito.ArgumentMatchers.any;
 @Provider("am_judicialBooking_query")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
-        consumerVersionSelectors = {@VersionSelector(tag = "master")})
+        consumerVersionSelectors = {@VersionSelector(tag = "master")},
+        providerTags = "${pactbroker.providerTags:master}",
+        enablePendingPacts = "${pactbroker.enablePending:true}")
 @TestPropertySource(properties = {"spring.cache.type=none"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify
