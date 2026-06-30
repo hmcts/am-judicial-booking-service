@@ -78,6 +78,8 @@ configurations {
     cucumberRuntime.extendsFrom(functionalRuntime)
     contractTestCompile.extendsFrom testCompile
     contractTestRuntime.extendsFrom testRuntime
+    pactTestImplementation.extendsFrom testCompile
+    pactTestRuntime.extendsFrom testRuntime
 }
 
 sourceSets {
@@ -115,6 +117,14 @@ sourceSets {
             srcDir file('src/contractTest/java')
         }
         resources.srcDir file('src/contractTest/resources')
+    }
+    pactTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/pactTest/java')
+        }
+        resources.srcDir file('src/pactTest/resources')
     }
 }
 
@@ -513,6 +523,8 @@ dependencies {
     contractTestImplementation sourceSets.main.runtimeClasspath
     contractTestImplementation sourceSets.test.runtimeClasspath
 
+    pactTestImplementation sourceSets.main.runtimeClasspath
+    pactTestImplementation sourceSets.test.runtimeClasspath
 }
 
 test {
