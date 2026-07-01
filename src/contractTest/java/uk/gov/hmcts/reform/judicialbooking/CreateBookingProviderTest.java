@@ -6,8 +6,7 @@ import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
-import au.com.dius.pact.provider.junitsupport.loader.PactBrokerConsumerVersionSelectors;
-import au.com.dius.pact.provider.junitsupport.loader.SelectorBuilder;
+import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
@@ -31,6 +30,7 @@ import static org.mockito.ArgumentMatchers.any;
 @Provider("am_judicialBooking_create")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
+        consumerVersionSelectors = {@VersionSelector(tag = "master")},
         providerTags = "${pactbroker.providerTags:master}",
         enablePendingPacts = "${pactbroker.enablePending:true}")
 @TestPropertySource(properties = {"spring.cache.type=none"})
@@ -49,14 +49,6 @@ public class CreateBookingProviderTest {
 
     @Autowired
     private BookingOrchestrator bookingOrchestrator;
-
-    @PactBrokerConsumerVersionSelectors
-    public static SelectorBuilder consumerVersionSelectors() {
-        return new SelectorBuilder()
-                .matchingBranch()
-                .mainBranch()
-                .deployedOrReleased();
-    }
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
