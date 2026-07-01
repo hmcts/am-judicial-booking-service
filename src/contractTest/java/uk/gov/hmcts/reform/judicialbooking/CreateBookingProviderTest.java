@@ -31,7 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
         consumerVersionSelectors = {@VersionSelector(tag = "master")},
-        providerTags = "${pactbroker.providerTags:master}",
+        providerTags = "${pactbroker.providerTags:master,DTSAM-1278_Pact}",
         enablePendingPacts = "${pactbroker.enablePending:true}")
 @TestPropertySource(properties = {"spring.cache.type=none"})
 @Import(ProviderTestConfiguration.class)
