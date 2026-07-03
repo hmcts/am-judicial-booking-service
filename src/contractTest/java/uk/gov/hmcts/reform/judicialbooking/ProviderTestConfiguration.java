@@ -31,7 +31,7 @@ public class ProviderTestConfiguration {
 
     @Bean
     public PersistenceService getPersistenceService() {
-        if (persistenceService== null) {
+        if (persistenceService == null) {
             persistenceService = Mockito.mock(PersistenceService.class);
         }
         return persistenceService;
@@ -39,7 +39,7 @@ public class ProviderTestConfiguration {
 
     @Bean
     public SecurityUtils getSecurityUtils() {
-        if (securityUtils== null) {
+        if (securityUtils == null) {
             securityUtils = Mockito.mock(SecurityUtils.class);
         }
         return securityUtils;
