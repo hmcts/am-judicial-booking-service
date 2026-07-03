@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.judicialbooking;
 
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +16,8 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 @TestConfiguration
 public class ProviderTestConfiguration {
 
-    @MockitoBean
     private SecurityUtils securityUtils;
 
-    @MockitoBean
     private PersistenceService persistenceService;
 
     @Bean
@@ -29,6 +28,22 @@ public class ProviderTestConfiguration {
 
     @MockitoBean
     private CorrelationInterceptorUtil correlationInterceptorUtil;
+
+    @Bean
+    public PersistenceService getPersistenceService() {
+        if (persistenceService== null) {
+            persistenceService = Mockito.mock(PersistenceService.class);
+        }
+        return persistenceService;
+    }
+
+    @Bean
+    public SecurityUtils getSecurityUtils() {
+        if (securityUtils== null) {
+            securityUtils = Mockito.mock(SecurityUtils.class);
+        }
+        return securityUtils;
+    }
 
     @Bean
     @Primary
@@ -43,7 +58,7 @@ public class ProviderTestConfiguration {
     @Primary
     public BookingOrchestrator bookingOrchestrator() {
         return new BookingOrchestrator(getParseRequestService(),
-                persistenceService,
+                getPersistenceService(),
                 getPrepareDataService()
         );
     }
