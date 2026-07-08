@@ -254,6 +254,7 @@ task runProviderPactVerification(type: Test) {
     }
     systemProperty 'pact.provider.version', project.pacticipantVersion
     systemProperty 'pact.provider.branch', project.pacticipantBranch
+    systemProperty 'pact.env', sysOrEnv('pact.env') ?: 'local'
     include "uk/gov/hmcts/reform/judicialbooking/**"
 }
 
