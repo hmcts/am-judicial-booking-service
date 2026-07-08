@@ -19,7 +19,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.QueryBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
@@ -38,7 +40,7 @@ import static org.mockito.ArgumentMatchers.any;
 @IgnoreNoPactsToVerify
 public class QueryBookingProviderTest {
 
-    @MockitoBean
+    @Autowired
     private PersistenceService persistenceService;
 
     @MockitoBean
@@ -47,7 +49,6 @@ public class QueryBookingProviderTest {
     @MockitoBean
     private CorrelationInterceptorUtil correlationInterceptorUtil;
 
-    @Autowired
     private BookingOrchestrator bookingOrchestrator;
 
     @TestTemplate
@@ -61,6 +62,12 @@ public class QueryBookingProviderTest {
     @BeforeEach
     void beforeCreate(PactVerificationContext context) {
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
+        if (bookingOrchestrator ==  null) {
+            bookingOrchestrator = new BookingOrchestrator(
+                    new ParseRequestService(securityUtils, ""),
+                    persistenceService,
+                    new PrepareDataService());
+        }
         testTarget.setControllers(new QueryBookingController(
                 bookingOrchestrator
         ));
