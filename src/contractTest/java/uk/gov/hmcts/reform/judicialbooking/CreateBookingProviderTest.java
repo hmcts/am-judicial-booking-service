@@ -40,7 +40,7 @@ import static org.mockito.ArgumentMatchers.any;
 @IgnoreNoPactsToVerify
 public class CreateBookingProviderTest {
 
-    @MockitoBean
+    @Autowired
     private PersistenceService persistenceService;
 
     @MockitoBean
