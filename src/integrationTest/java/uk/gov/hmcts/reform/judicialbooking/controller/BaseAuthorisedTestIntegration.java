@@ -6,6 +6,7 @@ import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.rest.SerenityRest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.TestPropertySource;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.MockUtils;
 import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
 
@@ -13,6 +14,7 @@ import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtu
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_EXUI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@TestPropertySource(properties = {"testing.support.enabled=true"})
 public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration {
 
     protected static final String BASEURL = "http://localhost";
