@@ -13,9 +13,9 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.CreateBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
@@ -43,17 +43,14 @@ public class CreateBookingProviderTest {
     @Autowired
     private PersistenceService persistenceService;
 
-    @MockitoBean
+    @Autowired
     private SecurityUtils securityUtils;
 
-    @MockitoBean
+    @Autowired
     private CorrelationInterceptorUtil correlationInterceptorUtil;
 
-    @Autowired
-    private PrepareDataService prepareDataService;
-
-    @Autowired
-    private ParseRequestService parseRequestService;
+    @Value("${judicial-booking.query.bypass-userid-validation-for-services}")
+    private String byPassQueryValidationForServices;
 
     private BookingOrchestrator bookingOrchestrator;
 
@@ -69,7 +66,10 @@ public class CreateBookingProviderTest {
     void beforeCreate(PactVerificationContext context) {
         var testTarget = new MockMvcTestTarget();
         if (bookingOrchestrator ==  null) {
-            bookingOrchestrator = new BookingOrchestrator(parseRequestService, persistenceService, prepareDataService);
+            bookingOrchestrator = new BookingOrchestrator(
+                    new ParseRequestService(securityUtils, byPassQueryValidationForServices),
+                    persistenceService,
+                    new PrepareDataService());
         }
         testTarget.setControllers(new CreateBookingController(
                 bookingOrchestrator
