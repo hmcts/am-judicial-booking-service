@@ -19,7 +19,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.CreateBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
+import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
@@ -48,6 +50,11 @@ public class CreateBookingProviderTest {
     private CorrelationInterceptorUtil correlationInterceptorUtil;
 
     @Autowired
+    private PrepareDataService prepareDataService;
+
+    @Autowired
+    private ParseRequestService parseRequestService;
+
     private BookingOrchestrator bookingOrchestrator;
 
     @TestTemplate
@@ -61,6 +68,9 @@ public class CreateBookingProviderTest {
     @BeforeEach
     void beforeCreate(PactVerificationContext context) {
         var testTarget = new MockMvcTestTarget();
+        if (bookingOrchestrator ==  null) {
+            bookingOrchestrator = new BookingOrchestrator(parseRequestService, persistenceService, prepareDataService);
+        }
         testTarget.setControllers(new CreateBookingController(
                 bookingOrchestrator
         ));

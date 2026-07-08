@@ -134,7 +134,6 @@ idea {
 
 project.ext {
     pacticipant = 'accessMgmt_judicialBooking'
-    pacticipantBranch = 'master'
     if (System.env.GIT_COMMIT) {
         // DTSAM-379 canIDeploy Index 0 out of bounds for length 0 Issue
         pacticipantVersion = System.env.GIT_COMMIT.substring(0,9)
@@ -246,9 +245,6 @@ runAndPublishConsumerPactTests.finalizedBy pactPublish
 
 task runProviderPactVerification(type: Test) {
     useJUnitPlatform()
-    def sysOrEnv = { String key ->
-        System.getProperty(key) ?: System.getenv(key.toUpperCase().replace('.', '_'))
-    }
     logger.lifecycle("Runs provider pact Tests")
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
@@ -256,8 +252,6 @@ task runProviderPactVerification(type: Test) {
         systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
     }
     systemProperty 'pact.provider.version', project.pacticipantVersion
-    systemProperty 'pact.provider.branch', project.pacticipantBranch
-    systemProperty 'pact.env', sysOrEnv('pact.env') ?: 'local'
     include "uk/gov/hmcts/reform/judicialbooking/**"
 }
 
