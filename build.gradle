@@ -134,6 +134,7 @@ idea {
 
 project.ext {
     pacticipant = 'accessMgmt_judicialBooking'
+    pacticipantBranch = 'master'
     if (System.env.GIT_COMMIT) {
         // DTSAM-379 canIDeploy Index 0 out of bounds for length 0 Issue
         pacticipantVersion = System.env.GIT_COMMIT.substring(0,9)
@@ -252,6 +253,7 @@ task runProviderPactVerification(type: Test) {
         systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
     }
     systemProperty 'pact.provider.version', project.pacticipantVersion
+    systemProperty 'pact.provider.branch', project.pacticipantBranch
     include "uk/gov/hmcts/reform/judicialbooking/**"
 }
 
