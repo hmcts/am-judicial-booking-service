@@ -246,6 +246,9 @@ runAndPublishConsumerPactTests.finalizedBy pactPublish
 
 task runProviderPactVerification(type: Test) {
     useJUnitPlatform()
+    def sysOrEnv = { String key ->
+        System.getProperty(key) ?: System.getenv(key.toUpperCase().replace('.', '_'))
+    }
     logger.lifecycle("Runs provider pact Tests")
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
