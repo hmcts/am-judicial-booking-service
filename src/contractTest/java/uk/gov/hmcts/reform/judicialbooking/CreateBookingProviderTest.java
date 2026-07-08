@@ -47,11 +47,8 @@ public class CreateBookingProviderTest {
     @MockitoBean
     private SecurityUtils securityUtils;
 
-    @Autowired
+    @MockitoBean
     private CorrelationInterceptorUtil correlationInterceptorUtil;
-
-    @Value("${judicial-booking.query.bypass-userid-validation-for-services}")
-    private String byPassQueryValidationForServices;
 
     private BookingOrchestrator bookingOrchestrator;
 
@@ -68,7 +65,7 @@ public class CreateBookingProviderTest {
         var testTarget = new MockMvcTestTarget();
         if (bookingOrchestrator ==  null) {
             bookingOrchestrator = new BookingOrchestrator(
-                    new ParseRequestService(securityUtils, byPassQueryValidationForServices),
+                    new ParseRequestService(securityUtils, ""),
                     persistenceService,
                     new PrepareDataService());
         }
