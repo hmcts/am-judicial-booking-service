@@ -12,4 +12,9 @@
         <notes>https://tools.hmcts.net/jira/browse/DTSAM-1339 jackson-databind</notes>
         <cve>CVE-2026-54515</cve>
     </suppress>
+    <suppress>
+        <notes>https://tools.hmcts.net/jira/browse/DTSAM-1344 HttpComponents Core</notes>
+        <cve>CVE-2026-54399</cve>
+        <cve>CVE-2026-54428</cve>
+    </suppress>
 </suppressions>
