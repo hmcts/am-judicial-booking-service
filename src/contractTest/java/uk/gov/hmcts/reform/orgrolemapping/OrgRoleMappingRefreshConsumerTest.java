@@ -101,7 +101,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     }
 
     @Test
-    @PactTestFor(pactMethod = "executeRefreshJudicial")
+    @PactTestFor(pactMethod = "executeRefreshJudicial", pactVersion = PactSpecVersion.V2)
     void executeRefresh(MockServer mockServer)
             throws JSONException {
         var actualResponseBody =
