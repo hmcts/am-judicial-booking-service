@@ -10,15 +10,10 @@ import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
-import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 @TestConfiguration
 public class ProviderTestConfiguration {
-
-    private SecurityUtils securityUtils;
-
-    private PersistenceService persistenceService;
 
     @Bean
     @Primary
@@ -26,29 +21,20 @@ public class ProviderTestConfiguration {
         return new PrepareDataService();
     }
 
-    @MockitoBean
-    private CorrelationInterceptorUtil correlationInterceptorUtil;
-
     @Bean
     public PersistenceService getPersistenceService() {
-        if (persistenceService == null) {
-            persistenceService = Mockito.mock(PersistenceService.class);
-        }
-        return persistenceService;
+        return Mockito.mock(PersistenceService.class);
     }
 
     @Bean
     public SecurityUtils getSecurityUtils() {
-        if (securityUtils == null) {
-            securityUtils = Mockito.mock(SecurityUtils.class);
-        }
-        return securityUtils;
+        return Mockito.mock(SecurityUtils.class);
     }
 
     @Bean
     @Primary
     public ParseRequestService getParseRequestService() {
-        return new ParseRequestService(securityUtils,"");
+        return new ParseRequestService(getSecurityUtils(),"");
     }
 
     @MockitoBean
