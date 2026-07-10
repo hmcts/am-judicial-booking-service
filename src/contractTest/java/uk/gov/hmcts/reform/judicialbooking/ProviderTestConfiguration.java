@@ -22,12 +22,12 @@ public class ProviderTestConfiguration {
     }
 
     @Bean
-    public PersistenceService getPersistenceService() {
+    public PersistenceService persistenceService() {
         return Mockito.mock(PersistenceService.class);
     }
 
     @Bean
-    public SecurityUtils getSecurityUtils() {
+    public SecurityUtils securityUtils() {
         return Mockito.mock(SecurityUtils.class);
     }
 
@@ -40,7 +40,7 @@ public class ProviderTestConfiguration {
     @Bean
     @Primary
     public ParseRequestService getParseRequestService() {
-        return new ParseRequestService(getSecurityUtils(),"am_org_role_mapping_service");
+        return new ParseRequestService(securityUtils(),"am_org_role_mapping_service");
     }
 
     @Bean
@@ -53,7 +53,7 @@ public class ProviderTestConfiguration {
     @Primary
     public BookingOrchestrator bookingOrchestrator() {
         return new BookingOrchestrator(getParseRequestService(),
-                getPersistenceService(),
+                persistenceService(),
                 getPrepareDataService()
         );
     }

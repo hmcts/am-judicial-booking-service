@@ -1,14 +1,22 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
+import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -21,6 +29,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doReturn;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID2;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
@@ -30,6 +39,19 @@ import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtu
 public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     private static final String URL = "/am/bookings/query";
+
+    private MockMvc mockMvc;
+
+    @Inject
+    private WebApplicationContext wac;
+
+    @MockitoBean
+    SecurityUtils securityUtilsMock;
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
