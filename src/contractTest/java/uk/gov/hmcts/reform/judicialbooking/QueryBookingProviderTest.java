@@ -15,13 +15,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.judicialbooking.controller.endpoints.QueryBookingController;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
-import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
 import uk.gov.hmcts.reform.judicialbooking.helper.TestDataBuilder;
 import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
@@ -32,9 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 @Provider("am_judicialBooking_query")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
         host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:9292}",
-        consumerVersionSelectors = {@VersionSelector(tag = "master")},
-        providerTags = "${pactbroker.providerTags:master}",
-        enablePendingPacts = "${pactbroker.enablePending:true}")
+        consumerVersionSelectors = {@VersionSelector(tag = "master")})
 @TestPropertySource(properties = {"spring.cache.type=none"})
 @Import(ProviderTestConfiguration.class)
 @IgnoreNoPactsToVerify
@@ -43,12 +38,13 @@ public class QueryBookingProviderTest {
     @Autowired
     private PersistenceService persistenceService;
 
-    @MockitoBean
+    @Autowired
     private SecurityUtils securityUtils;
 
-    @MockitoBean
+    @Autowired
     private CorrelationInterceptorUtil correlationInterceptorUtil;
 
+    @Autowired
     private BookingOrchestrator bookingOrchestrator;
 
     @TestTemplate
@@ -62,12 +58,6 @@ public class QueryBookingProviderTest {
     @BeforeEach
     void beforeCreate(PactVerificationContext context) {
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
-        if (bookingOrchestrator ==  null) {
-            bookingOrchestrator = new BookingOrchestrator(
-                    new ParseRequestService(securityUtils, ""),
-                    persistenceService,
-                    new PrepareDataService());
-        }
         testTarget.setControllers(new QueryBookingController(
                 bookingOrchestrator
         ));

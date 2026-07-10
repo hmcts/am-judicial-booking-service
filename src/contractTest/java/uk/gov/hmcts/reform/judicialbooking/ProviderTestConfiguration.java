@@ -5,11 +5,11 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.BookingOrchestrator;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.ParseRequestService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PersistenceService;
 import uk.gov.hmcts.reform.judicialbooking.domain.service.common.PrepareDataService;
+import uk.gov.hmcts.reform.judicialbooking.util.CorrelationInterceptorUtil;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 @TestConfiguration
@@ -33,12 +33,21 @@ public class ProviderTestConfiguration {
 
     @Bean
     @Primary
-    public ParseRequestService getParseRequestService() {
-        return new ParseRequestService(getSecurityUtils(),"");
+    public CorrelationInterceptorUtil correlationInterceptorUtil() {
+        return Mockito.mock(CorrelationInterceptorUtil.class);
     }
 
-    @MockitoBean
-    private CacheManager cacheManager;
+    @Bean
+    @Primary
+    public ParseRequestService getParseRequestService() {
+        return new ParseRequestService(getSecurityUtils(),"am_org_role_mapping_service");
+    }
+
+    @Bean
+    @Primary
+    private CacheManager cacheManager() {
+        return Mockito.mock(CacheManager.class);
+    }
 
     @Bean
     @Primary

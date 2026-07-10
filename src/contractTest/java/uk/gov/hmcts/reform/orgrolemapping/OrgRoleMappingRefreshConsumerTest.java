@@ -9,6 +9,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactFolder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
@@ -39,7 +40,8 @@ import java.util.Map;
 
 @ExtendWith(PactConsumerTestExt.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@PactTestFor(providerName = "am_orgRoleMapping_refresh", pactVersion = PactSpecVersion.V2)
+@PactTestFor(providerName = "am_orgRoleMapping_refresh", pactVersion = PactSpecVersion.V3)
+@PactFolder("pacts")
 @ContextConfiguration(classes = {OrgRoleMappingApplication.class})
 @TestPropertySource(properties = {"feign.client.config.jbsClient.url=http://localhost:4097"})
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
@@ -101,7 +103,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     }
 
     @Test
-    @PactTestFor(pactMethod = "executeRefreshJudicial", pactVersion = PactSpecVersion.V2)
+    @PactTestFor(pactMethod = "executeRefreshJudicial", pactVersion = PactSpecVersion.V3)
     void executeRefresh(MockServer mockServer)
             throws JSONException {
         var actualResponseBody =
