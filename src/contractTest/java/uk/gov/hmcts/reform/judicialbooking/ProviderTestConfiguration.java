@@ -45,7 +45,7 @@ public class ProviderTestConfiguration {
 
     @Bean
     @Primary
-    private CacheManager cacheManager() {
+    public CacheManager cacheManager() {
         return Mockito.mock(CacheManager.class);
     }
 

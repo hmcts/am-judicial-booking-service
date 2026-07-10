@@ -29,7 +29,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.doReturn;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID2;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
@@ -44,9 +43,6 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     @Inject
     private WebApplicationContext wac;
-
-    @MockitoBean
-    SecurityUtils securityUtilsMock;
 
     @BeforeEach
     public void setUp() {

@@ -12,11 +12,6 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 public class OrgRoleMappingApplication {
 
     @Bean
-    IdamClient idamClient() {
-        return Mockito.mock(IdamClient.class);
-    }
-
-    @Bean
     SecurityUtils securityUtils() {
         return Mockito.mock(SecurityUtils.class);
     }
