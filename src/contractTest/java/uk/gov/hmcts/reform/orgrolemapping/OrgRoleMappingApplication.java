@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.orgrolemapping;
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import uk.gov.hmcts.reform.idam.client.IdamClient;
 import uk.gov.hmcts.reform.judicialbooking.oidc.IdamRepository;
 import uk.gov.hmcts.reform.judicialbooking.oidc.OIdcAdminConfiguration;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
