@@ -16,7 +16,7 @@ plugins {
     id 'net.serenity-bdd.serenity-gradle-plugin' version '4.3.2'
 }
 
-ext['log4j2.version'] = '2.25.4' // Fix CVE-2026-34477...CVE-2026-34481, CVE-2025-68161
+ext['log4j2.version'] = '2.25.5' // Fix CVE-2026-34477...CVE-2026-34481, CVE-2025-68161
 ext['commons-lang3.version'] = '3.18.0' // Fix CVE-2025-48924
 ext {
     springCloudVersion = '2025.0.2'
@@ -537,7 +537,7 @@ dependencyManagement {
             entry 'jackson-core'
             entry 'jackson-annotations'
         }
-        dependencySet(group: 'org.apache.tomcat.embed', version: '10.1.56') {
+        dependencySet(group: 'org.apache.tomcat.embed', version: '10.1.57') {
             entry 'tomcat-embed-core'
             entry 'tomcat-embed-el'
             entry 'tomcat-embed-websocket'
