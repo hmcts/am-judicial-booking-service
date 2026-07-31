@@ -6,6 +6,7 @@ import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
+import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import au.com.dius.pact.core.model.annotations.PactFolder;
@@ -15,11 +16,9 @@ import com.google.common.collect.Maps;
 import io.restassured.http.ContentType;
 import jakarta.validation.constraints.NotNull;
 import net.serenitybdd.rest.SerenityRest;
-import org.apache.http.client.fluent.Executor;
 import org.assertj.core.api.Assertions;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -31,6 +30,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import uk.gov.hmcts.reform.idam.client.IdamApi;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.JudicialRefreshRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.UserRequest;
 
@@ -39,7 +40,7 @@ import java.util.Map;
 
 @ExtendWith(PactConsumerTestExt.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@PactTestFor(providerName = "am_orgRoleMapping_refresh")
+@PactTestFor(providerName = "am_orgRoleMapping_refresh", pactVersion = PactSpecVersion.V3)
 @PactFolder("pacts")
 @ContextConfiguration(classes = {OrgRoleMappingApplication.class})
 @TestPropertySource(properties = {"feign.client.config.jbsClient.url=http://localhost:4097"})
@@ -52,14 +53,12 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     private static final String USER_ID = "5629957f-4dcd-40b8-a0b2-e64ff5898b28";
     private static final String USER_ID2 = "5629957f-4dcd-40b8-a0b2-e64ff5898b29";
 
+    @MockitoBean
+    private IdamApi idamApi;
+
     @BeforeEach
     public void setUpEachTest() throws InterruptedException {
         Thread.sleep(2000);
-    }
-
-    @AfterEach
-    public void teardown() {
-        Executor.closeIdleConnections();
     }
 
     private HttpHeaders getHttpHeaders() {
@@ -104,7 +103,7 @@ public class OrgRoleMappingRefreshConsumerTest extends BaseTestContract {
     }
 
     @Test
-    @PactTestFor(pactMethod = "executeRefreshJudicial")
+    @PactTestFor(pactMethod = "executeRefreshJudicial", pactVersion = PactSpecVersion.V3)
     void executeRefresh(MockServer mockServer)
             throws JSONException {
         var actualResponseBody =

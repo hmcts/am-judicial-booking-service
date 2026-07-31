@@ -1,12 +1,17 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
@@ -33,6 +38,16 @@ import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtu
 public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     private static final String URL = "/am/bookings/query";
+
+    private MockMvc mockMvc;
+
+    @Inject
+    private WebApplicationContext wac;
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
     @Test
     public void rejectRequestWithoutBody() throws Exception {
