@@ -36,7 +36,7 @@ public class UserTokenProviderConfig {
         scope = EnvironmentVariableUtils.getRequiredVariable("OPENID_SCOPE_VARIABLES");
     }
 
-
+    
     public TokenRequest prepareTokenRequest() {
 
         return new TokenRequest(

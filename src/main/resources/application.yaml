@@ -124,4 +124,7 @@ springdoc:
     operationsSorter: method
   writer-with-order-by-keys: true
 
+oidc:
+  issuer: ${OIDC_ISSUER_URL:}
+  issuerValidation: ${JWT_ISSUER_VALIDATION_ENABLED:false}
 
