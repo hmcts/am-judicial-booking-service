@@ -75,3 +75,18 @@ Feature: F-002 : Get Judicial Bookings
     Then a negative response is received,
     And the response has all other details as expected,
     And a successful call [to delete bookings just created above] as in [DeleteDataForBookingsBeftaUser2].
+
+  @S-018
+  Scenario: must receive an error response when querying multiple users bookings
+    Given a user [BeftaUser1 - with an active IDAM profile],
+    And a user [BeftaUser2 - with an active IDAM profile],
+    And a successful call [to create a booking] as in [CreationBaseDataForBookingBeftaUser1],
+    And a successful call [to create a booking] as in [CreationBaseDataForBookingBeftaUser2],
+    When a request is prepared with appropriate values,
+    And the request [contains a call for multiple users bookings],
+    And the request [comes from an approved S2S serivce that is not permitted to bypass the UserId validation],
+    And it is submitted to call the [Get Bookings by Authenticated User Id] operation of [Judicial Booking Service],
+    Then a negative response is received,
+    And the response has all other details as expected,
+    And a successful call [to delete bookings just created above] as in [DeleteDataForBookingsBeftaUser1],
+    And a successful call [to delete bookings just created above] as in [DeleteDataForBookingsBeftaUser2].

@@ -5,6 +5,8 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +27,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID2;
@@ -177,31 +180,44 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         ));
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {SERVICE_NAME_ORM, SERVICE_NAME_EXUI})
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
-    public void retrieveJudicialBooking_validMultipleUsers() throws Exception {
-
+    public void retrieveJudicialBooking_multipleUsers(String serviceName) throws Exception {
+        // GIVEN
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1, ACTOR_ID2)).build());
+        boolean bypassValidation = SERVICE_NAME_ORM.equals(serviceName);
+        HttpStatus expectedStatus = bypassValidation ? HttpStatus.OK :
+                HttpStatus.UNPROCESSABLE_ENTITY;
 
-        String response = getRequestSpecification()
+        // WHEN
+        String response = getRequestSpecification(serviceName, ACTOR_ID1)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(URL)
                 .then().assertThat()
-                .statusCode(HttpStatus.OK.value())
+                .statusCode(expectedStatus.value())
                 .extract().body().asString();
         BookingQueryResponse bookingResponse = OBJECT_MAPPER.readValue(
                 response,
                 BookingQueryResponse.class
         );
+
+        // THEN
         assertNotNull(bookingResponse);
         List<BookingEntity> actualBookings = bookingResponse.getBookingEntities();
-        assertNotNull(actualBookings);
-        actualBookings.forEach(actual -> Assertions.assertAll(
-            () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
-            () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
-        ));
+        if (bypassValidation) {
+            // Multiple users with bypass validation should return all bookings for valid users.
+            assertNotNull(actualBookings);
+            actualBookings.forEach(actual -> Assertions.assertAll(
+                    () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
+                    () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
+            ));
+        } else {
+            // Multiple users without bypass validation should return no bookings.
+            assertNull(actualBookings);
+        }
     }
-    
+
 }
