@@ -116,7 +116,7 @@ public class SecurityConfiguration {
         return validator;
     }
 
-    private OAuth2TokenValidator<Jwt> allowedIssuersValidator(List<String> allowedIssuers) {
+    protected OAuth2TokenValidator<Jwt> allowedIssuersValidator(List<String> allowedIssuers) {
         Set<String> allowedIssuerSet = Set.copyOf(allowedIssuers);
         return new JwtClaimValidator<>("iss", iss -> Objects.nonNull(iss) && allowedIssuerSet.contains(iss));
     }
