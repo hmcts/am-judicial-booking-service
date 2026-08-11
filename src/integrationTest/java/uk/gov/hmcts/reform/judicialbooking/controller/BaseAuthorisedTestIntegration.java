@@ -13,7 +13,7 @@ import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_EXUI;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"testing.support.enabled=true"})
 public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration {
 

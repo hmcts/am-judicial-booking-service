@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.orgrolemapping;
 
+import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import uk.gov.hmcts.reform.idam.client.IdamClient;
+import org.springframework.context.annotation.Bean;
 import uk.gov.hmcts.reform.judicialbooking.oidc.IdamRepository;
 import uk.gov.hmcts.reform.judicialbooking.oidc.OIdcAdminConfiguration;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
@@ -10,17 +10,20 @@ import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 @SpringBootApplication
 public class OrgRoleMappingApplication {
 
-    @MockBean
-    IdamClient idamClient;
+    @Bean
+    SecurityUtils securityUtils() {
+        return Mockito.mock(SecurityUtils.class);
+    }
 
-    @MockBean
-    SecurityUtils securityUtils;
+    @Bean
+    IdamRepository idamRepository() {
+        return Mockito.mock(IdamRepository.class);
+    }
 
-    @MockBean
-    IdamRepository idamRepository;
-
-    @MockBean
-    OIdcAdminConfiguration oidcAdminConfiguration;
+    @Bean
+    OIdcAdminConfiguration oidcAdminConfiguration() {
+        return Mockito.mock(OIdcAdminConfiguration.class);
+    }
 
 
 }
