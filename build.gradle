@@ -43,7 +43,7 @@ mainClassName = 'uk.gov.hmcts.reform.judicialbooking.JudicialBookingApplication'
 def jarName = 'am-judicial-booking-service.jar'
 
 pmd {
-    toolVersion = '7.16.0'
+    toolVersion = '7.26.0'
     sourceSets = []
 }
 
