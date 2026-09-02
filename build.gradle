@@ -33,6 +33,7 @@ def versions = [
         rest_assured       : '5.5.7',
         cucumber           : '5.7.0',
         feign_jackson      : '13.14',
+        jacksonannotations : '2.22',
         jacksondata        : '2.22.2',
         testcontainers     : '1.21.4',
         pg_embedded        : '1.1.1',
@@ -532,10 +533,12 @@ bootJar {
 
 dependencyManagement {
     dependencies {
+        dependencySet(group: 'com.fasterxml.jackson.core', version: versions.jacksonannotations) {
+            entry 'jackson-annotations'
+        }
         dependencySet(group: 'com.fasterxml.jackson.core', version: versions.jacksondata) {
             entry 'jackson-databind'
             entry 'jackson-core'
-            entry 'jackson-annotations'
         }
         dependencySet(group: 'org.apache.tomcat.embed', version: '10.1.59') {
             entry 'tomcat-embed-core'
