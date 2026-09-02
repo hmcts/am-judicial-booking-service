@@ -2,11 +2,11 @@ package uk.gov.hmcts.reform.judicialbooking.controller.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import java.util.LinkedHashMap;
@@ -24,8 +24,8 @@ import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
 
 public class WiremockFixtures {
 
-    public static final ObjectMapper OBJECT_MAPPER = new Jackson2ObjectMapperBuilder()
-            .modules(new Jdk8Module(), new JavaTimeModule())
+    public static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder()
+            .addModules(new Jdk8Module(), new JavaTimeModule())
             .build();
 
     public static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
