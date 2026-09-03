@@ -41,6 +41,9 @@ spring:
     name: Judicial Booking Service
   config:
     import: "optional:configtree:/mnt/secrets/am/"
+  http:
+    converters:
+      preferred-json-mapper: jackson2
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true

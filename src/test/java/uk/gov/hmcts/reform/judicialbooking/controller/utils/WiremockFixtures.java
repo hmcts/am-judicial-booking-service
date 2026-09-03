@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.judicialbooking.controller.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.nimbusds.jose.JOSEException;
@@ -24,9 +23,9 @@ import static uk.gov.hmcts.reform.judicialbooking.util.KeyGenerator.getRsaJwk;
 
 public class WiremockFixtures {
 
-    public static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder()
-            .addModules(new Jdk8Module(), new JavaTimeModule())
-            .build();
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+            .registerModule(new Jdk8Module())
+            .registerModule(new JavaTimeModule());
 
     public static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
     public static final String ACTOR_ID2 = "123e4567-e89b-42d3-a456-556642445678";
