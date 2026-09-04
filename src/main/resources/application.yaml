@@ -103,6 +103,10 @@ idam:
       userId: ${JUDICIAL_BOOKING_IDAM_ADMIN_USERID:}
       secret: ${JUDICIAL_BOOKING_IDAM_ADMIN_PASSWORD:}
       scope: ${JUDICIAL_BOOKING_IDAM_ADMIN_SCOPE:openid profile roles authorities}
+  security:
+    issuerValidation: ${JWT_ISSUER_VALIDATION_ENABLED:false}
+    allowed-issuers:
+      - http://localhost:5062/o
 
 auth.idam.client.baseUrl: ${IDAM_USER_URL:http://localhost:5000}
 integrationTest:
@@ -123,5 +127,3 @@ springdoc:
     enabled: true
     operationsSorter: method
   writer-with-order-by-keys: true
-
-
