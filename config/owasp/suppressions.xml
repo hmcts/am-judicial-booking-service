@@ -66,5 +66,5 @@
     <suppress>
         <notes>https://tools.hmcts.net/jira/browse/DTSAM-1389 spring data</notes>
         <cve>CVE-2026-47834</cve>
-    </suppress>>
+    </suppress>
 </suppressions>
