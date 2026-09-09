@@ -1,12 +1,13 @@
-package uk.gov.hmcts.reform.judicialbooking.controller;
+package uk.gov.hmcts.reform.judicialbooking.controller.testingsupport;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import uk.gov.hmcts.reform.judicialbooking.controller.BaseAuthorisedTestIntegration;
 
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
 
 public class DeleteBookingControllerIntegrationTest extends BaseAuthorisedTestIntegration {
-    private static final String URL = "/am/bookings/";
+    private static final String URL = "/am/testing-support/bookings/";
 
     @Test
     public void deleteBookingByUserIdApiTest() throws Exception {

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.judicialbooking.controller.endpoints;
+package uk.gov.hmcts.reform.judicialbooking.controller.endpoints.testingsupport;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +35,16 @@ class DeleteBookingControllerTest {
         ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
         ResponseEntity<Void> response = sut.deleteBookingByUserId(UUID.randomUUID().toString());
+        assertNotNull(response);
+        assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
+    }
+
+    @SuppressWarnings("removal") // suppress warning on use of deprecated endpoint
+    @Test
+    void deleteBookingByUserIdDeprecated() {
+        ResponseEntity<Void> expectedResponse = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        when(bookingOrchestrator.deleteBookingByUserId(any())).thenReturn(expectedResponse);
+        ResponseEntity<Void> response = sut.deleteBookingByUserIdDeprecated(UUID.randomUUID().toString());
         assertNotNull(response);
         assertEquals(expectedResponse.getStatusCode(), response.getStatusCode());
     }
