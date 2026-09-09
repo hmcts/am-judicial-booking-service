@@ -127,3 +127,7 @@ springdoc:
     enabled: true
     operationsSorter: method
   writer-with-order-by-keys: true
+
+testing:
+  support:
+    enabled: ${TESTING_SUPPORT_ENABLED:false}
