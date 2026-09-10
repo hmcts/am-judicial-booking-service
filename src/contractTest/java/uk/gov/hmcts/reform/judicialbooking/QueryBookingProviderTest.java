@@ -76,6 +76,7 @@ public class QueryBookingProviderTest {
         Mockito.when(persistenceService.getValidBookings(TestDataBuilder.buildRequestIds().getUserIds()))
                 .thenReturn(TestDataBuilder.buildListOfBookings());
 
+        Mockito.when(securityUtils.getServiceName()).thenReturn("am_org_role_mapping_service");
         Mockito.when(securityUtils.getUserId()).thenReturn("5629957f-4dcd-40b8-a0b2-e64ff5898b28");
         Mockito.when(correlationInterceptorUtil.preHandle(any()))
                 .thenReturn("14a21569-eb80-4681-b62c-6ae2ed069e2d");
