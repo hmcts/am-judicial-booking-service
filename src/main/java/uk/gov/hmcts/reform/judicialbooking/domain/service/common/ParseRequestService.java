@@ -64,8 +64,11 @@ public class ParseRequestService {
         validateInputParams(Constants.IDAM_ID_PATTERN,
                 queryRequest.getQueryRequest().getUserIds().toArray(new String[0]));
 
-        if (!byPassQueryValidation() && queryRequest.getQueryRequest().getUserIds().size() == 1) {
-            validateUserId(queryRequest.getQueryRequest().getUserIds().get(0), securityUtils.getUserId());
+        if (!byPassQueryValidation()) {
+            String currentUserId = securityUtils.getUserId();
+            // Validate that the query is only from the current self-service user.
+            queryRequest.getQueryRequest().getUserIds().forEach(userId ->
+                validateUserId(userId, currentUserId));
         }
 
         return queryRequest.getQueryRequest().getUserIds();
