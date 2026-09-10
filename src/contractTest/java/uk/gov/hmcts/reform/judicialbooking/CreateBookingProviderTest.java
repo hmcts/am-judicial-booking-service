@@ -58,6 +58,8 @@ public class CreateBookingProviderTest {
     @BeforeEach
     void beforeCreate(PactVerificationContext context) {
         var testTarget = new MockMvcTestTarget();
+        //uncomment to force publishing of pacts results to central server
+        System.getProperties().setProperty("pact.verifier.publishResults", "true");
         testTarget.setControllers(new CreateBookingController(
                 bookingOrchestrator
         ));
