@@ -52,7 +52,8 @@ class SecurityConfigurationTest {
 
     @BeforeEach
     void setUp() {
-        config = new SecurityConfiguration(jwtGrantedAuthoritiesConverter, authFilter, securityEndpointFilter);
+        config = new SecurityConfiguration(jwtGrantedAuthoritiesConverter, authFilter, securityEndpointFilter,
+                "issuerUri");
         ReflectionTestUtils.setField(config, "issuerUri", VALID_ISSUER);
     }
 
