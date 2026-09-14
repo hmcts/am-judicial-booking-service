@@ -38,7 +38,7 @@ class SecurityConfigIntegrationTest extends BaseTestIntegration {
                 // 2. Untrusted tokens allowed.
                 Arguments.of(false, validIssuers, ROGUE_ISSUER, false, HttpStatus.OK),
                 // 3. Missing iss claim allowed.
-                Arguments.of(false, validIssuers, null, false, HttpStatus.OK),
+                Arguments.of(false, validIssuers, MISSING_ISS_CLAIM, false, HttpStatus.OK),
                 // 4. Timestamp validation STILL active when flag off.
                 Arguments.of(false, validIssuers, VALID_ISSUER_1, true, HttpStatus.UNAUTHORIZED),
                 // 5. Primary whitelisted issuer accepted.
@@ -48,7 +48,7 @@ class SecurityConfigIntegrationTest extends BaseTestIntegration {
                 // 7. Untrusted/foreign issuers rejected.
                 Arguments.of(true, validIssuers, ROGUE_ISSUER, false, HttpStatus.UNAUTHORIZED),
                 // 8. Tokens with missing iss claim rejected.
-                Arguments.of(true, validIssuers, null, false, HttpStatus.UNAUTHORIZED),
+                Arguments.of(true, validIssuers, MISSING_ISS_CLAIM, false, HttpStatus.UNAUTHORIZED),
                 // 9. Blank iss strings rejected.
                 Arguments.of(true, validIssuers, EMPTY_STRING, false, HttpStatus.UNAUTHORIZED),
                 // 10. Trailing slash mismatch rejected (exact match).

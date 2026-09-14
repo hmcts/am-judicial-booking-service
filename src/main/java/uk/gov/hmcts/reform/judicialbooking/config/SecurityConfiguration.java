@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.judicialbooking.config;
 
-import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +41,6 @@ import java.util.Set;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    @Value("${spring.security.oauth2.client.provider.oidc.issuer-uri}")
     private String issuerUri;
 
     @Order(1)
@@ -61,15 +60,18 @@ public class SecurityConfiguration {
         this.anonymousPaths = anonymousPaths;
     }
 
-    @Inject
+    @Autowired
     public SecurityConfiguration(final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter,
                                  final ServiceAuthFilter serviceAuthFilter,
-                                 SecurityEndpointFilter securityEndpointFilter) {
+                                 SecurityEndpointFilter securityEndpointFilter,
+                                 @Value("${spring.security.oauth2.client.provider.oidc.issuer-uri}")
+                                 String issuerUri) {
 
         this.serviceAuthFilter = serviceAuthFilter;
         this.securityEndpointFilter = securityEndpointFilter;
         this.jwtAuthenticationConverter = new JwtAuthenticationConverter();
         this.jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        this.issuerUri = issuerUri;
 
     }
 
