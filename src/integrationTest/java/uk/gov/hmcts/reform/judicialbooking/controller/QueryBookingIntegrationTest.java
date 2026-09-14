@@ -71,7 +71,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(randomUserId)).build());
 
-        getRequestWithEXUIService(randomUserId)
+        getRequestWithExUIService(randomUserId)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -99,7 +99,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(randomUserId)).build());
 
-        getRequestWithEXUIService(randomUserId)
+        getRequestWithExUIService(randomUserId)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -113,7 +113,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID2)).build());
 
-        String response = getRequestWithEXUIService(ACTOR_ID2)
+        String response = getRequestWithExUIService(ACTOR_ID2)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()

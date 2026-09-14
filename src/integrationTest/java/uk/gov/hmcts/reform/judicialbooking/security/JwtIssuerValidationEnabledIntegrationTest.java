@@ -16,9 +16,9 @@ import static uk.gov.hmcts.reform.judicialbooking.security.BaseSecurityIntegrati
 import static uk.gov.hmcts.reform.judicialbooking.security.BaseSecurityIntegrationTest.VALID_ISSUER_2;
 
 @TestPropertySource(properties = {
-        "idam.security.issuer-validation=true",
-        "idam.security.allowed-issuers[0]=" + VALID_ISSUER_1,
-        "idam.security.allowed-issuers[1]=" + VALID_ISSUER_2
+    "idam.security.issuer-validation=true",
+    "idam.security.allowed-issuers[0]=" + VALID_ISSUER_1,
+    "idam.security.allowed-issuers[1]=" + VALID_ISSUER_2
 })
 public class JwtIssuerValidationEnabledIntegrationTest extends BaseSecurityIntegrationTest {
 
@@ -55,13 +55,15 @@ public class JwtIssuerValidationEnabledIntegrationTest extends BaseSecurityInteg
                         UNAUTHORIZED.value()),
 
                 Arguments.of(
-                        "Scenario 6 - JWT Issuer validation is enabled And Issuer with trailing slash is rejected - 401",
+                        "Scenario 6 - JWT Issuer validation is enabled "
+                                + "And Issuer with trailing slash is rejected - 401",
                         VALID_ISSUER_1 + "/",
                         false,
                         UNAUTHORIZED.value()),
 
                 Arguments.of(
-                        "Scenario 7 - JWT Issuer validation is enabled And Issuer with different case is rejected - 401",
+                        "Scenario 7 - JWT Issuer validation is enabled "
+                                + "And Issuer with different case is rejected - 401",
                         VALID_ISSUER_1.toUpperCase(),
                         false,
                         UNAUTHORIZED.value()),

@@ -16,21 +16,24 @@ import static uk.gov.hmcts.reform.judicialbooking.security.BaseSecurityIntegrati
 import static uk.gov.hmcts.reform.judicialbooking.security.BaseSecurityIntegrationTest.VALID_ISSUER_2;
 
 @TestPropertySource(properties = {
-        "idam.security.issuer-validation=false",
-        "idam.security.allowed-issuers[0]=" + VALID_ISSUER_1,
-        "idam.security.allowed-issuers[1]=" + VALID_ISSUER_2
+    "idam.security.issuer-validation=false",
+    "idam.security.allowed-issuers[0]=" + VALID_ISSUER_1,
+    "idam.security.allowed-issuers[1]=" + VALID_ISSUER_2
 })
 public class JwtIssuerValidationDisabledIntegrationTest extends BaseSecurityIntegrationTest {
 
     private static Stream<Arguments> issuerValidationDisabledScenarios() {
         return Stream.of(
-                Arguments.of("Scenario 1 - JWT Issuer validation is disabled And Valid primary issuer is accepted - 201",
+                Arguments.of(
+                        "Scenario 1 - JWT Issuer validation is disabled "
+                                + "And Valid primary issuer is accepted - 201",
                         VALID_ISSUER_1,
                         false,
                         CREATED.value()),
 
                 Arguments.of(
-                        "Scenario 2 - JWT Issuer validation is disabled And Valid secondary issuer is accepted - 201",
+                        "Scenario 2 - JWT Issuer validation is disabled "
+                                + "And Valid secondary issuer is accepted - 201",
                         VALID_ISSUER_2,
                         false,
                         CREATED.value()),
@@ -54,13 +57,15 @@ public class JwtIssuerValidationDisabledIntegrationTest extends BaseSecurityInte
                         CREATED.value()),
 
                 Arguments.of(
-                        "Scenario 6 - JWT Issuer validation is disabled And Issuer with trailing slash is accepted - 201",
+                        "Scenario 6 - JWT Issuer validation is disabled "
+                                + "And Issuer with trailing slash is accepted - 201",
                         VALID_ISSUER_1 + "/",
                         false,
                         CREATED.value()),
 
                 Arguments.of(
-                        "Scenario 7 - JWT Issuer validation is disabled And Issuer with different case is accepted - 201",
+                        "Scenario 7 - JWT Issuer validation is disabled "
+                                + "And Issuer with different case is accepted - 201",
                         VALID_ISSUER_1.toUpperCase(),
                         false,
                         CREATED.value()),

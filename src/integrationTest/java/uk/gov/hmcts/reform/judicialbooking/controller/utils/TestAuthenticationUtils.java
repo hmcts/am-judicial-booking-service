@@ -79,12 +79,12 @@ public class TestAuthenticationUtils {
 
     private static String generateAuthToken() throws JOSEException {
         JWTClaimsSet.Builder builder =
-                getJWTClaimsBuilder(new Date(), new Date(System.currentTimeMillis() + TestAuthenticationUtils.AUTH_TOKEN_TTL));
+                getJWTClaimsBuilder(new Date(), new Date(System.currentTimeMillis() + AUTH_TOKEN_TTL));
 
         JWSHeader jwsHeader =
                 new JWSHeader.Builder(JWSAlgorithm.RS256)
-                .keyID(TEST_RSA_JWK.getKeyID())
-                .build();
+                        .keyID(TEST_RSA_JWK.getKeyID())
+                        .build();
 
         SignedJWT signedJWT = new SignedJWT(jwsHeader, builder.build());
 
