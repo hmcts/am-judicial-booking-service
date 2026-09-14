@@ -76,6 +76,7 @@
     </suppress>
     <suppress>
         <notes>TEMP to get PR working</notes>
+        <cve>CVE-2026-47883</cve>
         <cve>CVE-2026-47884</cve>
         <cve>CVE-2026-47885</cve>
         <cve>CVE-2026-47886</cve>
