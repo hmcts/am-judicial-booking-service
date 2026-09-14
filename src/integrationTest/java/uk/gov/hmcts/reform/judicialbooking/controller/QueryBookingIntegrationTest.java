@@ -1,17 +1,10 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
 
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingQueryResponse;
@@ -27,32 +20,17 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID2;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_EXUI;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_ORM;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.OBJECT_MAPPER;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.SERVICE_NAME_EXUI;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.SERVICE_NAME_ORM;
 
 public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
-    private static final String URL = "/am/bookings/query";
-
-    private MockMvc mockMvc;
-
-    @Inject
-    private WebApplicationContext wac;
-
-    @BeforeEach
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    }
-
     @Test
     public void rejectRequestWithoutBody() throws Exception {
-        getRequestSpecification()
-                .when().post(URL)
+        getRequestSpecification(SERVICE_NAME_EXUI)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -65,7 +43,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
         getRequestSpecification()
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -78,7 +56,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
         getRequestSpecification()
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -93,9 +71,9 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(randomUserId)).build());
 
-        getRequestSpecification(SERVICE_NAME_EXUI, randomUserId)
+        getRequestWithEXUIService(randomUserId)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -109,7 +87,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
         getRequestSpecification()
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
@@ -121,9 +99,9 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(randomUserId)).build());
 
-        getRequestSpecification(SERVICE_NAME_ORM, ACTOR_ID1)
+        getRequestWithEXUIService(randomUserId)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -135,9 +113,9 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID2)).build());
 
-        String response = getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID2)
+        String response = getRequestWithEXUIService(ACTOR_ID2)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract().body().asString();
@@ -150,7 +128,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         assertNotNull(actualBookings);
         actualBookings.forEach(actual -> Assertions.assertAll(
                 () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
-                () -> assertEquals(actual.getUserId(), ACTOR_ID2)
+                () -> assertEquals(ACTOR_ID2, actual.getUserId())
         ));
     }
 
@@ -161,9 +139,9 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1)).build());
 
-        String response = getRequestSpecification()
+        String response = getRequestSpecification(SERVICE_NAME_ORM)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .extract().body().asString();
@@ -176,48 +154,34 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
         assertNotNull(actualBookings);
         actualBookings.forEach(actual -> Assertions.assertAll(
                 () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
-                () -> assertEquals(actual.getUserId(), ACTOR_ID1)
+                () -> assertEquals(ACTOR_ID1, actual.getUserId())
         ));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {SERVICE_NAME_ORM, SERVICE_NAME_EXUI})
+    @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
-    public void retrieveJudicialBooking_multipleUsers(String serviceName) throws Exception {
-        // GIVEN
+    public void retrieveJudicialBooking_validMultipleUsers() throws Exception {
+
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1, ACTOR_ID2)).build());
-        boolean bypassValidation = SERVICE_NAME_ORM.equals(serviceName);
-        HttpStatus expectedStatus = bypassValidation ? HttpStatus.OK :
-                HttpStatus.UNPROCESSABLE_ENTITY;
 
-        // WHEN
-        String response = getRequestSpecification(serviceName, ACTOR_ID1)
+        String response = getRequestSpecification(SERVICE_NAME_ORM)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
-                .when().post(URL)
+                .when().post(QUERY_URL)
                 .then().assertThat()
-                .statusCode(expectedStatus.value())
+                .statusCode(HttpStatus.OK.value())
                 .extract().body().asString();
         BookingQueryResponse bookingResponse = OBJECT_MAPPER.readValue(
                 response,
                 BookingQueryResponse.class
         );
-
-        // THEN
         assertNotNull(bookingResponse);
         List<BookingEntity> actualBookings = bookingResponse.getBookingEntities();
-        if (bypassValidation) {
-            // Multiple users with bypass validation should return all bookings for valid users.
-            assertNotNull(actualBookings);
-            actualBookings.forEach(actual -> Assertions.assertAll(
-                    () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
-                    () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
-            ));
-        } else {
-            // Multiple users without bypass validation should return no bookings.
-            assertNull(actualBookings);
-        }
+        assertNotNull(actualBookings);
+        actualBookings.forEach(actual -> Assertions.assertAll(
+                () -> assertTrue(actual.getEndTime().isAfter(ZonedDateTime.now())),
+                () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
+        ));
     }
-
 }

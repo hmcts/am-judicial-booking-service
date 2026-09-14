@@ -6,50 +6,69 @@ import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.rest.SerenityRest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
-import uk.gov.hmcts.reform.judicialbooking.controller.utils.MockUtils;
-import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
+import uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs;
 
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.SERVICE_NAME_EXUI;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.TestAuthenticationUtils.getHttpHeaders;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.SERVICE_NAME_EXUI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"testing.support.enabled=true"})
 public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration {
 
     protected static final String BASEURL = "http://localhost";
-    private static final long WAIT_TIME_MS = 1000;
+    protected static final String CREATE_BOOKING_URL = "/am/bookings";
+    protected static final String QUERY_URL = "/am/bookings/query";
 
-    private WiremockFixtures wiremockFixtures;
+    protected static final String ACTOR_ID1 = "631d322c-eea7-4d53-bd92-e6ec51bcb390";
+    protected static final String ACTOR_ID2 = "123e4567-e89b-42d3-a456-556642445678";
+    protected static final String REGION = "region";
+    protected static final String LOCATION = "location";
+    private static final long WAIT_TIME_MS = 1000;
 
     @LocalServerPort
     private int serverPort;
 
     protected RequestSpecification getRequestSpecification()
             throws JOSEException, JsonProcessingException, InterruptedException {
-        return getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID1);
+        return getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID1, getHttpHeaders(SERVICE_NAME_EXUI));
     }
 
-    protected RequestSpecification getRequestSpecification(String serviceName, String actorId)
+    protected RequestSpecification getRequestSpecification(String serviceName)
             throws JOSEException, JsonProcessingException, InterruptedException {
+        return getRequestSpecification(serviceName, ACTOR_ID1, getHttpHeaders(serviceName));
+    }
+
+    protected RequestSpecification getRequestWithEXUIService(String actorId)
+            throws JOSEException, JsonProcessingException, InterruptedException {
+        return getRequestSpecification(SERVICE_NAME_EXUI, actorId, getHttpHeaders(SERVICE_NAME_EXUI));
+    }
+
+    protected RequestSpecification getRequestSpecification(String serviceName,
+                                                           String actorId,
+                                                           HttpHeaders httpHeaders)
+            throws JsonProcessingException, InterruptedException {
         resetWiremockServer(serviceName, actorId);
         return SerenityRest.given()
-                .relaxedHTTPSValidation()
                 .baseUri(BASEURL)
                 .port(serverPort)
-                .headers(MockUtils.getHttpHeaders(serviceName));
+                .headers(httpHeaders);
     }
 
-    protected void resetWiremockServer(String serviceName, String actorId)
+    public static void resetWiremockServer(String serviceName, String actorId)
             throws JsonProcessingException, InterruptedException {
+
         // Clear the stubs and requests
         WIRE_MOCK_SERVER.resetAll();
+
+        WireMockStubs wireMockStubs = new WireMockStubs(WIRE_MOCK_SERVER);
+
         // Recreate the stubs
-        wiremockFixtures = new WiremockFixtures();
-        wiremockFixtures.stubIdamConfig();
-        wiremockFixtures.stubAuthorisationDetails(serviceName);
-        wiremockFixtures.stubAuthorisationUserInfo(actorId);
-        // Allow some time for Wiremock to reset
+        wireMockStubs.stubIdamConfig();
+        wireMockStubs.stubAuthorisationDetails(serviceName);
+        wireMockStubs.stubAuthorisationUserInfo(actorId);
+
         Thread.sleep(WAIT_TIME_MS);
     }
 }
