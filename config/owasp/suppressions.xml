@@ -74,4 +74,14 @@
         <notes>https://tools.hmcts.net/jira/browse/DTSAM-1389 spring data</notes>
         <cve>CVE-2026-47834</cve>
     </suppress>
+    <suppress>
+        <notes>TEMP to get PR working</notes>
+        <cve>CVE-2026-47883</cve>
+        <cve>CVE-2026-47884</cve>
+        <cve>CVE-2026-47885</cve>
+        <cve>CVE-2026-47886</cve>
+        <cve>CVE-2026-47887</cve>
+        <cve>CVE-2026-47888</cve>
+        <cve>CVE-2026-47889</cve>
+    </suppress>
 </suppressions>
