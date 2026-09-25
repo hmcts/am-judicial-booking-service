@@ -1,5 +1,6 @@
 .gradle
 /build/
+/bin/
 !gradle/wrapper/gradle-wrapper.jar
 *.class
 bin/main/application.yaml
@@ -11,7 +12,6 @@ bin/main/application.yaml
 .project
 .settings
 .springBeans
-
 ### IntelliJ IDEA ###
 .idea
 /out
@@ -21,9 +21,9 @@ bin/main/application.yaml
 
 .DS_Store
 target/
+.idea
+.gradle
 
 lib/applicationinsights-agent-*.jar
 lib/applicationinsights.log
-
-integrationTest
-/pacts/
+.vscode/settings.json
