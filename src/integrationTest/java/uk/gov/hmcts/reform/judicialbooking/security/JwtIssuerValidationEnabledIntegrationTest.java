@@ -82,7 +82,6 @@ public class JwtIssuerValidationEnabledIntegrationTest extends BaseSecurityInteg
                                                             String jwtIssuer,
                                                             boolean tokenExpired,
                                                             int expectedStatusCode) throws Exception {
-
         RequestSpecification jwtRequestSpecification =
                 tokenExpired
                         ? expiredJwt(jwtIssuer)
