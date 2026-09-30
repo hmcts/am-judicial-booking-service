@@ -25,7 +25,7 @@ public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration 
     protected static final String ACTOR_ID2 = "123e4567-e89b-42d3-a456-556642445678";
     protected static final String REGION = "region";
     protected static final String LOCATION = "location";
-    private static final long WAIT_TIME_MS = 1000;
+    protected static final long WAIT_TIME_MS = 1000;
 
     @LocalServerPort
     private int serverPort;

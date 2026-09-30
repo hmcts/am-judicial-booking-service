@@ -53,7 +53,6 @@ public class TestAuthenticationUtils {
     }
 
     public static HttpHeaders getJwtHeaders(String issuer, boolean isExpired) throws Exception {
-
         HttpHeaders headers = new HttpHeaders();
 
         headers.setBearerAuth(generateAuthToken(issuer, isExpired));
@@ -94,7 +93,6 @@ public class TestAuthenticationUtils {
     }
 
     public static String generateAuthToken(String issuer, boolean isExpired) throws Exception {
-
         Instant now = Instant.now();
 
         Instant issuedAt = isExpired

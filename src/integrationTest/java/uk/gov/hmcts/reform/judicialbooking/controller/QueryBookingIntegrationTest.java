@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
