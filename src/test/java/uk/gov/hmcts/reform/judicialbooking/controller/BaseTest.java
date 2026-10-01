@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.TestPropertySourceUtils;
-import uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures;
+import uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs;
 
 import java.nio.charset.StandardCharsets;
 
@@ -53,7 +53,7 @@ public abstract class BaseTest {
     public static class WireMockServerInitializer
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-        private final WiremockFixtures wiremockFixtures = new WiremockFixtures();
+        private final WireMockStubs wireMockStubs = new WireMockStubs(WIRE_MOCK_SERVER);
 
         @Override
         public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
@@ -64,7 +64,7 @@ public abstract class BaseTest {
             );
 
             try {
-                wiremockFixtures.stubIdamConfig();
+                wireMockStubs.stubIdamConfig();
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }

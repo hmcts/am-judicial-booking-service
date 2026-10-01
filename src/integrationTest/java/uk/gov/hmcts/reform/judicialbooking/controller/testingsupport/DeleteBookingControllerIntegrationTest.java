@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.judicialbooking.controller.BaseAuthorisedTestIntegration;
 
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
-
 public class DeleteBookingControllerIntegrationTest extends BaseAuthorisedTestIntegration {
     private static final String URL = "/am/testing-support/bookings/";
 
