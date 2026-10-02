@@ -15,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.OBJECT_MAPPER;
 
-public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration {
+class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     @Test
-    public void rejectRequestWithoutBody() throws Exception {
+    void rejectRequestWithoutBody() throws Exception {
         getRequestSpecification()
                 .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
@@ -28,7 +28,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectRequestWithoutRegion() throws Exception {
+    void rejectRequestWithoutRegion() throws Exception {
         var request = new BookingRequest(null, null, LOCATION, LocalDate.now(),
                 LocalDate.now());
         getRequestSpecification()
@@ -42,7 +42,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectRequestWithoutStartDate() throws Exception {
+    void rejectRequestWithoutStartDate() throws Exception {
         var request = new BookingRequest(null, REGION, LOCATION, null,
                 LocalDate.now());
         getRequestSpecification()
@@ -56,7 +56,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectRequestWithoutEndDate() throws Exception {
+    void rejectRequestWithoutEndDate() throws Exception {
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 null);
         getRequestSpecification()
@@ -70,7 +70,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void createJudicialBookingsMandatoryValues() throws Exception {
+    void createJudicialBookingsMandatoryValues() throws Exception {
         var request = new BookingRequest(null, null, null, LocalDate.now(),
                 LocalDate.now());
 
@@ -93,7 +93,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void createJudicialBookingFullValues() throws Exception {
+    void createJudicialBookingFullValues() throws Exception {
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now());
 
@@ -118,7 +118,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectBookingRequestExpiredEndDate() throws Exception {
+    void rejectBookingRequestExpiredEndDate() throws Exception {
 
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now().minusDays(1));
@@ -135,7 +135,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectBookingRequestGreaterStartDate() throws Exception {
+    void rejectBookingRequestGreaterStartDate() throws Exception {
 
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().plusDays(5), LocalDate.now());
@@ -152,7 +152,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectBookingRequestExpiredDates() throws Exception {
+    void rejectBookingRequestExpiredDates() throws Exception {
 
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().minusDays(5), LocalDate.now().minusDays(1));
@@ -169,7 +169,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void createBookingWithInputUserId() throws Exception {
+    void createBookingWithInputUserId() throws Exception {
 
         var request = new BookingRequest(ACTOR_ID1, REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1));
@@ -195,7 +195,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void createBookingWithInvalidInputUserId() throws Exception {
+    void createBookingWithInvalidInputUserId() throws Exception {
         var request = new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1));
 
@@ -206,4 +206,5 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
+
 }

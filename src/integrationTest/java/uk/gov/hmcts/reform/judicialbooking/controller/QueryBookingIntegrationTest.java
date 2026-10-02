@@ -24,10 +24,10 @@ import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.SERVICE_NAME_EXUI;
 import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.SERVICE_NAME_ORM;
 
-public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
+class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     @Test
-    public void rejectRequestWithoutBody() throws Exception {
+    void rejectRequestWithoutBody() throws Exception {
         getRequestSpecification(SERVICE_NAME_EXUI)
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -37,7 +37,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     }
 
     @Test
-    public void rejectRequestWithoutUsers() throws Exception {
+    void rejectRequestWithoutUsers() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(UserRequest.builder().build());
 
         getRequestSpecification()
@@ -50,7 +50,7 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     }
 
     @Test
-    public void rejectRequestWithInvalidUserFormat() throws Exception {
+    void rejectRequestWithInvalidUserFormat() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(UserRequest.builder().userIds(List.of("abc-12")).build());
 
         getRequestSpecification()
@@ -64,13 +64,13 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     }
 
     @Test
-    public void retrieveEmptyJudicialBookings_nonExistingUser() throws Exception {
+    void retrieveEmptyJudicialBookings_nonExistingUser() throws Exception {
         String randomUserId = UUID.randomUUID().toString();
 
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(randomUserId)).build());
 
-        getRequestWithExUIService(randomUserId)
+        getRequestSpecification(SERVICE_NAME_ORM, randomUserId)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -78,13 +78,12 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     }
 
     @Test
-    public void retrieveJudicialBookingsInvalidUser() throws Exception {
-        String randomUserId = UUID.randomUUID().toString();
-
+    void retrieveJudicialBookings_queryDifferentUser_shouldFail() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(
-                UserRequest.builder().userIds(List.of(randomUserId)).build());
+                UserRequest.builder().userIds(List.of(ACTOR_ID2)).build());
 
-        getRequestSpecification()
+        // NB: EXUI is NOT on the bypass validation list: i.e. user can only query their own bookings
+        getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID1) // i.e. different user
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -92,13 +91,12 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     }
 
     @Test
-    public void retrieveJudicialBookingsInvalidUser_bypassValidation() throws Exception {
-        String randomUserId = UUID.randomUUID().toString();
-
+    void retrieveJudicialBookings_queryDifferentUser_shouldPassIfS2SAllowsValidationBypass() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(
-                UserRequest.builder().userIds(List.of(randomUserId)).build());
+                UserRequest.builder().userIds(List.of(ACTOR_ID2)).build());
 
-        getRequestWithExUIService(randomUserId)
+        // NB: ORM is on the bypass validation list: i.e. service can query any bookings
+        getRequestSpecification(SERVICE_NAME_ORM, ACTOR_ID1) // i.e. different user
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -108,11 +106,11 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
             scripts = {"classpath:sql/insert_judicial_bookings.sql"})
-    public void retrieveJudicialBooking_validSingleBooking() throws Exception {
+    void retrieveJudicialBooking_validSingleBooking() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID2)).build());
 
-        String response = getRequestWithExUIService(ACTOR_ID2)
+        String response = getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID2)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -133,12 +131,12 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     @Test
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-            scripts = {"classpath:sql/insert_judicial_bookings.sql"})
-    public void retrieveJudicialBooking_validMultipleBooking() throws Exception {
+        scripts = {"classpath:sql/insert_judicial_bookings.sql"})
+    void retrieveJudicialBooking_querySingleUser_multipleBookings() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1)).build());
 
-        String response = getRequestSpecification(SERVICE_NAME_ORM)
+        String response = getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID1)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -158,14 +156,27 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
     }
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
-            scripts = {"classpath:sql/insert_judicial_bookings.sql"})
-    public void retrieveJudicialBooking_validMultipleUsers() throws Exception {
-
+    void retrieveJudicialBooking_queryMultipleUsers_shouldFail() throws Exception {
         BookingQueryRequest request = new BookingQueryRequest(
                 UserRequest.builder().userIds(List.of(ACTOR_ID1, ACTOR_ID2)).build());
 
-        String response = getRequestSpecification(SERVICE_NAME_ORM)
+        // NB: EXUI is NOT on the bypass validation list: i.e. user can only query their own bookings
+        getRequestSpecification(SERVICE_NAME_EXUI, ACTOR_ID1)
+                .body(OBJECT_MAPPER.writeValueAsString(request))
+                .when().post(QUERY_URL)
+                .then().assertThat()
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
+    }
+
+    @Test
+    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD,
+            scripts = {"classpath:sql/insert_judicial_bookings.sql"})
+    void retrieveJudicialBooking_queryMultipleUsers_shouldPassIfS2SAllowsValidationBypass() throws Exception {
+        BookingQueryRequest request = new BookingQueryRequest(
+                UserRequest.builder().userIds(List.of(ACTOR_ID1, ACTOR_ID2)).build());
+
+        // NB: ORM is on the bypass validation list: i.e. service can query any bookings, including multiple users
+        String response = getRequestSpecification(SERVICE_NAME_ORM, ACTOR_ID1)
                 .body(OBJECT_MAPPER.writeValueAsString(request))
                 .when().post(QUERY_URL)
                 .then().assertThat()
@@ -183,4 +194,5 @@ public class QueryBookingIntegrationTest extends BaseAuthorisedTestIntegration {
                 () -> assertThat(actual.getUserId(), anyOf(is(ACTOR_ID1), is(ACTOR_ID2)))
         ));
     }
+
 }
