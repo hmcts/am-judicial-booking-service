@@ -20,7 +20,7 @@ import static uk.gov.hmcts.reform.judicialbooking.security.BaseSecurityIntegrati
     "idam.security.allowed-issuers[0]=" + VALID_ISSUER_1,
     "idam.security.allowed-issuers[1]=" + VALID_ISSUER_2
 })
-public class JwtIssuerValidationDisabledIntegrationTest extends BaseSecurityIntegrationTest {
+class JwtIssuerValidationDisabledIntegrationTest extends BaseSecurityIntegrationTest {
 
     private static Stream<Arguments> issuerValidationDisabledScenarios() {
         return Stream.of(
