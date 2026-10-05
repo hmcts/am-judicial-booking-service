@@ -46,14 +46,15 @@ public abstract class BaseAuthorisedTestIntegration extends BaseTestIntegration 
                 .headers(httpHeaders);
     }
 
-    protected RequestSpecification getRequestSpecification(String serviceName)
+    protected RequestSpecification getRequestSpecification(String serviceName,
+                                                           String actorId)
             throws JOSEException, JsonProcessingException, InterruptedException {
-        return getRequestSpecification(serviceName, ACTOR_ID1, getHttpHeaders(serviceName));
+        return getRequestSpecification(serviceName, actorId, getHttpHeaders(serviceName));
     }
 
-    protected RequestSpecification getRequestWithExUIService(String actorId)
-            throws JOSEException, JsonProcessingException, InterruptedException {
-        return getRequestSpecification(SERVICE_NAME_EXUI, actorId, getHttpHeaders(SERVICE_NAME_EXUI));
+    protected RequestSpecification getRequestSpecification(String serviceName)
+        throws JOSEException, JsonProcessingException, InterruptedException {
+        return getRequestSpecification(serviceName, ACTOR_ID1);
     }
 
     public static void resetWiremockServer(String serviceName, String actorId)
