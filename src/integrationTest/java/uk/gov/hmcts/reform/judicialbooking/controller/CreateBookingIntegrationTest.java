@@ -1,19 +1,11 @@
 package uk.gov.hmcts.reform.judicialbooking.controller;
 
-import jakarta.inject.Inject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.reform.judicialbooking.data.BookingEntity;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequest;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingRequestWrapper;
 import uk.gov.hmcts.reform.judicialbooking.domain.model.BookingResponse;
-import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -21,35 +13,14 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.doReturn;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.ACTOR_ID1;
-import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WiremockFixtures.OBJECT_MAPPER;
+import static uk.gov.hmcts.reform.judicialbooking.controller.utils.WireMockStubs.OBJECT_MAPPER;
 
-public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration {
-    private static final String URL = "/am/bookings";
-
-    private static final String REGION = "region";
-    private static final String LOCATION = "location";
-
-    private MockMvc mockMvc;
-
-    @Inject
-    private WebApplicationContext wac;
-
-    @MockitoBean
-    SecurityUtils securityUtilsMock;
-
-    @BeforeEach
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-        MockitoAnnotations.openMocks(this);
-        doReturn(ACTOR_ID1).when(securityUtilsMock).getUserId();
-    }
+class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration {
 
     @Test
-    public void rejectRequestWithoutBody() throws Exception {
+    void rejectRequestWithoutBody() throws Exception {
         getRequestSpecification()
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -57,13 +28,13 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectRequestWithoutRegion() throws Exception {
+    void rejectRequestWithoutRegion() throws Exception {
         var request = new BookingRequest(null, null, LOCATION, LocalDate.now(),
                 LocalDate.now());
         getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -71,13 +42,13 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectRequestWithoutStartDate() throws Exception {
+    void rejectRequestWithoutStartDate() throws Exception {
         var request = new BookingRequest(null, REGION, LOCATION, null,
                 LocalDate.now());
         getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -85,13 +56,13 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectRequestWithoutEndDate() throws Exception {
+    void rejectRequestWithoutEndDate() throws Exception {
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 null);
         getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -99,14 +70,14 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void createJudicialBookingsMandatoryValues() throws Exception {
+    void createJudicialBookingsMandatoryValues() throws Exception {
         var request = new BookingRequest(null, null, null, LocalDate.now(),
                 LocalDate.now());
 
         String response = getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().body().asString();
@@ -118,18 +89,18 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
         BookingEntity actualBooking = bookingResponse.getBookingResponseEntity();
         assertNotNull(actualBooking);
         assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
-        assertEquals(actualBooking.getUserId(), ACTOR_ID1);
+        assertEquals(ACTOR_ID1, actualBooking.getUserId());
     }
 
     @Test
-    public void createJudicialBookingFullValues() throws Exception {
+    void createJudicialBookingFullValues() throws Exception {
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now());
 
         String response = getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().body().asString();
@@ -143,11 +114,11 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
         assertEquals(request.getLocationId(), actualBooking.getLocationId());
         assertEquals(request.getRegionId(), actualBooking.getRegionId());
         assertEquals(request.getEndDate().plusDays(1), actualBooking.getEndTime().toLocalDate());
-        assertEquals(actualBooking.getUserId(), ACTOR_ID1);
+        assertEquals(ACTOR_ID1, actualBooking.getUserId());
     }
 
     @Test
-    public void rejectBookingRequestExpiredEndDate() throws Exception {
+    void rejectBookingRequestExpiredEndDate() throws Exception {
 
         var request = new BookingRequest(null, REGION, LOCATION, LocalDate.now(),
                 LocalDate.now().minusDays(1));
@@ -155,7 +126,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
         getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -164,7 +135,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectBookingRequestGreaterStartDate() throws Exception {
+    void rejectBookingRequestGreaterStartDate() throws Exception {
 
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().plusDays(5), LocalDate.now());
@@ -172,7 +143,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
         getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
@@ -181,7 +152,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void rejectBookingRequestExpiredDates() throws Exception {
+    void rejectBookingRequestExpiredDates() throws Exception {
 
         var request = new BookingRequest(null, REGION, LOCATION,
                 LocalDate.now().minusDays(5), LocalDate.now().minusDays(1));
@@ -189,16 +160,16 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
         getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .and()
                 .body(containsString("The begin time: " + LocalDate.now().minusDays(5)
-                                + " takes place before the current time: " + LocalDate.now()));
+                        + " takes place before the current time: " + LocalDate.now()));
     }
 
     @Test
-    public void createBookingWithInputUserId() throws Exception {
+    void createBookingWithInputUserId() throws Exception {
 
         var request = new BookingRequest(ACTOR_ID1, REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1));
@@ -206,7 +177,7 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
         String response = getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().body().asString();
@@ -224,15 +195,16 @@ public class CreateBookingIntegrationTest extends BaseAuthorisedTestIntegration 
     }
 
     @Test
-    public void createBookingWithInvalidInputUserId() throws Exception {
+    void createBookingWithInvalidInputUserId() throws Exception {
         var request = new BookingRequest(UUID.randomUUID().toString(), REGION, LOCATION,
                 LocalDate.now(), LocalDate.now().plusDays(1));
 
         getRequestSpecification()
                 .body(OBJECT_MAPPER
                         .writeValueAsString(new BookingRequestWrapper(request)))
-                .when().post(URL)
+                .when().post(CREATE_BOOKING_URL)
                 .then().assertThat()
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
+
 }
