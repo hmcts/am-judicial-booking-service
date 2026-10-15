@@ -84,8 +84,6 @@ spring:
     cache-names: token
     caffeine:
       spec: maximumSize=50,expireAfterWrite=120s
-### dependency configuration
-auth.provider.service.client.baseUrl: ${IDAM_S2S_URL:http://localhost:4502}
 idam:
   s2s-auth:
     totp_secret: ${AM_JUDICIAL_BOOKING_SERVICE_SECRET:}
@@ -94,26 +92,10 @@ idam:
   s2s-authorised:
     services: ${AM_JUDICIAL_BOOKING_S2S_AUTHORISED_SERVICES:am_judicial_booking_service,am_org_role_mapping_service,xui_webapp}
   api.url: ${IDAM_USER_URL:http://localhost:5000}
-  client:
-    id: ${JUDICIAL_BOOKING_IDAM_CLIENT_ID:am_docker}
-    secret: ${JUDICIAL_BOOKING_IDAM_CLIENT_SECRET:}
-    redirect_uri: ${JUDICIAL_BOOKING_IDAM_REDIRECT_URI:http://localhost:4096/oauth2redirect}
-    admin:
-      userId: ${JUDICIAL_BOOKING_IDAM_ADMIN_USERID:}
-      secret: ${JUDICIAL_BOOKING_IDAM_ADMIN_PASSWORD:}
-      scope: ${JUDICIAL_BOOKING_IDAM_ADMIN_SCOPE:openid profile roles authorities}
   security:
     issuerValidation: ${JWT_ISSUER_VALIDATION_ENABLED:false}
     allowed-issuers:
       - http://localhost:5062/o
-
-auth.idam.client.baseUrl: ${IDAM_USER_URL:http://localhost:5000}
-integrationTest:
-  api:
-    url: "/"
-
-judicialBookingUrl: ${TEST_URL:http://localhost:4097}
-
 
 judicial-booking:
   query:
