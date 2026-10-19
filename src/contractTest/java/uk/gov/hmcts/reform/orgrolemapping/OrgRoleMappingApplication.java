@@ -4,7 +4,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import uk.gov.hmcts.reform.judicialbooking.oidc.IdamRepository;
-import uk.gov.hmcts.reform.judicialbooking.oidc.OIdcAdminConfiguration;
 import uk.gov.hmcts.reform.judicialbooking.util.SecurityUtils;
 
 @SpringBootApplication
@@ -18,11 +17,6 @@ public class OrgRoleMappingApplication {
     @Bean
     IdamRepository idamRepository() {
         return Mockito.mock(IdamRepository.class);
-    }
-
-    @Bean
-    OIdcAdminConfiguration oidcAdminConfiguration() {
-        return Mockito.mock(OIdcAdminConfiguration.class);
     }
 
 
