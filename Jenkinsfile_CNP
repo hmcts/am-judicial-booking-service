@@ -39,7 +39,6 @@ def secrets = [
             secret('microservicekey-xui-webapp', 'BEFTA_S2S_CLIENT_SECRET_OF_XUI_WEBAPP')
     ],
     'am-${env}': [
-            secret('role-assignment-service-IDAM-CLIENT-SECRET', 'JUDICIAL_BOOKING_IDAM_CLIENT_SECRET'),
             secret('test-am-user1-befta-pwd', 'TEST_AM_USER1_BEFTA_PWD'),
             secret('test-am-user2-befta-pwd', 'TEST_AM_USER2_BEFTA_PWD'),
             secret('test-am-user3-befta-pwd', 'TEST_AM_USER3_BEFTA_PWD'),
@@ -51,7 +50,6 @@ def secrets = [
 def branchesToSync = ['demo', 'ithc', 'perftest']
 
 // Vars needed for functional and smoke tests to run against AKS
-env.IDAM_URL = "https://idam-api.aat.platform.hmcts.net"
 env.IDAM_API_URL_BASE = "https://idam-api.aat.platform.hmcts.net"
 env.IDAM_S2S_URL = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
 env.DEFINITION_STORE_HOST = "http://ccd-definition-store-api-aat.service.core-compute-aat.internal"
@@ -64,7 +62,6 @@ env.BEFTA_RETRY_STATUS_CODES = "502,503,504"
 env.BEFTA_RETRY_MAX_DELAY = "1000"
 env.BEFTA_RETRY_NON_RETRYABLE_HTTP_METHODS = "POST,PUT"
 env.OAUTH2_CLIENT_ID = "am_role_assignment"
-env.JUDICIAL_BOOKING_IDAM_CLIENT_ID = "am_role_assignment"
 env.OAUTH2_REDIRECT_URI = "http://am-role-assignment-service-aat.service.core-compute-aat.internal/oauth2redirect"
 env.OAUTH2_ACCESS_TOKEN_TYPE = "OIDC"
 env.BEFTA_RESPONSE_HEADER_CHECK_POLICY = "JUST_WARN"
